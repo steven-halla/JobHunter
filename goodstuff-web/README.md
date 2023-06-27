@@ -1,46 +1,91 @@
-# Getting Started with Create React App
+## React Login and Registration example with JWT and HttpOnly cookie
+
+Build React JWT Authentication and Authorization example using React Hooks, React Router, Axios and Bootstrap (without Redux):
+- JWT Authentication Flow for User Signup & User Login
+- Project Structure for React Authentication (without Redux) with React Router & Axios
+- Creating React Components with Form Validation using Formik and Yup
+- React Pages for accessing protected Resources (Authorization)
+- Dynamic Navigation Bar in React App
+
+For more detail, please visit:
+> [React Login and Registration example with JWT](https://bezkoder.com/react-login-example-jwt-hooks/)
+
+> [React + Redux: Login and Registration example with JWT](https://www.bezkoder.com/redux-toolkit-auth/)
+
+Working with back-end servers:
+> [Spring Boot + H2](https://www.bezkoder.com/spring-boot-security-jwt/)
+
+> [Spring Boot + MySQL/PostgreSQL](https://www.bezkoder.com/spring-boot-login-example-mysql/)
+
+> [Spring Boot + MongoDB](https://www.bezkoder.com/spring-boot-mongodb-login-example/)
+
+> [Node Express + MySQL/PostgreSQL](https://www.bezkoder.com/node-js-express-login-example/)
+
+> [Node Express + MongoDB](https://www.bezkoder.com/node-js-express-login-mongodb/)
+
+Fullstack (JWT Authentication & Authorization example):
+> [React + Spring Boot](https://bezkoder.com/spring-boot-react-jwt-auth/)
+
+> [React + Node.js Express](https://bezkoder.com/react-express-authentication-jwt/)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+### Project setup
 
 In the project directory, you can run:
 
-### `npm start`
+```
+npm install
+# or
+yarn install
+```
+yarn
+or
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Compiles and hot-reloads for development
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```
+npm start
+# or
+yarn start
+```
 
-### `npm test`
+Open [http://localhost:8081](http://localhost:8081) to view it in the browser.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The page will reload if you make edits.
 
-### `npm run build`
+### Related Posts
+> [In-depth Introduction to JWT-JSON Web Token](https://bezkoder.com/jwt-json-web-token/)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+> [React CRUD example using Hooks](https://bezkoder.com/react-hooks-crud-axios-api/)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+> [React Pagination using Hooks example](https://bezkoder.com/react-pagination-hooks/)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+> [React Hooks File Upload example](https://bezkoder.com/react-hooks-file-upload/)
 
-### `npm run eject`
+Fullstack with Node.js Express:
+> [React + Node Express + MySQL](https://bezkoder.com/react-node-express-mysql/)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+> [React + Node Express + PostgreSQL](https://bezkoder.com/react-node-express-postgresql/)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+> [React + Node Express + MongoDB](https://bezkoder.com/react-node-express-mongodb-mern-stack/)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Fullstack with Spring Boot:
+> [React + Spring Boot + MySQL](https://bezkoder.com/react-spring-boot-crud/)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+> [React + Spring Boot + PostgreSQL](https://bezkoder.com/spring-boot-react-postgresql/)
 
-## Learn More
+> [React + Spring Boot + MongoDB](https://bezkoder.com/react-spring-boot-mongodb/)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Fullstack with Django:
+> [React Hooks + Django Rest Framework](https://bezkoder.com/django-react-hooks/)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Serverless:
+> [React Hooks Firebase Realtime Database: CRUD App ](https://bezkoder.com/react-firebase-hooks-crud/)
+
+> [React Hooks Firestore example: CRUD App](https://bezkoder.com/react-hooks-firestore/)
+
+Integration (run back-end & front-end on same server/port)
+> [Integrate React with Spring Boot](https://bezkoder.com/integrate-reactjs-spring-boot/)
+
+> [Integrate React with Node Express](https://bezkoder.com/integrate-react-express-same-server-port/)

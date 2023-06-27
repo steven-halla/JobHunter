@@ -32,6 +32,7 @@ const BoardUser = () => {
     <div className="container">
       <header className="jumbotron">
         <h3>{content}</h3>
+        <p>I am inside a p tag</p>
       </header>
     </div>
   );

@@ -6,6 +6,9 @@ import { isEmail } from "validator";
 
 import AuthService from "../services/auth.service";
 
+//need to make it to where that when  a user registers that it also logs them in .
+//also need to build useContext
+
 const required = (value) => {
   if (!value) {
     return (

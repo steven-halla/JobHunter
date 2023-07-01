@@ -116,7 +116,7 @@ const App = () => {
         )}
       </nav>
 
-      <div className="container mt-3">
+      <div>
         <Routes>
           <Route exact path={"/"} element={<Home />} />
           <Route exact path={"/home"} element={<Home />} />

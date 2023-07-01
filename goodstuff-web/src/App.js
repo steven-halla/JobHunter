@@ -15,7 +15,8 @@ import BoardAdmin from "./components/BoardAdmin";
 
 // import AuthVerify from "./common/AuthVerify";
 import EventBus from "./common/EventBus";
-import WeedList from "./components/WeedList";
+import {WeedList} from "./components/WeedList";
+// import {WeedList} from "./components/WeedList";
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);

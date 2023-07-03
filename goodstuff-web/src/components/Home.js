@@ -36,21 +36,22 @@ const Home = () => {
                 <p>WELCOME TO THE WEED HOME PAGE. DO YOU LIKE WEED? IF NOT, YOU CAN JUST GET OUT OF HERE!</p>
             </HomeBanner>
             <WeedTop5List>
-                <li>
-                    <img className="weed-image"/> {/* empty for the top left cell */}
+                <li className="header">
+                    <img className="weed-image empty-image" alt="" />
                     <div><p>Name</p></div>
                     <div><p>Type</p></div>
                     <div><p>Description</p></div>
                 </li>
                 {weedtop5.map((weed, index) => (
                     <li key={index}>
-                        <img src={weed.img} alt={weed.name} className="weed-image"/>
+                        <img src={weed.img} alt={weed.name} className="weed-image" />
                         <div><p>{weed.name}</p></div>
                         <div><p>{weed.type}</p></div>
                         <div><p>{weed.descriptionOfHigh}</p></div>
                     </li>
                 ))}
             </WeedTop5List>
+
             <HomeFooter>
                 This is the footer
             </HomeFooter>
@@ -102,11 +103,10 @@ const HomeFooter = styled.header`
 const WeedTop5List = styled.ul`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   background-color: #bcd8ff;
   height: 60vh;
   width: 80vw;
+  padding: 0;
 
   li {
     display: flex;
@@ -116,6 +116,14 @@ const WeedTop5List = styled.ul`
     margin-bottom: 1vh;
   }
 
+  .header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 5%;
+  }
+
+
   .weed-image {
     flex-basis: 10%;
     height: 80px; // Adjust this value as needed for your specific images
@@ -123,15 +131,18 @@ const WeedTop5List = styled.ul`
     object-position: 0 -20px;
   }
 
-
-
-    div {
+  div {
     flex-basis: 30%;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
   }
+
+  .empty-image {
+    display: none;
+  }
 `;
+
 
 export default Home;

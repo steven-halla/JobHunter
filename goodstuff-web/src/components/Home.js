@@ -36,17 +36,18 @@ const Home = () => {
                 <p>WELCOME TO THE WEED HOME PAGE. DO YOU LIKE WEED? IF NOT, YOU CAN JUST GET OUT OF HERE!</p>
             </HomeBanner>
             <WeedTop5List>
-                <li className="header">
-                    <p>Name</p>
-                    <p>Type</p>
-                    <p>Description</p>
+                <li>
+                    <img className="weed-image"/> {/* empty for the top left cell */}
+                    <div><p>Name</p></div>
+                    <div><p>Type</p></div>
+                    <div><p>Description</p></div>
                 </li>
                 {weedtop5.map((weed, index) => (
                     <li key={index}>
                         <img src={weed.img} alt={weed.name} className="weed-image"/>
-                        <p>{weed.name}</p>
-                        <p>{weed.type}</p>
-                        <p>{weed.descriptionOfHigh}</p>
+                        <div><p>{weed.name}</p></div>
+                        <div><p>{weed.type}</p></div>
+                        <div><p>{weed.descriptionOfHigh}</p></div>
                     </li>
                 ))}
             </WeedTop5List>
@@ -55,7 +56,6 @@ const Home = () => {
             </HomeFooter>
         </PinkPageDiv>
     );
-
 };
 
 const PinkPageDiv = styled.div`
@@ -108,50 +108,6 @@ const WeedTop5List = styled.ul`
   height: 60vh;
   width: 80vw;
 
-  li.header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around; // adjust as needed
-    align-items: flex-start;
-  }
-
-  li:not(.header) {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 20px;
-  }
-
-  li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-  }
-
-  li:first-child {
-    justify-content: center;
-  }
-
-  img.weed-image {
-    flex-basis: 100px;
-    height: 60px;
-    object-fit: cover;
-    object-position: 0 -20px;
-  }
-
-  p {
-    flex-basis: 0;
-    flex-grow: 1;
-  }
-
-
-  .weed-image.hidden {
-    visibility: hidden;
-  }
-
-
   li {
     display: flex;
     justify-content: space-between;
@@ -162,12 +118,14 @@ const WeedTop5List = styled.ul`
 
   .weed-image {
     flex-basis: 10%;
-    height: 30px;  // Adjust this value as needed for your specific images
+    height: 80px; // Adjust this value as needed for your specific images
     object-fit: cover;
-    object-position: 0 -40px;  // This line "crops" the image, effectively removing 20 pixels from the top
+    object-position: 0 -20px;
   }
 
-  div {
+
+
+    div {
     flex-basis: 30%;
     display: flex;
     justify-content: center;

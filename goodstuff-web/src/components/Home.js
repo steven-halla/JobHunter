@@ -33,7 +33,7 @@ const Home = () => {
     return (
         <PinkPageDiv>
             <HomeBanner>
-                <p>WELCOME TO THE WEED HOME PAGE. DO YOU LIKE WEED? IF NOT, YOU CAN JUST GET OUT OF HERE!</p>
+                <p>Keep track of your favorite weeds, as well as see how the community feels about weed brands. create an account to get started!</p>
             </HomeBanner>
             <WeedTop5List>
                 <li className="header">
@@ -126,9 +126,9 @@ const WeedTop5List = styled.ul`
 
   .weed-image {
     flex-basis: 10%;
-    height: 80px; // Adjust this value as needed for your specific images
+    height: 20px; // Adjust this value as needed for your specific images
     object-fit: cover;
-    object-position: 0 -20px;
+    object-position: 0 -45px;
   }
 
   div {

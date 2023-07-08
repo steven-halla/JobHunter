@@ -35,6 +35,9 @@ const Home = () => {
             <HomeBanner>
                 <p>Keep track of your favorite weeds, as well as see how the community feels about weed brands. create an account to get started!</p>
             </HomeBanner>
+            <TopFiveWeedHeader>
+                Here are the top 5 weeds at the blah store for this month.
+            </TopFiveWeedHeader>
             <WeedTop5List>
                 <li className="header">
                     <img className="weed-image empty-image" alt="" />
@@ -58,6 +61,11 @@ const Home = () => {
         </PinkPageDiv>
     );
 };
+const TopFiveWeedHeader = styled.div`
+  height: 5%;
+  width: 50%;
+  background-color: #fff7a3;
+`
 
 const PinkPageDiv = styled.div`
   *, *:before, *:after {

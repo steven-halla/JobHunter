@@ -16,6 +16,9 @@ import BoardAdmin from "./components/BoardAdmin";
 // import AuthVerify from "./common/AuthVerify";
 import EventBus from "./common/EventBus";
 import {WeedList} from "./components/WeedList";
+import {UserWeedPref} from "./components/UserWeedPref";
+import {WeedProfile} from "./components/WeedProfile";
+import {PlayGround} from "./components/PlayGround";
 // import {WeedList} from "./components/WeedList";
 
 const App = () => {
@@ -123,7 +126,10 @@ const App = () => {
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/profile" element={<Profile />} />
+          <Route exact path="/weedprofile" element={<WeedProfile />} />
           <Route exact path="/weedlist" element={<WeedList />} />
+          <Route exact path="/userweedpref" element={<UserWeedPref />} />
+          <Route exact path="/playground" element={<PlayGround />} />
           <Route path="/user" element={<BoardUser />} />
           <Route path="/mod" element={<BoardModerator />} />
           <Route path="/admin" element={<BoardAdmin />} />

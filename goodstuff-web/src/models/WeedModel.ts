@@ -4,7 +4,7 @@
 
 export interface Weed {
     id: number;
-    name: string;
-    type:string;
-    company: string;
+    weedname: string;
+    // type:string;
+    // company: string;
 }

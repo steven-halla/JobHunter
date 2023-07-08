@@ -27,33 +27,19 @@ public class WeedController {
 
     @GetMapping("/name/{weedname}")
     public Optional<Weed> getWeedByName(@PathVariable String weedname) {
-        return weedRepository.findByWeedName(weedname);
+        return weedRepository.findByWeedname(weedname);
     }
 
     @PostMapping
     public Weed createWeed(@RequestBody Weed weed) {
-        // You may want to add checks to prevent duplicates
-        if (!weedRepository.existsByWeedName(weed.getWeedName())) {
+        if (!weedRepository.existsByWeedname(weed.getWeedname())) {
             return weedRepository.save(weed);
         } else {
-            // Return some kind of error message or code
             throw new RuntimeException("Error: Weed is already in use!");
         }
     }
 
-    @PutMapping("/{id}")
-    public Weed updateWeed(@RequestBody Weed updatedWeed, @PathVariable Long id) {
-        return weedRepository.findById(id)
-                .map(weed -> {
-                    weed.setWeedName(updatedWeed.getWeedName());
-                    // Add here the other properties of Weed that need to be updated
-                    return weedRepository.save(weed);
-                })
-                .orElseGet(() -> {
-                    updatedWeed.setId(id);
-                    return weedRepository.save(updatedWeed);
-                });
-    }
+
 
     @DeleteMapping("/{id}")
     public void deleteWeed(@PathVariable Long id) {

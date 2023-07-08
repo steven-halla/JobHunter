@@ -21,6 +21,8 @@ import {WeedProfile} from "./components/WeedProfile";
 import {PlayGround} from "./components/PlayGround";
 // import {WeedList} from "./components/WeedList";
 
+// NOTE WE ARE GOING TO BE CHANGING TO A CRAFT BEER MODEL FOR THE PUBLIC
+
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
   const [showAdminBoard, setShowAdminBoard] = useState(false);

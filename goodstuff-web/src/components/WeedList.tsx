@@ -1,25 +1,30 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import {Weed} from "../models/Weed";
 
 export const WeedList = () => {
+    const [weeds, setWeeds] = useState<Weed[]>([]);
 
-    const [weeds, setWeeds] = useState([]);
-    //
-    // useEffect(() => {
-    //     const fetchDate = async () => {
-    //         try {
-    //             const response = await axios.get
-    //         }
-    //     }
-    // })
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get<Weed[]>("http://localhost:8080/api/weeds");
+                setWeeds(response.data);
+            } catch (error) {
+                console.error("Error fetching data: ", error);
+            }
+        };
+        fetchData();
+    }, []);
 
-    return(
-      <div>
-          <p>
-              hi im the weed list I will come at a much later iteration
-          </p>
-          <p>For the time being we are only going to focus on users adding their own stuff</p>
-          <p> I'll need to allow users to uplaod an image. that will be hard for sure</p>
-      </div>
+    return (
+        <div>
+            <h2>Weed List</h2>
+            <ul>
+                {weeds.map(weed => (
+                    <li key={weed.id}>{weed.weedname}</li>
+                ))}
+            </ul>
+        </div>
     );
 }

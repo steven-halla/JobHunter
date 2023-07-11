@@ -26,6 +26,8 @@ import {UserContextProvider} from "./services/usercontext";
 
 // NOTE WE ARE GOING TO BE CHANGING TO A CRAFT BEER MODEL FOR THE PUBLIC
 
+//scan QR code so people can easily put weed on app
+
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
   const [showAdminBoard, setShowAdminBoard] = useState(false);
@@ -61,7 +63,8 @@ const App = () => {
   };
 
   return (
-      <WeedContextProvider>
+      <UserContextProvider>
+        <WeedContextProvider>
 
     <div>
       <nav className="navbar navbar-expand navbar-dark bg-dark">
@@ -151,7 +154,8 @@ const App = () => {
 
       {/* <AuthVerify logOut={logOut}/> */}
     </div>
-      </WeedContextProvider>
+        </WeedContextProvider>
+      </UserContextProvider>
 
   );
 };

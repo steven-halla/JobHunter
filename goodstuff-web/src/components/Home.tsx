@@ -1,10 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, useContext} from "react";
 import styled from 'styled-components';
 
 import UserService from "../services/user.service";
+import { UserContext } from "../services/usercontext";
 
 const Home = () => {
     const [ content, setContent] = useState("");
+    const { users, setUsers } = useContext(UserContext);
+
+    useEffect(() => {
+        UserService.getUsers()
+            .then((users) => {
+                setUsers(users);
+            })
+            .catch((error) => {
+                console.error("Error fetching users:", error);
+            });
+    }, []);
+
+
 
     useEffect(() => {
         UserService.getPublicContent().then(
@@ -55,12 +69,28 @@ const Home = () => {
                 ))}
             </WeedTop5List>
 
+
+            <div>
+                <h1>Usernames</h1>
+                <ul>
+                    {users.map((username, index) => (
+                        <li key={index}>{username}</li>
+                    ))}
+                </ul>
+            </div>
+
+
+
+
+
+
             <HomeFooter>
                 This is the footer
             </HomeFooter>
         </PinkPageDiv>
     );
 };
+
 const TopFiveWeedHeader = styled.div`
   height: 5%;
   width: 50%;

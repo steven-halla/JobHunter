@@ -22,7 +22,7 @@ const BoardModerator = () => {
         setContent(_content);
 
         if (error.response && error.response.status === 401) {
-          EventBus.dispatch("logout");
+          EventBus.dispatch("logout", null);
         }
       }
     );

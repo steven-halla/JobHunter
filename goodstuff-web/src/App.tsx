@@ -19,6 +19,9 @@ import {WeedList} from "./components/WeedList";
 import {UserWeedPref} from "./components/UserWeedPref";
 import {WeedProfile} from "./components/WeedProfile";
 import {PlayGround} from "./components/PlayGround";
+import {WeedContextProvider} from "./services/weedcontext";
+import {User} from "./models/User";
+import {UserContextProvider} from "./services/usercontext";
 // import {WeedList} from "./components/WeedList";
 
 // NOTE WE ARE GOING TO BE CHANGING TO A CRAFT BEER MODEL FOR THE PUBLIC
@@ -26,10 +29,14 @@ import {PlayGround} from "./components/PlayGround";
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
   const [showAdminBoard, setShowAdminBoard] = useState(false);
-  const [currentUser, setCurrentUser] = useState(undefined);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   useEffect(() => {
     const user = AuthService.getCurrentUser();
+
+    const callback = () => {
+      console.log("Hi");
+    };
 
     if (user) {
       setCurrentUser(user);
@@ -42,7 +49,7 @@ const App = () => {
     });
 
     return () => {
-      EventBus.remove("logout");
+      EventBus.remove("logout", callback);
     };
   }, []);
 
@@ -50,10 +57,12 @@ const App = () => {
     AuthService.logout();
     setShowModeratorBoard(false);
     setShowAdminBoard(false);
-    setCurrentUser(undefined);
+    setCurrentUser(null);
   };
 
   return (
+      <WeedContextProvider>
+
     <div>
       <nav className="navbar navbar-expand navbar-dark bg-dark">
         <Link to={"/"} className="navbar-brand">
@@ -123,23 +132,27 @@ const App = () => {
 
       <div>
         <Routes>
-          <Route exact path={"/"} element={<Home />} />
-          <Route exact path={"/home"} element={<Home />} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/register" element={<Register />} />
-          <Route exact path="/profile" element={<Profile />} />
-          <Route exact path="/weedprofile" element={<WeedProfile />} />
-          <Route exact path="/weedlist" element={<WeedList />} />
-          <Route exact path="/userweedpref" element={<UserWeedPref />} />
-          <Route exact path="/playground" element={<PlayGround />} />
-          <Route path="/user" element={<BoardUser />} />
-          <Route path="/mod" element={<BoardModerator />} />
-          <Route path="/admin" element={<BoardAdmin />} />
+            <Route path={"/"} element={<Home />} />
+            <Route path={"/home"} element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/weedprofile" element={<WeedProfile />} />
+            <Route path="/weedlist" element={<WeedList />} />
+            <Route path="/userweedpref" element={<UserWeedPref />} />
+            <Route path="/playground" element={<PlayGround />} />
+            <Route path="/user" element={<BoardUser />} />
+            <Route path="/mod" element={<BoardModerator />} />
+            <Route path="/admin" element={<BoardAdmin />} />
+
+
         </Routes>
       </div>
 
       {/* <AuthVerify logOut={logOut}/> */}
     </div>
+      </WeedContextProvider>
+
   );
 };
 

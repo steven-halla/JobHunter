@@ -26,6 +26,7 @@ export const UserContextProvider: FC<UserContextProviderProps> = ({children}) =>
                 users, setUsers
             }}
         >
+
             {children}
         </UserContext.Provider>
     );

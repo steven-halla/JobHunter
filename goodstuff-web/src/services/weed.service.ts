@@ -17,8 +17,15 @@ const getCurrentWeed = (): Weed | undefined => {
     }
 };
 
+const getWeeds = (): Promise<Weed[]> => {
+    return axios.get(API_URL).then((response) => {
+        return response.data as Weed[];
+    });
+};
+
 const WeedService = {
     getCurrentWeed,
+    getWeeds,
 };
 
 export default WeedService;

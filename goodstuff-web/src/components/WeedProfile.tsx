@@ -1,5 +1,5 @@
 import React from "react";
-import WeedService from "../services/weed.servce";
+import WeedService from "../services/weed.service";
 import styled from "styled-components";
 
 

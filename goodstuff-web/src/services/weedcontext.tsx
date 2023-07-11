@@ -1,5 +1,5 @@
-import React, {FC, useState, ReactNode} from 'react';
-import {Weed} from "../models/Weed";
+import React, { FC, useState, ReactNode } from 'react';
+import { Weed } from '../models/Weed';
 
 interface WeedContextState {
     weed?: Weed;
@@ -15,18 +15,20 @@ interface WeedContextProviderProps {
     children: ReactNode;
 }
 
-export const WeedContextProvider: FC<WeedContextProviderProps> = ({children}) => {
-    const [weed, setWeed] = useState<Weed>();
+export const WeedContextProvider: FC<WeedContextProviderProps> = (props) => {
+    const [weed, setWeed] = useState<Weed | undefined>();
     const [weeds, setWeeds] = useState<Weed[]>([]);
 
     return (
         <WeedContext.Provider
             value={{
-                weed, setWeed,
-                weeds, setWeeds
+                weed,
+                setWeed,
+                weeds,
+                setWeeds,
             }}
         >
-            {children}
+            {props.children}
         </WeedContext.Provider>
     );
 };

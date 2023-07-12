@@ -7,6 +7,9 @@ interface UserContextState {
 
     users: User[];
     setUsers: (users: User[]) => void;
+
+    usernames: string[];
+    setUsernames: (usernames: string[]) => void;
 }
 
 export const UserContext = React.createContext({} as UserContextState);
@@ -18,12 +21,14 @@ interface UserContextProviderProps {
 export const UserContextProvider: FC<UserContextProviderProps> = ({children}) => {
     const [user, setUser] = useState<User>();
     const [users, setUsers] = useState<User[]>([]);
+    const [usernames, setUsernames] = useState<string[]>([]);
 
     return (
         <UserContext.Provider
             value={{
                 user, setUser,
-                users, setUsers
+                users, setUsers,
+                usernames, setUsernames
             }}
         >
 

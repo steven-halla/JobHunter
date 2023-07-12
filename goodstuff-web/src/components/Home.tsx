@@ -6,23 +6,28 @@ import { UserContext } from "../services/usercontext";
 
 const Home = () => {
     const [ content, setContent] = useState("");
-    const { users, setUsers } = useContext(UserContext);
+    const { usernames, setUsernames } = useContext(UserContext);
 
     useEffect(() => {
-        UserService.getUsers()
-            .then((users) => {
-                setUsers(users);
+        console.log("Use effect for users");
+        UserService.getAllUsernames()
+            .then((usernames) => {
+                console.log("usernames: ", usernames); // Add this line to log the users
+                setUsernames(usernames);
             })
             .catch((error) => {
-                console.error("Error fetching users:", error);
+                console.error("Error fetching usernames: ", error);
             });
     }, []);
 
 
 
+
     useEffect(() => {
+        console.log("use effect get public content");
         UserService.getPublicContent().then(
             (response) => {
+                console.log("Public content:", response.data);
                 setContent(response.data);
             },
             (error) => {
@@ -36,13 +41,7 @@ const Home = () => {
         );
     }, []);
 
-    const weedtop5 = [
-        {name: "blueberry purple", type: "sativa", descriptionOfHigh: "you'll get so high you'll turn purple",img: "hemped.jpeg"},
-        {name: "rotten haze", type: "indica", descriptionOfHigh: "it'll rot your lungs so dont smoke too much", img: "hemped.jpeg"},
-        {name: "princess cannibal ", type: "hybrid 50/50", descriptionOfHigh: "this weed will melt the flesh off your bones",img: "hemped.jpeg"},
-        {name: "rib demon", type: "hybrid india dominant", descriptionOfHigh: "you'll be so high demons really will exist",img: "hemped.jpeg"},
-        {name: "Mr Blunt", type: "hybrid sativa dominant", descriptionOfHigh: "Mr. GoodBar's brother",img: "hemped.jpeg"},
-    ]
+
 
     return (
         <PinkPageDiv>
@@ -52,31 +51,20 @@ const Home = () => {
             <TopFiveWeedHeader>
                 Here are the top 5 weeds at the blah store for this month.
             </TopFiveWeedHeader>
-            <WeedTop5List>
-                <li className="header">
-                    <img className="weed-image empty-image" alt="" />
-                    <div><p>Name</p></div>
-                    <div><p>Type</p></div>
-                    <div><p>Description</p></div>
-                </li>
-                {weedtop5.map((weed, index) => (
-                    <li key={index}>
-                        <img src={weed.img} alt={weed.name} className="weed-image" />
-                        <div><p>{weed.name}</p></div>
-                        <div><p>{weed.type}</p></div>
-                        <div><p>{weed.descriptionOfHigh}</p></div>
-                    </li>
-                ))}
-            </WeedTop5List>
+
+
 
 
             <div>
                 <h1>Usernames</h1>
                 <ul>
-                    {users.map((username, index) => (
+                    {usernames.map((username, index) => (
                         <li key={index}>{username}</li>
                     ))}
                 </ul>
+
+
+
             </div>
 
 

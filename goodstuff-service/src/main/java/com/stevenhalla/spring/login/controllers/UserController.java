@@ -15,7 +15,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping
+    @GetMapping("/usernames")
     public List<String> getAllUsernames() {
         List<User> users = userRepository.findAll();
         return users.stream().map(User::getUsername).collect(Collectors.toList());

@@ -7,33 +7,59 @@ interface User {
   roles: string[];
 }
 
-const API_URL = "http://localhost:3000/api/users";
+const BASE_API_URL = "http://localhost:3000/api";
 
-const getUsers = (): Promise<User[]> => {
-  return axios.get(API_URL).then((response: AxiosResponse) => {
-    console.log("Hi");
-    return response.data as User[];
-  });
+
+
+const getAllUsernames = (): Promise<string[]> => {
+  console.log("getAllUsernames called");
+  return axios.get(BASE_API_URL + "/users/usernames")
+      .then((response: AxiosResponse) => {
+        console.log("allUsernames: " + response.data);
+        return response.data as string[];
+      })
+      .catch((error: any) => {
+        console.error("Error fetching users: ", error);
+        throw error;
+      });
 };
 
+const getUsers = (): Promise<User[]> => {
+  console.log("getUsers called");
+  return axios.get(BASE_API_URL + "/users")
+      .then((response: AxiosResponse) => {
+        console.log("users: " + response.data);
+        return response.data as User[];
+      })
+      .catch((error: any) => {
+        console.error("Error fetching users: ", error);
+        throw error;
+      });
+};
+
+
+
+
 const getPublicContent = (): Promise<AxiosResponse> => {
-  return axios.get(API_URL + "/all");
+  console.log("getPublicContent calld")
+  return axios.get(BASE_API_URL);
 };
 
 const getUserBoard = (): Promise<AxiosResponse> => {
-  return axios.get(API_URL + "/user");
+  return axios.get(BASE_API_URL + "/user");
 };
 
 const getModeratorBoard = (): Promise<AxiosResponse> => {
-  return axios.get(API_URL + "/mod");
+  return axios.get(BASE_API_URL + "/mod");
 };
 
 const getAdminBoard = (): Promise<AxiosResponse> => {
-  return axios.get(API_URL + "/admin");
+  return axios.get(BASE_API_URL + "/admin");
 };
 
 const UserService = {
   getUsers,
+  getAllUsernames,
   getPublicContent,
   getUserBoard,
   getModeratorBoard,

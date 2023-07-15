@@ -68,5 +68,27 @@ public class WeedController {
     }
 
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<Weed> updateWeed(@PathVariable Long id, @RequestBody Weed updatedWeed) {
+        Optional<Weed> optionalWeed = weedRepository.findById(id);
+
+        if(optionalWeed.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Weed existingWeed = optionalWeed.get();
+
+        if (updatedWeed.getWeedname() != null) {
+            existingWeed.setWeedname(updatedWeed.getWeedname());
+        }
+
+
+        weedRepository.save(existingWeed);
+        return ResponseEntity.ok(existingWeed);
+    }
+
+
+
+
 }
 

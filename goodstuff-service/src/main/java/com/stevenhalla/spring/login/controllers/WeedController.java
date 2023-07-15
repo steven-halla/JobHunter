@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000") // Replace with your frontend URL
+
 @RequestMapping("/api/weeds")
 public class WeedController {
 

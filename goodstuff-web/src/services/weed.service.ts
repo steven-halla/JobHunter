@@ -27,10 +27,25 @@ const createWeed = (userId: number, weed: Weed): Promise<Weed> => {
     });
 };
 
+const deleteWeed = (weedId: number): Promise<void> => {
+    return axios.delete(`${API_URL}${weedId}`).then(() => {
+        // No response data is needed for delete request
+    });
+};
+
+const updateWeed = (weedId: number, updatedWeedName: string): Promise<Weed> => {
+    const updateData = { weedname: updatedWeedName };
+    return axios.patch(`${API_URL}${weedId}`, updateData).then((response) => {
+        return response.data as Weed;
+    });
+};
+
 const WeedService = {
     getCurrentWeed,
     getWeeds,
     createWeed,
+    deleteWeed,
+    updateWeed,
 };
 
 export default WeedService;

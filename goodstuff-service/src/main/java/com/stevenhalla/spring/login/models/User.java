@@ -7,6 +7,7 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
+
 @Entity
 @Table(name = "users",
         uniqueConstraints = {
@@ -58,6 +59,8 @@ public class User {
         return username;
     }
 
+
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -81,6 +84,13 @@ public class User {
     public Set<Role> getRoles() {
         return roles;
     }
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserWeed> userWeeds = new HashSet<>();
+
+// Getters and setters...
+
+
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;

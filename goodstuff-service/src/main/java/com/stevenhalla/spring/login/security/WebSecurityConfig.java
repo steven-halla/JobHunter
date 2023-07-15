@@ -91,6 +91,8 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/test/**").permitAll()
                 .antMatchers("/api/weeds/**").permitAll() // Add this line
                 .antMatchers("/api/users/usernames").permitAll()
+//                .antMatchers("/api/weeds/**").permitAll()
+
 
 
                 .anyRequest().authenticated();

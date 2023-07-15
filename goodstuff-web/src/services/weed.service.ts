@@ -1,14 +1,12 @@
 import axios from "axios";
 
-interface Weed {
-    // Define the properties of the Weed object here
-    // For example:
+export interface Weed {
     id: number;
-    name: string;
-    // ...
+    weedname: string;
+    user_id: number;
 }
 
-const API_URL = "http://localhost:3000/api/weeds/";
+const API_URL = "http://localhost:8080/api/weeds/";
 
 const getCurrentWeed = (): Weed | undefined => {
     const weedString = localStorage.getItem("weed");
@@ -23,9 +21,16 @@ const getWeeds = (): Promise<Weed[]> => {
     });
 };
 
+const createWeed = (userId: number, weed: Weed): Promise<Weed> => {
+    return axios.post(`${API_URL}${userId}`, weed).then((response) => {
+        return response.data as Weed;
+    });
+};
+
 const WeedService = {
     getCurrentWeed,
     getWeeds,
+    createWeed,
 };
 
 export default WeedService;

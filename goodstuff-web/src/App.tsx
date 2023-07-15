@@ -22,6 +22,7 @@ import {PlayGround} from "./components/PlayGround";
 import {WeedContextProvider} from "./services/weedcontext";
 import {User} from "./models/User";
 import {UserContextProvider} from "./services/usercontext";
+import {WeedForm} from "./components/WeedForm";
 // import {WeedList} from "./components/WeedList";
 
 // NOTE WE ARE GOING TO BE CHANGING TO A CRAFT BEER MODEL FOR THE PUBLIC
@@ -142,6 +143,7 @@ const App = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/weedprofile" element={<WeedProfile />} />
             <Route path="/weedlist" element={<WeedList />} />
+            <Route path="/weedform/:userId" element={<WeedForm />} />
             <Route path="/userweedpref" element={<UserWeedPref />} />
             <Route path="/playground" element={<PlayGround />} />
             <Route path="/user" element={<BoardUser />} />

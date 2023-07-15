@@ -3,11 +3,11 @@ import { Weed } from '../models/Weed';
 
 interface WeedContextState {
     weed?: Weed;
-    setWeed: (weed?: Weed) => void;
-
+    setWeed: React.Dispatch<React.SetStateAction<Weed | undefined>>;
     weeds: Weed[];
     setWeeds: (weeds: Weed[]) => void;
 }
+
 
 export const WeedContext = React.createContext({} as WeedContextState);
 
@@ -16,7 +16,7 @@ interface WeedContextProviderProps {
 }
 
 export const WeedContextProvider: FC<WeedContextProviderProps> = (props) => {
-    const [weed, setWeed] = useState<Weed | undefined>();
+    const [weed, setWeed] = useState<Weed | undefined>({ id: 0, weedname: '', user_id: 0 });
     const [weeds, setWeeds] = useState<Weed[]>([]);
 
     return (

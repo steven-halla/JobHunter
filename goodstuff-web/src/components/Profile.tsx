@@ -5,10 +5,6 @@ import axios, {AxiosError, AxiosResponse} from "axios";
 import {Weed} from "../models/Weed";
 import WeedService from "../services/weed.service";
 
-
-
-
-
 interface User {
     id: number;
     username: string;
@@ -19,30 +15,25 @@ interface User {
 const Profile: React.FC = () => {
 
     const { weeds, setWeeds } = useContext(WeedContext);
+    const currentUser: User | null = AuthService.getCurrentUser();
 
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                const response = await axios.get<Weed[]>("http://localhost:8080/api/weeds");
-                setWeeds(response.data);
-            } catch (error) {
-                console.error("Error fetching data: ", error);
+            if(currentUser) {
+                try {
+                    const response = await axios.get<Weed[]>(`http://localhost:8080/api/weeds/user/${currentUser.id}`);
+                    setWeeds(response.data);
+                } catch (error) {
+                    console.error("Error fetching data: ", error);
+                }
             }
         };
         fetchData();
-    }, []);
-
-
-
-
-
-    const currentUser: User | null = AuthService.getCurrentUser();
+    }, [currentUser]);
 
     if (!currentUser) {
         return <div>Loading...</div>; // Handle the case when currentUser is null
     }
-
-
 
     return (
         <div className="container">

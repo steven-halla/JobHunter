@@ -1,4 +1,4 @@
-import React, {FC, useState, ReactNode} from 'react';
+import React, {FC, useState, ReactNode, useEffect} from 'react';
 import {User} from "../models/User";
 
 interface UserContextState {
@@ -23,6 +23,14 @@ export const UserContextProvider: FC<UserContextProviderProps> = ({children}) =>
     const [users, setUsers] = useState<User[]>([]);
     const [usernames, setUsernames] = useState<string[]>([]);
 
+    // Load user data from localStorage when the application starts
+    useEffect(() => {
+        const userData = localStorage.getItem('user');
+        if (userData) {
+            setUser(JSON.parse(userData));
+        }
+    }, []);
+
     return (
         <UserContext.Provider
             value={{
@@ -31,7 +39,6 @@ export const UserContextProvider: FC<UserContextProviderProps> = ({children}) =>
                 usernames, setUsernames
             }}
         >
-
             {children}
         </UserContext.Provider>
     );

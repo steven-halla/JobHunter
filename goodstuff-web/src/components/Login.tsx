@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -6,6 +6,7 @@ import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 
 import AuthService from "../services/auth.service";
+import { UserContext } from "../services/usercontext";
 
 import { ComponentType } from "react";
 import {CustomCheckButton, CustomForm} from "../models/LoginHelper";
@@ -27,12 +28,9 @@ const required = (value: string) => {
 };
 
 const Login: React.FC = () => {
-
   const form = useRef<CustomForm | null>(null);
   const checkBtn = useRef<CustomCheckButton | null>(null);
-
-
-
+  const { setUser } = useContext(UserContext);
 
   const [state, setState] = useState<LoginState>({
     username: "",
@@ -63,7 +61,8 @@ const Login: React.FC = () => {
 
       if (checkBtn.current.context._errors.length === 0) {
         AuthService.login(state.username, state.password).then(
-            () => {
+            (userData) => {
+              setUser(userData); // Update the UserContext with the returned user data
               navigate("/profile");
               window.location.reload();
             },

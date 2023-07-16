@@ -15,7 +15,7 @@ interface WeedContextProviderProps {
 }
 
 export const WeedContextProvider: FC<WeedContextProviderProps> = ({ children }) => {
-    const [weed, setWeed] = useState<Weed | undefined>({ id: 0, weedname: '', user_id: 0 });
+    const [weed, setWeed] = useState<Weed | undefined>({ id: 0, weedname: '', rating: 1, user_id: 0 });
     const [weeds, setWeeds] = useState<Weed[]>([]);
 
     return (

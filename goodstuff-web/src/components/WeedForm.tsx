@@ -69,6 +69,8 @@ export const WeedForm = () => {
         }
     };
 
+
+
     const handleDeleteClick = async (weed: Weed) => {
         try {
             await WeedService.deleteWeed(weed.id);
@@ -109,10 +111,16 @@ export const WeedForm = () => {
 
     return (
         <div>
+
             <form onSubmit={handleSubmit}>
                 <label>
                     Weed Name:
                     <input type="text" name="weedname" value={weed?.weedname || ''} onChange={handleChange} required />
+                </label>
+                <label>
+                    Rating:
+                    <input type="number" name="rating" min="1" max="5" value={weed?.rating || 1} onChange={handleChange} required />
+
                 </label>
                 <input type="submit" value="Create Weed" />
             </form>

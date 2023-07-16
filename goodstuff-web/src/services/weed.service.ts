@@ -28,6 +28,7 @@ const createWeed = (userId: number, weed: Weed): Promise<Weed> => {
     });
 };
 
+
 const deleteWeed = (weedId: number): Promise<void> => {
     return axios.delete(`${API_URL}${weedId}`).then(() => {
         // No response data is needed for delete request

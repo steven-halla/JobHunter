@@ -1,8 +1,7 @@
 package com.stevenhalla.spring.login.models;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "weeds",
@@ -19,6 +18,10 @@ public class Weed {
     @Size(max = 30)
     private String weedname;
 
+    @Min(1)
+    @Max(5)
+    private int rating;
+
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
@@ -26,9 +29,10 @@ public class Weed {
     public Weed() {
     }
 
-    public Weed(String weedname, User user) {
+    public Weed(String weedname, User user, int rating) {
         this.weedname = weedname;
         this.user = user;
+        this.rating = rating;
     }
 
     public Long getId() {
@@ -45,6 +49,14 @@ public class Weed {
 
     public void setWeedname(String weedname) {
         this.weedname = weedname;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 
     public User getUser() {

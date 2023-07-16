@@ -38,24 +38,7 @@ public class WeedController {
         return weedRepository.findByWeedname(weedname);
     }
 //here I had to set lanague level to 11, be sure to reverse this here if needed
-    @PostMapping("/{userId}")
-    public ResponseEntity<Weed> createUserWeed(@PathVariable Long userId, @RequestBody Weed newWeed) {
-        Optional<User> optionalUser = userRepository.findById(userId);
 
-        if(optionalUser.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        User user = optionalUser.get();
-        newWeed.setUser(user);
-
-        if (!weedRepository.existsByWeedname(newWeed.getWeedname())) {
-            weedRepository.save(newWeed);
-            return ResponseEntity.ok(newWeed);
-        } else {
-            throw new RuntimeException("Error: Weed is already in use!");
-        }
-    }
 
 
 
@@ -69,6 +52,27 @@ public class WeedController {
         return weedRepository.findByUserId(userId);
     }
 
+
+    @PostMapping("/{userId}")
+    public ResponseEntity<Weed> createUserWeed(@PathVariable Long userId, @RequestBody Weed newWeed) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+
+        if(optionalUser.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        User user = optionalUser.get();
+        newWeed.setUser(user);
+
+        if (!weedRepository.existsByWeedname(newWeed.getWeedname())) {
+            // Assuming you're passing the rating in your request body
+            newWeed.setRating(newWeed.getRating());
+            weedRepository.save(newWeed);
+            return ResponseEntity.ok(newWeed);
+        } else {
+            throw new RuntimeException("Error: Weed is already in use!");
+        }
+    }
 
     @PatchMapping("/{id}")
     public ResponseEntity<Weed> updateWeed(@PathVariable Long id, @RequestBody Weed updatedWeed) {
@@ -84,6 +88,10 @@ public class WeedController {
             existingWeed.setWeedname(updatedWeed.getWeedname());
         }
 
+        // New logic to update rating
+        if (updatedWeed.getRating() > 0) {
+            existingWeed.setRating(updatedWeed.getRating());
+        }
 
         weedRepository.save(existingWeed);
         return ResponseEntity.ok(existingWeed);

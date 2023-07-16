@@ -11,6 +11,7 @@ export const WeedForm = () => {
     const { userId } = useParams();
     const numericUserId = Number(userId);
     const [updateNames, setUpdateNames] = useState<{ [key: string]: string }>({});
+    //why is the key below here a string and not an integer?
     const [updateRatings, setUpdateRatings] = useState<{ [key: string]: number }>({});
 
     const navigate = useNavigate();
@@ -33,7 +34,7 @@ export const WeedForm = () => {
                     setUpdateNames(initialUpdateNames);
                     setUpdateRatings(initialUpdateRatings);
                 } catch (error) {
-                    console.error("Error fetching data: ", error);
+                    console.error("useEffect WeedForm line 37: Error fetching data: ", error);
                 }
             }
         };

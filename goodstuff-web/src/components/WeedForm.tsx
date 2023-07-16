@@ -1,4 +1,4 @@
-import React, { useContext, ChangeEvent, FormEvent, useEffect, useState, useRef } from 'react';
+import React, { useContext, ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { UserContext } from "../services/usercontext";
 import { WeedContext } from "../services/weedcontext";
 import WeedService, { Weed } from "../services/weed.service";
@@ -11,28 +11,36 @@ export const WeedForm = () => {
     const { userId } = useParams();
     const numericUserId = Number(userId);
     const [updateNames, setUpdateNames] = useState<{ [key: string]: string }>({});
-
+    const [updateRatings, setUpdateRatings] = useState<{ [key: string]: number }>({});
 
     const navigate = useNavigate();
     const { weed, setWeed, weeds, setWeeds } = useContext(WeedContext);
     const { user } = useContext(UserContext);
     const currentUser: User | null = AuthService.getCurrentUser();
 
-    const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
-
     useEffect(() => {
         const fetchData = async () => {
-            if (currentUser) {
+            if (currentUser && Object.keys(updateNames).length === 0 && Object.keys(updateRatings).length === 0) {
                 try {
                     const response = await axios.get<Weed[]>(`http://localhost:8080/api/weeds/user/${currentUser.id}`);
                     setWeeds(response.data);
+                    const initialUpdateNames: { [key: number]: string } = {};
+                    const initialUpdateRatings: { [key: number]: number } = {};
+                    response.data.forEach(weed => {
+                        initialUpdateNames[weed.id] = weed.weedname;
+                        initialUpdateRatings[weed.id] = weed.rating;
+                    });
+                    setUpdateNames(initialUpdateNames);
+                    setUpdateRatings(initialUpdateRatings);
                 } catch (error) {
                     console.error("Error fetching data: ", error);
                 }
             }
         };
         fetchData();
-    }, [currentUser]);
+    }, [currentUser, updateNames, updateRatings]);
+
+
 
     if (!currentUser) {
         return <div>Loading...</div>; // Handle the case when currentUser is null
@@ -55,7 +63,7 @@ export const WeedForm = () => {
         try {
             const newWeed = await WeedService.createWeed(user.id, weed);
             setWeeds([...weeds, newWeed]);
-            setWeed({ id: 0, weedname: '', user_id: user.id }); // reset form
+            setWeed({ id: 0, weedname: '', user_id: user.id, rating: 1 }); // reset form
         } catch (error) {
             console.error(error);
         }
@@ -79,19 +87,25 @@ export const WeedForm = () => {
         }));
     };
 
-    const handleUpdateClick = async (weedId: number) => {
-        if (updateNames[weedId]) {
-            try {
-                const updatedWeed = await WeedService.updateWeed(weedId, updateNames[weedId]);
-                setWeeds((prevWeeds) =>
-                    prevWeeds.map((w) => (w.id === updatedWeed.id ? updatedWeed : w))
-                );
-            } catch (error) {
-                console.error(error);
-            }
-        }
+    const handleUpdateRatingChange = (event: ChangeEvent<HTMLSelectElement>, weedId: number) => {
+        const { value } = event.target;
+
+        setUpdateRatings((prevUpdateRatings) => ({
+            ...prevUpdateRatings,
+            [weedId]: Number(value),
+        }));
     };
 
+    const handleUpdateClick = async (weedId: number) => {
+        try {
+            const updatedWeed = await WeedService.updateWeed(weedId, updateNames[weedId], updateRatings[weedId]);
+            setWeeds((prevWeeds) =>
+                prevWeeds.map((w) => (w.id === updatedWeed.id ? updatedWeed : w))
+            );
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     return (
         <div>
@@ -102,6 +116,7 @@ export const WeedForm = () => {
                 </label>
                 <input type="submit" value="Create Weed" />
             </form>
+
             <h4>Weeds:</h4>
             <ul>
                 {weeds.map((weed) => (
@@ -114,13 +129,17 @@ export const WeedForm = () => {
                             value={updateNames[weed.id] || ''}
                             onChange={(e) => handleUpdateNameChange(e, weed.id)}
                         />
+                        <select value={updateRatings[weed.id] || 1} onChange={(e) => handleUpdateRatingChange(e, weed.id)}>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
                         <button onClick={() => handleUpdateClick(weed.id)}>Update Weed</button>
                     </li>
                 ))}
-            </ul>;
-
-
-
+            </ul>
         </div>
     );
 };

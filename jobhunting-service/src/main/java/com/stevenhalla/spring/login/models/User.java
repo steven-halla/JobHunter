@@ -85,8 +85,6 @@ public class User {
         return roles;
     }
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<UserWeed> userWeeds = new HashSet<>();
 
 // Getters and setters...
 

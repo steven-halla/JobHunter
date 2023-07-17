@@ -1,9 +1,6 @@
 import React, {useContext, useEffect} from "react";
 import AuthService from "../services/auth.service";
-import {WeedContext} from "../services/weedcontext";
 import axios, {AxiosError, AxiosResponse} from "axios";
-import {Weed} from "../models/Weed";
-import WeedService from "../services/weed.service";
 
 interface User {
     id: number;
@@ -14,22 +11,9 @@ interface User {
 
 const Profile: React.FC = () => {
 
-    const { weeds, setWeeds } = useContext(WeedContext);
     const currentUser: User | null = AuthService.getCurrentUser();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            if(currentUser) {
-                try {
-                    const response = await axios.get<Weed[]>(`http://localhost:8080/api/weeds/user/${currentUser.id}`);
-                    setWeeds(response.data);
-                } catch (error) {
-                    console.error("Error fetching data: ", error);
-                }
-            }
-        };
-        fetchData();
-    }, [currentUser]);
+
 
     if (!currentUser) {
         return <div>Loading...</div>; // Handle the case when currentUser is null
@@ -55,12 +39,7 @@ const Profile: React.FC = () => {
                 ))}
             </ul>
 
-            <h4>Weeds:</h4>
-            <ul>
-                {weeds.map((weed) => (
-                    <li key={weed.id}>{weed.weedname}</li>
-                ))}
-            </ul>
+
         </div>
     );
 };

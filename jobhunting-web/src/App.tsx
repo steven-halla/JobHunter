@@ -7,7 +7,6 @@ import AuthService from "./services/auth.service";
 
 import Login from "./components/Login";
 import Register from "./components/Register";
-import Home from "./components/Home";
 import Profile from "./components/Profile";
 import BoardUser from "./components/BoardUser";
 import BoardModerator from "./components/BoardModerator";
@@ -15,14 +14,10 @@ import BoardAdmin from "./components/BoardAdmin";
 
 // import AuthVerify from "./common/AuthVerify";
 import EventBus from "./common/EventBus";
-import {WeedList} from "./components/WeedList";
-import {UserWeedPref} from "./components/UserWeedPref";
-import {WeedProfile} from "./components/WeedProfile";
-import {PlayGround} from "./components/PlayGround";
-import {WeedContextProvider} from "./services/weedcontext";
+
 import {User} from "./models/User";
 import {UserContextProvider} from "./services/usercontext";
-import {WeedForm} from "./components/WeedForm";
+import {Home} from "./components/Home";
 // import {WeedList} from "./components/WeedList";
 
 // NOTE WE ARE GOING TO BE CHANGING TO A CRAFT BEER MODEL FOR THE PUBLIC
@@ -65,7 +60,6 @@ const App = () => {
 
   return (
       <UserContextProvider>
-        <WeedContextProvider>
 
     <div>
       <nav className="navbar navbar-expand navbar-dark bg-dark">
@@ -137,15 +131,11 @@ const App = () => {
       <div>
         <Routes>
             <Route path={"/"} element={<Home />} />
-            <Route path={"/home"} element={<Home />} />
+
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/weedprofile" element={<WeedProfile />} />
-            <Route path="/weedlist" element={<WeedList />} />
-            <Route path="/weedform/:userId" element={<WeedForm />} />
-            <Route path="/userweedpref" element={<UserWeedPref />} />
-            <Route path="/playground" element={<PlayGround />} />
+
             <Route path="/user" element={<BoardUser />} />
             <Route path="/mod" element={<BoardModerator />} />
             <Route path="/admin" element={<BoardAdmin />} />
@@ -156,7 +146,6 @@ const App = () => {
 
       {/* <AuthVerify logOut={logOut}/> */}
     </div>
-        </WeedContextProvider>
       </UserContextProvider>
 
   );

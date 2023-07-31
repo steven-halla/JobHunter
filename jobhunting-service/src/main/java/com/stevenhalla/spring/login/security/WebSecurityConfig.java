@@ -91,12 +91,9 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/test/**").permitAll()
-                .antMatchers("/api/weeds/**").permitAll() // Add this line
                 .antMatchers("/api/users/usernames").permitAll()
-//                .antMatchers("/api/weeds/**").permitAll()
-
-
-
+                .antMatchers("/api/users/updateuser/**").permitAll()
+                .antMatchers("/api/jobs/**").permitAll()
                 .anyRequest().authenticated();
 
         http.authenticationProvider(authenticationProvider());
@@ -105,6 +102,7 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
 
         return http.build();
     }
+
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

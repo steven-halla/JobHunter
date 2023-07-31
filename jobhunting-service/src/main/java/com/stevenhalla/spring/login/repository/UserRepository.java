@@ -1,5 +1,6 @@
 package com.stevenhalla.spring.login.repository;
 
+
 import com.stevenhalla.spring.login.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

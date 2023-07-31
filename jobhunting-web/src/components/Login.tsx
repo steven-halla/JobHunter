@@ -50,7 +50,6 @@ const Login: React.FC = () => {
     const password = e.target.value;
     setState((prevState) => ({ ...prevState, password }));
   };
-
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -63,7 +62,7 @@ const Login: React.FC = () => {
         AuthService.login(state.username, state.password).then(
             (userData) => {
               setUser(userData); // Update the UserContext with the returned user data
-              navigate("/profile");
+              navigate(`/profile/${userData.id}`);
               window.location.reload();
             },
             (error) => {
@@ -86,6 +85,7 @@ const Login: React.FC = () => {
       }
     }
   };
+
 
   const { username, password, loading, message } = state;
 

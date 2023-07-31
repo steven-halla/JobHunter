@@ -18,6 +18,10 @@ import EventBus from "./common/EventBus";
 import {User} from "./models/User";
 import {UserContextProvider} from "./services/usercontext";
 import {Home} from "./components/Home";
+import {JobViewAll} from "./components/JobViewAll";
+import {CompanyNoResponse} from "./components/CompanyNoResponse";
+import { JobsContextProvider } from "./services/jobcontext";
+import {InterviewSecured} from "./components/InterviewSecured";
 // import {WeedList} from "./components/WeedList";
 
 // NOTE WE ARE GOING TO BE CHANGING TO A CRAFT BEER MODEL FOR THE PUBLIC
@@ -60,18 +64,15 @@ const App = () => {
 
   return (
       <UserContextProvider>
+        <JobsContextProvider>
+
 
     <div>
       <nav className="navbar navbar-expand navbar-dark bg-dark">
-        <Link to={"/"} className="navbar-brand">
-          bezKoder
+        <Link to={"/home"} className="navbar-brand">
+          Job Hunter
         </Link>
         <div className="navbar-nav mr-auto">
-          <li className="nav-item">
-            <Link to={"/home"} className="nav-link">
-              Home
-            </Link>
-          </li>
 
           {showModeratorBoard && (
             <li className="nav-item">
@@ -89,22 +90,21 @@ const App = () => {
             </li>
           )}
 
-          {currentUser && (
-            <li className="nav-item">
-              <Link to={"/user"} className="nav-link">
-                User
-              </Link>
-            </li>
-          )}
+
         </div>
 
         {currentUser ? (
           <div className="navbar-nav ml-auto">
-            <li className="nav-item">
-              <Link to={"/profile"} className="nav-link">
-                {currentUser.username}
-              </Link>
-            </li>
+            {/*<li className="nav-item">*/}
+            {/*  <Link to={"/profile"} className="nav-link">*/}
+            {/*    {currentUser.username}*/}
+            {/*  </Link>*/}
+            {/*</li>*/}
+              <li className="nav-item">
+                  <Link to={"/jobviewall"} className="nav-link">
+                      Job Creation
+                  </Link>
+              </li>
             <li className="nav-item">
               <a href="/login" className="nav-link" onClick={logOut}>
                 LogOut
@@ -130,11 +130,16 @@ const App = () => {
 
       <div>
         <Routes>
-            <Route path={"/"} element={<Home />} />
+            <Route path={"/Home"} element={<Home />} />
 
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/:id" element={<Profile />} />
+            <Route path="/jobviewall" element={<JobViewAll />} />
+            <Route path="/companynoresponse" element={<CompanyNoResponse />} />
+            <Route path="/interviewsecured/:jobId" element={<InterviewSecured />} /> // change this line
+
+
 
             <Route path="/user" element={<BoardUser />} />
             <Route path="/mod" element={<BoardModerator />} />
@@ -146,6 +151,8 @@ const App = () => {
 
       {/* <AuthVerify logOut={logOut}/> */}
     </div>
+        </JobsContextProvider>
+
       </UserContextProvider>
 
   );

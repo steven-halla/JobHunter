@@ -284,9 +284,13 @@ export const Home: React.FC = () => {
                     <CopyButton selectedOption={selectedOption3} />
                 </FieldRow>
             </CustomFieldsDiv>
+            <JobCounterDiv>
+                <p>Jobs created today: {count}</p>
 
+            </JobCounterDiv>
 
             <CustomFieldForm onSubmit={handleJobSubmit}>
+
                 <FieldContainer>
                     <Label>Company</Label>
                     <Input type="text" value={companyname} onChange={handleCompanyNameChange} />
@@ -329,7 +333,6 @@ export const Home: React.FC = () => {
                 {/*<Link to="/companynoresponse">Go to Company No Response Page</Link>*/}
 
             </CustomFieldForm>
-            <p>Jobs created today: {count}</p>
 
 
             <FooterDiv/>
@@ -388,6 +391,13 @@ export const HomeWrapperDiv = styled.div`
     height: 100vh;
     flex-direction: column;
     justify-content: space-between;
+    
+    p {
+      text-align: center;
+      color: red;
+      //padding-right: 5vw;
+    }
+    
   }
 
 
@@ -539,3 +549,28 @@ export const FooterDiv =  styled.div`
 
 `
 
+
+
+export const JobCounterDiv = styled.div`
+  display: flex;
+
+
+  @media ${device.mobile} {
+    display: flex;
+
+   
+
+
+    /* Add more styles specific to this resolution here... */
+  }
+
+  @media ${device.laptop} {
+    display: flex;
+    margin-right: 5vw;
+    //align-text: center;
+    justify-content: center;
+    align-content: center;
+
+    /* Add more styles specific to this resolution here... */
+  }
+`;

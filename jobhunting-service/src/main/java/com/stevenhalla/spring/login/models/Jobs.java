@@ -10,6 +10,12 @@ import java.util.Date;
 @Entity
 @Table(name = "jobs")
 public class Jobs {
+    //text can be done via evans example
+    //look up spring TEXT
+    //put contstrutors on top
+    //record classes?
+    //lombok
+    //change some of the name of EROLE to something like roleENUM or something similar
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,7 +44,6 @@ public class Jobs {
     @Column(name = "joblink")
     private String joblink;
 
-    @NotBlank
     @Column(name = "meetinglink")
     private String meetinglink;
 

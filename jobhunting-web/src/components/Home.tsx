@@ -37,7 +37,7 @@ export const Home: React.FC = () => {
     const [ companywebsitelink, setCompanyWebSiteLink] = useState<string>("");
     const [ joblink, setJobLink] = useState<string>("");
     const [ interviewnotes, setInterviewNotes] = useState<string>("n/a");
-    const [ customfield1, setCustomField1] = useState<string>("n/a");
+    const [ customfield, setCustomField] = useState<string>("n/a");
     const [ interviewernames, setInterviewerNames] = useState<string>("n/a");
     const [dateapplied, setDateApplied] = useState<Date>(new Date());
     const [ interviewdate, setInterviewDate] = useState<Date>(new Date("2023-07-22"));
@@ -51,6 +51,24 @@ export const Home: React.FC = () => {
     const currentUser: User | null = AuthService.getCurrentUser();
     const { user } = useContext(UserContext);
     const [id, setId] = useState(null); // or some initial value
+    const [count, setCount] = useState<number>(() => {
+        const storedCount = localStorage.getItem('count');
+        const storedDate = localStorage.getItem('date');
+        const today = new Date().toISOString().split('T')[0]; // get today's date in YYYY-MM-DD format
+        if (storedDate === today && storedCount !== null) {
+            // if the stored date is today, return the stored count
+            return parseInt(storedCount);
+        } else {
+            // if the stored date is not today or doesn't exist, return 0
+            return 0;
+        }
+    });
+
+// Effect to update local storage whenever count changes
+    useEffect(() => {
+        localStorage.setItem('count', count.toString());
+        localStorage.setItem('date', new Date().toISOString().split('T')[0]); // store today's date in YYYY-MM-DD format
+    }, [count]);
 
 
     useEffect(() => {
@@ -83,7 +101,10 @@ export const Home: React.FC = () => {
 
 
     const handleJobSubmit = async (e: FormEvent) => {
+        console.log("I'm the handle submit button on the home page");
         e.preventDefault();
+        setCount(count + 1);
+
 
         try {
             if (currentUser) {
@@ -94,7 +115,7 @@ export const Home: React.FC = () => {
                         headers: {
                             "Content-Type": "application/json",
                         },
-                        body: JSON.stringify({ companyname, description, jobposter, primarycontact,
+                        body: JSON.stringify({ companyname, customfield, description, jobposter, primarycontact,
                             companywebsitelink, joblink , interviewnotes,  interviewernames, dateapplied,
                             interviewdate, companyresponded, companyrejected}),
                     }
@@ -111,7 +132,7 @@ export const Home: React.FC = () => {
                     setCompanyWebSiteLink("");
                     setJobLink("");
                     setInterviewNotes("n/a");
-                    setCustomField1("n/a");
+                    setCustomField("n/a");
                     setInterviewerNames("n/a");
                     setDateApplied(new Date());
                     setInterviewDate(new Date());
@@ -161,7 +182,7 @@ export const Home: React.FC = () => {
     }
 
     const handleCustomField = (e: ChangeEvent<HTMLInputElement>) => {
-        setCustomField1(e.target.value);
+        setCustomField(e.target.value);
     }
 
     const handleInterviewerNames = (e: ChangeEvent<HTMLInputElement>) => {
@@ -267,7 +288,7 @@ export const Home: React.FC = () => {
 
             <CustomFieldForm onSubmit={handleJobSubmit}>
                 <FieldContainer>
-                    <Label>Company Name</Label>
+                    <Label>Company</Label>
                     <Input type="text" value={companyname} onChange={handleCompanyNameChange} />
 
                 </FieldContainer>
@@ -299,7 +320,7 @@ export const Home: React.FC = () => {
 
                 <FieldContainer>
                     <Label>Custom Notes</Label>
-                    <Input type="text" value={customfield1} onChange={handleCustomField} />
+                    <Input type="text" value={customfield} onChange={handleCustomField} />
                 </FieldContainer>
 
 
@@ -308,6 +329,8 @@ export const Home: React.FC = () => {
                 {/*<Link to="/companynoresponse">Go to Company No Response Page</Link>*/}
 
             </CustomFieldForm>
+            <p>Jobs created today: {count}</p>
+
 
             <FooterDiv/>
 

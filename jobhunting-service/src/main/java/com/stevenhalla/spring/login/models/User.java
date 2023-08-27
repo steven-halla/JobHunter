@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+//look up java record classses
+
 @Entity
 @Table(name = "users",
         uniqueConstraints = {

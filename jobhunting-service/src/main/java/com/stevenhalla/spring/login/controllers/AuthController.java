@@ -32,7 +32,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-    //do I need a  weedrepository? what about a userweed repository?
     @Autowired
     AuthenticationManager authenticationManager;
 

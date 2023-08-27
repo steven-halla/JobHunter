@@ -103,7 +103,6 @@ export const Home: React.FC = () => {
     const handleJobSubmit = async (e: FormEvent) => {
         console.log("I'm the handle submit button on the home page");
         e.preventDefault();
-        setCount(count + 1);
 
 
         try {
@@ -139,6 +138,10 @@ export const Home: React.FC = () => {
                     setCompanyResponded(false);
                     setCompanyRejected(false);
                     // Perform further actions if needed
+                    setCount(count + 1);
+                    alert("Adding +1 to the counter.")
+
+
                 } else {
                     console.log("Failed to create job");
                     // Handle the error case if needed

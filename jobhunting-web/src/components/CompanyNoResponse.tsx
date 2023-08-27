@@ -21,11 +21,25 @@ export const CompanyNoResponse = () => {
 
 
     console.log("Older Jobs:", olderJobs);  // Debugging line
+    //
+    // const handleCheckboxChange = (jobId: number, checked: boolean) => {
+    //     updateJobResponded(jobId, checked);
+    //     // alert("Congrats on getting them to respond!")
+    // };
 
     const handleCheckboxChange = (jobId: number, checked: boolean) => {
-        updateJobResponded(jobId, checked);
-        // alert("Congrats on getting them to respond!")
+        if (checked) { // If the user is trying to check the box
+            const isConfirmed = window.confirm("Confirm company responded?");
+            if (isConfirmed) {
+                updateJobResponded(jobId, true);
+                // Other actions after confirmation, if needed
+            }
+        } else {
+            updateJobResponded(jobId, false);
+            // Other actions after unchecking, if needed
+        }
     };
+
 
     return(
         <JobContainer>

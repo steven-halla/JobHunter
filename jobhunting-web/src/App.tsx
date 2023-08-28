@@ -22,6 +22,7 @@ import {JobViewAll} from "./components/JobViewAll";
 import {CompanyNoResponse} from "./components/CompanyNoResponse";
 import { JobsContextProvider } from "./services/jobcontext";
 import {InterviewSecured} from "./components/InterviewSecured";
+import {JobsAppliedDateGraph} from "./components/JobsAppliedDateGraph";
 // import {WeedList} from "./components/WeedList";
 
 // NOTE WE ARE GOING TO BE CHANGING TO A CRAFT BEER MODEL FOR THE PUBLIC
@@ -66,10 +67,10 @@ const App = () => {
       <UserContextProvider>
         <JobsContextProvider>
 
-
+        {/*still need to put this  nav bar in its own component and out of the APP.tsx*/}
     <div>
       <nav className="navbar navbar-expand navbar-dark bg-dark">
-        <Link to={"/home"} className="navbar-brand">
+        <Link to={"/home/:id"} className="navbar-brand">
           Job Hunter
         </Link>
         <div className="navbar-nav mr-auto">
@@ -95,21 +96,43 @@ const App = () => {
 
         {currentUser ? (
           <div className="navbar-nav ml-auto">
-            {/*<li className="nav-item">*/}
-            {/*  <Link to={"/profile"} className="nav-link">*/}
-            {/*    {currentUser.username}*/}
-            {/*  </Link>*/}
-            {/*</li>*/}
+
               <li className="nav-item">
                   <Link to={"/jobviewall"} className="nav-link">
-                      Job Creation
+                      View All Jobs
                   </Link>
               </li>
+
+              <li className="nav-item">
+                  <Link to={"/dategraphs"} className="nav-link">
+                      Jobs Graphs
+                  </Link>
+              </li>
+
+              <li className="nav-item">
+                  <Link to={"/companynoresponse"} className="nav-link">
+                      No Response
+                  </Link>
+              </li>
+
+              <li className="nav-item">
+                  {/*<Link to={"/profile"} className="nav-link">*/}
+                  {/*    Profile*/}
+                  {/*</Link>*/}
+                  <li className="nav-item">
+                      <Link to={`/profile/${currentUser.id}`} className="nav-link">
+                      {currentUser.username}
+                    </Link>
+                  </li>
+              </li>
+
             <li className="nav-item">
               <a href="/login" className="nav-link" onClick={logOut}>
                 LogOut
               </a>
             </li>
+
+
           </div>
         ) : (
           <div className="navbar-nav ml-auto">
@@ -130,14 +153,15 @@ const App = () => {
 
       <div>
         <Routes>
-            <Route path={"/Home/:id"} element={<Home />} />
+            <Route path={"/home/:id"} element={<Home />} />
+            <Route path={"/dategraphs"} element={<JobsAppliedDateGraph />} />
 
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/profile/:id" element={<Profile />} />
             <Route path="/jobviewall" element={<JobViewAll />} />
             <Route path="/companynoresponse" element={<CompanyNoResponse />} />
-            <Route path="/interviewsecured/:jobId" element={<InterviewSecured />} /> // change this line
+            <Route path="/interviewsecured/:jobId" element={<InterviewSecured />} />
 
 
 

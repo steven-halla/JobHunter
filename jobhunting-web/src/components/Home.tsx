@@ -10,26 +10,13 @@ import { Link } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
 import UserService from "../services/user.service";
 import {device} from "../common/ScreenSizes";
+import {JobsContext} from "../services/jobcontext";
 
-//we can have the email service, give us the page, for linkedin users so we can have an easy access
-// to message random people
-
-// another idea:
-
-// update the User object so that it has a refrence to the amount of job searchers a person does
-// we are going to keep track of daily, weekly, and monthly job hunting complete with  a graph
-// there are other updates to our user model but first i want to complete the JObs model, and
-// work out all the components for it.
-
-
-//we need to do filter methods for date, as well as by the
-//   other fields such as job poster, and primary contact, I want this to cover as many bases as possible
-
-// lets work on the InterviewSecured component.
 
 
 
 export const Home: React.FC = () => {
+
     const [companyname, setCompanyName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [jobposter, setJobPoster] = useState<string>("");
@@ -50,7 +37,10 @@ export const Home: React.FC = () => {
 
     const currentUser: User | null = AuthService.getCurrentUser();
     const { user } = useContext(UserContext);
+
+
     const [id, setId] = useState(null); // or some initial value
+
     const [count, setCount] = useState<number>(() => {
         const storedCount = localStorage.getItem('count');
         const storedDate = localStorage.getItem('date');
@@ -287,10 +277,8 @@ export const Home: React.FC = () => {
                     <CopyButton selectedOption={selectedOption3} />
                 </FieldRow>
             </CustomFieldsDiv>
-            <JobCounterDiv>
-                <p>Jobs created today: {count}</p>
 
-            </JobCounterDiv>
+
 
             <CustomFieldForm onSubmit={handleJobSubmit}>
 
@@ -453,8 +441,8 @@ export const CustomFieldForm = styled.form`
 
   @media ${device.mobile} {
     display: flex;
-    background-color: purple;
-    height: 80vh;
+    background-color: yellow;
+    //height: 80vh;
     width: 100vw;
     flex-direction: column;
     justify-items: center;
@@ -511,7 +499,7 @@ export const URLSelector = styled.select`
   @media ${device.mobile} {
     display: flex;
     width: 33vw; // adjust as needed
-    height: 5vh; // adjust as needed
+    height: 35px; // adjust as needed
     background-color: purple;
     flex-direction: row;
     justify-items: center;
@@ -524,7 +512,7 @@ export const URLSelector = styled.select`
   @media ${device.laptop} {
     display: flex;
     width: 25vw;
-    height: 5vh;
+    height: 35px;
     background-color: purple;
     flex-direction: row;
     justify-items: center;

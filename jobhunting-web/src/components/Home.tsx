@@ -451,6 +451,15 @@ export const CustomFieldForm = styled.form`
     justify-items: center;
   }
 
+  button {
+    display: flex;
+    margin-top: 30px;
+    width: 20vw;
+    //align-content: center;
+    //justify-content: center;
+    margin-left: 40vw;
+  }
+
   @media ${device.laptop} {
     display: flex;
     height: 30vh;

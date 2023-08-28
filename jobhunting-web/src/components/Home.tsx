@@ -338,16 +338,19 @@ export const Home: React.FC = () => {
 
 const Label = styled.label`
   width: 100%;
+  height: 30px;
 `;
 
 const Input = styled.input`
   width: 100%;
+  height: 30px;
 `;
 
 const SubmitButton = styled.button`
-  grid-column: span 5;
-  padding: 10px;
-  margin-top: 20px;
+
+  height: 30px;
+  justify-content: center;
+  align-content: center;
 `;
 
 
@@ -462,7 +465,7 @@ padding-left: 4vw;
     input {
       display: flex;
       width: 20vw;
-      height: 5vh;
+      height: 40px;
       margin-left: 5px;
       max-width: 150px;
     }
@@ -473,7 +476,7 @@ padding-left: 4vw;
     }
     
     button {
-      height: 5vh;
+      height: 40px;
       width: 21vw;
       max-width: 155px;
 

@@ -69,87 +69,87 @@ const App = () => {
 
         {/*still need to put this  nav bar in its own component and out of the APP.tsx*/}
     <div>
-      <nav className="navbar navbar-expand navbar-dark bg-dark">
-        <Link to={"/home/:id"} className="navbar-brand">
-          Job Hunter
-        </Link>
-        <div className="navbar-nav mr-auto">
+      {/*<nav className="navbar navbar-expand navbar-dark bg-dark">*/}
+      {/*  <Link to={"/home/:id"} className="navbar-brand">*/}
+      {/*    Job Hunter*/}
+      {/*  </Link>*/}
+      {/*  <div className="navbar-nav mr-auto">*/}
 
-          {showModeratorBoard && (
-            <li className="nav-item">
-              <Link to={"/mod"} className="nav-link">
-                Moderator Board
-              </Link>
-            </li>
-          )}
+      {/*    {showModeratorBoard && (*/}
+      {/*      <li className="nav-item">*/}
+      {/*        <Link to={"/mod"} className="nav-link">*/}
+      {/*          Moderator Board*/}
+      {/*        </Link>*/}
+      {/*      </li>*/}
+      {/*    )}*/}
 
-          {showAdminBoard && (
-            <li className="nav-item">
-              <Link to={"/admin"} className="nav-link">
-                Admin Board
-              </Link>
-            </li>
-          )}
-
-
-        </div>
-
-        {currentUser ? (
-          <div className="navbar-nav ml-auto">
-
-              <li className="nav-item">
-                  <Link to={"/jobviewall"} className="nav-link">
-                      View All Jobs
-                  </Link>
-              </li>
-
-              <li className="nav-item">
-                  <Link to={"/dategraphs"} className="nav-link">
-                      Jobs Graphs
-                  </Link>
-              </li>
-
-              <li className="nav-item">
-                  <Link to={"/companynoresponse"} className="nav-link">
-                      No Response
-                  </Link>
-              </li>
-
-              <li className="nav-item">
-                  {/*<Link to={"/profile"} className="nav-link">*/}
-                  {/*    Profile*/}
-                  {/*</Link>*/}
-                  <li className="nav-item">
-                      <Link to={`/profile/${currentUser.id}`} className="nav-link">
-                      {currentUser.username}
-                    </Link>
-                  </li>
-              </li>
-
-            <li className="nav-item">
-              <a href="/login" className="nav-link" onClick={logOut}>
-                LogOut
-              </a>
-            </li>
+      {/*    {showAdminBoard && (*/}
+      {/*      <li className="nav-item">*/}
+      {/*        <Link to={"/admin"} className="nav-link">*/}
+      {/*          Admin Board*/}
+      {/*        </Link>*/}
+      {/*      </li>*/}
+      {/*    )}*/}
 
 
-          </div>
-        ) : (
-          <div className="navbar-nav ml-auto">
-            <li className="nav-item">
-              <Link to={"/login"} className="nav-link">
-                Login
-              </Link>
-            </li>
+      {/*  </div>*/}
 
-            <li className="nav-item">
-              <Link to={"/register"} className="nav-link">
-                Sign Up
-              </Link>
-            </li>
-          </div>
-        )}
-      </nav>
+      {/*  {currentUser ? (*/}
+      {/*    <div className="navbar-nav ml-auto">*/}
+
+      {/*        <li className="nav-item">*/}
+      {/*            <Link to={"/jobviewall"} className="nav-link">*/}
+      {/*                View All Jobs*/}
+      {/*            </Link>*/}
+      {/*        </li>*/}
+
+      {/*        <li className="nav-item">*/}
+      {/*            <Link to={"/dategraphs"} className="nav-link">*/}
+      {/*                Jobs Graphs*/}
+      {/*            </Link>*/}
+      {/*        </li>*/}
+
+      {/*        <li className="nav-item">*/}
+      {/*            <Link to={"/companynoresponse"} className="nav-link">*/}
+      {/*                No Response*/}
+      {/*            </Link>*/}
+      {/*        </li>*/}
+
+      {/*        <li className="nav-item">*/}
+      {/*            /!*<Link to={"/profile"} className="nav-link">*!/*/}
+      {/*            /!*    Profile*!/*/}
+      {/*            /!*</Link>*!/*/}
+      {/*            <li className="nav-item">*/}
+      {/*                <Link to={`/profile/${currentUser.id}`} className="nav-link">*/}
+      {/*                {currentUser.username}*/}
+      {/*              </Link>*/}
+      {/*            </li>*/}
+      {/*        </li>*/}
+
+      {/*      <li className="nav-item">*/}
+      {/*        <a href="/login" className="nav-link" onClick={logOut}>*/}
+      {/*          LogOut*/}
+      {/*        </a>*/}
+      {/*      </li>*/}
+
+
+      {/*    </div>*/}
+      {/*  ) : (*/}
+      {/*    <div className="navbar-nav ml-auto">*/}
+      {/*      <li className="nav-item">*/}
+      {/*        <Link to={"/login"} className="nav-link">*/}
+      {/*          Login*/}
+      {/*        </Link>*/}
+      {/*      </li>*/}
+
+      {/*      <li className="nav-item">*/}
+      {/*        <Link to={"/register"} className="nav-link">*/}
+      {/*          Sign Up*/}
+      {/*        </Link>*/}
+      {/*      </li>*/}
+      {/*    </div>*/}
+      {/*  )}*/}
+      {/*</nav>*/}
 
       <div>
         <Routes>

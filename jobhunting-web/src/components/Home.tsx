@@ -449,16 +449,18 @@ export const CustomFieldForm = styled.form`
     width: 100vw;
     flex-direction: column;
     justify-items: center;
+
+    button {
+      display: flex;
+      margin-top: 30px;
+      width: 20vw;
+      //align-content: center;
+      //justify-content: center;
+      margin-left: 40vw;
+    }
   }
 
-  button {
-    display: flex;
-    margin-top: 30px;
-    width: 20vw;
-    //align-content: center;
-    //justify-content: center;
-    margin-left: 40vw;
-  }
+ 
 
   @media ${device.laptop} {
     display: flex;
@@ -475,7 +477,7 @@ padding-left: 4vw;
       display: flex;
       width: 20vw;
       height: 40px;
-      margin-left: 5px;
+      //margin-left: 5px;
       max-width: 150px;
     }
     

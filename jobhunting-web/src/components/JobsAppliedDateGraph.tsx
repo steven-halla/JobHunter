@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import { JobsContext } from "../services/jobcontext";
 import { Job } from "../models/Job";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import styled from "styled-components";
+import {device} from "../common/ScreenSizes";
 
 export const JobsAppliedDateGraph: React.FC = () => {
     const { jobs } = useContext(JobsContext);
@@ -63,25 +65,96 @@ export const JobsAppliedDateGraph: React.FC = () => {
     }));
 
     return (
-        <div>
-            <p>Hi I'm the jobs applied graph</p>
-            <p>Jobs applied today: {jobsAppliedToday.length}</p>
-            <p>Jobs applied this week: {jobsAppliedThisWeek.length}</p>
-            <p>Jobs applied this month: {jobsAppliedThisMonth.length}</p>
 
-            <ResponsiveContainer width="100%" height={400}>
-                <BarChart
-                    data={dataForBarChart}
-                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Bar dataKey="Jobs" fill="#8884d8" />
-                </BarChart>
-            </ResponsiveContainer>
-        </div>
+        <JobsAppliedDateGraphDiv>
+            <GraphContainer>
+
+                <MonthPickerDiv>
+
+                    <select>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </MonthPickerDiv>
+                <NumberOfJobsAppliedDiv>
+                    {/* Content for NumberOfJobsAppliedDiv */}
+                </NumberOfJobsAppliedDiv>
+                <BarGraphDiv>
+                    {/* Content for BarGraphDiv */}
+                </BarGraphDiv>
+            </GraphContainer>
+        </JobsAppliedDateGraphDiv>
+
     );
 };
+//
+// {/*<p>Hi I'm the jobs applied graph</p>*/}
+// {/*<p>Jobs applied today: {jobsAppliedToday.length}</p>*/}
+// {/*<p>Jobs applied this week: {jobsAppliedThisWeek.length}</p>*/}
+// {/*<p>Jobs applied this month: {jobsAppliedThisMonth.length}</p>*/}
+//
+// {/*<ResponsiveContainer width="80%" height={400}>*/}
+// {/*    <BarChart*/}
+// {/*        data={dataForBarChart}*/}
+// {/*        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}*/}
+// {/*    >*/}
+// {/*        <CartesianGrid strokeDasharray="3 3" />*/}
+// {/*        <XAxis dataKey="name" />*/}
+// {/*        <YAxis />*/}
+// {/*        <Tooltip />*/}
+// {/*        <Legend />*/}
+// {/*        <Bar dataKey="Jobs" fill="#8884d8" />*/}
+// {/*    </BarChart>*/}
+// {/*</ResponsiveContainer>*/}
+
+export const JobsAppliedDateGraphDiv = styled.div`
+  display: flex;
+  background-color: red;
+  height: 100vh;
+  width: 100vw;
+  justify-content: center; /* Centers content horizontally */
+  //align-items: center; /* Centers content vertically */
+`;
+
+export const GraphContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers content horizontally within the column */
+`;
+
+export const NumberOfJobsAppliedDiv = styled.div`
+  background-color: purple;
+  height: 15vh;
+  width: 70vw;
+`;
+
+export const BarGraphDiv = styled.div`
+  background-color: yellow;
+  height: 60vh;
+  width: 70vw;
+`;
+
+
+export const MonthPickerDiv = styled.div`
+  display: flex;
+  background-color: #ffb852;
+  height: 10vh;
+  width: 70vw;
+  align-items: center;
+  justify-content: center; /* Centers content horizontally */
+  //align-items: center; /* Centers content vertically */
+  
+  select {
+    height: 30px;
+  }
+`;

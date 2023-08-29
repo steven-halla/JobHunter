@@ -3,6 +3,7 @@ import { JobsContext } from "../services/jobcontext";
 import { Job } from "../models/Job";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import styled from "styled-components";
+import {device} from "../common/ScreenSizes";
 
 export const JobsAppliedDateGraph: React.FC = () => {
     const { jobs } = useContext(JobsContext);
@@ -171,6 +172,18 @@ export const BarGraphDiv = styled.div`
   justify-content: center;
   align-items: center;
   margin-right: 7vw;
+
+
+  @media ${device.laptop} {
+    display: flex;
+    background-color: yellow;
+    margin-top: 10px;
+    height: 60vh;
+    width: 85vw;
+    justify-content: center;
+    align-items: center;
+    margin-right: 3vw;
+  }
 `;
 
 export const MonthPickerDiv = styled.div`

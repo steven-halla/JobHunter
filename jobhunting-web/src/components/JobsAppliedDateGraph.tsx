@@ -1,9 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { JobsContext } from "../services/jobcontext";
 import { Job } from "../models/Job";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import styled from "styled-components";
-import {device} from "../common/ScreenSizes";
 
 export const JobsAppliedDateGraph: React.FC = () => {
     const { jobs } = useContext(JobsContext);
@@ -35,6 +34,11 @@ export const JobsAppliedDateGraph: React.FC = () => {
             date.getFullYear() === today.getFullYear();
     };
 
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+
     const getWeeksInMonth = (date: Date): { start: Date, end: Date }[] => {
         const weeks: { start: Date, end: Date }[] = [];
         const month = date.getMonth();
@@ -49,13 +53,27 @@ export const JobsAppliedDateGraph: React.FC = () => {
         return weeks;
     };
 
+
     const today = new Date();
+    const currentMonth = new Date().getMonth() + 1;
+
+    const [selectedMonth, setSelectedMonth] = useState<number>(currentMonth);
+    const [selectedYear, setSelectedYear] = useState<number>(today.getFullYear());
+
+    // Calculate the days, weeks, and months for the selected month
+    const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
+    const firstDay = new Date(selectedYear, selectedMonth - 1, 1);
+    const lastDay = new Date(selectedYear, selectedMonth - 1, daysInMonth);
 
     const jobsAppliedToday: Job[] = jobs.filter(job => isToday(new Date(job.dateapplied)));
     const jobsAppliedThisWeek: Job[] = jobs.filter(job => isInSameWeek(new Date(job.dateapplied), today));
-    const jobsAppliedThisMonth: Job[] = jobs.filter(job => isInCurrentMonth(new Date(job.dateapplied)));
+    const jobsAppliedThisMonth: Job[] = jobs.filter(job => {
+        const jobDate = new Date(job.dateapplied);
+        return jobDate >= firstDay && jobDate <= lastDay;
+    });
 
-    const weeks = getWeeksInMonth(today);
+    const weeks = getWeeksInMonth(new Date(selectedYear, selectedMonth - 1, 1)); // Use selectedMonth and selectedYear here
+
     const dataForBarChart = weeks.map(week => ({
         name: `${week.start.getDate()}-${week.end.getDate()}`,
         Jobs: jobs.filter(job => {
@@ -64,14 +82,16 @@ export const JobsAppliedDateGraph: React.FC = () => {
         }).length
     }));
 
-    return (
 
+
+    return (
         <JobsAppliedDateGraphDiv>
             <GraphContainer>
-
                 <MonthPickerDiv>
-
-                    <select>
+                    <select
+                        value={selectedMonth}
+                        onChange={(e) => setSelectedMonth(Number(e.target.value))}
+                    >
                         <option value="1">January</option>
                         <option value="2">February</option>
                         <option value="3">March</option>
@@ -86,36 +106,37 @@ export const JobsAppliedDateGraph: React.FC = () => {
                         <option value="12">December</option>
                     </select>
                 </MonthPickerDiv>
-                <NumberOfJobsAppliedDiv>
-                    {/* Content for NumberOfJobsAppliedDiv */}
-                </NumberOfJobsAppliedDiv>
+                {/* Conditional rendering based on selected month */}
+                {selectedMonth === currentMonth ? (
+                    <NumberOfJobsAppliedDiv>
+                        <p>Jobs applied today: {jobsAppliedToday.length}</p>
+                        <p>Jobs applied this week: {jobsAppliedThisWeek.length}</p>
+                        <p>Jobs applied this month: {jobsAppliedThisMonth.length}</p>
+                    </NumberOfJobsAppliedDiv>
+                ) : (
+                    <NumberOfJobsAppliedDiv>
+                        <p>Jobs applied for in {monthNames[selectedMonth - 1]}: {jobsAppliedThisMonth.length}</p>
+                    </NumberOfJobsAppliedDiv>
+                )}
                 <BarGraphDiv>
-                    {/* Content for BarGraphDiv */}
+                    <ResponsiveContainer width="100%" height={400}>
+                        <BarChart
+                            data={dataForBarChart}
+                            margin={{ top: 15, right: 5, left: 5, bottom: 5 }}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="name" />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Bar dataKey="Jobs" fill="#8884d8" />
+                        </BarChart>
+                    </ResponsiveContainer>
                 </BarGraphDiv>
             </GraphContainer>
         </JobsAppliedDateGraphDiv>
-
     );
 };
-//
-// {/*<p>Hi I'm the jobs applied graph</p>*/}
-// {/*<p>Jobs applied today: {jobsAppliedToday.length}</p>*/}
-// {/*<p>Jobs applied this week: {jobsAppliedThisWeek.length}</p>*/}
-// {/*<p>Jobs applied this month: {jobsAppliedThisMonth.length}</p>*/}
-//
-// {/*<ResponsiveContainer width="80%" height={400}>*/}
-// {/*    <BarChart*/}
-// {/*        data={dataForBarChart}*/}
-// {/*        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}*/}
-// {/*    >*/}
-// {/*        <CartesianGrid strokeDasharray="3 3" />*/}
-// {/*        <XAxis dataKey="name" />*/}
-// {/*        <YAxis />*/}
-// {/*        <Tooltip />*/}
-// {/*        <Legend />*/}
-// {/*        <Bar dataKey="Jobs" fill="#8884d8" />*/}
-// {/*    </BarChart>*/}
-// {/*</ResponsiveContainer>*/}
 
 export const JobsAppliedDateGraphDiv = styled.div`
   display: flex;
@@ -123,27 +144,34 @@ export const JobsAppliedDateGraphDiv = styled.div`
   height: 100vh;
   width: 100vw;
   justify-content: center; /* Centers content horizontally */
-  //align-items: center; /* Centers content vertically */
 `;
 
 export const GraphContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centers content horizontally within the column */
+  align-items: center;
 `;
 
 export const NumberOfJobsAppliedDiv = styled.div`
-  background-color: purple;
+  display: flex;
+  background-color: whitesmoke;
   height: 15vh;
   width: 70vw;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;
 
 export const BarGraphDiv = styled.div`
+  display: flex;
   background-color: yellow;
+  margin-top: 10px;
   height: 60vh;
-  width: 70vw;
+  width: 85vw;
+  justify-content: center;
+  align-items: center;
+  margin-right: 7vw;
 `;
-
 
 export const MonthPickerDiv = styled.div`
   display: flex;
@@ -151,8 +179,7 @@ export const MonthPickerDiv = styled.div`
   height: 10vh;
   width: 70vw;
   align-items: center;
-  justify-content: center; /* Centers content horizontally */
-  //align-items: center; /* Centers content vertically */
+  justify-content: center;
   
   select {
     height: 30px;

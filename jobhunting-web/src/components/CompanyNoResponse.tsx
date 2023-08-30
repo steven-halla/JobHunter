@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 
-const TWO_DAYS_MS = 48 * 60 * 60 * 1000;
+const ONE_WEEK = 168 * 60 * 60 * 1000;
 
 export const CompanyNoResponse = () => {
     const { jobs, updateJobResponded, dateApplied } = useContext(JobsContext);
@@ -16,7 +16,7 @@ export const CompanyNoResponse = () => {
     // Filter jobs older than 48 hours and sort by date applied in descending order
     const olderJobs = jobs.filter(job => {
         const timeDelta = currentDateMs - new Date(job.dateapplied).getTime();
-        return timeDelta > TWO_DAYS_MS && !job.companyresponded;
+        return timeDelta > ONE_WEEK && !job.companyresponded;
     }).sort((a, b) => new Date(b.dateapplied).getTime() - new Date(a.dateapplied).getTime());
 
 
@@ -42,62 +42,198 @@ export const CompanyNoResponse = () => {
 
 
     return(
-        <JobContainer>
-            <p>These are the companies that hate you so much that they want nothing to do with you</p>
-            <Link to="/">Go to Home page</Link>
+        <CompanyNoResponseDiv>
+            <HeaderDiv>
+                <CompanyNameDiv>Company </CompanyNameDiv>
+                <DateAppliedDiv>Date </DateAppliedDiv>
+                <JobPosterDiv>Contact</JobPosterDiv>
+                <JobLinkDiv>
+                    Job
+                    Link
+                </JobLinkDiv>
+                <CompnanyRespondedDiv>Responded</CompnanyRespondedDiv>
+            </HeaderDiv>
 
-            <JobHeader>
-                <span>company name</span>
-                <span>Company description </span>
-                <span>Job Poster</span>
-                <span>Date Applied</span>
-                <span>Job Link</span>
-                <span>Company Website Link</span>
-                <span>Company Responded</span>
-            </JobHeader>
-            {olderJobs.map((job) => (
-                <JobRow key={job.id}>
-                    {/*<span>{new Date(job.dateApplied).toISOString().split('T')[0]}</span>*/}
-                    <span>{job.companyname}</span>
-                    <span>{job.description}</span>
-                    <span>{job.jobposter}</span>
-                    <span>{new Date(job.dateapplied).toISOString().split('T')[0]}</span>
-                    <span>
-                        <a href={job.joblink} target="_blank" rel="noreferrer">Link</a>
-                    </span>
-                    <span>
-                        <a href={job.companywebsitelink} target="_blank" rel="noreferrer">Link</a>
-                    </span>
-                    <span>
-                        <input
-                            type="checkbox"
-                            checked={job.companyresponded}
-                            onChange={(event) => handleCheckboxChange(job.id, event.target.checked)}
-                        />
-                    </span>
-                </JobRow>
-            ))}
-        </JobContainer>
+                {olderJobs.map((job) => (
+            <DataDiv key={job.id}>
+                {/*<span>{new Date(job.dateApplied).toISOString().split('T')[0]}</span>*/}
+                <JobInfoDiv>{job.companyname}</JobInfoDiv>
+                <JobInfoDiv>{new Date(job.dateapplied).toISOString().split('T')[0]}</JobInfoDiv>
+                <JobInfoDiv>{job.jobposter}</JobInfoDiv>
+
+                <JobInfoDiv>
+                    <a href={job.joblink} target="_blank" rel="noreferrer">Link</a>
+                </JobInfoDiv>
+                <JobInfoDiv>
+                    <input
+                        type="checkbox"
+                        checked={job.companyresponded}
+                        onChange={(event) => handleCheckboxChange(job.id, event.target.checked)}
+                    />
+                </JobInfoDiv>
+            </DataDiv>
+        ))}
+
+
+        </CompanyNoResponseDiv>
     );
 };
 
-const JobContainer = styled.div`
+const CompanyNoResponseDiv = styled.div`
   display: flex;
+  background-color: #aeff93;
+  height: 100vh;
+  width: 100vw;
   flex-direction: column;
-  align-items: center;
+
 `;
 
-const JobRow = styled.div`
+
+const HeaderDiv = styled.div`
   display: flex;
-  justify-content: space-between;
-  width: 80%;
-  padding: 10px 0;
+  background-color: orangered;
+  height: 10vh;
+  width: 90vw;
+  margin-left: 5vw;
 
-  span {
-    width: 13%;  // Adjusted width for 6 columns 
-  }
 `;
 
-const JobHeader = styled(JobRow)`
-  font-weight: bold;
+const CompanyNameDiv = styled.div`
+  display: flex;
+  background-color: linen;
+  height: 10vh;
+  width: 20%;
+  justify-content: center;
+  align-items: center;
+
 `;
+
+const JobPosterDiv = styled.div`
+  display: flex;
+  background-color: olive;
+  height: 10vh;
+  width: 20%;
+  justify-content: center;
+  align-items: center;
+
+`;
+
+const DateAppliedDiv = styled.div`
+  display: flex;
+  background-color: lightskyblue;
+  height: 10vh;
+  width: 20%;
+  justify-content: center;
+  align-items: center;
+
+`;
+
+const JobLinkDiv = styled.div`
+  display: flex;
+  background-color: lightsalmon;
+  height: 10vh;
+  width: 20%;
+  justify-content: center;
+  align-items: center;
+  white-space: pre-line;
+ padding-left: 4vw;
+
+
+`;
+
+const CompnanyRespondedDiv = styled.div`
+  display: flex;
+  background-color: plum;
+  height: 10vh;
+  width: 20%;
+  justify-content: center;
+  align-items: center;
+
+`;
+
+
+
+const DataDiv = styled.div`
+  display: flex;
+  background-color: skyblue;
+
+  justify-content: center;
+  align-items: center;
+  width: 90vw;
+  height: 90vh;
+  margin-left: 5vw;
+
+`;
+
+
+
+const JobInfoDiv = styled.div`
+  display: flex;
+  background-color: skyblue;
+
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+  height: 20vh;
+  border: 1px solid black; /* Add border styling here */
+  word-break: break-all; /* Break words at any character if they can't fit */
+
+`;
+
+
+// return(
+//     <CompanyNoResponseDiv>
+//
+//         <JobHeaderDiv>
+//             <span>company name</span>
+//             <span>Job Poster</span>
+//             <span>Date Applied</span>
+//             <span>Job Link</span>
+//             <span>Company Responded</span>
+//         </JobHeaderDiv>
+//         {olderJobs.map((job) => (
+//             <JobRowDiv key={job.id}>
+//                 {/*<span>{new Date(job.dateApplied).toISOString().split('T')[0]}</span>*/}
+//                 <span>{job.companyname}</span>
+//                 <span>{job.jobposter}</span>
+//                 <span>{new Date(job.dateapplied).toISOString().split('T')[0]}</span>
+//                 <span>
+//                         <a href={job.joblink} target="_blank" rel="noreferrer">Link</a>
+//                     </span>
+//
+//                 <span>
+//                         <input
+//                             type="checkbox"
+//                             checked={job.companyresponded}
+//                             onChange={(event) => handleCheckboxChange(job.id, event.target.checked)}
+//                         />
+//                     </span>
+//             </JobRowDiv>
+//         ))}
+//     </CompanyNoResponseDiv>
+// );
+// };
+//
+// const CompanyNoResponseDiv = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   background-color: yellow;
+// `;
+//
+// const JobRowDiv = styled.div`
+//   display: flex;
+//   justify-content: space-between;
+//   width: 90%;
+//   padding: 10px 0;
+//   background-color: #ffc4f4;
+//
+//   span {
+//     width: 13%;  // Adjusted width for 6 columns
+//   }
+// `;
+//
+// const JobHeaderDiv = styled(JobRowDiv)`
+//   background-color: #c8fff8;
+//   font-weight: bold;
+// `;

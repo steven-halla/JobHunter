@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../services/usercontext';
 import UserService from '../services/user.service';
+import styled from "styled-components";
 
 const Profile = () => {
     const { id } = useParams<{ id: string }>();
@@ -38,6 +39,12 @@ const Profile = () => {
             setCustomField3(value);
         }
     };
+
+    console.log("user:", user);
+    console.log("customfield1:", customfield1);
+    console.log("customfield2:", customfield2);
+    console.log("customfield3:", customfield3);
+
 
 
 
@@ -143,31 +150,41 @@ const Profile = () => {
 
     return (
         <div className="container">
-            <header className="jumbotron">
-                <h3>
-                    <strong>{user?.username}</strong> Name <br/>
-                    <strong>{user?.customfield1}</strong> Custom field 1 <br/>
-                    <strong>{user?.customfield2}</strong> Custom field 2 <br/>
-                    <strong>{user?.customfield3}</strong> Custom field 3 <br/>
-                </h3>
-            </header>
+            {/*<header className="jumbotron">*/}
+            {/*    <h3>*/}
+            {/*        User Name:   <strong>{user?.username}</strong>  <br/>*/}
+            {/*        /!*Custom Field 1  <strong>{user?.customfield1}</strong>  <br/>*!/*/}
+            {/*        /!*Custom Field 2  <strong>{user?.customfield2}</strong> <br/>*!/*/}
+            {/*        /!*Custom Field 3  <strong>{user?.customfield3}</strong><br/>*!/*/}
+            {/*    </h3>*/}
+            {/*</header>*/}
+            <UserNameDiv>
+                User Name:   <strong>{user?.username}</strong>  <br/>
+
+            </UserNameDiv>
+
             <form onSubmit={handleSubmit}>
                 <p>
                     <strong>Custom field 1:</strong>
-                    <input type="text" name="customfield1" value={customfield1} onChange={handleChange} />
+                    <input type="text" name="customfield1" value={user?.customfield1} onChange={handleChange} />
                 </p>
                 <p>
                     <strong>Custom field 2:</strong>
-                    <input type="text" name="customfield2" value={customfield2} onChange={handleChange} />
+                    <input type="text" name="customfield2" value={user?.customfield2} onChange={handleChange} />
                 </p>
                 <p>
                     <strong>Custom field 3:</strong>
-                    <input type="text" name="customfield3" value={customfield3} onChange={handleChange} />
+                    <input type="text" name="customfield3" value={user?.customfield3} onChange={handleChange} />
                 </p>
                 <button type="submit">Update</button>
             </form>
         </div>
     );
 };
+
+export const UserNameDiv = styled.div`
+  margin-bottom: 20px;
+  margin-top: 10px;
+`;
 
 export default Profile;

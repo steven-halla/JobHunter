@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import {JobsContext} from "../services/jobcontext";
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import {deviceCompanyNoResponse} from "../common/ScreenSizes";
 
 
 const ONE_WEEK = 168 * 60 * 60 * 1000;
@@ -139,6 +140,14 @@ const JobLinkDiv = styled.div`
  padding-left: 4vw;
 
 
+  @media ${deviceCompanyNoResponse.laptop} {
+    display: flex;
+    padding-left: 0.1vw;
+
+    
+    /* Add more styles specific to this resolution here... */
+  }
+  
 `;
 
 const CompnanyRespondedDiv = styled.div`

@@ -84,7 +84,7 @@ export const JobViewAll = () => {
                     <DataDiv>
                         {/* Render data for each job */}
                         <JobDataDiv>12/14/2924</JobDataDiv>
-                        <JobDataDiv>Fffffff Fesefes Feadfes</JobDataDiv>
+                        <JobDataDiv>Fffffff Fesefes </JobDataDiv>
                         <JobDataDiv> Hover</JobDataDiv>
                         <JobDataDiv>Julies Ceaser </JobDataDiv>
                         <JobDataDiv> Steven Halla</JobDataDiv>

@@ -152,6 +152,7 @@ export const HeaderDiv = styled.div`
       margin: 0 15px; /* Provides some spacing between nav items */
       list-style-type: none; /* Removes the bullet points */
 
+
     }
   }
 `;
@@ -172,6 +173,12 @@ export const DropdownMenu = styled.div<DropdownMenuProps>`
   border: 1px solid #ccc;
   border-radius: 5px;
   z-index: 2;
+
+  li {
+    list-style-type: none; /* Removes the bullet points */
+
+
+  }
 `;
 
 

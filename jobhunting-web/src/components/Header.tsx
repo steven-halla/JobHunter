@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import {Link, Route, Routes} from "react-router-dom";
 import {Home} from "./Home";
 import {JobsAppliedDateGraph} from "./JobsAppliedDateGraph";
@@ -33,10 +33,24 @@ export const Header = () => {
 
 
     const [isMenuOpen, setMenuOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement | null>(null);
 
     const toggleMenu = () => {
         setMenuOpen(!isMenuOpen);
     };
+
+    const handleClickOutside = useCallback((event: MouseEvent) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+            closeMenu();
+        }
+    }, []);
+
+
+
+    const closeMenu = () => {
+        setMenuOpen(false);
+    };
+
 
     useEffect(() => {
         const user = AuthService.getCurrentUser();
@@ -60,6 +74,15 @@ export const Header = () => {
         };
     }, []);
 
+    useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [handleClickOutside]);
+
+
     const logOut = () => {
         AuthService.logout();
         setShowModeratorBoard(false);
@@ -70,7 +93,7 @@ export const Header = () => {
     return (
         <HeaderDiv>
             <nav>
-                <Link to={"/home/:id"}>Job Hunter</Link>
+                <Link to={"/home/:id"} onClick={closeMenu}>Job Hunter</Link>
 
 
                 {currentUser ? (
@@ -87,19 +110,19 @@ export const Header = () => {
             </nav>
 
             {isMenuOpen && currentUser && (
-                <DropdownMenu isOpen={isMenuOpen}>
+                <DropdownMenu isOpen={isMenuOpen} ref={dropdownRef}>
                     {showModeratorBoard && (
                         <li><Link to={"/mod"}>Moderator Board</Link></li>
                     )}
                     {showAdminBoard && (
                         <li><Link to={"/admin"}>Admin Board</Link></li>
                     )}
-                    <li><Link to={"/dategraphs"}>Jobs Graphs</Link></li>
-                    <li><Link to={"/companynoresponse"}>No Response</Link></li>
-                    <li><Link to={"/jobviewall"}>View All Jobs</Link></li>
+                    <li><Link to={"/dategraphs"} onClick={closeMenu}>Jobs Graphs</Link></li>
+                    <li><Link to={"/companynoresponse"} onClick={closeMenu}>No Response</Link></li>
+                    <li><Link to={"/jobviewall"} onClick={closeMenu}>View All Jobs</Link></li>
 
-                    <li><Link to={`/profile/${currentUser.id}`}>Profile</Link></li>
-                    <li><a href="/login" onClick={logOut}>LogOut</a></li>
+                    <li><Link to={`/profile/${currentUser.id}`} onClick={closeMenu}>Profile</Link></li>
+                    <li><a href="/login" onClick={logOut} >LogOut</a></li>
 
                 </DropdownMenu>
 

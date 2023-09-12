@@ -14,16 +14,29 @@ import BoardAdmin from "./BoardAdmin";
 import {User} from "../models/User";
 import AuthService from "../services/auth.service";
 import EventBus from "../common/EventBus";
+import styled from "styled-components";
 
 
-
+interface DropdownMenuProps {
+    isOpen: boolean;
+}
 
 
 export const Header = () => {
 
+
+
+
     const [showModeratorBoard, setShowModeratorBoard] = useState(false);
     const [showAdminBoard, setShowAdminBoard] = useState(false);
     const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+
+    const [isMenuOpen, setMenuOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setMenuOpen(!isMenuOpen);
+    };
 
     useEffect(() => {
         const user = AuthService.getCurrentUser();
@@ -54,114 +67,110 @@ export const Header = () => {
         setCurrentUser(null);
     };
 
+    return (
+        <HeaderDiv>
+            <nav>
+                <Link to={"/home/:id"}>Job Hunter</Link>
 
-    return(
-        <div>
-            <nav className="navbar navbar-expand navbar-dark bg-dark">
-                <Link to={"/home/:id"} className="navbar-brand">
-                    Job Hunter
-                </Link>
-                <div className="navbar-nav mr-auto">
-
-                    {showModeratorBoard && (
-                        <li className="nav-item">
-                            <Link to={"/mod"} className="nav-link">
-                                Moderator Board
-                            </Link>
-                        </li>
-                    )}
-
-                    {showAdminBoard && (
-                        <li className="nav-item">
-                            <Link to={"/admin"} className="nav-link">
-                                Admin Board
-                            </Link>
-                        </li>
-                    )}
-
-
-                </div>
 
                 {currentUser ? (
-                    <div className="navbar-nav ml-auto">
-
-                        <li className="nav-item">
-                            <Link to={"/jobviewall"} className="nav-link">
-                                View All Jobs
-                            </Link>
-                        </li>
-
-                        <li className="nav-item">
-                            <Link to={"/dategraphs"} className="nav-link">
-                                Jobs Graphs
-                            </Link>
-                        </li>
-
-                        <li className="nav-item">
-                            <Link to={"/companynoresponse"} className="nav-link">
-                                No Response
-                            </Link>
-                        </li>
-
-                        <li className="nav-item">
-                            {/*<Link to={"/profile"} className="nav-link">*/}
-                            {/*    Profile*/}
-                            {/*</Link>*/}
-                            <li className="nav-item">
-                                <Link to={`/profile/${currentUser.id}`} className="nav-link">
-                                    {currentUser.username}
-                                </Link>
-                            </li>
-                        </li>
-
-                        <li className="nav-item">
-                            <a href="/login" className="nav-link" onClick={logOut}>
-                                LogOut
-                            </a>
-                        </li>
-
-
-                    </div>
+                    <UserDisplay onClick={toggleMenu}>
+                        <span>{currentUser.username}</span>
+                        <Caret>^</Caret>
+                    </UserDisplay>
                 ) : (
-                    <div className="navbar-nav ml-auto">
-                        <li className="nav-item">
-                            <Link to={"/login"} className="nav-link">
-                                Login
-                            </Link>
-                        </li>
-
-                        <li className="nav-item">
-                            <Link to={"/register"} className="nav-link">
-                                Sign Up
-                            </Link>
-                        </li>
-                    </div>
+                    <>
+                        <li><Link to={"/login"}>Login</Link></li>
+                        <li><Link to={"/register"}>Sign Up</Link></li>
+                    </>
                 )}
             </nav>
 
-            <div>
-                <Routes>
-                    <Route path={"/home/:id"} element={<Home />} />
-                    <Route path={"/dategraphs"} element={<JobsAppliedDateGraph />} />
+            {isMenuOpen && currentUser && (
+                <DropdownMenu isOpen={isMenuOpen}>
+                    {showModeratorBoard && (
+                        <li><Link to={"/mod"}>Moderator Board</Link></li>
+                    )}
+                    {showAdminBoard && (
+                        <li><Link to={"/admin"}>Admin Board</Link></li>
+                    )}
+                    <li><Link to={"/dategraphs"}>Jobs Graphs</Link></li>
+                    <li><Link to={"/companynoresponse"}>No Response</Link></li>
+                    <li><Link to={"/jobviewall"}>View All Jobs</Link></li>
 
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/profile/:id" element={<Profile />} />
-                    <Route path="/jobviewall" element={<JobViewAll />} />
-                    <Route path="/companynoresponse" element={<CompanyNoResponse />} />
-                    <Route path="/interviewsecured/:jobId" element={<InterviewSecured />} />
+                    <li><Link to={`/profile/${currentUser.id}`}>Profile</Link></li>
+                    <li><a href="/login" onClick={logOut}>LogOut</a></li>
 
+                </DropdownMenu>
 
-
-                    <Route path="/user" element={<BoardUser />} />
-                    <Route path="/mod" element={<BoardModerator />} />
-                    <Route path="/admin" element={<BoardAdmin />} />
-
-
-                </Routes>
-            </div>
-
-            {/* <AuthVerify logOut={logOut}/> */}
-        </div>
+            )}
+        </HeaderDiv>
     );
+
+
 };
+
+
+export const HeaderDiv = styled.div`
+  display: flex;
+  background-color: plum;
+  width: 100vw;
+  height: 7vh;
+  align-items: center; /* Vertically aligns items to the center */
+
+  nav {
+    display: flex;
+    flex-direction: row;
+    width: 100%; /* Ensures nav takes up full width of the HeaderDiv */
+    justify-content: space-between; /* Distributes items evenly with equal space around them */
+    padding: 0 5%; /* Add padding to left and right */
+
+    li {
+      margin: 0 15px; /* Provides some spacing between nav items */
+      list-style-type: none; /* Removes the bullet points */
+
+    }
+  }
+`;
+
+// export const HamburgerIcon = styled.span`
+//     cursor: pointer;
+// `;
+
+export const DropdownMenu = styled.div<DropdownMenuProps>`
+  display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
+  flex-direction: column;
+  gap: 10px;
+  position: absolute;
+  align-items: end;
+  top: 7vh;
+  right: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  z-index: 2;
+`;
+
+
+export const UserDisplay = styled.div`
+    cursor: pointer;
+    display: flex;
+    align-items: end;
+    gap: 10px;
+    position: relative;  // Add this line
+
+
+  span {
+        font-weight: bold;
+    }
+
+    &.active > i {
+        transform: rotate(180deg);
+    }
+`;
+
+export const Caret = styled.i`
+    transition: transform 0.3s ease;
+`;
+
+

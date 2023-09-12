@@ -38,6 +38,28 @@ const App = () => {
         <JobsContextProvider>
             <Header/>
 
+            <div>
+                <Routes>
+                    <Route path={"/home/:id"} element={<Home />} />
+                    <Route path={"/dategraphs"} element={<JobsAppliedDateGraph />} />
+
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/profile/:id" element={<Profile />} />
+                    <Route path="/jobviewall" element={<JobViewAll />} />
+                    <Route path="/companynoresponse" element={<CompanyNoResponse />} />
+                    <Route path="/interviewsecured/:jobId" element={<InterviewSecured />} />
+
+
+
+                    <Route path="/user" element={<BoardUser />} />
+                    <Route path="/mod" element={<BoardModerator />} />
+                    <Route path="/admin" element={<BoardAdmin />} />
+
+
+                </Routes>
+            </div>
+
         {/*still need to put this  nav bar in its own component and out of the APP.tsx*/}
 
         </JobsContextProvider>

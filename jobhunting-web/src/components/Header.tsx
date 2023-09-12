@@ -170,7 +170,8 @@ export const UserDisplay = styled.div`
 `;
 
 export const Caret = styled.i`
-    transition: transform 0.3s ease;
+  transition: transform 0.3s ease;
+  transform: rotate(180deg) translateY(+10%);
 `;
 
 

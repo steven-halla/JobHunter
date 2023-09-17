@@ -14,7 +14,7 @@ export const JobViewAll = () => {
     const {job, jobs, updateJobResponded, setJob} = useContext(JobsContext);
     const [filter, setFilter] = useState('');
     const [onlyShowResponded, setOnlyShowResponded] = useState(false);
-    const [sortOrder, setSortOrder] = useState<'a-z' | 'z-a'>('a-z');
+    const [sortOrder, setSortOrder] = useState<'a-z' | 'z-a' | 'date-asc' | 'date-desc'>('date-asc');
     const navigate = useNavigate();
     const currentDateMs = new Date().getTime();
 
@@ -26,15 +26,20 @@ export const JobViewAll = () => {
         );
 
     const sortedAndRespondedJobs = [...filteredAndRespondedJobs].sort((a, b) => {
-        const isReversed = sortOrder === 'z-a' ? 1 : -1;
-        if (a.companyname.toLowerCase() < b.companyname.toLowerCase()) {
-            return -1 * isReversed;
+        switch(sortOrder) {
+            case 'a-z':
+                return a.companyname.toLowerCase().localeCompare(b.companyname.toLowerCase());
+            case 'z-a':
+                return b.companyname.toLowerCase().localeCompare(a.companyname.toLowerCase());
+            case 'date-asc':
+                return new Date(a.dateapplied).getTime() - new Date(b.dateapplied).getTime();
+            case 'date-desc':
+                return new Date(b.dateapplied).getTime() - new Date(a.dateapplied).getTime();
+            default:
+                return 0;
         }
-        if (a.companyname.toLowerCase() > b.companyname.toLowerCase()) {
-            return 1 * isReversed;
-        }
-        return 0;
     });
+
 
     const handleSortOrderChange = () => {
         setSortOrder(prevOrder => prevOrder === 'a-z' ? 'z-a' : 'a-z');
@@ -71,6 +76,13 @@ export const JobViewAll = () => {
 
     return (
         <JobViewAllDiv>
+            <select value={sortOrder} onChange={e => setSortOrder(e.target.value as any)}>
+                <option value="date-asc">Date Applied (Oldest First)</option>
+                <option value="date-desc">Date Applied (Newest First)</option>
+                <option value="a-z">Company Name (A-Z)</option>
+                <option value="z-a">Company Name (Z-A)</option>
+            </select>
+
             {sortedAndRespondedJobs.map((job, index) => (
                 <JobCard key={job.id}>
                     {(isMobile || (isLaptop && index === 0)) && (

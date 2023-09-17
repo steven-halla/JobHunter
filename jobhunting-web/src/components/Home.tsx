@@ -248,35 +248,35 @@ export const Home: React.FC = () => {
         <HomeWrapperDiv>
             <CustomFieldsDiv>
                 <FieldRow>
-                    <URLSelector value={selectedOption1} onChange={(e: ChangeEvent<HTMLSelectElement>) => setSelectedOption1(e.target.value)}>
+                    <URLSelect value={selectedOption1} onChange={(e: ChangeEvent<HTMLSelectElement>) => setSelectedOption1(e.target.value)}>
                         <option value="url">URL</option>
                         <option value="linkedin">LinkedIn URL</option>
                         <option value="portfolio">Portfolio URL</option>
                         <option value="default">Default</option>
                         <option value="github">Github</option>
-                    </URLSelector>
+                    </URLSelect>
                     <CopyButton selectedOption={selectedOption1} />
                 </FieldRow>
 
                 <FieldRow>
-                    <URLSelector value={selectedOption2} onChange={(e: ChangeEvent<HTMLSelectElement>) => setSelectedOption2(e.target.value)}>
+                    <URLSelect value={selectedOption2} onChange={(e: ChangeEvent<HTMLSelectElement>) => setSelectedOption2(e.target.value)}>
                         <option value="url">URL</option>
                         <option value="linkedin">LinkedIn URL</option>
                         <option value="portfolio">Portfolio URL</option>
                         <option value="default">Default</option>
                         <option value="github">GitHub</option>
-                    </URLSelector>
+                    </URLSelect>
                     <CopyButton selectedOption={selectedOption2} />
                 </FieldRow>
 
                 <FieldRow>
-                    <URLSelector value={selectedOption3} onChange={(e: ChangeEvent<HTMLSelectElement>) => setSelectedOption3(e.target.value)}>
+                    <URLSelect value={selectedOption3} onChange={(e: ChangeEvent<HTMLSelectElement>) => setSelectedOption3(e.target.value)}>
                         <option value="url">URL</option>
                         <option value="linkedin">LinkedIn URL</option>
                         <option value="portfolio">Portfolio URL</option>
                         <option value="default">Default</option>
                         <option value="github">Github</option>
-                    </URLSelector>
+                    </URLSelect>
                     <CopyButton selectedOption={selectedOption3} />
                 </FieldRow>
             </CustomFieldsDiv>
@@ -509,7 +509,7 @@ const FieldContainer = styled.div`
 `;
 
 
-export const URLSelector = styled.select`
+export const URLSelect = styled.select`
 
   // Add other styles as needed...
 

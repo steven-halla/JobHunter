@@ -76,12 +76,12 @@ export const JobViewAll = () => {
 
     return (
         <JobViewAllDiv>
-            <select value={sortOrder} onChange={e => setSortOrder(e.target.value as any)}>
+            <FilterSelect value={sortOrder} onChange={(e: { target: { value: any; }; }) => setSortOrder(e.target.value as any)}>
                 <option value="date-asc">Date Applied (Oldest First)</option>
                 <option value="date-desc">Date Applied (Newest First)</option>
                 <option value="a-z">Company Name (A-Z)</option>
                 <option value="z-a">Company Name (Z-A)</option>
-            </select>
+            </FilterSelect>
 
             {sortedAndRespondedJobs.map((job, index) => (
                 <JobCard key={job.id}>
@@ -124,12 +124,29 @@ export const JobViewAll = () => {
 
 
 
+const FilterSelect = styled.select`
+    display: flex;
+  //  justify-content: center;
+  //margin-left: 10px;
+  //background-color: red;
+  @media ${deviceJobViewAll.mobile} {
+    //background-color:  red;
+    display: flex; /* Use flexbox layout */
+    //align-items: center; /* Display items in one row on mobile */
+    width: 60vw;
+    //justify-content: center;
+    margin-left: 20vw;
+  }
+    
+  
+`;
 
 
 
 const JobViewAllDiv = styled.div`
   // Add your styling here
   // background-color: red;
+  display: flex;
 
   @media ${deviceJobViewAll.mobile} {
     background-color:  #ff38ec;

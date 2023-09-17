@@ -83,6 +83,7 @@ export const JobsAppliedDateGraph: React.FC = () => {
         }).length
     }));
 
+// there is an issue in that the graph is not updating, I need to update this component each time the create job button is pushed
 
 
     return (

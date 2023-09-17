@@ -7,12 +7,17 @@ import {SortingAToZ} from "./SortingAToZ";
 import {FilterCompanyNamesInput} from "./FilterCompanyNamesInputProps";
 import { deviceJobViewAll} from "../common/ScreenSizes";
 
+// currently this is filtered by a-z when it SHOULD be filtered by date as a default
+// I also need other options to filter, such as A-Z, Date,  and anything else I can think on
+
 export const JobViewAll = () => {
     const {job, jobs, updateJobResponded, setJob} = useContext(JobsContext);
     const [filter, setFilter] = useState('');
     const [onlyShowResponded, setOnlyShowResponded] = useState(false);
     const [sortOrder, setSortOrder] = useState<'a-z' | 'z-a'>('a-z');
     const navigate = useNavigate();
+    const currentDateMs = new Date().getTime();
+
 
     const filteredAndRespondedJobs = jobs
         .filter(job =>
@@ -83,14 +88,19 @@ export const JobViewAll = () => {
 
                     <DataDiv>
                         {/* Render data for each job */}
-                        <JobDataDiv>12/14/2924</JobDataDiv>
-                        <JobDataDiv>Fffffff Fesefes </JobDataDiv>
-                        <JobDataDiv> Hover</JobDataDiv>
-                        <JobDataDiv>Julies Ceaser </JobDataDiv>
-                        <JobDataDiv> Steven Halla</JobDataDiv>
-                        <JobDataDiv> Job </JobDataDiv>
-                        <JobDataDiv> Website</JobDataDiv>
-                        <JobDataDiv> Yes </JobDataDiv>
+                        <JobDataDiv>{new Date(job.dateapplied).toISOString().split('T')[0]}</JobDataDiv>
+                        <JobDataDiv>{job.companyname} </JobDataDiv>
+                        <JobDataDiv> {job.description}</JobDataDiv>
+                        <JobDataDiv>{job.primarycontact} </JobDataDiv>
+                        <JobDataDiv> {job.jobposter}</JobDataDiv>
+                        <JobDataDiv>
+                            <a href={job.joblink} target="_blank" rel="noopener noreferrer">LINK</a>
+                        </JobDataDiv>
+                        <JobDataDiv>
+                            <a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">LINK</a>
+
+                        </JobDataDiv>
+                        <JobDataDiv> Not yet </JobDataDiv>
                     </DataDiv>
                 </JobCard>
             ))}

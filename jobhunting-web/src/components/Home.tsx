@@ -253,6 +253,7 @@ export const Home: React.FC = () => {
                         <option value="linkedin">LinkedIn URL</option>
                         <option value="portfolio">Portfolio URL</option>
                         <option value="default">Default</option>
+                        <option value="github">Github</option>
                     </URLSelector>
                     <CopyButton selectedOption={selectedOption1} />
                 </FieldRow>
@@ -263,6 +264,7 @@ export const Home: React.FC = () => {
                         <option value="linkedin">LinkedIn URL</option>
                         <option value="portfolio">Portfolio URL</option>
                         <option value="default">Default</option>
+                        <option value="github">GitHub</option>
                     </URLSelector>
                     <CopyButton selectedOption={selectedOption2} />
                 </FieldRow>
@@ -273,6 +275,7 @@ export const Home: React.FC = () => {
                         <option value="linkedin">LinkedIn URL</option>
                         <option value="portfolio">Portfolio URL</option>
                         <option value="default">Default</option>
+                        <option value="github">Github</option>
                     </URLSelector>
                     <CopyButton selectedOption={selectedOption3} />
                 </FieldRow>

@@ -44,8 +44,8 @@ public class Jobs {
     @Column(name = "joblink")
     private String joblink;
 
-    @Column(name = "meetinglink")
-    private String meetinglink;
+    @Column(name = "meetingLink")
+    private String meetingLink;
 
     @NotBlank
     @Column(name = "interviewnotes")
@@ -155,11 +155,11 @@ public class Jobs {
     }
 
     public String getMeetingLink() {
-        return meetinglink;
+        return meetingLink;
     }
 
-    public void setMeetinglink(String meetinglink) {
-        this.meetinglink = meetinglink;
+    public void setMeetinglink(String meetingLink) {
+        this.meetingLink = meetingLink;
     }
 
     public String getInterviewnotes() {

@@ -8,7 +8,6 @@ import {device} from "../common/ScreenSizes";
 export const JobsAppliedDateGraph: React.FC = () => {
     const { jobs } = useContext(JobsContext);
 
-    // Helper function to check if a date is today
     const isToday = (date: Date): boolean => {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -27,12 +26,6 @@ export const JobsAppliedDateGraph: React.FC = () => {
 
     const isInSameWeek = (date1: Date, date2: Date): boolean => {
         return getStartOfWeek(date1).getTime() === getStartOfWeek(date2).getTime();
-    };
-
-    const isInCurrentMonth = (date: Date): boolean => {
-        const today = new Date();
-        return date.getMonth() === today.getMonth() &&
-            date.getFullYear() === today.getFullYear();
     };
 
     const monthNames = [
@@ -54,18 +47,13 @@ export const JobsAppliedDateGraph: React.FC = () => {
         return weeks;
     };
 
-
     const today = new Date();
     const currentMonth = new Date().getMonth() + 1;
-
     const [selectedMonth, setSelectedMonth] = useState<number>(currentMonth);
     const [selectedYear, setSelectedYear] = useState<number>(today.getFullYear());
-
-    // Calculate the days, weeks, and months for the selected month
     const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
     const firstDay = new Date(selectedYear, selectedMonth - 1, 1);
     const lastDay = new Date(selectedYear, selectedMonth - 1, daysInMonth);
-
     const jobsAppliedToday: Job[] = jobs.filter(job => isToday(new Date(job.dateapplied)));
     const jobsAppliedThisWeek: Job[] = jobs.filter(job => isInSameWeek(new Date(job.dateapplied), today));
     const jobsAppliedThisMonth: Job[] = jobs.filter(job => {
@@ -85,15 +73,13 @@ export const JobsAppliedDateGraph: React.FC = () => {
 
 // there is an issue in that the graph is not updating, I need to update this component each time the create job button is pushed
 
-
     return (
         <JobsAppliedDateGraphDiv>
             <GraphContainer>
                 <MonthPickerDiv>
                     <select
                         value={selectedMonth}
-                        onChange={(e) => setSelectedMonth(Number(e.target.value))}
-                    >
+                        onChange={(e) => setSelectedMonth(Number(e.target.value))}>
                         <option value="1">January</option>
                         <option value="2">February</option>
                         <option value="3">March</option>
@@ -108,7 +94,6 @@ export const JobsAppliedDateGraph: React.FC = () => {
                         <option value="12">December</option>
                     </select>
                 </MonthPickerDiv>
-                {/* Conditional rendering based on selected month */}
                 {selectedMonth === currentMonth ? (
                     <NumberOfJobsAppliedDiv>
                         <p>Jobs applied today: {jobsAppliedToday.length}</p>
@@ -124,8 +109,7 @@ export const JobsAppliedDateGraph: React.FC = () => {
                     <ResponsiveContainer width="100%" height={400}>
                         <BarChart
                             data={dataForBarChart}
-                            margin={{ top: 15, right: 5, left: 5, bottom: 5 }}
-                        >
+                            margin={{ top: 15, right: 5, left: 5, bottom: 5 }}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="name" />
                             <YAxis />
@@ -145,7 +129,7 @@ export const JobsAppliedDateGraphDiv = styled.div`
   background-color: red;
   height: 100vh;
   width: 100vw;
-  justify-content: center; /* Centers content horizontally */
+  justify-content: center; 
 `;
 
 export const GraphContainer = styled.div`
@@ -173,8 +157,7 @@ export const BarGraphDiv = styled.div`
   justify-content: center;
   align-items: center;
   margin-right: 7vw;
-
-
+  
   @media ${device.laptop} {
     display: flex;
     background-color: yellow;

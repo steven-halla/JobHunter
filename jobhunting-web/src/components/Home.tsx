@@ -2,18 +2,10 @@ import React, {useState, ChangeEvent, FormEvent, useContext, useEffect} from "re
 import { User } from "../models/User";
 import AuthService from "../services/auth.service";
 import { UserContext } from "../services/usercontext";
-import DatePicker from "react-datepicker";
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-
-
 import "react-datepicker/dist/react-datepicker.css";
 import UserService from "../services/user.service";
 import {device} from "../common/ScreenSizes";
-import {JobsContext} from "../services/jobcontext";
-
-
-
 
 export const Home: React.FC = () => {
 
@@ -30,43 +22,34 @@ export const Home: React.FC = () => {
     const [ interviewdate, setInterviewDate] = useState<Date>(new Date("2023-07-22"));
     const [companyresponded, setCompanyResponded] = useState<boolean>(false);
     const [companyrejected, setCompanyRejected] = useState<boolean>(false);
-
     const [selectedOption1, setSelectedOption1] = useState(localStorage.getItem('selectedOption1') || 'default');
     const [selectedOption2, setSelectedOption2] = useState(localStorage.getItem('selectedOption2') || 'default');
     const [selectedOption3, setSelectedOption3] = useState(localStorage.getItem('selectedOption3') || 'default');
-
     const currentUser: User | null = AuthService.getCurrentUser();
     const { user } = useContext(UserContext);
-
-
-    const [id, setId] = useState(null); // or some initial value
+    const [id] = useState(null); // or some initial value
 
     const [count, setCount] = useState<number>(() => {
         const storedCount = localStorage.getItem('count');
         const storedDate = localStorage.getItem('date');
         const today = new Date().toISOString().split('T')[0]; // get today's date in YYYY-MM-DD format
         if (storedDate === today && storedCount !== null) {
-            // if the stored date is today, return the stored count
             return parseInt(storedCount);
         } else {
-            // if the stored date is not today or doesn't exist, return 0
             return 0;
         }
     });
 
-// Effect to update local storage whenever count changes
     useEffect(() => {
         localStorage.setItem('count', count.toString());
         localStorage.setItem('date', new Date().toISOString().split('T')[0]); // store today's date in YYYY-MM-DD format
     }, [count]);
-
 
     useEffect(() => {
         localStorage.setItem('selectedOption1', selectedOption1);
         localStorage.setItem('selectedOption2', selectedOption2);
         localStorage.setItem('selectedOption3', selectedOption3);
     }, [selectedOption1, selectedOption2, selectedOption3]);
-
 
     console.log('currentUser:', currentUser);
     console.log('UserContext user:', user);
@@ -127,22 +110,18 @@ export const Home: React.FC = () => {
                     setInterviewDate(new Date());
                     setCompanyResponded(false);
                     setCompanyRejected(false);
-                    // Perform further actions if needed
                     setCount(count + 1);
                     alert("Adding +1 to the counter.")
 
 
                 } else {
                     console.log("Failed to create job");
-                    // Handle the error case if needed
                 }
             } else {
                 console.log("Current user is null or undefined");
-                // Handle the case when the current user is null or undefined
             }
         } catch (error) {
             console.log("Error occurred:", error);
-            // Handle the error case if needed
         }
     };
 
@@ -170,35 +149,10 @@ export const Home: React.FC = () => {
         setJobLink(e.target.value);
     }
 
-    const handleInterviewNotes = (e: ChangeEvent<HTMLInputElement>) => {
-        setInterviewNotes(e.target.value);
-    }
-
     const handleCustomField = (e: ChangeEvent<HTMLInputElement>) => {
         setCustomField(e.target.value);
     }
 
-    const handleInterviewerNames = (e: ChangeEvent<HTMLInputElement>) => {
-        setInterviewerNames(e.target.value);
-    }
-
-    const handleDateApplied = (date: Date) => {
-        setDateApplied(date);
-    };
-
-    const handleInterviewDate = (date: Date) => {
-        setInterviewDate(date);
-    };
-
-    const handleCompanyResponded = (e: ChangeEvent<HTMLInputElement>) => {
-        setCompanyResponded(e.target.checked);
-    };
-
-    const handleCompanyRejected = (e: ChangeEvent<HTMLInputElement>) => {
-        setCompanyRejected(e.target.checked);
-    };
-
-    // Define TypeScript interface for props
     interface CopyButtonProps {
         selectedOption: string;
     }
@@ -209,7 +163,7 @@ export const Home: React.FC = () => {
         const textToCopy = () => {
             switch(selectedOption) {
                 case 'linkedin':
-                    return user?.customfield1 || '';  // Provide default empty string if undefined
+                    return user?.customfield1 || '';
                 case 'portfolio':
                     return user?.customfield2 || '';
                 case 'url':
@@ -222,13 +176,11 @@ export const Home: React.FC = () => {
             try {
                 await navigator.clipboard.writeText(textToCopy());
                 setCopySuccess('Copied!');
-                // set a timer to reset copySuccess after 3 seconds
                 setTimeout(() => setCopySuccess(''), 3000);
             } catch (err) {
                 setCopySuccess('Failed to copy text');
             }
         };
-
 
         return (
             <>
@@ -238,11 +190,6 @@ export const Home: React.FC = () => {
             </>
         );
 }
-
-        // Correct way to use the component
-    // <CopyButton selectedOption={selectedOption1} />
-//this has a lot of repeat code maybe I can do a for loop and iterate through
-    // it 3 times.
 
     return (
         <HomeWrapperDiv>
@@ -324,7 +271,6 @@ export const Home: React.FC = () => {
 
                 <SubmitButton type="submit">Create Job</SubmitButton>
 
-                {/*<Link to="/companynoresponse">Go to Company No Response Page</Link>*/}
 
             </CustomFieldForm>
 
@@ -356,30 +302,15 @@ const SubmitButton = styled.button`
   align-content: center;
 `;
 
-
-
-
-
-
 export const HomeWrapperDiv = styled.div`
-  // These are the styles that will apply by default (mobile first approach)
   display: flex;
-  //background-color: black;
-
-
-
-
-  // These styles will only apply for screens with 380px width and 800px height or less
+  
   @media ${device.mobile} {
     display: flex;
-    //background-color: #ffd0f6 ;
     width: 100vw;
     height: 100vh;
-    flex-direction: column;  // Add this line
-    justify-content: space-between; // distributes space evenly between items
-
-
-    // Add more styles specific to this resolution here...
+    flex-direction: column;  
+    justify-content: space-between;
   }
 
   @media ${device.laptop} {
@@ -392,49 +323,33 @@ export const HomeWrapperDiv = styled.div`
     p {
       text-align: center;
       color: red;
-      //padding-right: 5vw;
     }
-    
   }
-
-
-  // You can add more media queries for larger screen sizes (if needed)
-  //...
 `;
 
 export const CustomFieldsDiv = styled.div`
   display: flex;
-
-
+  
   @media ${device.mobile} {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 15px;
     background-color: aquamarine;
-   
-
-
-    /* Add more styles specific to this resolution here... */
   }
 
   @media ${device.laptop} {
     display: flex;
     flex-direction: column;
-    //justify-content: space-between;
     gap: 15px;
     background-color: #ffedc8;
     width: 100%;
-    //margin-left: 40vw;
     align-items: center;
     justify-content: center;
     
     button {
       margin-top: 10vh;
     }
-
-
-    /* Add more styles specific to this resolution here... */
   }
 `;
 
@@ -448,7 +363,6 @@ export const CustomFieldForm = styled.form`
   @media ${device.mobile} {
     display: flex;
     background-color: yellow;
-    //height: 80vh;
     width: 100vw;
     flex-direction: column;
     justify-items: center;
@@ -457,30 +371,23 @@ export const CustomFieldForm = styled.form`
       display: flex;
       margin-top: 30px;
       width: 20vw;
-      //align-content: center;
-      //justify-content: center;
       margin-left: 40vw;
     }
   }
-
- 
-
+  
   @media ${device.laptop} {
     display: flex;
     height: 30vh;
     align-items: flex-end; // Add this line
-
     background-color: red;
     flex-wrap: wrap;
     margin-bottom: 35vh;
-padding-left: 4vw;   
-
-
+    padding-left: 4vw;   
+    
     input {
       display: flex;
       width: 20vw;
       height: 40px;
-      //margin-left: 5px;
       max-width: 150px;
     }
     
@@ -493,26 +400,20 @@ padding-left: 4vw;
       height: 40px;
       width: 21vw;
       max-width: 155px;
-
     }
   }
 `;
 
-
-
 const FieldContainer = styled.div`
   @media ${device.laptop} {
-    width: 25%; // This will create a 4 column layout on laptop screens
+    width: 25%; 
     display: flex;
     flex-direction: column;
   }
 `;
 
-
 export const URLSelect = styled.select`
-
-  // Add other styles as needed...
-
+  
   @media ${device.mobile} {
     display: flex;
     width: 33vw; // adjust as needed
@@ -521,9 +422,7 @@ export const URLSelect = styled.select`
     flex-direction: row;
     justify-items: center;
     margin-right: 14px;
-
-
-    /* Add more styles specific to this resolution here... */
+    
   }
 
   @media ${device.laptop} {
@@ -541,44 +440,25 @@ export const URLSelect = styled.select`
 export const FooterDiv =  styled.div`
   display: flex;
   
-  //bottom: 0; // Add this
-  //position: fixed; // Add this
-
   @media ${device.mobile} {
     display: flex;
     background-color: #95c2ff;
     width: 100vw;
     height: 120px;
-
-
-
-    /* Add more styles specific to this resolution here... */
   }
-
 `
-
-
 
 export const JobCounterDiv = styled.div`
   display: flex;
-
-
+  
   @media ${device.mobile} {
     display: flex;
-
-   
-
-
-    /* Add more styles specific to this resolution here... */
   }
 
   @media ${device.laptop} {
     display: flex;
     margin-right: 5vw;
-    //align-text: center;
     justify-content: center;
     align-content: center;
-
-    /* Add more styles specific to this resolution here... */
   }
 `;

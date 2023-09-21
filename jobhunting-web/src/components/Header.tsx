@@ -56,7 +56,7 @@ export const Header = () => {
         const user = AuthService.getCurrentUser();
 
         const callback = () => {
-            console.log("Hi");
+            console.log("Hi im the callback");
         };
 
         if (user) {

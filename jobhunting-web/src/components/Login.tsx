@@ -2,15 +2,10 @@ import React, { useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
-
 import CheckButton from "react-validation/build/button";
-
 import AuthService from "../services/auth.service";
 import { UserContext } from "../services/usercontext";
-
-import { ComponentType } from "react";
 import {CustomCheckButton, CustomForm} from "../models/LoginHelper";
-
 
 interface LoginState {
   username: string;
@@ -61,7 +56,7 @@ const Login: React.FC = () => {
       if (checkBtn.current.context._errors.length === 0) {
         AuthService.login(state.username, state.password).then(
             (userData) => {
-              setUser(userData); // Update the UserContext with the returned user data
+              setUser(userData);
               navigate(`/profile/${userData.id}`);
               window.location.reload();
             },

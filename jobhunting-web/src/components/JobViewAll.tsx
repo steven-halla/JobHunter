@@ -1,29 +1,83 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Job} from '../models/Job';
 import styled from 'styled-components';
 import {JobsContext} from "../services/jobcontext";
-import {Link, useNavigate} from 'react-router-dom';
-import {SortingAToZ} from "./SortingAToZ";
-import {FilterCompanyNamesInput} from "./FilterCompanyNamesInputProps";
 import { deviceJobViewAll} from "../common/ScreenSizes";
+import { useNavigate } from 'react-router-dom';
 
-// currently this is filtered by a-z when it SHOULD be filtered by date as a default
-// I also need other options to filter, such as A-Z, Date,  and anything else I can think on
 
 export const JobViewAll = () => {
-    const {job, jobs, updateJobResponded, setJob} = useContext(JobsContext);
-    const [filter, setFilter] = useState('');
-    const [onlyShowResponded, setOnlyShowResponded] = useState(false);
+
+    const { jobs, updateJobRejected, meetinglink} = useContext(JobsContext);
+    const [filter] = useState('');
+    const [onlyShowResponded] = useState(false);
     const [sortOrder, setSortOrder] = useState<'a-z' | 'z-a' | 'date-asc' | 'date-desc'>('date-asc');
+    const [jobResponses, setJobResponses] = useState<Record<string, JobResponse>>({});
+    const history = useNavigate();
     const navigate = useNavigate();
-    const currentDateMs = new Date().getTime();
+    console.log("meeting link be like", meetinglink);
+
+
+
+    type JobResponse = 'accepted' | 'declined' | 'no response';
+
+    const handleResponseChange = async (e: React.ChangeEvent<HTMLSelectElement>, jobId: string) => {
+        const selectedValue = e.target.value as JobResponse;
+        const targetJob = jobs.find(job => job.id === Number(jobId));
+        if(targetJob) {
+            if(selectedValue === 'declined') {
+                targetJob.companyrejected = true;
+            } else {
+                targetJob.companyrejected = false;
+            }
+            await updateJobOnServer(jobId, { companyrejected: targetJob.companyrejected });
+            setJobResponses(prev => ({
+                ...prev,
+                [jobId]: selectedValue
+            }));
+
+            // Redirect if the selected value is "accepted"
+            // Redirect if the selected value is "accepted"
+            if (selectedValue === 'accepted') {
+                navigate(`/interviewsecured/${jobId}`);
+            }
+
+        }
+
+
+    };
+
+
+    const updateJobOnServer = async (jobId: string, data: { companyrejected: boolean }) => {
+        // Make a PATCH request to your server to update the job with jobId
+        try {
+            const response = await fetch(`http://localhost:8080/api/jobs/update/${jobId}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to update job.");
+            }
+            // Optionally, update your local state if the server responds with updated data.
+            // const updatedJob = await response.json();
+        } catch (error) {
+            console.error("Error updating job:", error);
+        }
+    };
+
+
+
 
 
     const filteredAndRespondedJobs = jobs
+        .filter(job => !job.companyrejected)
         .filter(job =>
             (onlyShowResponded ? job.companyresponded : true) &&
             job.companyname.toLowerCase().includes(filter.toLowerCase())
         );
+
+
 
     const sortedAndRespondedJobs = [...filteredAndRespondedJobs].sort((a, b) => {
         switch(sortOrder) {
@@ -40,19 +94,6 @@ export const JobViewAll = () => {
         }
     });
 
-
-    const handleSortOrderChange = () => {
-        setSortOrder(prevOrder => prevOrder === 'a-z' ? 'z-a' : 'a-z');
-    };
-
-    const handleCheckboxChange = (id: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        updateJobResponded(id, event.target.checked);
-        alert("Congrats on getting them to respond!")
-    };
-
-
-
-
     const [isMobile, setIsMobile] = useState(window.matchMedia(deviceJobViewAll.mobile).matches);
     const [isLaptop, setIsLaptop] = useState(window.matchMedia(deviceJobViewAll.tablet).matches);
 
@@ -62,17 +103,15 @@ export const JobViewAll = () => {
             setIsLaptop(window.matchMedia(deviceJobViewAll.tablet).matches);
         };
 
-        // Run once to set the initial state
         checkScreenSize();
-
-        // Add a listener for window resize events
         window.addEventListener('resize', checkScreenSize);
 
-        // Cleanup: remove the listener when the component unmounts
         return () => {
             window.removeEventListener('resize', checkScreenSize);
         };
     }, []);
+
+
 
     return (
         <JobViewAllDiv>
@@ -99,7 +138,6 @@ export const JobViewAll = () => {
                     )}
 
                     <DataDiv>
-                        {/* Render data for each job */}
                         <JobDataDiv>{new Date(job.dateapplied).toISOString().split('T')[0]}</JobDataDiv>
                         <JobDataDiv>{job.companyname} </JobDataDiv>
                         <JobDataDiv> {job.description}</JobDataDiv>
@@ -110,44 +148,42 @@ export const JobViewAll = () => {
                         </JobDataDiv>
                         <JobDataDiv>
                             <a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">LINK</a>
-
                         </JobDataDiv>
-                        <JobDataDiv> Not yet </JobDataDiv>
+                        <JobDataDiv>
+                            <select
+                                value={jobResponses[job.id] || 'no response'}
+                                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleResponseChange(e, String(job.id))}
+                            >
+                                <option value="accepted">Accepted</option>
+                                <option value="declined">Declined</option>
+                                <option value="no response">No Response</option>
+                            </select>
+                        </JobDataDiv>
+
+
+
+
+
                     </DataDiv>
                 </JobCard>
             ))}
         </JobViewAllDiv>
     );
-
-
 };
-
-
 
 const FilterSelect = styled.select`
     display: flex;
-  //  justify-content: center;
-  //margin-left: 10px;
-  //background-color: red;
+
   @media ${deviceJobViewAll.mobile} {
-    //background-color:  red;
-    display: flex; /* Use flexbox layout */
-    //align-items: center; /* Display items in one row on mobile */
+    display: flex; 
     width: 60vw;
-    //justify-content: center;
     margin-left: 20vw;
   }
-    
-  
 `;
 
-
-
 const JobViewAllDiv = styled.div`
-  // Add your styling here
-  // background-color: red;
   display: flex;
-
+  
   @media ${deviceJobViewAll.mobile} {
     background-color:  #ff38ec;
     display: flex; /* Use flexbox layout */
@@ -155,43 +191,29 @@ const JobViewAllDiv = styled.div`
   }
 
   @media ${deviceJobViewAll.tablet} {
-    display: flex; /* Use flexbox layout */
-    flex-direction: column; /* Display items in one column on laptop view */
-    //width: 90vw;
+    display: flex; 
+    flex-direction: column; 
     background-color: #ff38ec;
     justify-content: center;
     align-items: center;
   }
-  
 `;
-const TitleDiv = styled.div`
-  // Add your styling here
-  // background-color: red;
 
+const TitleDiv = styled.div`
   @media ${deviceJobViewAll.mobile} {
-    flex-direction: column; /* Display items in one column */
-    flex: 1; /* Expand to take up remaining space in the row */
+    flex-direction: column; 
+    flex: 1; 
     background-color: orangered;
   }
+  
     @media ${deviceJobViewAll.tablet} {
       display: flex;
       flex-direction: row;
       width: 90vw;
-      //align-items: center;
-      //justify-content: space-evenly;
       background-color: orangered;
-      border: 2px solid darkred; /* Add a blue-violet border */
-
+      border: 2px solid darkred;
     }
-
-    //justify-content: space-between; /* Add space between items */
-    //margin-right: 5vw; /* Added this line */
-
-  }
 `;
-
-
-
 
 const DataDiv = styled.div`
   @media ${deviceJobViewAll.mobile} {
@@ -206,22 +228,15 @@ const DataDiv = styled.div`
   @media ${deviceJobViewAll.tablet} {
     display: flex;
     flex-direction: row;
-    //align-items: center;//
-    //justify-content: space-evenly;
     background-color: red;
     width: 90vw;
-    border: 2px solid dimgray; /* Add a blue-violet border */
-
+    border: 2px solid dimgray;
   }
 `;
 
-
-
 const JobTitleDiv = styled.div`
   display: flex;
-  //flex-direction: row;
-  //align-items: center;
-
+  
   @media ${deviceJobViewAll.mobile} {
     flex-direction: column;
     align-items: center;
@@ -230,17 +245,10 @@ const JobTitleDiv = styled.div`
 
     @media ${deviceJobViewAll.tablet} {
       border: 2px solid blueviolet; /* Add a blue-violet border */
-      
-      //flex-direction: column;
       justify-content: center;      
-      //align-items: center;
       background-color: yellow;
       width: 90vw;
-      
-      //justify-content: center;
-      //justify-content: space-evenly;
   }
-
 `;
 
 const JobDataDiv = styled.div`
@@ -250,23 +258,12 @@ const JobDataDiv = styled.div`
 
     @media ${deviceJobViewAll.tablet} {
       display: flex;
-      //flex-direction: row;
-      //align-items: center;
       background-color: green;
       width: 90vw;
-      //align-items: center;
       justify-content: center;
-      //justify-content: center;
-
-      border: 2px solid blueviolet; /* Add a blue-violet border */
-
+      border: 2px solid blueviolet; 
     }
-    }
-  
 `;
-
-
-
 
 const JobCard = styled.div`
   @media ${deviceJobViewAll.mobile} {
@@ -277,13 +274,11 @@ const JobCard = styled.div`
     padding: 16px;
     margin-bottom: 16px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    //display: flex;
-    flex-direction: row; /* Display items in one column on mobile */
+    flex-direction: row; 
   }
 
   @media ${deviceJobViewAll.tablet} {
     display: flex;
-    
-    flex-direction: column; /* Display items in one column on mobile */
+    flex-direction: column; 
   }
 `;

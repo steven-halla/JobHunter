@@ -7,14 +7,13 @@ import { useNavigate } from 'react-router-dom';
 
 export const JobViewAll = () => {
 
-    const { jobs, updateJobRejected, meetinglink} = useContext(JobsContext);
+    const { jobs, updateJobRejected, meetingLink} = useContext(JobsContext);
     const [filter] = useState('');
     const [onlyShowResponded] = useState(false);
     const [sortOrder, setSortOrder] = useState<'a-z' | 'z-a' | 'date-asc' | 'date-desc'>('date-asc');
     const [jobResponses, setJobResponses] = useState<Record<string, JobResponse>>({});
     const history = useNavigate();
     const navigate = useNavigate();
-    console.log("meeting link be like", meetinglink);
 
 
 

@@ -6,6 +6,9 @@ import styled from 'styled-components';
 import "react-datepicker/dist/react-datepicker.css";
 import UserService from "../services/user.service";
 import {device} from "../common/ScreenSizes";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faGithub, faLinkedin} from '@fortawesome/free-brands-svg-icons';
+import { faBriefcase } from '@fortawesome/free-solid-svg-icons';
 
 export const Home: React.FC = () => {
 
@@ -39,6 +42,10 @@ export const Home: React.FC = () => {
             return 0;
         }
     });
+
+
+    //need  to build out a feature so that if copy /paste/ typing a company
+    // it shows up if it exist in the databasse
 
     useEffect(() => {
         localStorage.setItem('count', count.toString());
@@ -195,6 +202,8 @@ export const Home: React.FC = () => {
         <HomeWrapperDiv>
             <CustomFieldsDiv>
                 <FieldRow>
+                    <FontAwesomeIcon icon={faGithub} size="2x" />
+
                     <URLSelect value={selectedOption1} onChange={(e: ChangeEvent<HTMLSelectElement>) => setSelectedOption1(e.target.value)}>
                         <option value="url">URL</option>
                         <option value="linkedin">LinkedIn URL</option>
@@ -206,6 +215,7 @@ export const Home: React.FC = () => {
                 </FieldRow>
 
                 <FieldRow>
+                    <FontAwesomeIcon icon={faLinkedin} size="2x" />
                     <URLSelect value={selectedOption2} onChange={(e: ChangeEvent<HTMLSelectElement>) => setSelectedOption2(e.target.value)}>
                         <option value="url">URL</option>
                         <option value="linkedin">LinkedIn URL</option>
@@ -217,6 +227,7 @@ export const Home: React.FC = () => {
                 </FieldRow>
 
                 <FieldRow>
+                    <FontAwesomeIcon icon={faBriefcase} size="2x" />
                     <URLSelect value={selectedOption3} onChange={(e: ChangeEvent<HTMLSelectElement>) => setSelectedOption3(e.target.value)}>
                         <option value="url">URL</option>
                         <option value="linkedin">LinkedIn URL</option>

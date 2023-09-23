@@ -244,23 +244,39 @@ export const JobViewAll = () => {
             ))}
             {
                 isDescriptionModalOpen && (
-                    <div style={{
-                        position: 'fixed',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        backgroundColor: 'white',
-                        padding: '20px',
-                        zIndex: 1000,
-                        width: '80vw',
-                        maxHeight: '80vh',
-                        overflowY: 'auto'
-                    }}>
-                        <button onClick={closeDescriptionModal}>Close</button>
-                        <p>{selectedDescription}</p>
+                    <div
+                        style={{
+                            position: 'fixed',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            backgroundColor: 'rgba(0, 0, 0, 0.5)',  // semi-transparent background
+                            zIndex: 999,  // to ensure it's below the modal content
+                        }}
+                        onClick={closeDescriptionModal}
+                    >
+                        <div
+                            style={{
+                                position: 'fixed',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                                backgroundColor: 'white',
+                                padding: '20px',
+                                zIndex: 1000,
+                                width: '80vw',
+                                maxHeight: '80vh',
+                                overflowY: 'auto',
+                            }}
+                            onClick={e => e.stopPropagation()} // stops the click event from reaching the outer div
+                        >
+                            <p>{selectedDescription}</p>
+                        </div>
                     </div>
                 )
             }
+
 
         </JobViewAllDiv>
 

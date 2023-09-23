@@ -17,9 +17,24 @@ export const JobViewAll = () => {
     const history = useNavigate();
     const navigate = useNavigate();
 
+    const [isDescriptionModalOpen, setDescriptionModalOpen] = useState(false);
+    const [selectedDescription, setSelectedDescription] = useState('');
+
+
 
 
     type JobResponse = 'accepted' | 'declined' | 'no response';
+
+    const openDescriptionModal = (description: string) => {
+        setSelectedDescription(description);
+        setDescriptionModalOpen(true);
+    };
+
+    const closeDescriptionModal = () => {
+        setDescriptionModalOpen(false);
+    };
+
+
 
     const handleResponseChange = async (e: React.ChangeEvent<HTMLSelectElement>, jobId: string) => {
         const selectedValue = e.target.value as JobResponse;
@@ -41,10 +56,7 @@ export const JobViewAll = () => {
             if (selectedValue === 'accepted') {
                 navigate(`/interviewsecured/${jobId}`);
             }
-
         }
-
-
     };
 
 
@@ -149,8 +161,10 @@ export const JobViewAll = () => {
 
                 <option value="date-asc">Date Applied (Oldest First)</option>
                 <option value="date-desc">Date Applied (Newest First)</option>
-                <option value="a-z">Company Name (A-Z)</option>
-                <option value="z-a">Company Name (Z-A)</option>
+                <option value="company-a-z">Company Name (A-Z)</option>
+                <option value="company-z-a">Company Name (Z-A)</option>
+                <option value="contact-a-z">Contact Name (A-Z)</option>
+                <option value="contact-z-a">Contact Name (Z-A)</option>
             </FilterSelect>
 
             {sortedAndRespondedJobs.map((job, index) => (
@@ -198,7 +212,10 @@ export const JobViewAll = () => {
                     <DataDiv>
                         <JobDataDiv>{new Date(job.dateapplied).toISOString().split('T')[0]}</JobDataDiv>
                         <JobDataDiv>{job.companyname} </JobDataDiv>
-                        <JobDataDiv> {job.description}</JobDataDiv>
+                        <JobDataDiv>
+                            <TextButton onClick={() => openDescriptionModal(job.description)}>Click</TextButton>
+                        </JobDataDiv>
+
                         <JobDataDiv>{job.primarycontact} </JobDataDiv>
                         <JobDataDiv> {job.jobposter}</JobDataDiv>
                         <JobDataDiv>
@@ -225,16 +242,57 @@ export const JobViewAll = () => {
                     </DataDiv>
                 </JobCard>
             ))}
+            {
+                isDescriptionModalOpen && (
+                    <div style={{
+                        position: 'fixed',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        backgroundColor: 'white',
+                        padding: '20px',
+                        zIndex: 1000,
+                        width: '80vw',
+                        maxHeight: '80vh',
+                        overflowY: 'auto'
+                    }}>
+                        <button onClick={closeDescriptionModal}>Close</button>
+                        <p>{selectedDescription}</p>
+                    </div>
+                )
+            }
+
         </JobViewAllDiv>
+
     );
+
+
 };
+
+const TextButton = styled.button`
+    background: none;
+    border: none;
+    color: inherit;  // Use the same color as the surrounding text
+    font: inherit;  // Use the same font and size as the surrounding text
+    cursor: pointer;  // Change mouse cursor to pointer on hover
+    padding: 0;
+    margin: 0;
+    text-decoration: underline;  // Optionally add underline to make it obvious it's clickable
+    outline: none;  // Remove focus border on click
+
+    &:hover, &:focus {
+        color: #007BFF;  // Change color on hover/focus. Pick any color that suits your design
+    }
+`;
+
+
+
 
 const ButtonHolderDiv = styled.div`
   @media ${deviceJobViewAll.mobile} {
-    display: flex;
-    flex-direction: column; 
-    background-color: blue;
-    
+    display: none;  // Hide the icons by default
+
+
   }
   
     @media ${deviceJobViewAll.tablet} {
@@ -246,7 +304,8 @@ const ButtonHolderDiv = styled.div`
 `;
 
 const FilterSelect = styled.select`
-    display: flex;
+  display: none;  // Hide the icons by default
+
 
   @media ${deviceJobViewAll.mobile} {
     display: flex; 

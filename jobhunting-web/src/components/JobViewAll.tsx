@@ -112,6 +112,22 @@ export const JobViewAll = () => {
         };
     }, []);
 
+    const handleDateSortAsc = () => {
+        setSortOrder('date-asc');
+    };
+
+    const handleDateSortDesc = () => {
+        setSortOrder('date-desc');
+    };
+
+    const handleCompanyNameSortAsc = () => {
+        setSortOrder('a-z');
+    };
+
+    const handleCompanyNameSortDesc = () => {
+        setSortOrder('z-a');
+    };
+
 
 
     return (
@@ -132,22 +148,19 @@ export const JobViewAll = () => {
                             <JobTitleDiv>Date
 
                                 <ButtonHolderDiv>
-                                    <FontAwesomeIcon icon={faCaretUp}  size="lg" />
-                                    <FontAwesomeIcon icon={faCaretDown} size="lg" />
+                                    <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleDateSortAsc} />
+                                    <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleDateSortDesc} />
+
                                 </ButtonHolderDiv>
 
                             </JobTitleDiv>
                             <JobTitleDiv>Company
                                 <ButtonHolderDiv>
-                                    <FontAwesomeIcon icon={faCaretUp}  size="lg" />
-                                    <FontAwesomeIcon icon={faCaretDown} size="lg" />
+                                    <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleCompanyNameSortAsc} />
+                                    <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleCompanyNameSortDesc} />
                                 </ButtonHolderDiv>
                             </JobTitleDiv>
                             <JobTitleDiv>Description
-                                <ButtonHolderDiv>
-                                    <FontAwesomeIcon icon={faCaretUp}  size="lg" />
-                                    <FontAwesomeIcon icon={faCaretDown} size="lg" />
-                                </ButtonHolderDiv>
                             </JobTitleDiv>
                             <JobTitleDiv>Contact
                                 <ButtonHolderDiv>
@@ -156,13 +169,10 @@ export const JobViewAll = () => {
                                 </ButtonHolderDiv>
                             </JobTitleDiv>
                             <JobTitleDiv>Job Poster
-                                <ButtonHolderDiv>
-                                    <FontAwesomeIcon icon={faCaretUp}  size="lg" />
-                                    <FontAwesomeIcon icon={faCaretDown} size="lg" />
-                                </ButtonHolderDiv>
+
                             </JobTitleDiv>
                             <JobTitleDiv>Job Link
-                               
+
                             </JobTitleDiv>
                             <JobTitleDiv> Website Link
 

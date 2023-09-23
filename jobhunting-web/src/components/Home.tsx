@@ -25,9 +25,9 @@ export const Home: React.FC = () => {
     const [ interviewdate, setInterviewDate] = useState<Date>(new Date("2023-07-22"));
     const [companyresponded, setCompanyResponded] = useState<boolean>(false);
     const [companyrejected, setCompanyRejected] = useState<boolean>(false);
-    const [selectedOption1, setSelectedOption1] = useState(localStorage.getItem('selectedOption1') || 'default');
+    const [selectedOption1, setSelectedOption1] = useState(localStorage.getItem('selectedOption1') || 'github');
     const [selectedOption2, setSelectedOption2] = useState(localStorage.getItem('selectedOption2') || 'default');
-    const [selectedOption3, setSelectedOption3] = useState(localStorage.getItem('selectedOption3') || 'default');
+    const [selectedOption3, setSelectedOption3] = useState(localStorage.getItem('selectedOption3') || 'portfolio');
     const currentUser: User | null = AuthService.getCurrentUser();
     const { user } = useContext(UserContext);
     const [id] = useState(null); // or some initial value
@@ -164,78 +164,59 @@ export const Home: React.FC = () => {
         selectedOption: string;
     }
 
-    const CopyButton: React.FC<CopyButtonProps> = ({ selectedOption }) => {
-        const [copySuccess, setCopySuccess] = useState<string>('');
 
-        const textToCopy = () => {
-            switch(selectedOption) {
-                case 'linkedin':
-                    return user?.customfield1 || '';
-                case 'portfolio':
-                    return user?.customfield2 || '';
-                case 'url':
-                default:
-                    return user?.customfield3 || '';
+
+        const copyToClipboard = async (selectedOption: string) => {
+            const textToCopy = () => {
+                switch(selectedOption) {
+                    case 'github':
+                        return user?.customfield3 || '';
+                    case 'linkedin':
+                        return user?.customfield2 || '';
+                    case 'portfolio':
+                    default:
+                        return user?.customfield1 || '';
+                }
             }
-        }
 
-        const copyToClipboard = async () => {
             try {
                 await navigator.clipboard.writeText(textToCopy());
-                setCopySuccess('Copied!');
-                setTimeout(() => setCopySuccess(''), 3000);
+                alert('Copied!'); // Using alert for simplicity. You can use other UI feedback methods.
             } catch (err) {
-                setCopySuccess('Failed to copy text');
+                alert('Failed to copy text');
             }
         };
 
-        return (
-            <>
-                <p style={{ cursor: 'pointer', color: '#0000FF' , marginTop: "5px"}} onClick={copyToClipboard}>
-                    {copySuccess ? copySuccess : 'Copy URL'}
-                </p>
-            </>
-        );
-}
+
 
     return (
         <HomeWrapperDiv>
             <CustomFieldsDiv>
                 <FieldRow>
-                    <FontAwesomeIcon icon={faGithub} size="2x" />
-
-                    <URLSelect value={selectedOption1} onChange={(e: ChangeEvent<HTMLSelectElement>) => setSelectedOption1(e.target.value)}>
-                        <option value="url">URL</option>
-                        <option value="linkedin">LinkedIn URL</option>
-                        <option value="portfolio">Portfolio URL</option>
-                        <option value="default">Default</option>
-                        <option value="github">Github</option>
-                    </URLSelect>
-                    <CopyButton selectedOption={selectedOption1} />
+                    <FontAwesomeIcon
+                        icon={faGithub}
+                        size="2x"
+                        onClick={() => copyToClipboard(selectedOption1)}
+                        style={{ cursor: 'pointer' }}
+                    />
                 </FieldRow>
 
                 <FieldRow>
-                    <FontAwesomeIcon icon={faLinkedin} size="2x" />
-                    <URLSelect value={selectedOption2} onChange={(e: ChangeEvent<HTMLSelectElement>) => setSelectedOption2(e.target.value)}>
-                        <option value="url">URL</option>
-                        <option value="linkedin">LinkedIn URL</option>
-                        <option value="portfolio">Portfolio URL</option>
-                        <option value="default">Default</option>
-                        <option value="github">GitHub</option>
-                    </URLSelect>
-                    <CopyButton selectedOption={selectedOption2} />
+                    <FontAwesomeIcon
+                        icon={faLinkedin}
+                        size="2x"
+                        onClick={() => copyToClipboard(selectedOption2)}
+                        style={{ cursor: 'pointer' }}
+                    />
                 </FieldRow>
 
                 <FieldRow>
-                    <FontAwesomeIcon icon={faBriefcase} size="2x" />
-                    <URLSelect value={selectedOption3} onChange={(e: ChangeEvent<HTMLSelectElement>) => setSelectedOption3(e.target.value)}>
-                        <option value="url">URL</option>
-                        <option value="linkedin">LinkedIn URL</option>
-                        <option value="portfolio">Portfolio URL</option>
-                        <option value="default">Default</option>
-                        <option value="github">Github</option>
-                    </URLSelect>
-                    <CopyButton selectedOption={selectedOption3} />
+                    <FontAwesomeIcon
+                        icon={faBriefcase}
+                        size="2x"
+                        onClick={() => copyToClipboard(selectedOption3)}
+                        style={{ cursor: 'pointer' }}
+                    />
                 </FieldRow>
             </CustomFieldsDiv>
 
@@ -343,7 +324,7 @@ export const CustomFieldsDiv = styled.div`
   
   @media ${device.mobile} {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
     gap: 15px;
     background-color: aquamarine;
@@ -351,7 +332,7 @@ export const CustomFieldsDiv = styled.div`
 
   @media ${device.laptop} {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 15px;
     background-color: #ffedc8;
     width: 100%;

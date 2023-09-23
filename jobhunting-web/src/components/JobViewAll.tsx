@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import {JobsContext} from "../services/jobcontext";
 import { deviceJobViewAll} from "../common/ScreenSizes";
 import { useNavigate } from 'react-router-dom';
+import {faCaretUp, faCaretDown} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 export const JobViewAll = () => {
@@ -114,7 +116,9 @@ export const JobViewAll = () => {
 
     return (
         <JobViewAllDiv>
+
             <FilterSelect value={sortOrder} onChange={(e: { target: { value: any; }; }) => setSortOrder(e.target.value as any)}>
+
                 <option value="date-asc">Date Applied (Oldest First)</option>
                 <option value="date-desc">Date Applied (Newest First)</option>
                 <option value="a-z">Company Name (A-Z)</option>
@@ -125,14 +129,47 @@ export const JobViewAll = () => {
                 <JobCard key={job.id}>
                     {(isMobile || (isLaptop && index === 0)) && (
                         <TitleDiv>
-                            <JobTitleDiv>Date </JobTitleDiv>
-                            <JobTitleDiv>Company </JobTitleDiv>
-                            <JobTitleDiv>Description </JobTitleDiv>
-                            <JobTitleDiv>Contact </JobTitleDiv>
-                            <JobTitleDiv>Job Poster </JobTitleDiv>
-                            <JobTitleDiv>Job Link </JobTitleDiv>
-                            <JobTitleDiv> Website Link</JobTitleDiv>
-                            <JobTitleDiv> Responded </JobTitleDiv>
+                            <JobTitleDiv>Date
+
+                                <ButtonHolderDiv>
+                                    <FontAwesomeIcon icon={faCaretUp}  size="lg" />
+                                    <FontAwesomeIcon icon={faCaretDown} size="lg" />
+                                </ButtonHolderDiv>
+
+                            </JobTitleDiv>
+                            <JobTitleDiv>Company
+                                <ButtonHolderDiv>
+                                    <FontAwesomeIcon icon={faCaretUp}  size="lg" />
+                                    <FontAwesomeIcon icon={faCaretDown} size="lg" />
+                                </ButtonHolderDiv>
+                            </JobTitleDiv>
+                            <JobTitleDiv>Description
+                                <ButtonHolderDiv>
+                                    <FontAwesomeIcon icon={faCaretUp}  size="lg" />
+                                    <FontAwesomeIcon icon={faCaretDown} size="lg" />
+                                </ButtonHolderDiv>
+                            </JobTitleDiv>
+                            <JobTitleDiv>Contact
+                                <ButtonHolderDiv>
+                                    <FontAwesomeIcon icon={faCaretUp}  size="lg" />
+                                    <FontAwesomeIcon icon={faCaretDown} size="lg" />
+                                </ButtonHolderDiv>
+                            </JobTitleDiv>
+                            <JobTitleDiv>Job Poster
+                                <ButtonHolderDiv>
+                                    <FontAwesomeIcon icon={faCaretUp}  size="lg" />
+                                    <FontAwesomeIcon icon={faCaretDown} size="lg" />
+                                </ButtonHolderDiv>
+                            </JobTitleDiv>
+                            <JobTitleDiv>Job Link
+                               
+                            </JobTitleDiv>
+                            <JobTitleDiv> Website Link
+
+                            </JobTitleDiv>
+                            <JobTitleDiv> Responded
+
+                            </JobTitleDiv>
                         </TitleDiv>
                     )}
 
@@ -169,6 +206,22 @@ export const JobViewAll = () => {
         </JobViewAllDiv>
     );
 };
+
+const ButtonHolderDiv = styled.div`
+  @media ${deviceJobViewAll.mobile} {
+    display: flex;
+    flex-direction: column; 
+    background-color: blue;
+    
+  }
+  
+    @media ${deviceJobViewAll.tablet} {
+      display: flex;
+      flex-direction: column;
+      background-color: blue;
+      margin-left: 10px;
+    }
+`;
 
 const FilterSelect = styled.select`
     display: flex;

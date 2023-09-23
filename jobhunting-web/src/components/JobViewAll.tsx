@@ -319,14 +319,38 @@ const ButtonHolderDiv = styled.div`
     }
 `;
 
+// const FilterSelect = styled.select`
+//   display: none;  // Hide the icons by default
+//
+//
+//   @media ${deviceJobViewAll.mobile} {
+//     display: flex;
+//     width: 60vw;
+//     margin-left: 20vw;
+//     //position: absolute;
+//     //top: 100%; /* position it right below the triggering element */
+//     //left: 0;
+//     .options {
+//       position: absolute;
+//       top: 5%; /* position it right below the triggering element */
+//       left: 0;
+//       background-color: red;
+//     }
+//
+//   }
+// `;
+
 const FilterSelect = styled.select`
   display: none;  // Hide the icons by default
-
 
   @media ${deviceJobViewAll.mobile} {
     display: flex; 
     width: 60vw;
     margin-left: 20vw;
+
+    option {
+      background-color: red;
+    }
   }
 `;
 

@@ -12,7 +12,7 @@ export const JobViewAll = () => {
     const { jobs, updateJobRejected, meetingLink} = useContext(JobsContext);
     const [filter] = useState('');
     const [onlyShowResponded] = useState(false);
-    const [sortOrder, setSortOrder] = useState<'a-z' | 'z-a' | 'date-asc' | 'date-desc'>('date-asc');
+    const [sortOrder, setSortOrder] = useState<'company-a-z' | 'company-z-a' | 'contact-a-z' | 'contact-z-a' | 'date-asc' | 'date-desc'>('date-asc');
     const [jobResponses, setJobResponses] = useState<Record<string, JobResponse>>({});
     const history = useNavigate();
     const navigate = useNavigate();
@@ -82,10 +82,14 @@ export const JobViewAll = () => {
 
     const sortedAndRespondedJobs = [...filteredAndRespondedJobs].sort((a, b) => {
         switch(sortOrder) {
-            case 'a-z':
+            case 'company-a-z':
                 return a.companyname.toLowerCase().localeCompare(b.companyname.toLowerCase());
-            case 'z-a':
+            case 'company-z-a':
                 return b.companyname.toLowerCase().localeCompare(a.companyname.toLowerCase());
+            case 'contact-a-z':
+                return a.primarycontact.toLowerCase().localeCompare(b.primarycontact.toLowerCase());
+            case 'contact-z-a':
+                return b.primarycontact.toLowerCase().localeCompare(a.primarycontact.toLowerCase());
             case 'date-asc':
                 return new Date(a.dateapplied).getTime() - new Date(b.dateapplied).getTime();
             case 'date-desc':
@@ -120,12 +124,20 @@ export const JobViewAll = () => {
         setSortOrder('date-desc');
     };
 
+    const handleContactNameSortAsc = () => {
+        setSortOrder('contact-a-z');
+    };
+
+    const handleContactNameSortDesc = () => {
+        setSortOrder('contact-z-a');
+    };
+
     const handleCompanyNameSortAsc = () => {
-        setSortOrder('a-z');
+        setSortOrder('company-a-z');
     };
 
     const handleCompanyNameSortDesc = () => {
-        setSortOrder('z-a');
+        setSortOrder('company-z-a');
     };
 
 
@@ -164,8 +176,8 @@ export const JobViewAll = () => {
                             </JobTitleDiv>
                             <JobTitleDiv>Contact
                                 <ButtonHolderDiv>
-                                    <FontAwesomeIcon icon={faCaretUp}  size="lg" />
-                                    <FontAwesomeIcon icon={faCaretDown} size="lg" />
+                                    <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleContactNameSortAsc} />
+                                    <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleContactNameSortDesc} />
                                 </ButtonHolderDiv>
                             </JobTitleDiv>
                             <JobTitleDiv>Job Poster

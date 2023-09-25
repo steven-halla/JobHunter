@@ -12,10 +12,11 @@ import { faBriefcase } from '@fortawesome/free-solid-svg-icons';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
-import { InputLabel } from '@mui/material';
+import {InputLabel, TextFieldProps} from '@mui/material';
 import { Input } from '@mui/material';
 
 import MuiInput from '@mui/material/Input';
+import TextField from '@mui/material/TextField';
 
 
 
@@ -237,39 +238,46 @@ export const Home: React.FC = () => {
 
                 <FieldContainer>
                     <StyledInputLabel>Company</StyledInputLabel>
-                    <StyledInput type="text" value={companyname} onChange={handleCompanyNameChange} />
+                    <StyledTextField  value={companyname} onChange={handleCompanyNameChange} />
 
                 </FieldContainer>
 
                 <FieldContainer>
                     <StyledInputLabel>Description</StyledInputLabel>
-                    <StyledInput type="text" value={description} onChange={handleDescriptionChange} />
+                    <StyledTextField value={description} onChange={handleDescriptionChange} />
+
 
                 </FieldContainer>
 
                 <FieldContainer>
                     <StyledInputLabel>Job Poster</StyledInputLabel>
-                    <StyledInput type="text" value={jobposter} onChange={handleJobPosterChange} />
+                    <StyledTextField  value={jobposter} onChange={handleJobPosterChange} />
+
                 </FieldContainer>
 
                 <FieldContainer>
                     <StyledInputLabel>Primary Contact</StyledInputLabel>
-                    <StyledInput type="text" value={primarycontact} onChange={handlePrimaryContact} />
+                    <StyledTextField  value={primarycontact} onChange={handlePrimaryContact} />
+
                 </FieldContainer>
                 <FieldContainer>
                     <StyledInputLabel>Website Link</StyledInputLabel>
-                    <StyledInput type="text" value={companywebsitelink} onChange={handleCompanyWebSiteLink} />
+                    <StyledTextField  value={companywebsitelink} onChange={handleCompanyWebSiteLink} />
+
                 </FieldContainer>
 
                 <FieldContainer>
                     <StyledInputLabel>Job Link</StyledInputLabel>
-                    <StyledInput type="text" value={joblink} onChange={handleJobLink} />
+                    <StyledTextField  value={joblink} onChange={handleJobLink} />
+
                 </FieldContainer>
 
                 <FieldContainer>
                     <StyledInputLabel>Custom Notes</StyledInputLabel>
-                    <StyledInput type="text" value={customfield} onChange={handleCustomField} />
+                    <StyledTextField  value={customfield} onChange={handleCustomField} />
+
                 </FieldContainer>
+
 
 
                 {/*<SubmitButton type="submit">Create Job</SubmitButton>*/}
@@ -301,13 +309,13 @@ const StyledInputLabel = styled(InputLabel)`
   width: 100%;
   height: 30px;
   transform: translateX(-1.5%); // This will shift it to the left by 2% of its width
-  background-color: blue;
+  //background-color: blue;
 
   @media ${device.mobile} {
     display: flex;
     width: 100%;
     height: 30px;
-    background-color: blue;
+    //background-color: blue;
     transform: translateX(2%); // This will shift it to the left by 2% of its width
   }
 `;
@@ -326,23 +334,41 @@ const StyledInputLabel = styled(InputLabel)`
 //     transform: translateX(1.7%); // This will shift it to the left by 2% of its width
 //   }
 // `;
-
-const StyledInput = styled(MuiInput)`
+//
+// const StyledInput = styled(MuiInput)`
+//   width: 70%;
+//   height: 30px;
+//   //background-color: white;
+//
+//   & .MuiInput-input { // MUI uses this class for the actual input field
+//     height: 30px;
+//     padding: 0 14px; // Added padding for consistency with MUI's default styles
+//   }
+//
+//   @media ${device.mobile} {
+//     display: flex;
+//     width: 100%;
+//     transform: translateX(1.7%); // This will shift it to the left by 1.7% of its width
+//   }
+// `;
+const BaseStyledTextField = styled(TextField)`
   width: 70%;
-  height: 30px;
-  background-color: white;
 
-  & .MuiInput-input { // MUI uses this class for the actual input field
-    height: 30px;
-    padding: 0 14px; // Added padding for consistency with MUI's default styles
+  & .MuiFilledInput-input {
+    height: 20px;
+    padding: 0 14px;
+    background-color: red;
   }
 
-  @media ${device.mobile} {
-    display: flex;
+  @media (max-width: 600px) {
     width: 100%;
-    transform: translateX(1.7%); // This will shift it to the left by 1.7% of its width
+    transform: translateX(1.7%);
   }
 `;
+const StyledTextField: React.FC<TextFieldProps> = (props) => <BaseStyledTextField type="text"
+                                                                                  id="outlined-size-small" size="small" {...props} />;
+
+
 
 const SubmitButton = styled(Button)`
   height: 30px;
@@ -373,7 +399,7 @@ export const HomeWrapperDiv = styled.div`
     
     p {
       text-align: center;
-      color: red;
+      //color: red;
     }
   }
 `;
@@ -386,14 +412,14 @@ export const CustomFieldsDiv = styled.div`
     flex-direction: row;
     justify-content: space-between;
     gap: 15px;
-    background-color: aquamarine;
+    //background-color: aquamarine;
   }
 
   @media ${device.laptop} {
     display: flex;
     flex-direction: row;
     gap: 15px;
-    background-color: #ffedc8;
+    //background-color: #ffedc8;
     width: 100%;
     align-items: center;
     justify-content: center;
@@ -422,7 +448,7 @@ export const CustomFieldForm = styled.form`
 
   @media ${device.mobile} {
     display: flex;
-    background-color: yellow;
+    //background-color: yellow;
     width: 100vw;
     flex-direction: column;
     justify-items: center;
@@ -432,6 +458,7 @@ export const CustomFieldForm = styled.form`
       margin-top: 30px;
       width: 20vw;
       margin-left: 40vw;
+      
     }
   }
   
@@ -439,7 +466,7 @@ export const CustomFieldForm = styled.form`
     display: flex;
     height: 30vh;
     align-items: flex-end; // Add this line
-    background-color: red;
+    //background-color: red;
     flex-wrap: wrap;
     margin-bottom: 35vh;
     padding-left: 4vw;   
@@ -480,7 +507,7 @@ const FieldContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start; // This ensures children align to the start
-    background-color: plum;
+    //background-color: plum;
   }
 `;
 
@@ -491,7 +518,7 @@ export const URLSelect = styled.select`
     display: flex;
     width: 33vw; // adjust as needed
     height: 35px; // adjust as needed
-    background-color: purple;
+    //background-color: purple;
     flex-direction: row;
     justify-items: center;
     margin-right: 14px;
@@ -502,7 +529,7 @@ export const URLSelect = styled.select`
     display: flex;
     width: 25vw;
     height: 35px;
-    background-color: purple;
+    //background-color: purple;
     flex-direction: row;
     justify-items: center;
     margin-right: 14px;
@@ -515,7 +542,7 @@ export const FooterDiv =  styled.div`
   
   @media ${device.mobile} {
     display: flex;
-    background-color: #95c2ff;
+    //background-color: #95c2ff;
     width: 100vw;
     height: 120px;
   }

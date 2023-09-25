@@ -406,6 +406,7 @@ export const HomeWrapperDiv = styled.div`
 
 export const CustomFieldsDiv = styled.div`
   display: flex;
+  margin-top: 20px;
   
   @media ${device.mobile} {
     display: flex;

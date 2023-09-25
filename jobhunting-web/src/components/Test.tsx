@@ -7,6 +7,11 @@ import { faCaretUp, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import {deviceJobViewAll} from "../common/ScreenSizes";
 
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+
 export const Test = () => {
     // ... (keeping all your state and functions here)
     const { jobs, updateJobRejected, meetingLink} = useContext(JobsContext);
@@ -21,14 +26,24 @@ export const Test = () => {
     const [selectedDescription, setSelectedDescription] = useState('');
 
 
+    const [open, setOpen] = useState(false);
 
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     type JobResponse = 'accepted' | 'declined' | 'no response';
 
     const openDescriptionModal = (description: string) => {
+        console.log("openDescriptionModal called with:", description);
         setSelectedDescription(description);
         setDescriptionModalOpen(true);
     };
+
 
     const closeDescriptionModal = () => {
         setDescriptionModalOpen(false);
@@ -155,9 +170,9 @@ export const Test = () => {
 
 
     return (
-        <TableContainer component={Paper}>
+        <StyledTableContainer>
             <Table>
-                <TableHead>
+                <StyledTableHead>
                     <TableRow>
                         <TableCell>
                             Date
@@ -180,7 +195,7 @@ export const Test = () => {
                         <TableCell>Website Link</TableCell>
                         <TableCell>Responded</TableCell>
                     </TableRow>
-                </TableHead>
+                </StyledTableHead>
                 <TableBody>
                     {sortedAndRespondedJobs.map((job) => (
                         <TableRow key={job.id}>
@@ -209,9 +224,57 @@ export const Test = () => {
                     ))}
                 </TableBody>
             </Table>
-        </TableContainer>
+            {
+                isDescriptionModalOpen && (
+                    <div
+                        style={{
+                            position: 'fixed',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            backgroundColor: 'rgba(0, 0, 0, 0.5)',  // semi-transparent background
+                            zIndex: 999,  // to ensure it's below the modal content
+                        }}
+                        onClick={closeDescriptionModal}
+                    >
+                        <div
+                            style={{
+                                position: 'fixed',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                                backgroundColor: 'white',
+                                padding: '20px',
+                                zIndex: 1000,
+                                width: '80vw',
+                                maxHeight: '80vh',
+                                overflowY: 'auto',
+                            }}
+                            onClick={e => e.stopPropagation()} // stops the click event from reaching the outer div
+                        >
+                            <p>{selectedDescription}</p>
+                        </div>
+                    </div>
+                )
+            }
+        </StyledTableContainer>
+
+
     );
 };
+
+const StyledTableHead = styled(TableHead)`
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 1;
+`;
+
+const StyledTableContainer = styled(TableContainer)`
+    height: 93vh;  /* Adjust to your preference */
+    overflow-y: auto;
+`;
 
 const TableCellCompanyName = styled(TableCell)`
     max-width: 25ch;

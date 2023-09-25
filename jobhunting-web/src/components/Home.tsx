@@ -10,6 +10,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faGithub, faLinkedin} from '@fortawesome/free-brands-svg-icons';
 import { faBriefcase } from '@fortawesome/free-solid-svg-icons';
 
+import { InputLabel } from '@mui/material';
+
+
+
 export const Home: React.FC = () => {
 
     const [companyname, setCompanyName] = useState<string>("");
@@ -188,7 +192,7 @@ export const Home: React.FC = () => {
         };
 
 
-
+// need to change naming conventions Feild Row should be Field Row Div
     return (
         <HomeWrapperDiv>
             <CustomFieldsDiv>
@@ -225,38 +229,38 @@ export const Home: React.FC = () => {
             <CustomFieldForm onSubmit={handleJobSubmit}>
 
                 <FieldContainer>
-                    <Label>Company</Label>
+                    <StyledInputLabel>Company</StyledInputLabel>
                     <Input type="text" value={companyname} onChange={handleCompanyNameChange} />
 
                 </FieldContainer>
 
                 <FieldContainer>
-                    <Label>Description</Label>
+                    <StyledInputLabel>Description</StyledInputLabel>
                     <Input type="text" value={description} onChange={handleDescriptionChange} />
 
                 </FieldContainer>
 
                 <FieldContainer>
-                    <Label>Job Poster</Label>
+                    <StyledInputLabel>Job Poster</StyledInputLabel>
                     <Input type="text" value={jobposter} onChange={handleJobPosterChange} />
                 </FieldContainer>
 
                 <FieldContainer>
-                    <Label>Primary Contact</Label>
+                    <StyledInputLabel>Primary Contact</StyledInputLabel>
                     <Input type="text" value={primarycontact} onChange={handlePrimaryContact} />
                 </FieldContainer>
                 <FieldContainer>
-                    <Label>Website Link</Label>
+                    <StyledInputLabel>Website Link</StyledInputLabel>
                     <Input type="text" value={companywebsitelink} onChange={handleCompanyWebSiteLink} />
                 </FieldContainer>
 
                 <FieldContainer>
-                    <Label>Job Link</Label>
+                    <StyledInputLabel>Job Link</StyledInputLabel>
                     <Input type="text" value={joblink} onChange={handleJobLink} />
                 </FieldContainer>
 
                 <FieldContainer>
-                    <Label>Custom Notes</Label>
+                    <StyledInputLabel>Custom Notes</StyledInputLabel>
                     <Input type="text" value={customfield} onChange={handleCustomField} />
                 </FieldContainer>
 
@@ -277,14 +281,39 @@ export const Home: React.FC = () => {
 };
 
 
-const Label = styled.label`
+// const StyledInputLabel = styled(InputLabel)`
+//   width: 100%;
+//   height: 30px;
+//   margin-right: -12%;  // Add this line
+//   background-color: blue;
+// `;
+
+const StyledInputLabel = styled(InputLabel)`
   width: 100%;
   height: 30px;
+  transform: translateX(-1.5%); // This will shift it to the left by 2% of its width
+  background-color: blue;
+
+  @media ${device.mobile} {
+    display: flex;
+    width: 100%;
+    height: 30px;
+    background-color: blue;
+    transform: translateX(2%); // This will shift it to the left by 2% of its width
+  }
 `;
+
 
 const Input = styled.input`
   width: 100%;
   height: 30px;
+
+  @media ${device.mobile} {
+    display: flex;
+    width: 100%;
+    height: 30px;
+    transform: translateX(1.7%); // This will shift it to the left by 2% of its width
+  }
 `;
 
 const SubmitButton = styled.button`
@@ -396,13 +425,26 @@ export const CustomFieldForm = styled.form`
   }
 `;
 
+// const FieldContainer = styled.div`
+//   @media ${device.laptop} {
+//     width: 25%;
+//     display: flex;
+//     flex-direction: column;
+//     background-color: plum;
+//     //margin-right: 1%;
+//   }
+// `;
+
 const FieldContainer = styled.div`
   @media ${device.laptop} {
     width: 25%; 
     display: flex;
     flex-direction: column;
+    align-items: flex-start; // This ensures children align to the start
+    background-color: plum;
   }
 `;
+
 
 export const URLSelect = styled.select`
   

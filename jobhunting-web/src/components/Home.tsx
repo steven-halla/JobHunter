@@ -9,8 +9,13 @@ import {device} from "../common/ScreenSizes";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faGithub, faLinkedin} from '@fortawesome/free-brands-svg-icons';
 import { faBriefcase } from '@fortawesome/free-solid-svg-icons';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 
 import { InputLabel } from '@mui/material';
+import { Input } from '@mui/material';
+
+import MuiInput from '@mui/material/Input';
 
 
 
@@ -193,6 +198,8 @@ export const Home: React.FC = () => {
 
 
 // need to change naming conventions Feild Row should be Field Row Div
+    // i need to put the labels, and the inputs into seperate divs
+    // this is not workign currently due to resizing
     return (
         <HomeWrapperDiv>
             <CustomFieldsDiv>
@@ -230,42 +237,44 @@ export const Home: React.FC = () => {
 
                 <FieldContainer>
                     <StyledInputLabel>Company</StyledInputLabel>
-                    <Input type="text" value={companyname} onChange={handleCompanyNameChange} />
+                    <StyledInput type="text" value={companyname} onChange={handleCompanyNameChange} />
 
                 </FieldContainer>
 
                 <FieldContainer>
                     <StyledInputLabel>Description</StyledInputLabel>
-                    <Input type="text" value={description} onChange={handleDescriptionChange} />
+                    <StyledInput type="text" value={description} onChange={handleDescriptionChange} />
 
                 </FieldContainer>
 
                 <FieldContainer>
                     <StyledInputLabel>Job Poster</StyledInputLabel>
-                    <Input type="text" value={jobposter} onChange={handleJobPosterChange} />
+                    <StyledInput type="text" value={jobposter} onChange={handleJobPosterChange} />
                 </FieldContainer>
 
                 <FieldContainer>
                     <StyledInputLabel>Primary Contact</StyledInputLabel>
-                    <Input type="text" value={primarycontact} onChange={handlePrimaryContact} />
+                    <StyledInput type="text" value={primarycontact} onChange={handlePrimaryContact} />
                 </FieldContainer>
                 <FieldContainer>
                     <StyledInputLabel>Website Link</StyledInputLabel>
-                    <Input type="text" value={companywebsitelink} onChange={handleCompanyWebSiteLink} />
+                    <StyledInput type="text" value={companywebsitelink} onChange={handleCompanyWebSiteLink} />
                 </FieldContainer>
 
                 <FieldContainer>
                     <StyledInputLabel>Job Link</StyledInputLabel>
-                    <Input type="text" value={joblink} onChange={handleJobLink} />
+                    <StyledInput type="text" value={joblink} onChange={handleJobLink} />
                 </FieldContainer>
 
                 <FieldContainer>
                     <StyledInputLabel>Custom Notes</StyledInputLabel>
-                    <Input type="text" value={customfield} onChange={handleCustomField} />
+                    <StyledInput type="text" value={customfield} onChange={handleCustomField} />
                 </FieldContainer>
 
 
-                <SubmitButton type="submit">Create Job</SubmitButton>
+                {/*<SubmitButton type="submit">Create Job</SubmitButton>*/}
+                <SubmitButton variant="contained" type="submit">Contained</SubmitButton>
+
 
 
             </CustomFieldForm>
@@ -304,24 +313,45 @@ const StyledInputLabel = styled(InputLabel)`
 `;
 
 
-const Input = styled.input`
+// const Input = styled(input)`
+//   width: 100%;
+//   height: 30px;
+//   transform: translateX(-0.6%); // This will shift it to the left by 2% of its width
+//
+//
+//   @media ${device.mobile} {
+//     display: flex;
+//     width: 100%;
+//     height: 30px;
+//     transform: translateX(1.7%); // This will shift it to the left by 2% of its width
+//   }
+// `;
+
+const StyledInput = styled(MuiInput)`
   width: 100%;
   height: 30px;
+  transform: translateX(-0.6%); // This will shift it to the left by 0.6% of its width
+
+  & .MuiInput-input { // MUI uses this class for the actual input field
+    height: 30px;
+    padding: 0 14px; // Added padding for consistency with MUI's default styles
+  }
 
   @media ${device.mobile} {
     display: flex;
     width: 100%;
-    height: 30px;
-    transform: translateX(1.7%); // This will shift it to the left by 2% of its width
+    transform: translateX(1.7%); // This will shift it to the left by 1.7% of its width
   }
 `;
 
-const SubmitButton = styled.button`
-
+const SubmitButton = styled(Button)`
   height: 30px;
+  display: flex;
   justify-content: center;
-  align-content: center;
+  align-items: center;
+  // add any other styles you need
 `;
+
 
 export const HomeWrapperDiv = styled.div`
   display: flex;

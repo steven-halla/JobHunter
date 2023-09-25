@@ -273,7 +273,7 @@ export const Home: React.FC = () => {
 
 
                 {/*<SubmitButton type="submit">Create Job</SubmitButton>*/}
-                <SubmitButton variant="contained" type="submit">Contained</SubmitButton>
+                <SubmitButton variant="contained" type="submit">Submit</SubmitButton>
 
 
 
@@ -328,9 +328,9 @@ const StyledInputLabel = styled(InputLabel)`
 // `;
 
 const StyledInput = styled(MuiInput)`
-  width: 100%;
+  width: 70%;
   height: 30px;
-  transform: translateX(-0.6%); // This will shift it to the left by 0.6% of its width
+  background-color: white;
 
   & .MuiInput-input { // MUI uses this class for the actual input field
     height: 30px;
@@ -406,6 +406,15 @@ export const CustomFieldsDiv = styled.div`
 
 export const FieldRow = styled.div`
   display: flex;
+  padding-left: 10px;
+  padding-right: 20px;
+
+  @media ${device.mobile} {
+    display: flex;
+  
+    padding-left: 10px;
+    padding-right: 20px;
+  }
 `;
 
 export const CustomFieldForm = styled.form`

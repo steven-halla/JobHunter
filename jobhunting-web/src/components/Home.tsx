@@ -406,8 +406,8 @@ export const CustomFieldsDiv = styled.div`
 
 export const FieldRow = styled.div`
   display: flex;
-  padding-left: 10px;
-  padding-right: 20px;
+  padding-left: 20px;
+  padding-right: 30px;
 
   @media ${device.mobile} {
     display: flex;

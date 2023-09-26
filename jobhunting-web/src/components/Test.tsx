@@ -214,18 +214,18 @@ export const Test = () => {
                 <TableBody>
                     {sortedAndRespondedJobs.map((job) => (
                         <TableRow key={job.id}>
-                            <TableCell>{new Date(job.dateapplied).toISOString().split('T')[0]}</TableCell>
+                            <StyledTableCell>{new Date(job.dateapplied).toISOString().split('T')[0]}</StyledTableCell>
                             {/*<TableCell>{job.companyname}</TableCell>*/}
-                            <TableCellCompanyName className="controlledWidth">{job.companyname}</TableCellCompanyName>
+                            <StyledTableCell className="controlledWidth">{job.companyname}</StyledTableCell>
 
-                            <TableCell>
+                            <StyledTableCell>
                                 <button onClick={() => openDescriptionModal(job.description)}>Click</button>
-                            </TableCell>
-                            <TableCell>{job.primarycontact}</TableCell>
-                            <TableCell>{job.jobposter}</TableCell>
-                            <TableCell><a href={job.joblink} target="_blank" rel="noopener noreferrer">LINK</a></TableCell>
-                            <TableCell><a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">LINK</a></TableCell>
-                            <TableCell>
+                            </StyledTableCell>
+                            <StyledTableCell>{job.primarycontact}</StyledTableCell>
+                            <StyledTableCell>{job.jobposter}</StyledTableCell>
+                            <StyledTableCell><a href={job.joblink} target="_blank" rel="noopener noreferrer">LINK</a></StyledTableCell>
+                            <StyledTableCell><a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">LINK</a></StyledTableCell>
+                            <StyledTableCell>
                                 <Select
                                     value={jobResponses[job.id] || 'no response'}
                                     onChange={(e) => handleResponseChange(e, String(job.id))}
@@ -234,7 +234,7 @@ export const Test = () => {
                                     <MenuItem value="declined">Declined</MenuItem>
                                     <MenuItem value="no response">No Response</MenuItem>
                                 </Select>
-                            </TableCell>
+                            </StyledTableCell>
                         </TableRow>
                     ))}
                 </TableBody>
@@ -278,6 +278,13 @@ export const Test = () => {
 
     );
 };
+
+const StyledTableCell = styled(TableCell)`
+  max-width: 20ch;
+  white-space: pre-wrap;   // Allows content to wrap to the next line
+  word-wrap: break-word;   // Allows breaking between words
+  overflow-wrap: break-word; // In case a single word is longer than 25ch, it'll break
+`;
 
 
 const SortLabelContainer = styled.div`

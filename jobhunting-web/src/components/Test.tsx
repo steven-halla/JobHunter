@@ -175,21 +175,36 @@ export const Test = () => {
                 <StyledTableHead>
                     <TableRow>
                         <TableCell>
-                            Date
-                            <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleDateSortAsc} />
-                            <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleDateSortDesc} />
+                            <SortLabelContainer>
+                                Date
+                                <SortIconContainer>
+                                    <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleDateSortAsc} />
+                                    <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleDateSortDesc} />
+                                </SortIconContainer>
+                            </SortLabelContainer>
                         </TableCell>
                         <TableCell>
-                            Company
-                            <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleCompanyNameSortAsc} />
-                            <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleCompanyNameSortDesc} />
+                            <SortLabelContainer>
+                                Company
+                                <SortIconContainer>
+                                    <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleCompanyNameSortAsc} />
+                                    <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleCompanyNameSortDesc} />
+                                </SortIconContainer>
+                            </SortLabelContainer>
                         </TableCell>
+
+
                         <TableCell>Description</TableCell>
                         <TableCell>
-                            Contact
-                            <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleContactNameSortAsc} />
-                            <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleContactNameSortDesc} />
+                            <SortLabelContainer>
+                                Contact
+                                <SortIconContainer>
+                                    <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleContactNameSortAsc} />
+                                    <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleContactNameSortDesc} />
+                                </SortIconContainer>
+                            </SortLabelContainer>
                         </TableCell>
+
                         <TableCell>Job Poster</TableCell>
                         <TableCell>Job Link</TableCell>
                         <TableCell>Website Link</TableCell>
@@ -263,6 +278,20 @@ export const Test = () => {
 
     );
 };
+
+
+const SortLabelContainer = styled.div`
+    display: flex;
+    align-items: center; // align vertically in the center
+`;
+
+const SortIconContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 8px; // you can adjust this spacing
+`;
+
 
 const StyledTableHead = styled(TableHead)`
     position: sticky;

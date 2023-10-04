@@ -1,14 +1,19 @@
 import React, {useContext, useEffect, useState} from 'react';
-import styled from 'styled-components';
-import {JobsContext} from "../services/jobcontext";
-import { deviceJobViewAll} from "../common/ScreenSizes";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Select, MenuItem } from '@mui/material';
+import { JobsContext } from "../services/jobcontext";
 import { useNavigate } from 'react-router-dom';
-import {faCaretUp, faCaretDown} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretUp, faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import styled from "styled-components";
+import {deviceJobViewAll} from "../common/ScreenSizes";
 
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
 
 export const JobViewAll = () => {
-
+    // ... (keeping all your state and functions here)
     const { jobs, updateJobRejected, meetingLink} = useContext(JobsContext);
     const [filter] = useState('');
     const [onlyShowResponded] = useState(false);
@@ -21,14 +26,24 @@ export const JobViewAll = () => {
     const [selectedDescription, setSelectedDescription] = useState('');
 
 
+    const [open, setOpen] = useState(false);
 
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     type JobResponse = 'accepted' | 'declined' | 'no response';
 
     const openDescriptionModal = (description: string) => {
+        console.log("openDescriptionModal called with:", description);
         setSelectedDescription(description);
         setDescriptionModalOpen(true);
     };
+
 
     const closeDescriptionModal = () => {
         setDescriptionModalOpen(false);
@@ -36,7 +51,7 @@ export const JobViewAll = () => {
 
 
 
-    const handleResponseChange = async (e: React.ChangeEvent<HTMLSelectElement>, jobId: string) => {
+    const handleResponseChange = async (e: any, jobId: string) => {
         const selectedValue = e.target.value as JobResponse;
         const targetJob = jobs.find(job => job.id === Number(jobId));
         if(targetJob) {
@@ -154,136 +169,236 @@ export const JobViewAll = () => {
 
 
 
+
     return (
-        <JobViewAllDiv>
+        <>
+            {isMobile ? (
+                <div>
+                    <FilterSelect value={sortOrder} onChange={(e: { target: { value: any; }; }) => setSortOrder(e.target.value as any)}>
+                        <option value="date-asc">Date Applied (Oldest First)</option>
+                        <option value="date-desc">Date Applied (Newest First)</option>
+                        <option value="company-a-z">Company Name (A-Z)</option>
+                        <option value="company-z-a">Company Name (Z-A)</option>
+                        <option value="contact-a-z">Contact Name (A-Z)</option>
+                        <option value="contact-z-a">Contact Name (Z-A)</option>
+                    </FilterSelect>
+                    {sortedAndRespondedJobs.map((job, index) => (
+                        <JobCard key={job.id}>
+                            <TitleDiv>
+                                <JobTitleDiv>Date: {new Date(job.dateapplied).toISOString().split('T')[0]}</JobTitleDiv>
+                                <JobTitleDiv>Company: {job.companyname}</JobTitleDiv>
+                                <JobTitleDiv>Description: <TextButton onClick={() => openDescriptionModal(job.description)}>Click</TextButton></JobTitleDiv>
+                                <JobTitleDiv>Contact: {job.primarycontact}</JobTitleDiv>
+                                <JobTitleDiv>Job Poster: {job.jobposter}</JobTitleDiv>
+                                <JobTitleDiv>Job Link: <a href={job.joblink} target="_blank" rel="noopener noreferrer">LINK</a></JobTitleDiv>
+                                <JobTitleDiv>Website Link: <a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">LINK</a></JobTitleDiv>
+                                <JobTitleDiv>Responded:
+                                    <select value={jobResponses[job.id] || 'no response'} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleResponseChange(e, String(job.id))}>
+                                        <option value="accepted">Accepted</option>
+                                        <option value="declined">Declined</option>
+                                        <option value="no response">No Response</option>
+                                    </select>
+                                </JobTitleDiv>
+                            </TitleDiv>
+                        </JobCard>
 
-            <FilterSelect value={sortOrder} onChange={(e: { target: { value: any; }; }) => setSortOrder(e.target.value as any)}>
+                    ))}
+                </div>
+            ) : (
+                <StyledTableContainer>
+                    <Table>
+                        <StyledTableHead>
+                            <TableRow>
+                                <TableCell>
+                                    <SortLabelContainer>
+                                        Date
+                                        <ButtonHolderDiv>
+                                            <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleDateSortAsc} />
+                                            <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleDateSortDesc} />
+                                        </ButtonHolderDiv>
+                                    </SortLabelContainer>
+                                </TableCell>
 
-                <option value="date-asc">Date Applied (Oldest First)</option>
-                <option value="date-desc">Date Applied (Newest First)</option>
-                <option value="company-a-z">Company Name (A-Z)</option>
-                <option value="company-z-a">Company Name (Z-A)</option>
-                <option value="contact-a-z">Contact Name (A-Z)</option>
-                <option value="contact-z-a">Contact Name (Z-A)</option>
-            </FilterSelect>
-
-            {sortedAndRespondedJobs.map((job, index) => (
-                <JobCard key={job.id}>
-                    {(isMobile || (isLaptop && index === 0)) && (
-                        <TitleDiv>
-                            <JobTitleDiv>Date
-
-                                <ButtonHolderDiv>
-                                    <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleDateSortAsc} />
-                                    <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleDateSortDesc} />
-
-                                </ButtonHolderDiv>
-
-                            </JobTitleDiv>
-                            <JobTitleDiv>Company
-                                <ButtonHolderDiv>
-                                    <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleCompanyNameSortAsc} />
-                                    <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleCompanyNameSortDesc} />
-                                </ButtonHolderDiv>
-                            </JobTitleDiv>
-                            <JobTitleDiv>Description
-                            </JobTitleDiv>
-                            <JobTitleDiv>Contact
-                                <ButtonHolderDiv>
-                                    <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleContactNameSortAsc} />
-                                    <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleContactNameSortDesc} />
-                                </ButtonHolderDiv>
-                            </JobTitleDiv>
-                            <JobTitleDiv>Job Poster
-
-                            </JobTitleDiv>
-                            <JobTitleDiv>Job Link
-
-                            </JobTitleDiv>
-                            <JobTitleDiv> Website Link
-
-                            </JobTitleDiv>
-                            <JobTitleDiv> Responded
-
-                            </JobTitleDiv>
-                        </TitleDiv>
-                    )}
-
-                    <DataDiv>
-                        <JobDataDiv>{new Date(job.dateapplied).toISOString().split('T')[0]}</JobDataDiv>
-                        <JobDataDiv>{job.companyname} </JobDataDiv>
-                        <JobDataDiv>
-                            <TextButton onClick={() => openDescriptionModal(job.description)}>Click</TextButton>
-                        </JobDataDiv>
-
-                        <JobDataDiv>{job.primarycontact} </JobDataDiv>
-                        <JobDataDiv> {job.jobposter}</JobDataDiv>
-                        <JobDataDiv>
-                            <a href={job.joblink} target="_blank" rel="noopener noreferrer">LINK</a>
-                        </JobDataDiv>
-                        <JobDataDiv>
-                            <a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">LINK</a>
-                        </JobDataDiv>
-                        <JobDataDiv>
-                            <select
-                                value={jobResponses[job.id] || 'no response'}
-                                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleResponseChange(e, String(job.id))}
-                            >
-                                <option value="accepted">Accepted</option>
-                                <option value="declined">Declined</option>
-                                <option value="no response">No Response</option>
-                            </select>
-                        </JobDataDiv>
+                                <TableCell>
+                                    <SortLabelContainer>Company
+                                        <ButtonHolderDiv>
+                                            <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleCompanyNameSortAsc} />
+                                            <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleCompanyNameSortDesc} />
+                                        </ButtonHolderDiv>
+                                    </SortLabelContainer>
+                                </TableCell>
 
 
 
+                                <TableCell>Description</TableCell>
 
 
-                    </DataDiv>
-                </JobCard>
-            ))}
-            {
-                isDescriptionModalOpen && (
+                                <TableCell>
+                                    <SortLabelContainer>
+                                        Contact
+                                        <ButtonHolderDiv>
+                                            <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleContactNameSortAsc} />
+                                            <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleContactNameSortDesc} />
+                                        </ButtonHolderDiv>
+                                    </SortLabelContainer>
+
+                                </TableCell>
+
+
+                                <TableCell>Job Poster</TableCell>
+                                <TableCell>Job Link</TableCell>
+                                <TableCell>Website Link</TableCell>
+                                <TableCell>Responded</TableCell>
+                            </TableRow>
+                        </StyledTableHead>
+                        <TableBody>
+                            {sortedAndRespondedJobs.map((job, index) => (
+                                <TableRow key={job.id}>
+                                    <TableCell>{new Date(job.dateapplied).toISOString().split('T')[0]}</TableCell>
+                                    <TableCell>{job.companyname}</TableCell>
+                                    <TableCell>
+                                        <TextButton onClick={() => openDescriptionModal(job.description)}>Click to View</TextButton>
+                                    </TableCell>
+                                    <TableCell>{job.primarycontact}</TableCell>
+                                    <TableCell>{job.jobposter}</TableCell>
+                                    <TableCell><a href={job.joblink} target="_blank" rel="noopener noreferrer">LINK</a></TableCell>
+                                    <TableCell><a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">LINK</a></TableCell>
+                                    <TableCell>
+                                        <select value={jobResponses[job.id] || 'no response'} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleResponseChange(e, String(job.id))}>
+                                            <option value="accepted">Accepted</option>
+                                            <option value="declined">Declined</option>
+                                            <option value="no response">No Response</option>
+                                        </select>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </StyledTableContainer>
+            )}
+
+            {isDescriptionModalOpen && (
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',  // semi-transparent background
+                        zIndex: 999,  // to ensure it's below the modal content
+                    }}
+                    onClick={closeDescriptionModal}
+                >
                     <div
                         style={{
                             position: 'fixed',
-                            top: 0,
-                            left: 0,
-                            width: '100%',
-                            height: '100%',
-                            backgroundColor: 'rgba(0, 0, 0, 0.5)',  // semi-transparent background
-                            zIndex: 999,  // to ensure it's below the modal content
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            backgroundColor: 'white',
+                            padding: '20px',
+                            zIndex: 1000,
+                            width: '80vw',
+                            maxHeight: '80vh',
+                            overflowY: 'auto',
                         }}
-                        onClick={closeDescriptionModal}
+                        onClick={e => e.stopPropagation()} // stops the click event from reaching the outer div
                     >
-                        <div
-                            style={{
-                                position: 'fixed',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                backgroundColor: 'white',
-                                padding: '20px',
-                                zIndex: 1000,
-                                width: '80vw',
-                                maxHeight: '80vh',
-                                overflowY: 'auto',
-                            }}
-                            onClick={e => e.stopPropagation()} // stops the click event from reaching the outer div
-                        >
-                            <p>{selectedDescription}</p>
-                        </div>
+                        <p>{selectedDescription}</p>
                     </div>
-                )
-            }
-
-
-        </JobViewAllDiv>
-
+                </div>
+            )}
+        </>
     );
 
-
 };
+
+const SortLabelContainer = styled.div`
+    display: flex;
+    align-items: center; // align vertically in the center
+`;
+
+const ButtonHolderDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 8px; // Adjusts the spacing between the Date text and the icons
+`;
+
+// const JobCard = styled.div`
+//   background-color: white;
+//   border: 1px solid #ccc;
+//   border-radius: 8px;
+//   padding: 16px;
+//   margin-bottom: 16px;
+//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+//
+//   @media ${deviceJobViewAll.mobile} {
+//     display: flex;
+//     flex-direction: column;
+//   }
+//
+//   @media ${deviceJobViewAll.tablet} {
+//     display: flex;
+//     flex-direction: row;
+//   }
+// `;
+
+
+const StyledTableCell = styled(TableCell)`
+  max-width: 20ch;
+  white-space: pre-wrap;   // Allows content to wrap to the next line
+  word-wrap: break-word;   // Allows breaking between words
+  overflow-wrap: break-word; // In case a single word is longer than 25ch, it'll break
+`;
+
+
+// const SortLabelContainer = styled.div`
+//     display: flex;
+//     align-items: center; // align vertically in the center
+//
+//
+// `;
+
+const SortIconContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 8px; // you can adjust this spacing
+
+  @media ${deviceJobViewAll.mobile} {
+    display: none;  // Hide the icons by default
+  }
+`;
+
+
+const StyledTableHead = styled(TableHead)`
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 1;
+
+    @media ${deviceJobViewAll.mobile} {
+        & > * {
+          display: none;  // Hide for mobile
+
+        }
+    }
+`;
+
+
+const StyledTableContainer = styled(TableContainer)`
+    height: 93vh;  /* Adjust to your preference */
+    overflow-y: auto;
+`;
+
+const TableCellCompanyName = styled(TableCell)`
+    max-width: 25ch;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+`;
 
 const TextButton = styled.button`
     background: none;
@@ -304,20 +419,20 @@ const TextButton = styled.button`
 
 
 
-const ButtonHolderDiv = styled.div`
-  @media ${deviceJobViewAll.mobile} {
-    display: none;  // Hide the icons by default
-
-
-  }
-  
-    @media ${deviceJobViewAll.tablet} {
-      display: flex;
-      flex-direction: column;
-      background-color: blue;
-      margin-left: 10px;
-    }
-`;
+// const ButtonHolderDiv = styled.div`
+//   @media ${deviceJobViewAll.mobile} {
+//     display: none;  // Hide the icons by default
+//
+//
+//   }
+//
+//     @media ${deviceJobViewAll.tablet} {
+//       display: flex;
+//       flex-direction: column;
+//       background-color: blue;
+//       margin-left: 10px;
+//     }
+// `;
 
 // const FilterSelect = styled.select`
 //   display: none;  // Hide the icons by default
@@ -341,16 +456,11 @@ const ButtonHolderDiv = styled.div`
 // `;
 
 const FilterSelect = styled.select`
-  display: none;  // Hide the icons by default
+  display: none;  // Hide by default for larger screens
 
   @media ${deviceJobViewAll.mobile} {
-    display: flex; 
-    width: 60vw;
-    margin-left: 20vw;
-
-    option {
-      background-color: red;
-    }
+    display: block;  // Show only for mobile
+    // ... other styles ...
   }
 `;
 
@@ -455,3 +565,5 @@ const JobCard = styled.div`
     flex-direction: column; 
   }
 `;
+
+

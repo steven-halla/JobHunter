@@ -302,7 +302,6 @@ export const JobViewAll = () => {
                                         <select value={jobResponses[job.id] || 'no response'} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleResponseChange(e, String(job.id))}>
                                             <option value="accepted">Accepted</option>
                                             <option value="update">Update</option>
-
                                             <option value="declined">Declined</option>
                                             <option value="no response">No Response</option>
                                         </select>

@@ -432,7 +432,7 @@ export const JobViewAll = () => {
                                         {jobResponses[job.id] === "accepted" ? (
                                             <Button
                                                 variant="contained"
-                                                style={{backgroundColor: 'green'}}
+                                                style={{backgroundColor: 'green', width: '120px', height: '40px'}}
                                                 onClick={() => onButtonClick('accepted', String(job.id))}
                                             >
                                                 Interview
@@ -440,21 +440,15 @@ export const JobViewAll = () => {
                                         ) : jobResponses[job.id] === "declined" ? (
                                             <Button
                                                 variant="contained"
-                                                style={{backgroundColor: 'red'}}
+                                                style={{backgroundColor: 'red', width: '120px', height: '40px'}}
                                                 onClick={() => onButtonClick('declined', String(job.id))}
                                             >
                                                 Declined
                                             </Button>
-                                        ) : (
-                                            <Button
-                                                variant="contained"
-                                                style={{backgroundColor: 'blue'}}
-                                                onClick={() => onButtonClick('no response', String(job.id))}
-                                            >
-                                                Awaiting
-                                            </Button>
-                                        )}
+                                        ) : null }
                                     </TableCell>
+
+
 
 
 

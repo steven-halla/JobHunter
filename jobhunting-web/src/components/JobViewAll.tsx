@@ -309,6 +309,8 @@ export const JobViewAll = () => {
                                 <TableCell>Job Link</TableCell>
                                 <TableCell>Website Link</TableCell>
                                 <TableCell>Responded</TableCell>
+                                <TableCell>Button</TableCell>
+
                             </TableRow>
                         </StyledTableHead>
                         <TableBody>
@@ -330,6 +332,10 @@ export const JobViewAll = () => {
                                             <option value="no response">No Response</option>
                                         </select>
                                     </TableCell>
+                                    <TableCell>
+                                        <button>Click</button>
+                                    </TableCell>
+
                                 </TableRow>
                             ))}
                         </TableBody>

@@ -269,22 +269,63 @@ export const JobViewAll = () => {
     // }
 // `;
 
-    const onButtonClick = (response: JobResponse, jobId: string) => {
+    // const onButtonClick = (response: JobResponse, jobId: string) => {
+    //     // Find the job in the jobs array using the provided jobId
+    //     const targetJob = jobs.find(job => job.id === Number(jobId));
+    //
+    //     if (response === 'accepted') {
+    //         navigate(`/interviewsecured/${jobId}`);
+    //         console.log("Preparing for interview");
+    //     } else if (response === 'declined') {
+    //         console.log("Handling declined job application");
+    //
+    //         // Check if targetJob exists and then update its companyrejected property
+    //         if (targetJob) {
+    //             targetJob.companyrejected = true;
+    //         }
+    //
+    //         // Note: You might also want to update this status on the server or wherever
+    //         // the jobs data is coming from, to persist this change.
+    //
+    //     } else {
+    //         console.log("Awaiting response from company");
+    //     }
+    // };
+
+
+    const onButtonClick = async (response: JobResponse, jobId: string) => {
+        const targetJob = jobs.find(job => job.id === Number(jobId));
+
+        if (!targetJob) return; // Exit if job is not found
+
         if (response === 'accepted') {
             navigate(`/interviewsecured/${jobId}`);
-
-            // Do something when the "Interview" button is clicked
             console.log("Preparing for interview");
         } else if (response === 'declined') {
-            // Do something when the "Declined" button is clicked
             console.log("Handling declined job application");
-            // Uncomment the following if you want to set companyrejected to true
-            // targetJob.companyrejected = true;
+
+            // Set companyrejected to true and companyresponded to false
+            targetJob.companyrejected = true;
+            targetJob.companyresponded = false;
+
+            // Update the state for UI feedback
+            setJobDeclined(true);
+            setJobResponses(prev => ({
+                ...prev,
+                [jobId]: 'declined'
+            }));
+
+            // Update the database
+            await updateJobOnServer(jobId, {
+                companyrejected: true,
+                companyresponded: false
+            });
         } else {
-            // Do something when the "Awaiting" button is clicked
             console.log("Awaiting response from company");
         }
     };
+
+
 
 
 

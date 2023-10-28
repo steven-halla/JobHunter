@@ -18,7 +18,7 @@ export const JobViewAll = () => {
     const [filter] = useState('');
     const [onlyShowResponded] = useState(false);
     const [sortOrder, setSortOrder] = useState<'company-a-z' | 'company-z-a' | 'contact-a-z' | 'contact-z-a' | 'date-asc' | 'date-desc'>('date-asc');
-    const [jobResponses, setJobResponses] = useState<Record<string, JobResponse>>({});
+    // const [jobResponses, setJobResponses] = useState<Record<string, JobResponse>>({});
     const history = useNavigate();
     const navigate = useNavigate();
 
@@ -27,6 +27,20 @@ export const JobViewAll = () => {
 
 
     const [open, setOpen] = useState(false);
+    const [jobResponses, setJobResponses] = useState<Record<string, JobResponse>>(
+        // Assuming 'jobs' is an array of job objects available at the time of component's initialization
+        jobs.reduce((acc, job) => {
+            if (job.companyresponded) {
+                acc[job.id] = 'accepted';
+            } else if (job.companyrejected) {
+                acc[job.id] = 'declined';
+            } else {
+                acc[job.id] = 'no response';
+            }
+            return acc;
+        }, {} as Record<string, JobResponse>)
+    );
+
 
     const handleOpen = () => {
         setOpen(true);
@@ -51,31 +65,80 @@ export const JobViewAll = () => {
 
 
 
+    // const handleResponseChange = async (e: any, jobId: string) => {
+    //     const selectedValue = e.target.value as JobResponse;
+    //     const targetJob = jobs.find(job => job.id === Number(jobId));
+    //     if(targetJob) {
+    //         if(selectedValue === 'declined') {
+    //             targetJob.companyrejected = true;
+    //         } else {
+    //             targetJob.companyrejected = false;
+    //         }
+    //         await updateJobOnServer(jobId, { companyrejected: targetJob.companyrejected });
+    //         setJobResponses(prev => ({
+    //             ...prev,
+    //             [jobId]: selectedValue
+    //         }));
+    //
+    //         // Redirect if the selected value is "accepted"
+    //         // Redirect if the selected value is "accepted"
+    //         if (selectedValue === 'accepted') {
+    //             navigate(`/interviewsecured/${jobId}`);
+    //         }
+    //     }
+    // };
+
     const handleResponseChange = async (e: any, jobId: string) => {
         const selectedValue = e.target.value as JobResponse;
         const targetJob = jobs.find(job => job.id === Number(jobId));
+
         if(targetJob) {
             if(selectedValue === 'declined') {
                 targetJob.companyrejected = true;
+                targetJob.companyresponded = false;
+            } else if (selectedValue === 'accepted') {
+                targetJob.companyrejected = false;
+                targetJob.companyresponded = true;
+                navigate(`/interviewsecured/${jobId}`);
             } else {
                 targetJob.companyrejected = false;
+                targetJob.companyresponded = false;
             }
-            await updateJobOnServer(jobId, { companyrejected: targetJob.companyrejected });
+
+            await updateJobOnServer(jobId, {
+                companyrejected: targetJob.companyrejected,
+                companyresponded: targetJob.companyresponded
+            });
+
             setJobResponses(prev => ({
                 ...prev,
                 [jobId]: selectedValue
             }));
-
-            // Redirect if the selected value is "accepted"
-            // Redirect if the selected value is "accepted"
-            if (selectedValue === 'accepted') {
-                navigate(`/interviewsecured/${jobId}`);
-            }
         }
     };
 
 
-    const updateJobOnServer = async (jobId: string, data: { companyrejected: boolean }) => {
+
+    // const updateJobOnServer = async (jobId: string, data: { companyrejected: boolean }) => {
+    //     // Make a PATCH request to your server to update the job with jobId
+    //     try {
+    //         const response = await fetch(`http://localhost:8080/api/jobs/update/${jobId}`, {
+    //             method: 'PATCH',
+    //             headers: { 'Content-Type': 'application/json' },
+    //             body: JSON.stringify(data)
+    //         });
+    //
+    //         if (!response.ok) {
+    //             throw new Error("Failed to update job.");
+    //         }
+    //         // Optionally, update your local state if the server responds with updated data.
+    //         // const updatedJob = await response.json();
+    //     } catch (error) {
+    //         console.error("Error updating job:", error);
+    //     }
+    // };
+
+    const updateJobOnServer = async (jobId: string, data: { companyrejected: boolean; companyresponded?: boolean }) => {
         // Make a PATCH request to your server to update the job with jobId
         try {
             const response = await fetch(`http://localhost:8080/api/jobs/update/${jobId}`, {
@@ -93,6 +156,7 @@ export const JobViewAll = () => {
             console.error("Error updating job:", error);
         }
     };
+
 
 
 
@@ -185,13 +249,6 @@ export const JobViewAll = () => {
                     {sortedAndRespondedJobs.map((job, index) => (
                         <JobCard key={job.id}>
                             <TitleDiv>
-                                <JobTitleDiv>Date: {new Date(job.dateapplied).toISOString().split('T')[0]}</JobTitleDiv>
-                                <JobTitleDiv>Company: {job.companyname}</JobTitleDiv>
-                                <JobTitleDiv>Description: <TextButton onClick={() => openDescriptionModal(job.description)}>Click</TextButton></JobTitleDiv>
-                                <JobTitleDiv>Contact: {job.primarycontact}</JobTitleDiv>
-                                <JobTitleDiv>Job Poster: {job.jobposter}</JobTitleDiv>
-                                <JobTitleDiv>Job Link: <a href={job.joblink} target="_blank" rel="noopener noreferrer">LINK</a></JobTitleDiv>
-                                <JobTitleDiv>Website Link: <a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">LINK</a></JobTitleDiv>
                                 <JobTitleDiv>Responded:
                                     <select value={jobResponses[job.id] || 'no response'} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleResponseChange(e, String(job.id))}>
                                         <option value="accepted">Accepted</option>
@@ -199,6 +256,8 @@ export const JobViewAll = () => {
                                         <option value="no response">No Response</option>
                                     </select>
                                 </JobTitleDiv>
+
+
                             </TitleDiv>
                         </JobCard>
 

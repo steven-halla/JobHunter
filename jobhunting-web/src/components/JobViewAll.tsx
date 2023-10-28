@@ -28,6 +28,7 @@ export const JobViewAll = () => {
 
 
     const [open, setOpen] = useState(false);
+    const [jobDeclined, setJobDeclined] = useState(false);
     const [jobResponses, setJobResponses] = useState<Record<string, JobResponse>>(
         // Assuming 'jobs' is an array of job objects available at the time of component's initialization
         jobs.reduce((acc, job) => {
@@ -93,17 +94,19 @@ export const JobViewAll = () => {
         const selectedValue = e.target.value as JobResponse;
         const targetJob = jobs.find(job => job.id === Number(jobId));
 
-        if(targetJob) {
-            if(selectedValue === 'declined') {
-                targetJob.companyrejected = true;
+        if (targetJob) {
+            if (selectedValue === 'declined') {
                 targetJob.companyresponded = false;
+                // targetJob.companyrejected = true;
+                setJobDeclined(true);
             } else if (selectedValue === 'accepted') {
                 targetJob.companyrejected = false;
                 targetJob.companyresponded = true;
-                navigate(`/interviewsecured/${jobId}`);
+                setJobDeclined(false);
             } else {
                 targetJob.companyrejected = false;
                 targetJob.companyresponded = false;
+                setJobDeclined(false);
             }
 
             await updateJobOnServer(jobId, {
@@ -118,6 +121,11 @@ export const JobViewAll = () => {
         }
     };
 
+
+    // const buttonUpdateChange = () => {
+    //     navigate(`/interviewsecured/${jobId}`);
+    //
+    // }
 
 
     // const updateJobOnServer = async (jobId: string, data: { companyrejected: boolean }) => {
@@ -254,6 +262,22 @@ export const JobViewAll = () => {
     // }
 // `;
 
+    const onButtonClick = (response: JobResponse) => {
+        if (response === 'accepted') {
+            // Do something when the "Interview" button is clicked
+            console.log("Preparing for interview");
+        } else if (response === 'declined') {
+            // Do something when the "Declined" button is clicked
+            console.log("Handling declined job application");
+            // Uncomment the following if you want to set companyrejected to true
+            // targetJob.companyrejected = true;
+        } else {
+            // Do something when the "Awaiting" button is clicked
+            console.log("Awaiting response from company");
+        }
+    };
+
+
 
 
 
@@ -329,7 +353,7 @@ export const JobViewAll = () => {
 
                                 <TableCell>Job Poster</TableCell>
                                 <TableCell>Job Link</TableCell>
-                                <TableCell>Website Link</TableCell>
+                                <TableCell>Website </TableCell>
                                 <TableCell>Responded</TableCell>
                                 <TableCell>Button</TableCell>
 
@@ -374,7 +398,7 @@ export const JobViewAll = () => {
                                                 variant="contained"
                                                 style={{backgroundColor: 'blue'}}
                                             >
-                                                No Response
+                                                Awaiting
                                             </Button>
                                         )}
                                     </TableCell>

@@ -29,19 +29,26 @@ export const JobViewAll = () => {
 
     const [open, setOpen] = useState(false);
     const [jobDeclined, setJobDeclined] = useState(false);
+    // const [jobResponses, setJobResponses] = useState<Record<string, JobResponse>>(
+    //     // Assuming 'jobs' is an array of job objects available at the time of component's initialization
+    //     jobs.reduce((acc, job) => {
+    //         if (job.companyresponded) {
+    //             acc[job.id] = 'accepted';
+    //         } else if (job.companyrejected) {
+    //             acc[job.id] = 'declined';
+    //         } else {
+    //             acc[job.id] = 'no response';
+    //         }
+    //         return acc;
+    //     }, {} as Record<string, JobResponse>)
+    // );
     const [jobResponses, setJobResponses] = useState<Record<string, JobResponse>>(
-        // Assuming 'jobs' is an array of job objects available at the time of component's initialization
-        jobs.reduce((acc, job) => {
-            if (job.companyresponded) {
-                acc[job.id] = 'accepted';
-            } else if (job.companyrejected) {
-                acc[job.id] = 'declined';
-            } else {
-                acc[job.id] = 'no response';
-            }
-            return acc;
-        }, {} as Record<string, JobResponse>)
+        () => JSON.parse(localStorage.getItem("jobResponses") || '{}')
     );
+
+    useEffect(() => {
+        localStorage.setItem("jobResponses", JSON.stringify(jobResponses));
+    }, [jobResponses]);
 
 
     const handleOpen = () => {
@@ -262,8 +269,10 @@ export const JobViewAll = () => {
     // }
 // `;
 
-    const onButtonClick = (response: JobResponse) => {
+    const onButtonClick = (response: JobResponse, jobId: string) => {
         if (response === 'accepted') {
+            navigate(`/interviewsecured/${jobId}`);
+
             // Do something when the "Interview" button is clicked
             console.log("Preparing for interview");
         } else if (response === 'declined') {
@@ -383,6 +392,7 @@ export const JobViewAll = () => {
                                             <Button
                                                 variant="contained"
                                                 style={{backgroundColor: 'green'}}
+                                                onClick={() => onButtonClick('accepted', String(job.id))}
                                             >
                                                 Interview
                                             </Button>
@@ -390,6 +400,7 @@ export const JobViewAll = () => {
                                             <Button
                                                 variant="contained"
                                                 style={{backgroundColor: 'red'}}
+                                                onClick={() => onButtonClick('declined', String(job.id))}
                                             >
                                                 Declined
                                             </Button>
@@ -397,11 +408,14 @@ export const JobViewAll = () => {
                                             <Button
                                                 variant="contained"
                                                 style={{backgroundColor: 'blue'}}
+                                                onClick={() => onButtonClick('no response', String(job.id))}
                                             >
                                                 Awaiting
                                             </Button>
                                         )}
                                     </TableCell>
+
+
 
 
 

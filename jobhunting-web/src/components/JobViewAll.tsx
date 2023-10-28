@@ -7,10 +7,6 @@ import { faCaretUp, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import {deviceJobViewAll} from "../common/ScreenSizes";
 
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
 
 export const JobViewAll = () => {
     // ... (keeping all your state and functions here)
@@ -29,19 +25,7 @@ export const JobViewAll = () => {
 
     const [open, setOpen] = useState(false);
     const [jobDeclined, setJobDeclined] = useState(false);
-    // const [jobResponses, setJobResponses] = useState<Record<string, JobResponse>>(
-    //     // Assuming 'jobs' is an array of job objects available at the time of component's initialization
-    //     jobs.reduce((acc, job) => {
-    //         if (job.companyresponded) {
-    //             acc[job.id] = 'accepted';
-    //         } else if (job.companyrejected) {
-    //             acc[job.id] = 'declined';
-    //         } else {
-    //             acc[job.id] = 'no response';
-    //         }
-    //         return acc;
-    //     }, {} as Record<string, JobResponse>)
-    // );
+
     const [jobResponses, setJobResponses] = useState<Record<string, JobResponse>>(
         () => JSON.parse(localStorage.getItem("jobResponses") || '{}')
     );
@@ -51,15 +35,7 @@ export const JobViewAll = () => {
     }, [jobResponses]);
 
 
-    const handleOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    type JobResponse = 'accepted' | 'declined' | 'no response';
+    type JobResponse = 'accepted' | 'declined' | 'no response' | 'update';
 
     const openDescriptionModal = (description: string) => {
         console.log("openDescriptionModal called with:", description);
@@ -67,35 +43,9 @@ export const JobViewAll = () => {
         setDescriptionModalOpen(true);
     };
 
-
     const closeDescriptionModal = () => {
         setDescriptionModalOpen(false);
     };
-
-
-
-    // const handleResponseChange = async (e: any, jobId: string) => {
-    //     const selectedValue = e.target.value as JobResponse;
-    //     const targetJob = jobs.find(job => job.id === Number(jobId));
-    //     if(targetJob) {
-    //         if(selectedValue === 'declined') {
-    //             targetJob.companyrejected = true;
-    //         } else {
-    //             targetJob.companyrejected = false;
-    //         }
-    //         await updateJobOnServer(jobId, { companyrejected: targetJob.companyrejected });
-    //         setJobResponses(prev => ({
-    //             ...prev,
-    //             [jobId]: selectedValue
-    //         }));
-    //
-    //         // Redirect if the selected value is "accepted"
-    //         // Redirect if the selected value is "accepted"
-    //         if (selectedValue === 'accepted') {
-    //             navigate(`/interviewsecured/${jobId}`);
-    //         }
-    //     }
-    // };
 
     const handleResponseChange = async (e: any, jobId: string) => {
         const selectedValue = e.target.value as JobResponse;
@@ -110,7 +60,14 @@ export const JobViewAll = () => {
                 targetJob.companyrejected = false;
                 targetJob.companyresponded = true;
                 setJobDeclined(false);
-            } else {
+            }
+
+            else if (selectedValue === 'update') {
+               console.log("do you want to update?")
+            }
+
+
+            else {
                 targetJob.companyrejected = false;
                 targetJob.companyresponded = false;
                 setJobDeclined(false);
@@ -127,32 +84,6 @@ export const JobViewAll = () => {
             }));
         }
     };
-
-
-    // const buttonUpdateChange = () => {
-    //     navigate(`/interviewsecured/${jobId}`);
-    //
-    // }
-
-
-    // const updateJobOnServer = async (jobId: string, data: { companyrejected: boolean }) => {
-    //     // Make a PATCH request to your server to update the job with jobId
-    //     try {
-    //         const response = await fetch(`http://localhost:8080/api/jobs/update/${jobId}`, {
-    //             method: 'PATCH',
-    //             headers: { 'Content-Type': 'application/json' },
-    //             body: JSON.stringify(data)
-    //         });
-    //
-    //         if (!response.ok) {
-    //             throw new Error("Failed to update job.");
-    //         }
-    //         // Optionally, update your local state if the server responds with updated data.
-    //         // const updatedJob = await response.json();
-    //     } catch (error) {
-    //         console.error("Error updating job:", error);
-    //     }
-    // };
 
     const updateJobOnServer = async (jobId: string, data: { companyrejected: boolean; companyresponded?: boolean }) => {
         // Make a PATCH request to your server to update the job with jobId
@@ -174,17 +105,12 @@ export const JobViewAll = () => {
     };
 
 
-
-
-
-
     const filteredAndRespondedJobs = jobs
         .filter(job => !job.companyrejected)
         .filter(job =>
             (onlyShowResponded ? job.companyresponded : true) &&
             job.companyname.toLowerCase().includes(filter.toLowerCase())
         );
-
 
 
     const sortedAndRespondedJobs = [...filteredAndRespondedJobs].sort((a, b) => {
@@ -247,51 +173,6 @@ export const JobViewAll = () => {
         setSortOrder('company-z-a');
     };
 
-    // const ResponseButton = styled.button<{ responded?: boolean, rejected?: boolean }>`
-    // background-color: ${({ responded, rejected }) => {
-    //     if (responded) return 'green';
-    //     if (rejected) return 'red';
-    //     return 'blue';
-    // }};
-    // color: white;
-    // border: none;
-    // padding: 8px 15px;
-    // cursor: pointer;
-    // border-radius: 5px;
-    // transition: background-color 0.3s ease;
-    //
-    // &:hover {
-    //     background-color: ${({ responded, rejected }) => {
-    //     if (responded) return 'darkgreen';
-    //     if (rejected) return 'darkred';
-    //     return 'darkblue';
-    // }};
-    // }
-// `;
-
-    // const onButtonClick = (response: JobResponse, jobId: string) => {
-    //     // Find the job in the jobs array using the provided jobId
-    //     const targetJob = jobs.find(job => job.id === Number(jobId));
-    //
-    //     if (response === 'accepted') {
-    //         navigate(`/interviewsecured/${jobId}`);
-    //         console.log("Preparing for interview");
-    //     } else if (response === 'declined') {
-    //         console.log("Handling declined job application");
-    //
-    //         // Check if targetJob exists and then update its companyrejected property
-    //         if (targetJob) {
-    //             targetJob.companyrejected = true;
-    //         }
-    //
-    //         // Note: You might also want to update this status on the server or wherever
-    //         // the jobs data is coming from, to persist this change.
-    //
-    //     } else {
-    //         console.log("Awaiting response from company");
-    //     }
-    // };
-
 
     const onButtonClick = async (response: JobResponse, jobId: string) => {
         const targetJob = jobs.find(job => job.id === Number(jobId));
@@ -326,11 +207,6 @@ export const JobViewAll = () => {
     };
 
 
-
-
-
-
-
     return (
         <>
             {isMobile ? (
@@ -351,6 +227,7 @@ export const JobViewAll = () => {
                                         <option value="accepted">Accepted</option>
                                         <option value="declined">Declined</option>
                                         <option value="no response">No Response</option>
+                                        <option value="update">Update</option>
                                     </select>
                                 </JobTitleDiv>
 
@@ -424,10 +301,13 @@ export const JobViewAll = () => {
                                     <TableCell>
                                         <select value={jobResponses[job.id] || 'no response'} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleResponseChange(e, String(job.id))}>
                                             <option value="accepted">Accepted</option>
+                                            <option value="update">Update</option>
+
                                             <option value="declined">Declined</option>
                                             <option value="no response">No Response</option>
                                         </select>
                                     </TableCell>
+
                                     <TableCell>
                                         {jobResponses[job.id] === "accepted" ? (
                                             <Button
@@ -437,6 +317,14 @@ export const JobViewAll = () => {
                                             >
                                                 Interview
                                             </Button>
+                                        ) : jobResponses[job.id] === "update" ? (
+                                            <Button
+                                                variant="contained"
+                                                style={{backgroundColor: 'purple', width: '120px', height: '40px'}}
+                                                onClick={() => onButtonClick('update', String(job.id))}
+                                            >
+                                                Update
+                                            </Button>
                                         ) : jobResponses[job.id] === "declined" ? (
                                             <Button
                                                 variant="contained"
@@ -445,11 +333,8 @@ export const JobViewAll = () => {
                                             >
                                                 Declined
                                             </Button>
-                                        ) : null }
+                                        ) : null}
                                     </TableCell>
-
-
-
 
 
 

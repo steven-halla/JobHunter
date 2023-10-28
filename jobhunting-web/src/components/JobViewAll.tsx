@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Select, MenuItem } from '@mui/material';
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Select, MenuItem } from '@mui/material';
 import { JobsContext } from "../services/jobcontext";
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -232,6 +232,28 @@ export const JobViewAll = () => {
         setSortOrder('company-z-a');
     };
 
+    // const ResponseButton = styled.button<{ responded?: boolean, rejected?: boolean }>`
+    // background-color: ${({ responded, rejected }) => {
+    //     if (responded) return 'green';
+    //     if (rejected) return 'red';
+    //     return 'blue';
+    // }};
+    // color: white;
+    // border: none;
+    // padding: 8px 15px;
+    // cursor: pointer;
+    // border-radius: 5px;
+    // transition: background-color 0.3s ease;
+    //
+    // &:hover {
+    //     background-color: ${({ responded, rejected }) => {
+    //     if (responded) return 'darkgreen';
+    //     if (rejected) return 'darkred';
+    //     return 'darkblue';
+    // }};
+    // }
+// `;
+
 
 
 
@@ -333,8 +355,31 @@ export const JobViewAll = () => {
                                         </select>
                                     </TableCell>
                                     <TableCell>
-                                        <button>Click</button>
+                                        {jobResponses[job.id] === "accepted" ? (
+                                            <Button
+                                                variant="contained"
+                                                style={{backgroundColor: 'green'}}
+                                            >
+                                                Interview
+                                            </Button>
+                                        ) : jobResponses[job.id] === "declined" ? (
+                                            <Button
+                                                variant="contained"
+                                                style={{backgroundColor: 'red'}}
+                                            >
+                                                Declined
+                                            </Button>
+                                        ) : (
+                                            <Button
+                                                variant="contained"
+                                                style={{backgroundColor: 'blue'}}
+                                            >
+                                                No Response
+                                            </Button>
+                                        )}
                                     </TableCell>
+
+
 
                                 </TableRow>
                             ))}
@@ -379,6 +424,9 @@ export const JobViewAll = () => {
     );
 
 };
+
+
+
 
 const SortLabelContainer = styled.div`
     display: flex;

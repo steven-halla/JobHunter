@@ -22,6 +22,7 @@ export const JobViewAll = () => {
     const history = useNavigate();
     const navigate = useNavigate();
 
+
     const [isDescriptionModalOpen, setDescriptionModalOpen] = useState(false);
     const [selectedDescription, setSelectedDescription] = useState('');
 

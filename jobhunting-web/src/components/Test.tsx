@@ -28,14 +28,7 @@ export const Test = () => {
                 margin="normal"
             />
 
-            <TextField
-                id="jobposter"
-                label="Job Poster"
-                variant="outlined"
-                defaultValue="vvvvv "
-                fullWidth
-                margin="normal"
-            />
+
 
             <TextField
                 id="primarycontact"
@@ -61,73 +54,17 @@ export const Test = () => {
                 margin="normal"
             />
 
-            <TextField
-                id="meetingLink"
-                label="Meeting Link"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-            />
 
-            <TextField
-                id="interviewnotes"
-                label="Interview Notes"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-            />
 
-            <TextField
-                id="customfield"
-                label="Custom Field"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-            />
 
-            <TextField
-                id="interviewernames"
-                label="Interviewer Names"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-            />
 
-            <TextField
-                id="dateapplied"
-                label="Date Applied"
-                variant="outlined"
-                type="date"
-                InputLabelProps={{ shrink: true }}
-                fullWidth
-                margin="normal"
-            />
 
-            <TextField
-                id="interviewdate"
-                label="Interview Date"
-                variant="outlined"
-                type="date"
-                InputLabelProps={{ shrink: true }}
-                fullWidth
-                margin="normal"
-            />
 
-            <TextField
-                id="companyresponded"
-                label="Company Responded"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-            />
 
-            <TextField
-                id="companyrejected"
-                label="Company Rejected"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-            />
+
+
+
+
 
             <Button
                 variant="contained"

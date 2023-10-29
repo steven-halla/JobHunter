@@ -24,7 +24,7 @@ export const Home: React.FC = () => {
 
     const [companyname, setCompanyName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
-    const [jobposter, setJobPoster] = useState<string>("");
+    const [jobposter, setJobPoster] = useState<string>("n/a");
     const [  primarycontact, setPrimaryContact] = useState<string>("");
     const [ companywebsitelink, setCompanyWebSiteLink] = useState<string>("");
     const [ joblink, setJobLink] = useState<string>("");
@@ -249,11 +249,11 @@ export const Home: React.FC = () => {
 
                 </FieldContainer>
 
-                <FieldContainer>
-                    <StyledInputLabel>Job Poster</StyledInputLabel>
-                    <StyledTextField  value={jobposter} onChange={handleJobPosterChange} />
+                {/*<FieldContainer>*/}
+                {/*    <StyledInputLabel>Job Poster</StyledInputLabel>*/}
+                {/*    <StyledTextField  value={jobposter} onChange={handleJobPosterChange} />*/}
 
-                </FieldContainer>
+                {/*</FieldContainer>*/}
 
                 <FieldContainer>
                     <StyledInputLabel>Primary Contact</StyledInputLabel>
@@ -272,11 +272,11 @@ export const Home: React.FC = () => {
 
                 </FieldContainer>
 
-                <FieldContainer>
-                    <StyledInputLabel>Custom Notes</StyledInputLabel>
-                    <StyledTextField  value={customfield} onChange={handleCustomField} />
+                {/*<FieldContainer>*/}
+                {/*    <StyledInputLabel>Custom Notes</StyledInputLabel>*/}
+                {/*    <StyledTextField  value={customfield} onChange={handleCustomField} />*/}
 
-                </FieldContainer>
+                {/*</FieldContainer>*/}
 
 
 

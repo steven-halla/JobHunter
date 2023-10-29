@@ -8,6 +8,7 @@ import styled from "styled-components";
 import {deviceJobViewAll} from "../common/ScreenSizes";
 
 
+
 export const JobViewAll = () => {
     // ... (keeping all your state and functions here)
     const { jobs, updateJobRejected, meetingLink} = useContext(JobsContext);
@@ -51,6 +52,8 @@ export const JobViewAll = () => {
         const selectedValue = e.target.value as JobResponse;
         const targetJob = jobs.find(job => job.id === Number(jobId));
 
+        // <-- get the navigate function using the hook
+
         if (targetJob) {
             if (selectedValue === 'declined') {
                 targetJob.companyresponded = false;
@@ -63,7 +66,7 @@ export const JobViewAll = () => {
             }
 
             else if (selectedValue === 'update') {
-               console.log("do you want to update?")
+                console.log("do you want to update?")
             }
 
 
@@ -182,6 +185,10 @@ export const JobViewAll = () => {
         if (response === 'accepted') {
             navigate(`/interviewsecured/${jobId}`);
             console.log("Preparing for interview");
+        }
+        else if (response === 'update') {
+            navigate(`/updatejob/${jobId}`);  // <-- navigate to the update job page with the jobId
+
         } else if (response === 'declined') {
             console.log("Handling declined job application");
 

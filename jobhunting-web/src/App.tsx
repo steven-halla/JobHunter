@@ -25,6 +25,7 @@ import {InterviewSecured} from "./components/InterviewSecured";
 import {JobsAppliedDateGraph} from "./components/JobsAppliedDateGraph";
 import {Header} from "./components/Header";
 import {Test} from "./components/Test";
+import {UpdateJob} from "./components/UpdateJob";
 // import {WeedList} from "./components/WeedList";
 
 // NOTE WE ARE GOING TO BE CHANGING TO A CRAFT BEER MODEL FOR THE PUBLIC
@@ -51,6 +52,7 @@ const App = () => {
                     <Route path="/companynoresponse" element={<CompanyNoResponse />} />
                     <Route path="/interviewsecured/:jobId" element={<InterviewSecured />} />
                     <Route path="/test" element={<Test />} />
+                    <Route path="/updatejob/:jobId" element={<UpdateJob />} />
 
 
 

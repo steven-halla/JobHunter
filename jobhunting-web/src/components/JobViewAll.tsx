@@ -135,6 +135,7 @@ export const JobViewAll = () => {
                 return new Date(a.dateapplied).getTime() - new Date(b.dateapplied).getTime();
             case 'date-desc':
                 return new Date(b.dateapplied).getTime() - new Date(a.dateapplied).getTime();
+
             default:
                 return 0;
         }
@@ -308,7 +309,7 @@ export const JobViewAll = () => {
                                 </TableCell>
 
 
-                                <TableCell>Job Poster</TableCell>
+                                {/*<TableCell>Job Poster</TableCell>*/}
                                 <TableCell>Job Link</TableCell>
                                 <TableCell>Website </TableCell>
                                 <TableCell>Responded</TableCell>
@@ -320,12 +321,12 @@ export const JobViewAll = () => {
                             {sortedAndRespondedJobs.map((job, index) => (
                                 <TableRow key={job.id}>
                                     <TableCell>{new Date(job.dateapplied).toISOString().split('T')[0]}</TableCell>
-                                    <TableCell>{job.companyname}</TableCell>
+                                    <StyledTableCell>{job.companyname}</StyledTableCell>
                                     <TableCell>
                                         <TextButton onClick={() => openDescriptionModal(job.description)}>Click to View</TextButton>
                                     </TableCell>
-                                    <TableCell>{job.primarycontact}</TableCell>
-                                    <TableCell>{job.jobposter}</TableCell>
+                                    <StyledTableCell>{job.primarycontact}</StyledTableCell>
+                                    {/*<TableCell>{job.jobposter}</TableCell>*/}
                                     <TableCell><a href={job.joblink} target="_blank" rel="noopener noreferrer">LINK</a></TableCell>
                                     <TableCell><a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">LINK</a></TableCell>
                                     <TableCell>

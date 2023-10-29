@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import {deviceJobViewAll} from "../common/ScreenSizes";
+import axios from "axios";
 
 
 
@@ -36,7 +37,7 @@ export const JobViewAll = () => {
     }, [jobResponses]);
 
 
-    type JobResponse = 'accepted' | 'declined' | 'no response' | 'update';
+    type JobResponse = 'accepted' | 'declined' | 'no response' | 'delete' | 'update';
 
     const openDescriptionModal = (description: string) => {
         console.log("openDescriptionModal called with:", description);
@@ -67,6 +68,10 @@ export const JobViewAll = () => {
 
             else if (selectedValue === 'update') {
                 console.log("do you want to update?")
+            }
+
+            else if (selectedValue === 'delete') {
+                console.log("we may need to delete this")
             }
 
 
@@ -189,7 +194,25 @@ export const JobViewAll = () => {
         else if (response === 'update') {
             navigate(`/updatejob/${jobId}`);  // <-- navigate to the update job page with the jobId
 
-        } else if (response === 'declined') {
+        }
+
+        else if (response === 'delete') {
+            axios.delete(`http://localhost:8080/api/jobs/${jobId}`)
+                .then(res => {
+                    console.log('Job deleted successfully:', res.data);
+                    window.location.reload();
+
+                    // Handle success (e.g., update UI, show a success message, etc.)
+                })
+                .catch(err => {
+                    console.error('Error deleting job:', err);
+                    // Handle error (e.g., show an error message)
+                });
+        }
+
+
+
+        else if (response === 'declined') {
             console.log("Handling declined job application");
 
             // Set companyrejected to true and companyresponded to false
@@ -310,6 +333,7 @@ export const JobViewAll = () => {
                                             <option value="accepted">Accepted</option>
                                             <option value="update">Update</option>
                                             <option value="declined">Declined</option>
+                                            <option value="delete">Delete</option>
                                             <option value="no response">No Response</option>
                                         </select>
                                     </TableCell>
@@ -334,11 +358,22 @@ export const JobViewAll = () => {
                                         ) : jobResponses[job.id] === "declined" ? (
                                             <Button
                                                 variant="contained"
-                                                style={{backgroundColor: 'red', width: '120px', height: '40px'}}
+                                                style={{backgroundColor: 'orange', width: '120px', height: '40px'}}
                                                 onClick={() => onButtonClick('declined', String(job.id))}
                                             >
                                                 Declined
                                             </Button>
+
+                                        ) : jobResponses[job.id] === "delete" ? (
+                                            <Button
+                                                variant="contained"
+                                                style={{backgroundColor: 'red', width: '120px', height: '40px'}}
+                                                onClick={() => onButtonClick('delete', String(job.id))}
+                                            >
+                                                Delete
+                                            </Button>
+
+
                                         ) : null}
                                     </TableCell>
 

@@ -7,7 +7,7 @@ import {Job} from "../models/Job";
 import axios from "axios";
 import CloseIcon from '@mui/icons-material/Close';
 
-
+//need to make snackbar not stay for so long
 
 
 export const UpdateJob = () => {

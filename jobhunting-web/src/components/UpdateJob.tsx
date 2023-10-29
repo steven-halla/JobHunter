@@ -1,19 +1,29 @@
 import React, {useContext, useEffect, useState} from "react";
 import Box from "@mui/material/Box";
-import {Button, TextField} from "@mui/material";
+import {Button, IconButton, Snackbar, TextField} from "@mui/material";
 import {useParams} from "react-router-dom";
 import {JobsContext} from "../services/jobcontext";
 import {Job} from "../models/Job";
 import axios from "axios";
+import CloseIcon from '@mui/icons-material/Close';
+
 
 
 
 export const UpdateJob = () => {
     const { jobId } = useParams<{ jobId: string }>();  // Extracting jobId from URL params
     const { jobs, setJobs, updateJobRejected, updateJobResponded } = useContext(JobsContext);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
 
     const currentJob = jobs.find(job => job.id === Number(jobId));
     const [formData, setFormData] = useState<Job>(currentJob || {} as Job);
+
+    const handleCloseSnackbar = (event: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenSnackbar(false);
+    };
 
 
     useEffect(() => {
@@ -32,7 +42,10 @@ export const UpdateJob = () => {
         try {
             const response = await axios.patch(`http://localhost:8080/api/jobs/update/${jobId}`, formData);
             // Update jobs in context with the updated job details.
+
             setJobs(prevJobs => prevJobs.map(job => job.id === Number(jobId) ? formData : job));
+            setOpenSnackbar(true);
+
         } catch (error) {
             console.error('Error updating job:', error);
         }
@@ -110,6 +123,28 @@ export const UpdateJob = () => {
             >
                 Submit
             </Button>
+
+            <Snackbar
+                style={{
+                    position: 'fixed',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)'
+                }}
+                open={openSnackbar}
+                autoHideDuration={6000}
+                onClose={handleCloseSnackbar}
+                message="Update successful"
+                action={
+                    <React.Fragment>
+                        <IconButton size="small" aria-label="close" color="inherit" onClick={handleCloseSnackbar}>
+                            <CloseIcon fontSize="small" />
+                        </IconButton>
+                    </React.Fragment>
+                }
+            />
+
+
         </Box>
     );
 };

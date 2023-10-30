@@ -44,25 +44,28 @@ export const CompanyNoResponse = () => {
     //     // alert("Congrats on getting them to respond!")
     // };
 
-    const sortedAndRespondedJobs = [...jobs].sort((a, b) => {
-        switch (sortOrder) {
-            case 'company-a-z':
-                return a.companyname.toLowerCase().localeCompare(b.companyname.toLowerCase());
-            case 'company-z-a':
-                return b.companyname.toLowerCase().localeCompare(a.companyname.toLowerCase());
-            case 'contact-a-z':
-                return a.primarycontact.toLowerCase().localeCompare(b.primarycontact.toLowerCase());
-            case 'contact-z-a':
-                return b.primarycontact.toLowerCase().localeCompare(a.primarycontact.toLowerCase());
-            case 'date-asc':
-                return new Date(a.dateapplied).getTime() - new Date(b.dateapplied).getTime();
-            case 'date-desc':
-                return new Date(b.dateapplied).getTime() - new Date(a.dateapplied).getTime();
+    const sortedAndRespondedJobs = jobs
+        .filter(job => !job.companyresponded) // This filters out jobs where companyresponded is true
+        .sort((a, b) => {
+            switch (sortOrder) {
+                case 'company-a-z':
+                    return a.companyname.toLowerCase().localeCompare(b.companyname.toLowerCase());
+                case 'company-z-a':
+                    return b.companyname.toLowerCase().localeCompare(a.companyname.toLowerCase());
+                case 'contact-a-z':
+                    return a.primarycontact.toLowerCase().localeCompare(b.primarycontact.toLowerCase());
+                case 'contact-z-a':
+                    return b.primarycontact.toLowerCase().localeCompare(a.primarycontact.toLowerCase());
+                case 'date-asc':
+                    return new Date(a.dateapplied).getTime() - new Date(b.dateapplied).getTime();
+                case 'date-desc':
+                    return new Date(b.dateapplied).getTime() - new Date(a.dateapplied).getTime();
 
-            default:
-                return 0;
-        }
-    });
+                default:
+                    return 0;
+            }
+        });
+
 
     const handleDateSortAsc = () => {
         setSortOrder('date-asc');

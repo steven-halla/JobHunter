@@ -15,7 +15,20 @@ export const JobViewAll = () => {
     const { jobs, updateJobRejected, meetingLink} = useContext(JobsContext);
     const [filter] = useState('');
     const [onlyShowResponded] = useState(false);
-    const [sortOrder, setSortOrder] = useState<'company-a-z' | 'company-z-a' | 'contact-a-z' | 'contact-z-a' | 'date-asc' | 'date-desc'>('date-asc');
+    const [sortOrder, setSortOrder] = useState<
+        'company-a-z' |
+        'company-z-a' |
+        'contact-a-z' |
+        'contact-z-a' |
+        'date-asc' |
+        'date-desc' |
+        'accepted' |
+        'declined' |
+        'no response' |
+        'delete' |
+        'update'
+    >('date-asc');
+
     // const [jobResponses, setJobResponses] = useState<Record<string, JobResponse>>({});
     const history = useNavigate();
     const navigate = useNavigate();
@@ -121,8 +134,17 @@ export const JobViewAll = () => {
         );
 
 
+
+    const responsePriority: Record<JobResponse, number> = {
+        'accepted': 1,
+        'update': 2,
+        'declined': 3,
+        'no response': 4,
+        'delete': 5
+    };
+
     const sortedAndRespondedJobs = [...filteredAndRespondedJobs].sort((a, b) => {
-        switch(sortOrder) {
+        switch (sortOrder) {
             case 'company-a-z':
                 return a.companyname.toLowerCase().localeCompare(b.companyname.toLowerCase());
             case 'company-z-a':
@@ -135,11 +157,23 @@ export const JobViewAll = () => {
                 return new Date(a.dateapplied).getTime() - new Date(b.dateapplied).getTime();
             case 'date-desc':
                 return new Date(b.dateapplied).getTime() - new Date(a.dateapplied).getTime();
+            case 'accepted':
+                return (jobResponses[b.id] === 'accepted' ? 1 : 0) - (jobResponses[a.id] === 'accepted' ? 1 : 0);
+            case 'declined':
+                return (jobResponses[b.id] === 'declined' ? 1 : 0) - (jobResponses[a.id] === 'declined' ? 1 : 0);
+            case 'no response':
+                return (jobResponses[b.id] === 'no response' ? 1 : 0) - (jobResponses[a.id] === 'no response' ? 1 : 0);
 
+            case 'delete':
+                return (jobResponses[b.id] === 'delete' ? 1 : 0) - (jobResponses[a.id] === 'delete' ? 1 : 0);
+            case 'update':
+                return (jobResponses[b.id] === 'update' ? 1 : 0) - (jobResponses[a.id] === 'update' ? 1 : 0);
             default:
                 return 0;
         }
     });
+
+
 
     const [isMobile, setIsMobile] = useState(window.matchMedia(deviceJobViewAll.mobile).matches);
     const [isLaptop, setIsLaptop] = useState(window.matchMedia(deviceJobViewAll.tablet).matches);
@@ -312,7 +346,27 @@ export const JobViewAll = () => {
                                 {/*<TableCell>Job Poster</TableCell>*/}
                                 <TableCell>Job Link</TableCell>
                                 <TableCell>Website </TableCell>
-                                <TableCell>Responded</TableCell>
+
+
+                                <TableCell>
+                                    <Select value={sortOrder} onChange={e => setSortOrder(e.target.value as
+
+                                        "accepted" |
+                                        "declined" |
+                                        "no response" |
+                                        "delete" |
+                                        "update"
+                                    )}
+                                    >
+                                        <MenuItem value="accepted">Response: Accepted</MenuItem>
+                                        <MenuItem value="declined">Response: Declined</MenuItem>
+                                        <MenuItem value="no response">Response: No Response</MenuItem>
+                                        <MenuItem value="delete">Response: Delete</MenuItem>
+                                        <MenuItem value="update">Response: Update</MenuItem>
+                                    </Select>
+                                </TableCell>
+
+
                                 <TableCell>Button</TableCell>
 
                             </TableRow>

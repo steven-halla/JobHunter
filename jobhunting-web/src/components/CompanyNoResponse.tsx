@@ -146,6 +146,9 @@ export const CompanyNoResponse = () => {
                     Link
                 </JobLinkDiv>
                 <CompnanyRespondedDiv>Responded</CompnanyRespondedDiv>
+                <CompanyNameDiv>Rejected?
+
+                </CompanyNameDiv>
             </HeaderDiv>
 
                 {sortedAndRespondedJobs.map((job) => (
@@ -165,6 +168,14 @@ export const CompanyNoResponse = () => {
                         onChange={(event) => handleCheckboxChange(job.id, event.target.checked)}
                     />
                 </JobInfoDiv>
+                <JobInfoDiv>
+                    {job.companyrejected}
+                    <input
+                        type="checkbox"
+                        checked={job.companyrejected}
+                    />
+                </JobInfoDiv>
+
             </DataDiv>
         ))}
 

@@ -290,6 +290,15 @@ background-color: navy;
     align-items: center;
     margin-top: 5%;
      // This will shift it to the left by 2% of its width
+    
+    
+  }
+
+  @media ${device.laptop} {
+    justify-content: center;
+    align-items: center;
+    margin-top: 2%;
+    // This will shift it to the left by 2% of its width
   }
 `;
 
@@ -363,11 +372,11 @@ export const HomeWrapperDiv = styled.div`
     height: 100vh;
     flex-direction: column;
     justify-content: space-between;
-    
-    p {
-      text-align: center;
-      //color: red;
-    }
+    //
+    //p {
+    //  text-align: center;
+    //  //color: red;
+    //}
   }
 `;
 
@@ -375,6 +384,7 @@ export const CustomFieldsDiv = styled.div`
   display: flex;
   margin-top: 20px;
   background-color: blue;
+  padding-right: 2px;
   
   @media ${device.mobile} {
     display: flex;
@@ -392,8 +402,6 @@ export const CustomFieldsDiv = styled.div`
     width: 100%;
     align-items: center;
     justify-content: center;
-    
- 
   }
 `;
 
@@ -428,12 +436,12 @@ export const CustomFieldForm = styled.form`
   
   @media ${device.laptop} {
     display: flex;
-    height: 30vh;
-    align-items: flex-end; // Add this line
-    //background-color: red;
-    flex-wrap: wrap;
-    margin-bottom: 35vh;
-    padding-left: 4vw;   
+    //background-color: yellow;
+    width: 100vw;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    margin-bottom: 5%;
     
     input {
       display: flex;
@@ -456,7 +464,8 @@ export const CustomFieldForm = styled.form`
 const FieldContainer = styled.div`
   background-color: lightsalmon;
   @media ${device.laptop} {
-    width: 25%; 
+    //margin-bottom: 5%;
+    width: 37%; 
     display: flex;
     flex-direction: column;
     align-items: flex-start; // This ensures children align to the start
@@ -467,9 +476,6 @@ const FieldContainer = styled.div`
     width: 80%;
     //background-color: plum;
   }
-  
-  
-  
   
 `;
 
@@ -501,6 +507,7 @@ export const URLSelect = styled.select`
 
 export const FooterDiv =  styled.div`
   display: flex;
+  background-color: olive;
   
   @media ${device.mobile} {
     display: flex;
@@ -510,17 +517,3 @@ export const FooterDiv =  styled.div`
   }
 `
 
-export const JobCounterDiv = styled.div`
-  display: flex;
-  
-  @media ${device.mobile} {
-    display: flex;
-  }
-
-  @media ${device.laptop} {
-    display: flex;
-    margin-right: 5vw;
-    justify-content: center;
-    align-content: center;
-  }
-`;

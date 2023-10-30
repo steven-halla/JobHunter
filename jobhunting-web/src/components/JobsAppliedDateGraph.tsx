@@ -153,7 +153,7 @@ export const BarGraphDiv = styled.div`
   width: 85vw;
   justify-content: center;
   align-items: center;
-  margin-right: 7vw;
+  margin-right: 12vw;
   
   @media ${device.laptop} {
     display: flex;
@@ -162,7 +162,7 @@ export const BarGraphDiv = styled.div`
     width: 85vw;
     justify-content: center;
     align-items: center;
-    margin-right: 3vw;
+    margin-right: 5vw;
   }
 `;
 

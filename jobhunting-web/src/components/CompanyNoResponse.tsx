@@ -186,7 +186,6 @@ export const CompanyNoResponse = () => {
 
 const CompanyNoResponseDiv = styled.div`
   display: flex;
-  background-color: #aeff93;
   height: 100vh;
   width: 100vw;
   flex-direction: column;
@@ -196,7 +195,6 @@ const CompanyNoResponseDiv = styled.div`
 
 const HeaderDiv = styled.div`
   display: flex;
-  background-color: orangered;
   height: 10vh;
   width: 90vw;
   margin-left: 5vw;
@@ -205,7 +203,6 @@ const HeaderDiv = styled.div`
 
 const CompanyNameDiv = styled.div`
   display: flex;
-  background-color: linen;
   height: 10vh;
   width: 20%;
   justify-content: center;
@@ -215,7 +212,6 @@ const CompanyNameDiv = styled.div`
 
 const JobPosterDiv = styled.div`
   display: flex;
-  background-color: olive;
   height: 10vh;
   width: 20%;
   justify-content: center;
@@ -225,7 +221,6 @@ const JobPosterDiv = styled.div`
 
 const DateAppliedDiv = styled.div`
   display: flex;
-  background-color: lightskyblue;
   height: 10vh;
   width: 20%;
   justify-content: center;
@@ -235,7 +230,6 @@ const DateAppliedDiv = styled.div`
 
 const JobLinkDiv = styled.div`
   display: flex;
-  background-color: lightsalmon;
   height: 10vh;
   width: 20%;
   justify-content: center;
@@ -256,7 +250,6 @@ const JobLinkDiv = styled.div`
 
 const CompnanyRespondedDiv = styled.div`
   display: flex;
-  background-color: plum;
   height: 10vh;
   width: 20%;
   justify-content: center;
@@ -268,7 +261,6 @@ const CompnanyRespondedDiv = styled.div`
 
 const DataDiv = styled.div`
   display: flex;
-  background-color: skyblue;
 
   justify-content: center;
   align-items: center;
@@ -282,7 +274,6 @@ const DataDiv = styled.div`
 
 const JobInfoDiv = styled.div`
   display: flex;
-  background-color: skyblue;
 
   justify-content: center;
   align-items: center;

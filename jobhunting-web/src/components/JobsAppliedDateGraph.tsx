@@ -126,7 +126,6 @@ export const JobsAppliedDateGraph: React.FC = () => {
 
 export const JobsAppliedDateGraphDiv = styled.div`
   display: flex;
-  background-color: red;
   height: 100vh;
   width: 100vw;
   justify-content: center; 
@@ -140,7 +139,6 @@ export const GraphContainer = styled.div`
 
 export const NumberOfJobsAppliedDiv = styled.div`
   display: flex;
-  background-color: whitesmoke;
   height: 15vh;
   width: 70vw;
   justify-content: center;
@@ -150,7 +148,6 @@ export const NumberOfJobsAppliedDiv = styled.div`
 
 export const BarGraphDiv = styled.div`
   display: flex;
-  background-color: yellow;
   margin-top: 10px;
   height: 60vh;
   width: 85vw;
@@ -160,7 +157,6 @@ export const BarGraphDiv = styled.div`
   
   @media ${device.laptop} {
     display: flex;
-    background-color: yellow;
     margin-top: 10px;
     height: 60vh;
     width: 85vw;
@@ -172,7 +168,6 @@ export const BarGraphDiv = styled.div`
 
 export const MonthPickerDiv = styled.div`
   display: flex;
-  background-color: #ffb852;
   height: 10vh;
   width: 70vw;
   align-items: center;

@@ -83,6 +83,10 @@ export const JobViewAll = () => {
                 console.log("do you want to update?")
             }
 
+            else if (selectedValue === 'no response') {
+                console.log("no response?")
+            }
+
             else if (selectedValue === 'delete') {
                 console.log("we may need to delete this")
             }
@@ -162,7 +166,12 @@ export const JobViewAll = () => {
             case 'declined':
                 return (jobResponses[b.id] === 'declined' ? 1 : 0) - (jobResponses[a.id] === 'declined' ? 1 : 0);
             case 'no response':
-                return (jobResponses[b.id] === 'no response' ? 1 : 0) - (jobResponses[a.id] === 'no response' ? 1 : 0);
+                console.log("Job A ID:", a.id, "Response:", jobResponses[a.id]);
+                console.log("Job B ID:", b.id, "Response:", jobResponses[b.id]);
+                // return (jobResponses[b.id] === 'no response' ? 1 : 0) - (jobResponses[a.id] === 'no response' ? 1 : 0);
+                const responseA = jobResponses[a.id] || 'no response'; // default to 'no response' if undefined
+                const responseB = jobResponses[b.id] || 'no response'; // default to 'no response' if undefined
+                return (responseB === 'no response' ? 1 : 0) - (responseA === 'no response' ? 1 : 0);
 
             case 'delete':
                 return (jobResponses[b.id] === 'delete' ? 1 : 0) - (jobResponses[a.id] === 'delete' ? 1 : 0);
@@ -350,10 +359,10 @@ export const JobViewAll = () => {
 
                                 <TableCell>
                                     <Select value={sortOrder} onChange={e => setSortOrder(e.target.value as
+                                        "no response" |
 
                                         "accepted" |
                                         "declined" |
-                                        "no response" |
                                         "delete" |
                                         "update"
                                     )}

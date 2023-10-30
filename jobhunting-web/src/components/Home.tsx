@@ -249,11 +249,6 @@ export const Home: React.FC = () => {
 
                 </FieldContainer>
 
-                {/*<FieldContainer>*/}
-                {/*    <StyledInputLabel>Job Poster</StyledInputLabel>*/}
-                {/*    <StyledTextField  value={jobposter} onChange={handleJobPosterChange} />*/}
-
-                {/*</FieldContainer>*/}
 
                 <FieldContainer>
                     <StyledInputLabel>Primary Contact</StyledInputLabel>
@@ -271,39 +266,34 @@ export const Home: React.FC = () => {
                     <StyledTextField  value={joblink} onChange={handleJobLink} />
 
                 </FieldContainer>
+                <ButtonDiv>
+                    <SubmitButton variant="contained" type="submit">Submit</SubmitButton>
 
-                {/*<FieldContainer>*/}
-                {/*    <StyledInputLabel>Custom Notes</StyledInputLabel>*/}
-                {/*    <StyledTextField  value={customfield} onChange={handleCustomField} />*/}
-
-                {/*</FieldContainer>*/}
-
-
-
-                {/*<SubmitButton type="submit">Create Job</SubmitButton>*/}
-                <SubmitButton variant="contained" type="submit">Submit</SubmitButton>
-
-
+                </ButtonDiv>
 
             </CustomFieldForm>
-
 
             <FooterDiv/>
 
         </HomeWrapperDiv>
-
 
     );
 
 };
 
 
-// const StyledInputLabel = styled(InputLabel)`
-//   width: 100%;
-//   height: 30px;
-//   margin-right: -12%;  // Add this line
-//   background-color: blue;
-// `;
+const ButtonDiv = styled.div`
+background-color: navy;
+
+  @media ${device.mobile} {
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+     // This will shift it to the left by 2% of its width
+  }
+`;
+
+
 
 const StyledInputLabel = styled(InputLabel)`
   width: 100%;
@@ -321,66 +311,43 @@ const StyledInputLabel = styled(InputLabel)`
 `;
 
 
-// const Input = styled(input)`
-//   width: 100%;
-//   height: 30px;
-//   transform: translateX(-0.6%); // This will shift it to the left by 2% of its width
-//
-//
-//   @media ${device.mobile} {
-//     display: flex;
-//     width: 100%;
-//     height: 30px;
-//     transform: translateX(1.7%); // This will shift it to the left by 2% of its width
-//   }
-// `;
-//
-// const StyledInput = styled(MuiInput)`
-//   width: 70%;
-//   height: 30px;
-//   //background-color: white;
-//
-//   & .MuiInput-input { // MUI uses this class for the actual input field
-//     height: 30px;
-//     padding: 0 14px; // Added padding for consistency with MUI's default styles
-//   }
-//
-//   @media ${device.mobile} {
-//     display: flex;
-//     width: 100%;
-//     transform: translateX(1.7%); // This will shift it to the left by 1.7% of its width
-//   }
-// `;
+
+
 const BaseStyledTextField = styled(TextField)`
-  width: 70%;
 
   & .MuiFilledInput-input {
     height: 20px;
-    padding: 0 14px;
-    background-color: red;
+    background-color: yellow;
   }
 
-  @media (max-width: 600px) {
-    width: 100%;
-    transform: translateX(1.7%);
-  }
+
 `;
-const StyledTextField: React.FC<TextFieldProps> = (props) => <BaseStyledTextField type="text"
-                                                                                  id="outlined-size-small" size="small" {...props} />;
+const StyledTextField: React.FC<TextFieldProps> = (props) => (
+    <BaseStyledTextField
+        type="text"
+        id="outlined-size-small"
+        size="small"
+        style={{ width: '100%' }}
+        {...props}
+    />
+);
+
+
 
 
 
 const SubmitButton = styled(Button)`
   height: 30px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  //justify-content: center;
+  //align-items: center;
   // add any other styles you need
 `;
 
 
 export const HomeWrapperDiv = styled.div`
   display: flex;
+  background-color: red;
   
   @media ${device.mobile} {
     display: flex;
@@ -407,6 +374,7 @@ export const HomeWrapperDiv = styled.div`
 export const CustomFieldsDiv = styled.div`
   display: flex;
   margin-top: 20px;
+  background-color: blue;
   
   @media ${device.mobile} {
     display: flex;
@@ -425,9 +393,7 @@ export const CustomFieldsDiv = styled.div`
     align-items: center;
     justify-content: center;
     
-    button {
-      margin-top: 10vh;
-    }
+ 
   }
 `;
 
@@ -446,6 +412,7 @@ export const FieldRow = styled.div`
 
 export const CustomFieldForm = styled.form`
   display: flex;
+  background-color: purple;
   
 
   @media ${device.mobile} {
@@ -454,14 +421,9 @@ export const CustomFieldForm = styled.form`
     width: 100vw;
     flex-direction: column;
     justify-items: center;
+    align-items: center;
 
-    button {
-      display: flex;
-      margin-top: 30px;
-      width: 20vw;
-      margin-left: 40vw;
-      
-    }
+    
   }
   
   @media ${device.laptop} {
@@ -485,25 +447,14 @@ export const CustomFieldForm = styled.form`
       margin-left: 5px;
     }
     
-    button {
-      height: 40px;
-      width: 21vw;
-      max-width: 155px;
-    }
+ 
   }
 `;
 
-// const FieldContainer = styled.div`
-//   @media ${device.laptop} {
-//     width: 25%;
-//     display: flex;
-//     flex-direction: column;
-//     background-color: plum;
-//     //margin-right: 1%;
-//   }
-// `;
+
 
 const FieldContainer = styled.div`
+  background-color: lightsalmon;
   @media ${device.laptop} {
     width: 25%; 
     display: flex;
@@ -511,6 +462,15 @@ const FieldContainer = styled.div`
     align-items: flex-start; // This ensures children align to the start
     //background-color: plum;
   }
+
+  @media ${device.mobile} {
+    width: 80%;
+    //background-color: plum;
+  }
+  
+  
+  
+  
 `;
 
 

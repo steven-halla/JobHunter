@@ -131,8 +131,16 @@ export const JobViewAll = () => {
     };
 
 
+    const currentDateMs = new Date().getTime(); // 1. Get current date in milliseconds
+    const TWENTY_ONE_DAYS = 21 * 24 * 60 * 60 * 1000; // Equivalent of 21 days in milliseconds
+    const twentyOneDaysAgoMs = currentDateMs - TWENTY_ONE_DAYS; // 2. Calculate the timestamp 21 days before current date
+
     const filteredAndRespondedJobs = jobs
         .filter(job => !job.companyrejected)
+        .filter(job =>
+            job.companyresponded || // If company responded, don't filter out
+            new Date(job.dateapplied).getTime() >= twentyOneDaysAgoMs // If company didn't respond, it should be less than or equal to 21 days old to be included
+        )
         .filter(job =>
             (onlyShowResponded ? job.companyresponded : true) &&
             job.companyname.toLowerCase().includes(filter.toLowerCase())

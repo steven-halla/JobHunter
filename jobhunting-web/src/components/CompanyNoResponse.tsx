@@ -1,14 +1,30 @@
-import React, { useContext } from "react";
+import React, {useContext, useState} from "react";
 import {JobsContext} from "../services/jobcontext";
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import {deviceCompanyNoResponse} from "../common/ScreenSizes";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCaretDown, faCaretUp} from "@fortawesome/free-solid-svg-icons";
 
 
 const ONE_WEEK = 168 * 60 * 60 * 1000;
 
 export const CompanyNoResponse = () => {
     const { jobs, updateJobResponded, dateApplied } = useContext(JobsContext);
+    const [sortOrder, setSortOrder] = useState<
+        'select' |
+        'company-a-z' |
+        'company-z-a' |
+        'contact-a-z' |
+        'contact-z-a' |
+        'date-asc' |
+        'date-desc' |
+        'accepted' |
+        'declined' |
+        'no response' |
+        'delete' |
+        'update'
+    >('select');
 
     // Get current date
     const currentDateMs = new Date().getTime();
@@ -28,6 +44,57 @@ export const CompanyNoResponse = () => {
     //     // alert("Congrats on getting them to respond!")
     // };
 
+    const sortedAndRespondedJobs = [...jobs].sort((a, b) => {
+        switch (sortOrder) {
+            case 'company-a-z':
+                return a.companyname.toLowerCase().localeCompare(b.companyname.toLowerCase());
+            case 'company-z-a':
+                return b.companyname.toLowerCase().localeCompare(a.companyname.toLowerCase());
+            case 'contact-a-z':
+                return a.primarycontact.toLowerCase().localeCompare(b.primarycontact.toLowerCase());
+            case 'contact-z-a':
+                return b.primarycontact.toLowerCase().localeCompare(a.primarycontact.toLowerCase());
+            case 'date-asc':
+                return new Date(a.dateapplied).getTime() - new Date(b.dateapplied).getTime();
+            case 'date-desc':
+                return new Date(b.dateapplied).getTime() - new Date(a.dateapplied).getTime();
+
+            default:
+                return 0;
+        }
+    });
+
+    const handleDateSortAsc = () => {
+        setSortOrder('date-asc');
+        console.log("tee hee please keep clicking me")
+
+    };
+
+    const handleDateSortDesc = () => {
+        setSortOrder('date-desc');
+        console.log("tee hee stop clicking me")
+
+    };
+
+    const handleContactNameSortAsc = () => {
+        setSortOrder('contact-a-z');
+    };
+
+    const handleContactNameSortDesc = () => {
+        setSortOrder('contact-z-a');
+    };
+
+    const handleCompanyNameSortAsc = () => {
+        setSortOrder('company-a-z');
+        console.log("hi")
+    };
+
+    const handleCompanyNameSortDesc = () => {
+        setSortOrder('company-z-a');
+        console.log("bye")
+    };
+
+
     const handleCheckboxChange = (jobId: number, checked: boolean) => {
         if (checked) { // If the user is trying to check the box
             const isConfirmed = window.confirm("Confirm company responded?");
@@ -42,12 +109,35 @@ export const CompanyNoResponse = () => {
     };
 
 
+
+
     return(
         <CompanyNoResponseDiv>
             <HeaderDiv>
-                <CompanyNameDiv>Company </CompanyNameDiv>
-                <DateAppliedDiv>Date </DateAppliedDiv>
-                <JobPosterDiv>Contact</JobPosterDiv>
+                <CompanyNameDiv>Company
+                    <div>
+                        <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleCompanyNameSortAsc} />
+                        <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleCompanyNameSortDesc} />
+                    </div>
+                </CompanyNameDiv>
+
+
+
+                <DateAppliedDiv>
+                    Date
+                <div>
+                    <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleDateSortAsc} />
+                    <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleDateSortDesc} />
+                </div>
+                </DateAppliedDiv>
+                <JobPosterDiv>
+
+                    Contact
+                <div>
+                    <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleContactNameSortAsc} />
+                    <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleContactNameSortDesc} />
+                </div>
+                </JobPosterDiv>
                 <JobLinkDiv>
                     Job
                     Link
@@ -55,7 +145,7 @@ export const CompanyNoResponse = () => {
                 <CompnanyRespondedDiv>Responded</CompnanyRespondedDiv>
             </HeaderDiv>
 
-                {olderJobs.map((job) => (
+                {sortedAndRespondedJobs.map((job) => (
             <DataDiv key={job.id}>
                 {/*<span>{new Date(job.dateApplied).toISOString().split('T')[0]}</span>*/}
                 <JobInfoDiv>{job.companyname}</JobInfoDiv>

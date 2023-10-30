@@ -360,6 +360,8 @@ export const JobViewAll = () => {
 
                                 <TableCell>
                                     <Select
+                                        style={{ width: '140px' }}
+
                                         value={sortOrder}
                                         onChange={e => setSortOrder(e.target.value as
                                         "no response" |
@@ -381,7 +383,7 @@ export const JobViewAll = () => {
                                 </TableCell>
 
 
-                                <TableCell>Button</TableCell>
+                                <TableCell></TableCell>
 
                             </TableRow>
                         </StyledTableHead>

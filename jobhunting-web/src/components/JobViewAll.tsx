@@ -16,6 +16,7 @@ export const JobViewAll = () => {
     const [filter] = useState('');
     const [onlyShowResponded] = useState(false);
     const [sortOrder, setSortOrder] = useState<
+        'select' |
         'company-a-z' |
         'company-z-a' |
         'contact-a-z' |
@@ -27,7 +28,7 @@ export const JobViewAll = () => {
         'no response' |
         'delete' |
         'update'
-    >('date-asc');
+    >('select');
 
     // const [jobResponses, setJobResponses] = useState<Record<string, JobResponse>>({});
     const history = useNavigate();
@@ -358,7 +359,9 @@ export const JobViewAll = () => {
 
 
                                 <TableCell>
-                                    <Select value={sortOrder} onChange={e => setSortOrder(e.target.value as
+                                    <Select
+                                        value={sortOrder}
+                                        onChange={e => setSortOrder(e.target.value as
                                         "no response" |
 
                                         "accepted" |
@@ -366,6 +369,8 @@ export const JobViewAll = () => {
                                         "delete" |
                                         "update"
                                     )}
+                                        renderValue={(value) => value ? value : 'Select'}
+
                                     >
                                         <MenuItem value="accepted">Response: Accepted</MenuItem>
                                         <MenuItem value="declined">Response: Declined</MenuItem>

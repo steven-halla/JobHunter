@@ -146,6 +146,7 @@ const Profile = () => {
 export const StyledStrong = styled.strong`
   display: flex;
 background-color: blue;
+  margin-bottom: 5px;
 
 `;
 export const UserNameDiv = styled.div`

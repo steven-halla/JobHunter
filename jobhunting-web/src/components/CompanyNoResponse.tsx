@@ -140,22 +140,22 @@ export const CompanyNoResponse = () => {
                     {/* Header for laptop/desktop */}
                     <HeaderDiv>
                         <CompanyNameDiv>Company
-                            <div>
+                            <ButtonHolderDiv>
                                 <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleCompanyNameSortAsc} />
                                 <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleCompanyNameSortDesc} />
-                            </div>
+                            </ButtonHolderDiv>
                         </CompanyNameDiv>
                         <DateAppliedDiv>Date
-                            <div>
+                            <ButtonHolderDiv>
                                 <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleDateSortAsc} />
                                 <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleDateSortDesc} />
-                            </div>
+                            </ButtonHolderDiv>
                         </DateAppliedDiv>
                         <JobPosterDiv>Contact
-                            <div>
+                            <ButtonHolderDiv>
                                 <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleContactNameSortAsc} />
                                 <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleContactNameSortDesc} />
-                            </div>
+                            </ButtonHolderDiv>
                         </JobPosterDiv>
                         <JobLinkDiv>Job Link</JobLinkDiv>
                         <CompnanyRespondedDiv>Responded</CompnanyRespondedDiv>
@@ -232,6 +232,13 @@ export const CompanyNoResponse = () => {
     );
 
 };
+
+const ButtonHolderDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 8px; // Adjusts the spacing between the Date text and the icons
+`;
 
 const CompanyNoResponseDiv = styled.div`
   display: flex;

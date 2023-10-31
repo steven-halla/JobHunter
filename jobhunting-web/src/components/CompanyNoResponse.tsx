@@ -1,8 +1,8 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {JobsContext} from "../services/jobcontext";
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import {deviceCompanyNoResponse} from "../common/ScreenSizes";
+import {device, deviceCompanyNoResponse} from "../common/ScreenSizes";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCaretDown, faCaretUp} from "@fortawesome/free-solid-svg-icons";
 
@@ -11,6 +11,10 @@ const ONE_WEEK = 168 * 60 * 60 * 1000;
 
 export const CompanyNoResponse = () => {
     const { jobs, updateJobResponded, dateApplied } = useContext(JobsContext);
+
+    const [isMobile, setIsMobile] = useState(window.matchMedia(device.mobile).matches);
+    const [isLaptop, setIsLaptop] = useState(window.matchMedia(device.laptop).matches);
+
     const [sortOrder, setSortOrder] = useState<
         'select' |
         'company-a-z' |
@@ -112,76 +116,121 @@ export const CompanyNoResponse = () => {
     };
 
 
+    useEffect(() => {
+        const checkScreenSize = () => {
+            setIsMobile(window.matchMedia(device.mobile).matches);
+            setIsLaptop(window.matchMedia(device.laptop).matches);
+        };
+
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+
+        return () => {
+            window.removeEventListener('resize', checkScreenSize);
+        };
+    }, []);
 
 
-    return(
+
+
+    return (
         <CompanyNoResponseDiv>
-            <HeaderDiv>
-                <CompanyNameDiv>Company
-                    <div>
-                        <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleCompanyNameSortAsc} />
-                        <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleCompanyNameSortDesc} />
-                    </div>
-                </CompanyNameDiv>
+            {isLaptop && (
+                <>
+                    {/* Header for laptop/desktop */}
+                    <HeaderDiv>
+                        <CompanyNameDiv>Company
+                            <div>
+                                <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleCompanyNameSortAsc} />
+                                <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleCompanyNameSortDesc} />
+                            </div>
+                        </CompanyNameDiv>
+                        <DateAppliedDiv>Date
+                            <div>
+                                <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleDateSortAsc} />
+                                <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleDateSortDesc} />
+                            </div>
+                        </DateAppliedDiv>
+                        <JobPosterDiv>Contact
+                            <div>
+                                <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleContactNameSortAsc} />
+                                <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleContactNameSortDesc} />
+                            </div>
+                        </JobPosterDiv>
+                        <JobLinkDiv>Job Link</JobLinkDiv>
+                        <CompnanyRespondedDiv>Responded</CompnanyRespondedDiv>
+                        <CompanyNameDiv>Rejected?</CompanyNameDiv>
+                    </HeaderDiv>
+
+                    {/* Jobs data */}
+                    {sortedAndRespondedJobs.map((job) => (
+                        <DataDiv key={job.id}>
+                            <JobInfoDiv>{job.companyname}</JobInfoDiv>
+                            <JobInfoDiv>{new Date(job.dateapplied).toISOString().split('T')[0]}</JobInfoDiv>
+                            <JobInfoDiv>{job.jobposter}</JobInfoDiv>
+                            <JobInfoDiv>
+                                <a href={job.joblink} target="_blank" rel="noreferrer">Link</a>
+                            </JobInfoDiv>
+                            <JobInfoDiv>
+                                <input
+                                    type="checkbox"
+                                    checked={job.companyresponded}
+                                    onChange={(event) => handleCheckboxChange(job.id, event.target.checked)}
+                                />
+                            </JobInfoDiv>
+                            <JobInfoDiv>
+                                {job.companyrejected}
+                                <input
+                                    type="checkbox"
+                                    checked={job.companyrejected}
+                                />
+                            </JobInfoDiv>
+                        </DataDiv>
+                    ))}
+                </>
+            )}
 
 
+            {isMobile && sortedAndRespondedJobs.map((job) => (
+                <CardDiv key={job.id}>
+                    {/* Left Column */}
+                    <ColumnDiv>
+                        <HeaderItem>Company</HeaderItem>
+                        <HeaderItem>Date</HeaderItem>
+                        <HeaderItem>Contact</HeaderItem>
+                        <HeaderItem>Job Link</HeaderItem>
+                        <HeaderItem>Responded</HeaderItem>
+                        <HeaderItem>Rejected?</HeaderItem>
+                    </ColumnDiv>
 
-                <DateAppliedDiv>
-                    Date
-                <div>
-                    <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleDateSortAsc} />
-                    <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleDateSortDesc} />
-                </div>
-                </DateAppliedDiv>
-                <JobPosterDiv>
-
-                    Contact
-                <div>
-                    <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleContactNameSortAsc} />
-                    <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleContactNameSortDesc} />
-                </div>
-                </JobPosterDiv>
-                <JobLinkDiv>
-                    Job
-                    Link
-                </JobLinkDiv>
-                <CompnanyRespondedDiv>Responded</CompnanyRespondedDiv>
-                <CompanyNameDiv>Rejected?
-
-                </CompanyNameDiv>
-            </HeaderDiv>
-
-                {sortedAndRespondedJobs.map((job) => (
-            <DataDiv key={job.id}>
-                {/*<span>{new Date(job.dateApplied).toISOString().split('T')[0]}</span>*/}
-                <JobInfoDiv>{job.companyname}</JobInfoDiv>
-                <JobInfoDiv>{new Date(job.dateapplied).toISOString().split('T')[0]}</JobInfoDiv>
-                <JobInfoDiv>{job.jobposter}</JobInfoDiv>
-
-                <JobInfoDiv>
-                    <a href={job.joblink} target="_blank" rel="noreferrer">Link</a>
-                </JobInfoDiv>
-                <JobInfoDiv>
-                    <input
-                        type="checkbox"
-                        checked={job.companyresponded}
-                        onChange={(event) => handleCheckboxChange(job.id, event.target.checked)}
-                    />
-                </JobInfoDiv>
-                <JobInfoDiv>
-                    {job.companyrejected}
-                    <input
-                        type="checkbox"
-                        checked={job.companyrejected}
-                    />
-                </JobInfoDiv>
-
-            </DataDiv>
-        ))}
-
-
+                    {/* Right Column */}
+                    <ColumnDiv>
+                        <DataItem>{job.companyname}</DataItem>
+                        <DataItem>{new Date(job.dateapplied).toISOString().split('T')[0]}</DataItem>
+                        <DataItem>{job.jobposter}</DataItem>
+                        <DataItem>
+                            <a href={job.joblink} target="_blank" rel="noreferrer">Link</a>
+                        </DataItem>
+                        <DataItem>
+                            <input
+                                type="checkbox"
+                                checked={job.companyresponded}
+                                onChange={(event) => handleCheckboxChange(job.id, event.target.checked)}
+                            />
+                        </DataItem>
+                        <DataItem>
+                            {job.companyrejected}
+                            <input
+                                type="checkbox"
+                                checked={job.companyrejected}
+                            />
+                        </DataItem>
+                    </ColumnDiv>
+                </CardDiv>
+            ))}
         </CompanyNoResponseDiv>
     );
+
 };
 
 const CompanyNoResponseDiv = styled.div`
@@ -261,13 +310,15 @@ const CompnanyRespondedDiv = styled.div`
 
 const DataDiv = styled.div`
   display: flex;
-
   justify-content: center;
   align-items: center;
   width: 90vw;
   height: 90vh;
   margin-left: 5vw;
 
+  @media ${device.mobile} {
+    flex-direction: column;
+  }
 `;
 
 
@@ -284,60 +335,42 @@ const JobInfoDiv = styled.div`
 
 `;
 
+const CardDataDiv = styled.div`
+  display: none;
 
-// return(
-//     <CompanyNoResponseDiv>
-//
-//         <JobHeaderDiv>
-//             <span>company name</span>
-//             <span>Job Poster</span>
-//             <span>Date Applied</span>
-//             <span>Job Link</span>
-//             <span>Company Responded</span>
-//         </JobHeaderDiv>
-//         {olderJobs.map((job) => (
-//             <JobRowDiv key={job.id}>
-//                 {/*<span>{new Date(job.dateApplied).toISOString().split('T')[0]}</span>*/}
-//                 <span>{job.companyname}</span>
-//                 <span>{job.jobposter}</span>
-//                 <span>{new Date(job.dateapplied).toISOString().split('T')[0]}</span>
-//                 <span>
-//                         <a href={job.joblink} target="_blank" rel="noreferrer">Link</a>
-//                     </span>
-//
-//                 <span>
-//                         <input
-//                             type="checkbox"
-//                             checked={job.companyresponded}
-//                             onChange={(event) => handleCheckboxChange(job.id, event.target.checked)}
-//                         />
-//                     </span>
-//             </JobRowDiv>
-//         ))}
-//     </CompanyNoResponseDiv>
-// );
-// };
-//
-// const CompanyNoResponseDiv = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   background-color: yellow;
-// `;
-//
-// const JobRowDiv = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   width: 90%;
-//   padding: 10px 0;
-//   background-color: #ffc4f4;
-//
-//   span {
-//     width: 13%;  // Adjusted width for 6 columns
-//   }
-// `;
-//
-// const JobHeaderDiv = styled(JobRowDiv)`
-//   background-color: #c8fff8;
-//   font-weight: bold;
-// `;
+  @media ${device.mobile} {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+`;
+
+const CardHeaderDiv = styled.div`
+  display: none;
+
+  @media ${device.mobile} {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+`;
+
+export const CardDiv = styled.div`
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #ccc;
+    margin: 10px 0;
+`;
+
+export const ColumnDiv = styled.div`
+    flex: 1;
+    padding: 10px;
+`;
+
+export const HeaderItem = styled.div`
+    /* You can add specific styles for header items here */
+`;
+
+export const DataItem = styled.div`
+    /* You can add specific styles for data items here */
+`;

@@ -341,6 +341,10 @@ const HeaderDiv = styled.div`
   height: 10vh;
   width: 90vw;
   margin-left: 5vw;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
 
 `;
 

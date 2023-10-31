@@ -318,6 +318,8 @@ const DataDiv = styled.div`
 
   @media ${device.mobile} {
     flex-direction: column;
+    background-color: red;
+
   }
 `;
 
@@ -332,6 +334,8 @@ const JobInfoDiv = styled.div`
   height: 20vh;
   border: 1px solid black; /* Add border styling here */
   word-break: break-all; /* Break words at any character if they can't fit */
+  background-color: red;
+
 
 `;
 
@@ -339,6 +343,7 @@ const CardDataDiv = styled.div`
   display: none;
 
   @media ${device.mobile} {
+    background-color: red;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -349,6 +354,8 @@ const CardHeaderDiv = styled.div`
   display: none;
 
   @media ${device.mobile} {
+    background-color: red;
+
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -363,9 +370,16 @@ export const CardDiv = styled.div`
 `;
 
 export const ColumnDiv = styled.div`
-    flex: 1;
-    padding: 10px;
+  flex: 1;
+  padding: 10px;
+  background-color: red;
+  margin-left: 6%;
+  white-space: nowrap;
+  word-break: break-all;
+  max-width: 100%; // Ensures the container doesn't grow beyond its parent's width
+  overflow: hidden; // Hides any content that overflows the container
 `;
+
 
 export const HeaderItem = styled.div`
     /* You can add specific styles for header items here */

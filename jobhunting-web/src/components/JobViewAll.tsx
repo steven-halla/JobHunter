@@ -310,22 +310,26 @@ export const JobViewAll = () => {
         <>
             {isMobile ? (
             <div>
-            <MobileFilterSelect value={sortOrder} onChange={(e: { target: { value: any; }; }) => setSortOrder(e.target.value as any)}>
-                <option value="date-asc">Date Applied (Oldest First)</option>
-                <option value="date-desc">Date Applied (Newest First)</option>
-                <option value="company-a-z">Company Name (A-Z)</option>
-                <option value="company-z-a">Company Name (Z-A)</option>
-                <option value="contact-a-z">Contact Name (A-Z)</option>
-                <option value="contact-z-a">Contact Name (Z-A)</option>
+                <SelectDiv>
 
-                <option value="accepted">Accepted</option>
-                <option value="declined">Declined</option>
-                <option value="no response">No Response</option>
-                <option value="delete">Delete</option>
-                <option value="update">Update</option>
+                    <SimpleSelect value={sortOrder} onChange={(e: { target: { value: any; }; }) => setSortOrder(e.target.value as any)}>
+                        <option value="date-asc">Date Asc</option>
+                        <option value="date-desc">Date Dsc</option>
+                        <option value="company-a-z">Company Asc</option>
+                        <option value="company-z-a">Company Dsc</option>
+                        <option value="contact-a-z">Contact Asc</option>
+                        <option value="contact-z-a">Contact Dsc</option>
+
+                        <option value="accepted">Accepted</option>
+                        <option value="declined">Declined</option>
+                        <option value="no response">No Response</option>
+                        <option value="delete">Delete</option>
+                        <option value="update">Update</option>
 
 
-            </MobileFilterSelect>
+                    </SimpleSelect>
+                </SelectDiv>
+
             {sortedAndRespondedJobs.map((job, index) => (
         <MobileJobCard key={job.id}>
             <MobileTitleDiv>
@@ -956,3 +960,18 @@ const JobCard = styled.div`
 `;
 
 
+const SimpleSelect = styled.select`
+    padding: 5px 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    appearance: none;
+    outline: none;
+  width: 40vw;
+`;
+const SelectDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  justify-content: center;
+`;

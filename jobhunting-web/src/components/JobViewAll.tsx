@@ -311,19 +311,63 @@ export const JobViewAll = () => {
             {isMobile ? (
             <div>
             <MobileFilterSelect value={sortOrder} onChange={(e: { target: { value: any; }; }) => setSortOrder(e.target.value as any)}>
-        <option value="date-asc">Date Applied (Oldest First)</option>
-        <option value="date-desc">Date Applied (Newest First)</option>
-        <option value="company-a-z">Company Name (A-Z)</option>
-        <option value="company-z-a">Company Name (Z-A)</option>
-        <option value="contact-a-z">Contact Name (A-Z)</option>
-        <option value="contact-z-a">Contact Name (Z-A)</option>
-        </MobileFilterSelect>
-{sortedAndRespondedJobs.map((job, index) => (
+                <option value="date-asc">Date Applied (Oldest First)</option>
+                <option value="date-desc">Date Applied (Newest First)</option>
+                <option value="company-a-z">Company Name (A-Z)</option>
+                <option value="company-z-a">Company Name (Z-A)</option>
+                <option value="contact-a-z">Contact Name (A-Z)</option>
+                <option value="contact-z-a">Contact Name (Z-A)</option>
+            </MobileFilterSelect>
+            {sortedAndRespondedJobs.map((job, index) => (
         <MobileJobCard key={job.id}>
             <MobileTitleDiv>
                 <MobileJobTitleDiv>Date</MobileJobTitleDiv>
                 <MobileTableCell>{new Date(job.dateapplied).toISOString().split('T')[0]}</MobileTableCell>
             </MobileTitleDiv>
+
+            <MobileTitleDiv>
+                <MobileJobTitleDiv>Company</MobileJobTitleDiv>
+
+
+                <MobileTableCell>{job.companyname}</MobileTableCell>
+            </MobileTitleDiv>
+
+            <MobileTitleDiv>
+                <MobileJobTitleDiv>Description</MobileJobTitleDiv>
+
+
+                <MobileTableCell>
+                    <TextButton onClick={() => openDescriptionModal(job.description)}>Click to View</TextButton>
+                </MobileTableCell>
+            </MobileTitleDiv>
+
+            <MobileTitleDiv>
+                <MobileJobTitleDiv>Contact</MobileJobTitleDiv>
+
+
+                <MobileTableCell>
+                    <MobileTableCell>{job.primarycontact}</MobileTableCell>
+
+                </MobileTableCell>
+
+
+            </MobileTitleDiv>
+
+            <MobileTitleDiv>
+                <MobileJobTitleDiv>job link</MobileJobTitleDiv>
+
+
+                <MobileTableCell>
+                        <TextButton><a href={job.joblink} target="_blank" rel="noopener noreferrer">LINK</a></TextButton>
+
+                </MobileTableCell>
+
+
+            </MobileTitleDiv>
+
+
+
+
         </MobileJobCard>
     ))}
 </div>

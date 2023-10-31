@@ -21,6 +21,8 @@ export const CompanyNoResponse = () => {
         'company-z-a' |
         'contact-a-z' |
         'contact-z-a' |
+        'rejected-yes' |
+        'rejected-no' |
         'date-asc' |
         'date-desc' |
         'accepted' |
@@ -64,12 +66,61 @@ export const CompanyNoResponse = () => {
                     return new Date(a.dateapplied).getTime() - new Date(b.dateapplied).getTime();
                 case 'date-desc':
                     return new Date(b.dateapplied).getTime() - new Date(a.dateapplied).getTime();
-
+                case 'rejected-yes':
+                    return (b.companyrejected ? 1 : 0) - (a.companyrejected ? 1 : 0); // Moves rejected jobs to the top
+                case 'rejected-no':
+                    return (a.companyrejected ? 1 : 0) - (b.companyrejected ? 1 : 0); // Moves non-rejected jobs to the top
                 default:
                     return 0;
             }
         });
 
+
+    const handleSelectChange = (event: { target: { value: any; }; }) => {
+        const selectedValue = event.target.value;
+
+        switch(selectedValue) {
+            case 'date-asc':
+                handleDateSortAsc();
+                break;
+            case 'date-desc':
+                handleDateSortDesc();
+                break;
+            case 'company-name-asc':
+                handleCompanyNameSortAsc();
+                break;
+            case 'company-name-desc':
+                handleCompanyNameSortDesc();
+                break;
+            case 'contact-asc':
+                handleContactNameSortAsc();
+                break;
+            case 'contact-desc':
+                handleContactNameSortDesc();
+                break;
+
+            case 'rejected-yes':
+                handleRejectedSortYes();
+                break;
+            case 'rejected-no':
+                handleRejectedSortNo();
+                break;
+            default:
+                console.log("Invalid selection");
+        }
+    };
+
+    const handleRejectedSortYes = () => {
+        setSortOrder('rejected-yes');
+        console.log("tee hee please keep clicking me")
+
+    };
+
+    const handleRejectedSortNo = () => {
+        setSortOrder('rejected-no');
+        console.log("tee hee please keep clicking me")
+
+    };
 
     const handleDateSortAsc = () => {
         setSortOrder('date-asc');
@@ -189,9 +240,22 @@ export const CompanyNoResponse = () => {
                     ))}
                 </>
             )}
+<SelectDiv>
+    <SimpleSelect onChange={handleSelectChange}>
+        <option value="company-name-asc">Company  (Asc)</option>
+        <option value="company-name-desc">Company  (Desc)</option>
+        <option value="date-asc">Date (Asc)</option>
+        <option value="date-desc">Date (Desc)</option>
+        <option value="contact-asc">Contact (Asc)</option>
+        <option value="contact-desc">Contact (Desc)</option>
+        <option value="rejected-yes">Rejected (Yes)</option>
+        <option value="rejected-no">Rejected (No)</option>
+    </SimpleSelect>
+</SelectDiv>
 
 
             {isMobile && sortedAndRespondedJobs.map((job) => (
+
                 <CardDiv key={job.id}>
                     {/* Left Column */}
                     <ColumnDiv>
@@ -232,6 +296,23 @@ export const CompanyNoResponse = () => {
     );
 
 };
+
+const SelectDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  justify-content: center;
+`;
+
+ const SimpleSelect = styled.select`
+    padding: 5px 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    appearance: none;
+    outline: none;
+  width: 40vw;
+`;
 
 const ButtonHolderDiv = styled.div`
     display: flex;

@@ -8,6 +8,7 @@ import {CustomCheckButton, CustomForm} from "../models/LoginHelper";
 
 
 import AuthService from "../services/auth.service";
+import styled from "styled-components";
 
 interface RegisterState {
     username: string;
@@ -126,13 +127,13 @@ const Register: React.FC = () => {
     };
 
     return (
-        <div className="col-md-12">
+        <RegisterWrapperDiv >
             <div className="card card-container">
-                <img
-                    src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-                    alt="profile-img"
-                    className="profile-img-card"
-                />
+                {/*<img*/}
+                {/*    src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"*/}
+                {/*    alt="profile-img"*/}
+                {/*    className="profile-img-card"*/}
+                {/*/>*/}
 
                 <Form onSubmit={handleRegister} ref={form}>
                     {!successful && (
@@ -194,8 +195,17 @@ const Register: React.FC = () => {
                     <CheckButton style={{ display: "none" }} ref={checkBtn} />
                 </Form>
             </div>
-        </div>
+        </RegisterWrapperDiv>
     );
 };
+
+const RegisterWrapperDiv = styled.div`
+  display: flex;
+background-color: blue;
+  height: 60vh;
+  margin-top: 8%;
+
+
+`;
 
 export default Register;

@@ -6,6 +6,7 @@ import CheckButton from "react-validation/build/button";
 import AuthService from "../services/auth.service";
 import { UserContext } from "../services/usercontext";
 import {CustomCheckButton, CustomForm} from "../models/LoginHelper";
+import styled from "styled-components";
 
 interface LoginState {
   username: string;
@@ -85,13 +86,13 @@ const Login: React.FC = () => {
   const { username, password, loading, message } = state;
 
   return (
-      <div className="col-md-12">
+      <LoginWrapperDiv >
         <div className="card card-container">
-          <img
-              src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-              alt="profile-img"
-              className="profile-img-card"
-          />
+          {/*<img*/}
+          {/*    src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"*/}
+          {/*    alt="profile-img"*/}
+          {/*    className="profile-img-card"*/}
+          {/*/>*/}
 
           <Form onSubmit={handleLogin} ref={form}>
             <div className="form-group">
@@ -137,8 +138,18 @@ const Login: React.FC = () => {
             <CheckButton style={{ display: "none" }} ref={checkBtn} />
           </Form>
         </div>
-      </div>
+      </LoginWrapperDiv>
   );
 };
+
+
+const LoginWrapperDiv = styled.div`
+  display: flex;
+background-color: blue;
+  height: 60vh;
+  margin-top: 8%;
+
+
+`;
 
 export default Login;

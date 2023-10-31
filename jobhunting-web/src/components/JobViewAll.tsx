@@ -30,6 +30,15 @@ export const JobViewAll = () => {
         'update'
     >('select');
 
+    const [selectValue, setSelectValue] = useState<
+        'select' |
+        'accepted' |
+        'declined' |
+        'no response' |
+        'delete' |
+        'update'
+    >('select');
+
     // const [jobResponses, setJobResponses] = useState<Record<string, JobResponse>>({});
     const history = useNavigate();
     const navigate = useNavigate();
@@ -45,6 +54,13 @@ export const JobViewAll = () => {
     const [jobResponses, setJobResponses] = useState<Record<string, JobResponse>>(
         () => JSON.parse(localStorage.getItem("jobResponses") || '{}')
     );
+
+    useEffect(() => {
+        // You can add additional logic here if needed
+        setSortOrder(selectValue);
+        console.log("hi")
+        //this is only ran when selectValue changes, this is powerful and important to remember
+    }, [selectValue]);
 
     useEffect(() => {
         localStorage.setItem("jobResponses", JSON.stringify(jobResponses));
@@ -320,6 +336,13 @@ export const JobViewAll = () => {
 
                     ))}
                 </div>
+
+
+
+
+
+
+
             ) : (
                 <StyledTableContainer>
                     <Table>
@@ -368,10 +391,10 @@ export const JobViewAll = () => {
 
                                 <TableCell>
                                     <Select
-                                        style={{ width: '140px' }}
+                                        style={{ width: '140px', height: '25px' }}
 
-                                        value={sortOrder}
-                                        onChange={e => setSortOrder(e.target.value as
+                                        value={selectValue}
+                                        onChange={e => setSelectValue(e.target.value as
                                         "no response" |
 
                                         "accepted" |

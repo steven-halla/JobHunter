@@ -309,33 +309,24 @@ export const JobViewAll = () => {
     return (
         <>
             {isMobile ? (
-                <div>
-                    <FilterSelect value={sortOrder} onChange={(e: { target: { value: any; }; }) => setSortOrder(e.target.value as any)}>
-                        <option value="date-asc">Date Applied (Oldest First)</option>
-                        <option value="date-desc">Date Applied (Newest First)</option>
-                        <option value="company-a-z">Company Name (A-Z)</option>
-                        <option value="company-z-a">Company Name (Z-A)</option>
-                        <option value="contact-a-z">Contact Name (A-Z)</option>
-                        <option value="contact-z-a">Contact Name (Z-A)</option>
-                    </FilterSelect>
-                    {sortedAndRespondedJobs.map((job, index) => (
-                        <JobCard key={job.id}>
-                            <TitleDiv>
-                                <JobTitleDiv>Responded:
-                                    <select value={jobResponses[job.id] || 'no response'} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleResponseChange(e, String(job.id))}>
-                                        <option value="accepted">Accepted</option>
-                                        <option value="declined">Declined</option>
-                                        <option value="no response">No Response</option>
-                                        <option value="update">Update</option>
-                                    </select>
-                                </JobTitleDiv>
-
-
-                            </TitleDiv>
-                        </JobCard>
-
-                    ))}
-                </div>
+            <div>
+            <MobileFilterSelect value={sortOrder} onChange={(e: { target: { value: any; }; }) => setSortOrder(e.target.value as any)}>
+        <option value="date-asc">Date Applied (Oldest First)</option>
+        <option value="date-desc">Date Applied (Newest First)</option>
+        <option value="company-a-z">Company Name (A-Z)</option>
+        <option value="company-z-a">Company Name (Z-A)</option>
+        <option value="contact-a-z">Contact Name (A-Z)</option>
+        <option value="contact-z-a">Contact Name (Z-A)</option>
+        </MobileFilterSelect>
+{sortedAndRespondedJobs.map((job, index) => (
+        <MobileJobCard key={job.id}>
+            <MobileTitleDiv>
+                <MobileJobTitleDiv>Date</MobileJobTitleDiv>
+                <MobileTableCell>{new Date(job.dateapplied).toISOString().split('T')[0]}</MobileTableCell>
+            </MobileTitleDiv>
+        </MobileJobCard>
+    ))}
+</div>
 
 
 
@@ -343,7 +334,7 @@ export const JobViewAll = () => {
 
 
 
-            ) : (
+) : (
                 <StyledTableContainer>
                     <Table>
                         <StyledTableHead>
@@ -525,6 +516,67 @@ export const JobViewAll = () => {
     );
 
 };
+
+
+
+
+
+
+
+
+
+const MobileFilterSelect = styled.select`
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    margin-bottom: 10px;
+    appearance: none;  // This removes the default styling on some browsers
+`;
+
+const MobileJobCard = styled.div`
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+    background-color: #f7f7f7; // Light gray background
+`;
+
+const MobileTitleDiv = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+`;
+
+const MobileJobTitleDiv = styled.div`
+    font-weight: bold;
+    margin-right: 10px;
+`;
+
+const MobileTableCell = styled.div`
+    flex: 1;
+    text-align: right;
+`;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

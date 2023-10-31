@@ -4,6 +4,7 @@ import { JobsContext } from '../services/jobcontext';
 import styled from "styled-components";
 import { device } from "../common/ScreenSizes";
 import {Interview, Job} from "../models/Job";
+import TextField from '@mui/material/TextField';
 
 // interface Interview {
 //     secured: boolean;
@@ -163,10 +164,14 @@ export const InterviewSecured = () => {
 
                     <label>
                         Interview Notes
-                        <textarea
+                        <StyledTextField
+                            multiline
+                            rows={4}
+                            variant="outlined"
+                            fullWidth
                             placeholder="Interview Notes"
                             value={interviewnotes}
-                            onChange={(e) => setInterviewNotes(e.target.value)}
+                            onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setInterviewNotes(e.target.value)}
                         />
                     </label>
                 </InterviewInfoDiv>
@@ -181,10 +186,17 @@ export const InterviewSecured = () => {
 
 };
 
+const StyledTextField = styled(TextField)`
+  @media ${device.laptop} {
+    && {
+      width: 140%;
+    }
+  }
+`;
+
 
 const InterviewSecuredWrapperDiv = styled.div`
   @media ${device.mobile} {
-    background-color: red;
     height: 100vh;
     width: 100vw;
   }
@@ -192,7 +204,6 @@ const InterviewSecuredWrapperDiv = styled.div`
   @media ${device.laptop} {
     display: flex;
     flex-direction: column;
-    background-color: yellow;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -204,7 +215,6 @@ const TitleDiv = styled.div`
   display: flex;
 
   @media ${device.mobile} {
-    background-color: blue;
     height: 10vh;
     width: 100vw;
     justify-content: center;
@@ -212,7 +222,14 @@ const TitleDiv = styled.div`
   }
 
   @media ${device.laptop} {
-    background-color: teal;
+    height: 10vh;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5%;
+    position: absolute;
+    top: 70px;
+    left: 0;  // This ensures it starts at the left edge.
+    width: 100%; // This ensures it spans the full width.
   }
 `;
 
@@ -224,13 +241,18 @@ const SaveAllButtonDiv = styled.div`
     width: 100vw;
     justify-content: center;
     align-items: center;
-    background-color: purple;
   }
 
   @media ${device.laptop} {
-    background-color: orange;
+    margin-top: 30px;
+    height: 40px;
+    width: 100%;             // You can adjust this if needed
+    align-self: center;
+    justify-content: center;  // This will center the button horizontally
+
   }
 `;
+
 
 const AddInterviewButtonDiv = styled.div`
   display: flex;
@@ -240,11 +262,9 @@ const AddInterviewButtonDiv = styled.div`
     width: 100vw;
     justify-content: center;
     align-items: center;
-    background-color: green;
   }
 
   @media ${device.laptop} {
-    background-color: violet;
   }
 `;
 
@@ -264,25 +284,41 @@ const InterviewInfoDiv = styled.div`
     margin-top: 5px;
   }
 
-  @media ${device.mobile} {
-    justify-content: center;
-    align-items: center;
-    height: auto;
-    width: 100vw;
-    margin-bottom: 20px;
+ @media ${device.mobile} {
+   display: flex;
+   margin-left: 10vw;
+   width: 80vw;
+    flex-direction: column;
+    justify-content: center;   // Centers children vertically
+    align-items: center;       // Centers children horizontally
 
-    &:nth-child(even) {
-      background-color: skyblue;
+    label {
+      align-items: center;    // Centers the input boxes inside the label
     }
 
-    &:nth-child(odd) {
-      background-color: pink;
+    input, textarea {
+      width: 60%;             // Ensures some spacing on the sides
     }
   }
+
 
   @media ${device.laptop} {
-    background-color: brown;
-  }
+    width: 30vw;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;   // Ensures content is centered vertically
+    align-items: center;       // Ensures content is centered horizontally
+
+    label {
+      width: 96%;  // Increasing from 80% to 96% (which is 20% more than 80%)
+      align-items: center;
+    }
+
+    input, textarea {
+      width: 100%;  // This will now be 100% of the label's increased width
+    }
+
 `;
 
 
@@ -290,14 +326,13 @@ const Footer = styled.div`
   display: flex;
 
   @media ${device.mobile} {
-    background-color: black;
+    //background-color: black;
     height: 10vh;
     width: 100vw;
     bottom: 0;
   }
 
   @media ${device.laptop} {
-    background-color: darkgreen;
   }
 `;
 

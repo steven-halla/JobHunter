@@ -129,38 +129,46 @@ export const InterviewSecured = () => {
 
             <form onSubmit={handleFormSubmit}>
                 <InterviewInfoDiv>
-                    <input
-                        type="text"
-                        placeholder="Interviewer Names"
-                        value={interviewernames}
-                        onChange={(e) => setInterviewerNames(e.target.value)}
-                    />
+                    <label>
+                        Interviewer Names
+                        <input
+                            type="text"
+                            placeholder="Interviewer Names"
+                            value={interviewernames}
+                            onChange={(e) => setInterviewerNames(e.target.value)}
+                        />
+                    </label>
 
-                    <input
-                        type="text"
-                        placeholder="Meeting Link"
-                        value={meetingLink}
-                        onChange={(e) => setMeetingLink(e.target.value)}
-                    />
+                    <label>
+                        Meeting Link
+                        <input
+                            type="text"
+                            placeholder="Meeting Link"
+                            value={meetingLink}
+                            onChange={(e) => setMeetingLink(e.target.value)}
+                        />
+                    </label>
 
+                    <label>
+                        Interview Date
+                        <input
+                            type="date"
+                            value={interviewdate ? formatDateForInput(addOneDay(new Date(interviewdate))) : ''}
+                            onChange={(e) => {
+                                const selectedDate = e.target.value ? new Date(e.target.value) : null;
+                                setInterviewDate(selectedDate);
+                            }}
+                        />
+                    </label>
 
-
-                    <input
-                        type="date"
-                        value={interviewdate ? formatDateForInput(addOneDay(new Date(interviewdate))) : ''}
-                        onChange={(e) => {
-                            const selectedDate = e.target.value ? new Date(e.target.value) : null;
-                            setInterviewDate(selectedDate);
-                        }}
-                    />
-
-
-
-                    <textarea
-                        placeholder="Interview Notes"
-                        value={interviewnotes }
-                        onChange={(e) => setInterviewNotes(e.target.value)}
-                    />
+                    <label>
+                        Interview Notes
+                        <textarea
+                            placeholder="Interview Notes"
+                            value={interviewnotes}
+                            onChange={(e) => setInterviewNotes(e.target.value)}
+                        />
+                    </label>
                 </InterviewInfoDiv>
                 <SaveAllButtonDiv>
                     <button type="submit">Save Interview Details</button>
@@ -174,38 +182,41 @@ export const InterviewSecured = () => {
 };
 
 
-
 const InterviewSecuredWrapperDiv = styled.div`
-  // Add your styling here
-  // background-color: red;
-
   @media ${device.mobile} {
-
     background-color: red;
     height: 100vh;
     width: 100vw;
+  }
 
+  @media ${device.laptop} {
+    display: flex;
+    flex-direction: column;
+    background-color: yellow;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
   }
 `;
 
 const TitleDiv = styled.div`
-  // Add your styling here
-  // background-color: red;
   display: flex;
 
   @media ${device.mobile} {
-
     background-color: blue;
     height: 10vh;
     width: 100vw;
     justify-content: center;
     align-items: center;
   }
+
+  @media ${device.laptop} {
+    background-color: teal;
+  }
 `;
 
 const SaveAllButtonDiv = styled.div`
-  // Add your styling here
-  // background-color: red;
   display: flex;
 
   @media ${device.mobile} {
@@ -214,13 +225,14 @@ const SaveAllButtonDiv = styled.div`
     justify-content: center;
     align-items: center;
     background-color: purple;
+  }
 
+  @media ${device.laptop} {
+    background-color: orange;
   }
 `;
 
 const AddInterviewButtonDiv = styled.div`
-  // Add your styling here
-  // background-color: red;
   display: flex;
 
   @media ${device.mobile} {
@@ -229,60 +241,63 @@ const AddInterviewButtonDiv = styled.div`
     justify-content: center;
     align-items: center;
     background-color: green;
+  }
 
+  @media ${device.laptop} {
+    background-color: violet;
   }
 `;
 
 const InterviewInfoDiv = styled.div`
-  // Add your styling here
-  // background-color: red;
   display: flex;
+  flex-direction: column;
+
+  label {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 100%;
+  }
+
+  input, textarea {
+    margin-top: 5px;
+  }
 
   @media ${device.mobile} {
-    display: flex;
-    height: 25vh;
-    width: 100vw;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+    height: auto;
+    width: 100vw;
     margin-bottom: 20px;
 
-    button {
-      margin-top: 5px;
-    }
-
-    input {
-      margin-top: 5px;
-    }
-
-    textarea {
-      margin-top: 5px;
-    }
-
-    // Select the even child elements
     &:nth-child(even) {
       background-color: skyblue;
     }
 
-    // Select the odd child elements
     &:nth-child(odd) {
       background-color: pink;
     }
+  }
 
+  @media ${device.laptop} {
+    background-color: brown;
   }
 `;
 
+
 const Footer = styled.div`
-  // Add your styling here
-  // background-color: red;
   display: flex;
 
   @media ${device.mobile} {
-
     background-color: black;
     height: 10vh;
     width: 100vw;
     bottom: 0;
+  }
 
+  @media ${device.laptop} {
+    background-color: darkgreen;
   }
 `;
+

@@ -283,7 +283,6 @@ export const Home: React.FC = () => {
 
 
 const ButtonDiv = styled.div`
-background-color: navy;
 
   @media ${device.mobile} {
     justify-content: center;
@@ -326,7 +325,6 @@ const BaseStyledTextField = styled(TextField)`
 
   & .MuiFilledInput-input {
     height: 20px;
-    background-color: yellow;
   }
 
 
@@ -356,7 +354,6 @@ const SubmitButton = styled(Button)`
 
 export const HomeWrapperDiv = styled.div`
   display: flex;
-  background-color: red;
   
   @media ${device.mobile} {
     display: flex;
@@ -383,7 +380,6 @@ export const HomeWrapperDiv = styled.div`
 export const CustomFieldsDiv = styled.div`
   display: flex;
   margin-top: 20px;
-  background-color: blue;
   padding-right: 2px;
   
   @media ${device.mobile} {
@@ -420,7 +416,6 @@ export const FieldRow = styled.div`
 
 export const CustomFieldForm = styled.form`
   display: flex;
-  background-color: purple;
   
 
   @media ${device.mobile} {
@@ -462,7 +457,6 @@ export const CustomFieldForm = styled.form`
 
 
 const FieldContainer = styled.div`
-  background-color: lightsalmon;
   @media ${device.laptop} {
     //margin-bottom: 5%;
     width: 37%; 
@@ -507,7 +501,6 @@ export const URLSelect = styled.select`
 
 export const FooterDiv =  styled.div`
   display: flex;
-  background-color: olive;
   
   @media ${device.mobile} {
     display: flex;

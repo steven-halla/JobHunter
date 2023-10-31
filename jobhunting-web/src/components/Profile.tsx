@@ -145,13 +145,11 @@ const Profile = () => {
 
 export const StyledStrong = styled.strong`
   display: flex;
-background-color: blue;
   margin-bottom: 5px;
 
 `;
 export const UserNameDiv = styled.div`
   display: flex;
-background-color: green;
   justify-content: center;
   //align-items: center;
   height: 20vh;
@@ -159,7 +157,6 @@ background-color: green;
 
 export const ProfileWrapperDiv = styled.div`
   display: flex;
-  background-color: orangered;
   height: 100vh;
   width: 100vw;
   justify-content: center;
@@ -171,11 +168,11 @@ export const ProfileWrapperDiv = styled.div`
 export const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
-  background-color: blueviolet;
-  height: 50vh;
+  height: 40vh;
   width: 100vw;
   justify-content: center;
   align-items: center;
+  margin-bottom: 12%;
   
 `;
 

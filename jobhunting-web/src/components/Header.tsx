@@ -136,7 +136,7 @@ export const Header = () => {
 
 export const HeaderDiv = styled.div`
   display: flex;
-  background-color: plum;
+  background-color: #adc1ff;
   width: 100vw;
   height: 7vh;
   align-items: center; /* Vertically aligns items to the center */

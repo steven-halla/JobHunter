@@ -210,7 +210,13 @@ export const CompanyNoResponse = () => {
                         </JobPosterDiv>
                         <JobLinkDiv>Job Link</JobLinkDiv>
                         <CompnanyRespondedDiv>Responded</CompnanyRespondedDiv>
-                        <CompanyNameDiv>Rejected?</CompanyNameDiv>
+                        <CompanyNameDiv>
+                            Rejected?
+                            <ButtonHolderDiv>
+                                <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleRejectedSortYes} />
+                                <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleRejectedSortNo} />
+                            </ButtonHolderDiv>
+                        </CompanyNameDiv>
                     </HeaderDiv>
 
                     {/* Jobs data */}

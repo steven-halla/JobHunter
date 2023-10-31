@@ -317,6 +317,14 @@ export const JobViewAll = () => {
                 <option value="company-z-a">Company Name (Z-A)</option>
                 <option value="contact-a-z">Contact Name (A-Z)</option>
                 <option value="contact-z-a">Contact Name (Z-A)</option>
+
+                <option value="accepted">Accepted</option>
+                <option value="declined">Declined</option>
+                <option value="no response">No Response</option>
+                <option value="delete">Delete</option>
+                <option value="update">Update</option>
+
+
             </MobileFilterSelect>
             {sortedAndRespondedJobs.map((job, index) => (
         <MobileJobCard key={job.id}>
@@ -361,6 +369,76 @@ export const JobViewAll = () => {
                         <TextButton><a href={job.joblink} target="_blank" rel="noopener noreferrer">LINK</a></TextButton>
 
                 </MobileTableCell>
+
+
+            </MobileTitleDiv>
+
+
+            <MobileTitleDiv>
+                <MobileJobTitleDiv>website</MobileJobTitleDiv>
+
+
+                <MobileTableCell>
+                    <TextButton><a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">LINK</a></TextButton>
+
+                </MobileTableCell>
+
+
+            </MobileTitleDiv>
+
+
+
+            <MobileTitleDiv>
+                <MobileJobTitleDiv>  <select value={jobResponses[job.id] || 'no response'} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleResponseChange(e, String(job.id))}>
+                    <option value="accepted">Accepted</option>
+                    <option value="update">Update</option>
+                    <option value="declined">Declined</option>
+                    <option value="delete">Delete</option>
+                    <option value="no response">No Response</option>
+                </select></MobileJobTitleDiv>
+
+                <MobileTableCell>
+
+                    {jobResponses[job.id] === "accepted" ? (
+                        <Button
+                            variant="contained"
+                            style={{backgroundColor: 'green', width: '120px', height: '40px'}}
+                            onClick={() => onButtonClick('accepted', String(job.id))}
+                        >
+                            Interview
+                        </Button>
+                    ) : jobResponses[job.id] === "update" ? (
+                        <Button
+                            variant="contained"
+                            style={{backgroundColor: 'purple', width: '120px', height: '40px'}}
+                            onClick={() => onButtonClick('update', String(job.id))}
+                        >
+                            Update
+                        </Button>
+                    ) : jobResponses[job.id] === "declined" ? (
+                        <Button
+                            variant="contained"
+                            style={{backgroundColor: 'orange', width: '120px', height: '40px'}}
+                            onClick={() => onButtonClick('declined', String(job.id))}
+                        >
+                            Declined
+                        </Button>
+
+                    ) : jobResponses[job.id] === "delete" ? (
+                        <Button
+                            variant="contained"
+                            style={{backgroundColor: 'red', width: '120px', height: '40px'}}
+                            onClick={() => onButtonClick('delete', String(job.id))}
+                        >
+                            Delete
+                        </Button>
+
+
+                    ) : null}
+                </MobileTableCell>
+
+
+
 
 
             </MobileTitleDiv>

@@ -311,12 +311,12 @@ const InterviewInfoDiv = styled.div`
     align-items: center;       // Ensures content is centered horizontally
 
     label {
-      width: 96%;  // Increasing from 80% to 96% (which is 20% more than 80%)
+      width: 86%;  // Increasing from 80% to 96% (which is 20% more than 80%)
       align-items: center;
     }
 
     input, textarea {
-      width: 100%;  // This will now be 100% of the label's increased width
+      width: 80%;  // This will now be 100% of the label's increased width
     }
 
 `;

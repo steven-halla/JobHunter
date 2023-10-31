@@ -114,37 +114,70 @@ const Profile = () => {
     }
 
     return (
-        <div className="container">
+        <ProfileWrapperDiv>
 
             <UserNameDiv>
                 User Name:   <strong>{user?.username}</strong>  <br/>
 
             </UserNameDiv>
 
-            <form onSubmit={handleSubmit}>
-                // Use the individual custom fields' state for the input values
+            <StyledForm onSubmit={handleSubmit}>
                 <p>
-                    <strong>Custom field 1:</strong>
+                    <StyledStrong>Github:</StyledStrong>
                     <input type="text" name="customfield1" value={customfield1} onChange={handleChange} />
                 </p>
                 <p>
-                    <strong>Custom field 2:</strong>
+                    <StyledStrong>Linkedin:</StyledStrong>
                     <input type="text" name="customfield2" value={customfield2} onChange={handleChange} />
                 </p>
                 <p>
-                    <strong>Custom field 3:</strong>
+                    <StyledStrong>Portfolio:</StyledStrong>
                     <input type="text" name="customfield3" value={customfield3} onChange={handleChange} />
                 </p>
 
                 <button type="submit">Update</button>
-            </form>
-        </div>
+            </StyledForm>
+
+
+        </ProfileWrapperDiv>
     );
 };
 
+export const StyledStrong = styled.strong`
+  display: flex;
+background-color: blue;
+
+`;
 export const UserNameDiv = styled.div`
-  margin-bottom: 20px;
-  margin-top: 10px;
+  display: flex;
+background-color: green;
+  justify-content: center;
+  //align-items: center;
+  height: 20vh;
+`;
+
+export const ProfileWrapperDiv = styled.div`
+  display: flex;
+  background-color: orangered;
+  height: 100vh;
+  width: 100vw;
+  justify-content: center;
+  flex-direction: column;
+
+  //align-items: center;
+`;
+
+export const StyledForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  background-color: blueviolet;
+  height: 50vh;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+  
 `;
 
 export default Profile;
+//
+//

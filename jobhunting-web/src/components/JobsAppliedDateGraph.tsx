@@ -47,8 +47,6 @@ export const JobsAppliedDateGraph: React.FC = () => {
         return weeks;
     };
 
-    //make change  in what is in labels, no redundant info
-
     const today = new Date();
     const currentMonth = new Date().getMonth() + 1;
     const [selectedMonth, setSelectedMonth] = useState<number>(currentMonth);
@@ -98,9 +96,10 @@ export const JobsAppliedDateGraph: React.FC = () => {
                 </MonthPickerDiv>
                 {selectedMonth === currentMonth ? (
                     <NumberOfJobsAppliedDiv>
-                        <p>Jobs applied today: {jobsAppliedToday.length}</p>
-                        <p>Jobs applied this week: {jobsAppliedThisWeek.length}</p>
-                        <p>Jobs applied this month: {jobsAppliedThisMonth.length}</p>
+                        <p>Jobs Applied:</p>
+                        <p>Today: {jobsAppliedToday.length}</p>
+                        <p>Week: {jobsAppliedThisWeek.length}</p>
+                        <p>Month: {jobsAppliedThisMonth.length}</p>
                     </NumberOfJobsAppliedDiv>
                 ) : (
                     <NumberOfJobsAppliedDiv>
@@ -146,6 +145,7 @@ export const NumberOfJobsAppliedDiv = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin-top: 5vh;
 `;
 
 export const BarGraphDiv = styled.div`
@@ -158,12 +158,6 @@ export const BarGraphDiv = styled.div`
   margin-right: 12vw;
   
   @media ${device.laptop} {
-    display: flex;
-    margin-top: 10px;
-    height: 60vh;
-    width: 85vw;
-    justify-content: center;
-    align-items: center;
     margin-right: 5vw;
   }
 `;

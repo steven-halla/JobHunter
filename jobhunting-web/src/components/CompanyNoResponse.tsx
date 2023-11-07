@@ -39,11 +39,9 @@ export const CompanyNoResponse = () => {
         'update'
     >('select');
 
-    // Get current date
     const currentDateMs = new Date().getTime();
 
-    // Filter jobs older than 48 hours
-    // Filter jobs older than 48 hours and sort by date applied in descending order
+
     const olderJobs = jobs.filter(job => {
         const timeDelta = currentDateMs - new Date(job.dateapplied).getTime();
         return timeDelta > ONE_WEEK && !job.companyresponded;

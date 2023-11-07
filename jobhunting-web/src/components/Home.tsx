@@ -16,6 +16,7 @@ import {useParams} from "react-router-dom";
 
 export const Home: React.FC = () => {
 
+    //useContext might be a better idea for V2
     const [companyname, setCompanyName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [jobposter, setJobPoster] = useState<string>("n/a");
@@ -35,8 +36,6 @@ export const Home: React.FC = () => {
     const currentUser: User | null = AuthService.getCurrentUser();
     const { user } = useContext(UserContext);
     const [id] = useState(null); // or some initial value
-    // const { id } = useParams<{ id: string }>();
-
     const [count, setCount] = useState<number>(() => {
         const storedCount = localStorage.getItem('count');
         const storedDate = localStorage.getItem('date');
@@ -62,7 +61,6 @@ export const Home: React.FC = () => {
         localStorage.setItem('selectedOption3', selectedOption3);
     }, [selectedOption1, selectedOption2, selectedOption3]);
 
-    //id in url is just id and not the id of user
     useEffect(() => {
         if(id) {
             console.log("am I being called?")
@@ -81,8 +79,6 @@ export const Home: React.FC = () => {
                 });
         }
     }, [id]);
-
-    //this is used a lot so we can make this a helper function
 
     const handleJobSubmit = async (e: FormEvent) => {
         console.log("I'm the handle submit button on the home page");
@@ -149,76 +145,79 @@ export const Home: React.FC = () => {
     const handleJobLink = (e: ChangeEvent<HTMLInputElement>) => {
         setJobLink(e.target.value);
     }
-
-        const copyToClipboard = async (selectedOption: string) => {
-            const textToCopy = () => {
-                switch(selectedOption) {
-                    case 'github':
-                        return user?.customfield3 || '';
-                    case 'linkedin':
-                        return user?.customfield2 || '';
-                    case 'portfolio':
-                    default:
-                        return user?.customfield1 || '';
-                }
+    const copyToClipboard = async (selectedOption: string) => {
+        const textToCopy = () => {
+            switch(selectedOption) {
+                case 'github':
+                    return user?.customfield3 || '';
+                case 'linkedin':
+                    return user?.customfield2 || '';
+                case 'portfolio':
+                default:
+                    return user?.customfield1 || '';
             }
-            try {
-                await navigator.clipboard.writeText(textToCopy());
-                alert('Copied!');
-            } catch (err) {
-                alert('Failed to copy text');
-            }
-        };
+        }
+        try {
+            await navigator.clipboard.writeText(textToCopy());
+            alert('Copied!');
+        } catch (err) {
+            alert('Failed to copy text');
+        }
+    };
 
+
+    //need to get rid of labels
+    //have it like face book where we put text in the input, and as we type, the place holder
+    //goes away
     return (
         <HomeWrapperDiv>
             <CustomFieldsDiv>
-                <FieldRow>
+                <FieldRowDiv>
                     <FontAwesomeIcon
                         icon={faGithub}
                         size="2x"
                         onClick={() => copyToClipboard(selectedOption1)}
                         style={{ cursor: 'pointer' }}
                     />
-                </FieldRow>
-                <FieldRow>
+                </FieldRowDiv>
+                <FieldRowDiv>
                     <FontAwesomeIcon
                         icon={faLinkedin}
                         size="2x"
                         onClick={() => copyToClipboard(selectedOption2)}
                         style={{ cursor: 'pointer' }}
                     />
-                </FieldRow>
-                <FieldRow>
+                </FieldRowDiv>
+                <FieldRowDiv>
                     <FontAwesomeIcon
                         icon={faBriefcase}
                         size="2x"
                         onClick={() => copyToClipboard(selectedOption3)}
                         style={{ cursor: 'pointer' }}
                     />
-                </FieldRow>
+                </FieldRowDiv>
             </CustomFieldsDiv>
             <CustomFieldForm onSubmit={handleJobSubmit}>
-                <FieldContainer>
+                <FieldContainerDiv>
                     <StyledInputLabel>Company</StyledInputLabel>
                     <StyledTextField  value={companyname} onChange={handleCompanyNameChange} />
-                </FieldContainer>
-                <FieldContainer>
+                </FieldContainerDiv>
+                <FieldContainerDiv>
                     <StyledInputLabel>Description</StyledInputLabel>
                     <StyledTextField value={description} onChange={handleDescriptionChange} />
-                </FieldContainer>
-                <FieldContainer>
+                </FieldContainerDiv>
+                <FieldContainerDiv>
                     <StyledInputLabel>Primary Contact</StyledInputLabel>
                     <StyledTextField  value={primarycontact} onChange={handlePrimaryContact} />
-                </FieldContainer>
-                <FieldContainer>
+                </FieldContainerDiv>
+                <FieldContainerDiv>
                     <StyledInputLabel>Website Link</StyledInputLabel>
                     <StyledTextField  value={companywebsitelink} onChange={handleCompanyWebSiteLink} />
-                </FieldContainer>
-                <FieldContainer>
+                </FieldContainerDiv>
+                <FieldContainerDiv>
                     <StyledInputLabel>Job Link</StyledInputLabel>
                     <StyledTextField  value={joblink} onChange={handleJobLink} />
-                </FieldContainer>
+                </FieldContainerDiv>
                 <ButtonDiv>
                     <SubmitButton variant="contained" type="submit">Submit</SubmitButton>
                 </ButtonDiv>
@@ -229,16 +228,11 @@ export const Home: React.FC = () => {
 };
 
 const ButtonDiv = styled.div`
-
-  @media ${device.mobile} {
-    justify-content: center;
-    align-items: center;
-    margin-top: 5%;
-  }
-
+  justify-content: center;
+  align-items: center;
+  margin-top: 5%;
+  
   @media ${device.laptop} {
-    justify-content: center;
-    align-items: center;
     margin-top: 2%;
   }
 `;
@@ -250,8 +244,6 @@ const StyledInputLabel = styled(InputLabel)`
 
   @media ${device.mobile} {
     display: flex;
-    width: 100%;
-    height: 30px;
     transform: translateX(2%); 
   }
 `;
@@ -277,23 +269,12 @@ const SubmitButton = styled(Button)`
 `;
 
 export const HomeWrapperDiv = styled.div`
+  width: 100vw;
+  height: 100vh;
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   
-  @media ${device.mobile} {
-    display: flex;
-    width: 100vw;
-    height: 100vh;
-    flex-direction: column;  
-    justify-content: space-between;
-  }
-  
-  @media ${device.laptop} {
-    display: flex;
-    width: 100vw;
-    height: 100vh;
-    flex-direction: column;
-    justify-content: space-between;
-  }
 `;
 
 export const CustomFieldsDiv = styled.div`
@@ -318,7 +299,7 @@ export const CustomFieldsDiv = styled.div`
   }
 `;
 
-export const FieldRow = styled.div`
+export const FieldRowDiv = styled.div`
   display: flex;
   padding-left: 20px;
   padding-right: 30px;
@@ -332,21 +313,13 @@ export const FieldRow = styled.div`
 
 export const CustomFieldForm = styled.form`
   display: flex;
-  
-  @media ${device.mobile} {
-    display: flex;
-    width: 100vw;
-    flex-direction: column;
-    justify-items: center;
-    align-items: center;
-  }
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  width: 100vw;
   
   @media ${device.laptop} {
     display: flex;
-    width: 100vw;
-    flex-direction: column;
-    justify-items: center;
-    align-items: center;
     margin-bottom: 5%;
     
     input {
@@ -363,7 +336,7 @@ export const CustomFieldForm = styled.form`
   }
 `;
 
-const FieldContainer = styled.div`
+const FieldContainerDiv = styled.div`
   @media ${device.laptop} {
     width: 37%; 
     display: flex;
@@ -377,10 +350,8 @@ const FieldContainer = styled.div`
 `;
 
 export const FooterDiv =  styled.div`
-  display: flex;
   
   @media ${device.mobile} {
-    display: flex;
     width: 100vw;
     height: 120px;
   }

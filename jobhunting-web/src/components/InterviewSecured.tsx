@@ -82,14 +82,11 @@ export const InterviewSecured = () => {
             });
 
             if (response.ok) {
-                // Update the global jobs state
                 setJobs((prevJobs) =>
                     prevJobs.map((j) =>
                         j.id === currentJob.id ? { ...j, interviews } : j
                     )
                 );
-
-                // Update the local job state
                 setCurrentJob((prev) =>
                     prev ? { ...prev, interviews } : prev
                 );
@@ -97,8 +94,6 @@ export const InterviewSecured = () => {
                 setInterviewNotes(interviewnotes);
                 setInterviewerNames(interviewernames);
                 setInterviewDate(interviewdate);
-
-
             } else {
                 console.error('Failed to update job interview');
             }

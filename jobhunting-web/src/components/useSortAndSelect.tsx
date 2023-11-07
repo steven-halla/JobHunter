@@ -13,7 +13,9 @@ type SortOrder =
     | 'declined'
     | 'no response'
     | 'delete'
-    | 'update';
+    | 'update'
+    | 'rejected-yes'
+    | 'rejected-no';
 
 // Defining the type for selectValue for better type checking.
 export type SelectValue = 'select' | 'accepted' | 'declined' | 'no response' | 'delete' | 'update';
@@ -37,6 +39,7 @@ export const useSortAndSelect = (initialSortOrder: SortOrder = 'select', initial
 
     return {
         sortOrder,
+        setSortOrder,
         selectValue,
         handleDateSortAsc,
         handleDateSortDesc,

@@ -1,10 +1,11 @@
 import React, {useContext, useEffect, useState} from "react";
 import {JobsContext} from "../services/jobcontext";
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import {device, deviceCompanyNoResponse} from "../common/ScreenSizes";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCaretDown, faCaretUp} from "@fortawesome/free-solid-svg-icons";
+import { useSortAndSelect } from './useSortAndSelect'; // Make sure to import from the correct path
+import { SelectValue } from './useSortAndSelect'; // Replace with the actual path
 
 // shrink down vertically,
 //more shade on south partk of box
@@ -16,23 +17,21 @@ export const CompanyNoResponse = () => {
     const [isMobile, setIsMobile] = useState(window.matchMedia(device.mobile).matches);
     const [isLaptop, setIsLaptop] = useState(window.matchMedia(device.laptop).matches);
 
-    const [sortOrder, setSortOrder] = useState<
-        'select' |
-        'company-a-z' |
-        'company-z-a' |
-        'contact-a-z' |
-        'contact-z-a' |
-        'rejected-yes' |
-        'rejected-no' |
-        'date-asc' |
-        'date-desc' |
-        'accepted' |
-        'declined' |
-        'no response' |
-        'delete' |
-        'update'
-    >('select');
+    const {
+        sortOrder,
+        setSortOrder, // Ensure you have this in your destructured object
+        selectValue,
+        handleDateSortAsc,
+        handleDateSortDesc,
+        handleContactNameSortAsc,
+        handleContactNameSortDesc,
+        handleCompanyNameSortAsc,
+        handleCompanyNameSortDesc,
+        handleSelectChange: handleSelectChangeFromHook, // Rename the function here
+    } = useSortAndSelect();
 
+
+    //this is for filter
     const sortedAndRespondedJobs = jobs
         .filter(job => !job.companyresponded) // This filters out jobs where companyresponded is true
         .sort((a, b) => {
@@ -97,32 +96,6 @@ export const CompanyNoResponse = () => {
 
     const handleRejectedSortNo = () => {
         setSortOrder('rejected-no');
-    };
-
-    const handleDateSortAsc = () => {
-        setSortOrder('date-asc');
-    };
-
-    const handleDateSortDesc = () => {
-        setSortOrder('date-desc');
-    };
-
-    const handleContactNameSortAsc = () => {
-        setSortOrder('contact-a-z');
-    };
-
-    const handleContactNameSortDesc = () => {
-        setSortOrder('contact-z-a');
-    };
-
-    const handleCompanyNameSortAsc = () => {
-        setSortOrder('company-a-z');
-        console.log("hi")
-    };
-
-    const handleCompanyNameSortDesc = () => {
-        setSortOrder('company-z-a');
-        console.log("bye")
     };
 
     const handleCheckboxChange = (jobId: number, checked: boolean) => {

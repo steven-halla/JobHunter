@@ -10,18 +10,6 @@ import axios from "axios";
 import { useSortAndSelect } from './useSortAndSelect'; // Make sure to import from the correct path
 import { SelectValue } from './useSortAndSelect'; // Replace with the actual path
 
-//edit/delete should not be part of the app flow,make it two smaller buttons , or something else that
-//is out of the way
-
-//get rid of drop down and buttons
-//also change the color state of each card based on what user is chooser
-// light green for accepted
-// only show buttons when the state is no response.
-//    show two buttons accepted or declined by clicking the button it updates that row state.
-//      create new state to do this.  Change background color based on state for row
-
-
-
 export const JobViewAll = () => {
     const { jobs, updateJobRejected, meetingLink } = useContext(JobsContext);
     const [filter] = useState('');
@@ -44,14 +32,10 @@ export const JobViewAll = () => {
     const [selectedDescription, setSelectedDescription] = useState('');
     const [jobDeclined, setJobDeclined] = useState(false);
 
-    const [jobResponses, setJobResponses] = useState<Record<string, JobResponse>>(
+    const [jobResponses, setJobResponses] = useState<Record<string, SelectValue>>(
         () => JSON.parse(localStorage.getItem('jobResponses') || '{}')
     );
 
-
-
-    // Remove duplicate declaration of selectValue
-    // const selectValue: SelectValue = useSelectValue();
     useEffect(() => {
         // Use sortOrder from the hook, not setSortOrder
         switch (selectValue as string) {
@@ -79,13 +63,9 @@ export const JobViewAll = () => {
         }
     }, [selectValue]);
 
-
-
     useEffect(() => {
         localStorage.setItem('jobResponses', JSON.stringify(jobResponses));
     }, [jobResponses]);
-
-    type JobResponse = 'accepted' | 'declined' | 'no response' | 'delete' | 'update';
 
     const openDescriptionModal = (description: string) => {
         setSelectedDescription(description);
@@ -97,7 +77,7 @@ export const JobViewAll = () => {
     };
 
     const handleResponseChange = async (e: React.ChangeEvent<{ value: unknown }>, jobId: string) => {
-        const selectedValue = e.target.value as JobResponse;
+        const selectedValue = e.target.value as SelectValue;
         const targetJob = jobs.find((job) => job.id === Number(jobId));
 
         if (targetJob) {
@@ -208,7 +188,7 @@ export const JobViewAll = () => {
         };
     }, []);
 
-    const onButtonClick = async (response: JobResponse, jobId: string) => {
+    const onButtonClick = async (response: SelectValue, jobId: string) => {
         const targetJob = jobs.find((job) => job.id === Number(jobId));
 
         if (!targetJob) return;
@@ -245,8 +225,6 @@ export const JobViewAll = () => {
             console.log('Awaiting response from company');
         }
     };
-
-
 
     return (
         <>
@@ -528,26 +506,6 @@ const MobileTableCellDiv = styled.div`
     text-align: right;
 `;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const SortLabelContainer = styled.div`
     display: flex;
     align-items: center; // align vertically in the center
@@ -560,52 +518,12 @@ const ButtonHolderDiv = styled.div`
     margin-left: 8px; // Adjusts the spacing between the Date text and the icons
 `;
 
-// const JobCard = styled.div`
-//   background-color: white;
-//   border: 1px solid #ccc;
-//   border-radius: 8px;
-//   padding: 16px;
-//   margin-bottom: 16px;
-//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-//
-//   @media ${deviceJobViewAll.mobile} {
-//     display: flex;
-//     flex-direction: column;
-//   }
-//
-//   @media ${deviceJobViewAll.tablet} {
-//     display: flex;
-//     flex-direction: row;
-//   }
-// `;
-
-
 const StyledTableCell = styled(TableCell)`
   max-width: 20ch;
   white-space: pre-wrap;   // Allows content to wrap to the next line
   word-wrap: break-word;   // Allows breaking between words
   overflow-wrap: break-word; // In case a single word is longer than 25ch, it'll break
 `;
-
-
-// const SortLabelContainer = styled.div`
-//     display: flex;
-//     align-items: center; // align vertically in the center
-//
-//
-// `;
-
-const SortIconContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-left: 8px; // you can adjust this spacing
-
-  @media ${deviceJobViewAll.mobile} {
-    display: none;  // Hide the icons by default
-  }
-`;
-
 
 const StyledTableHead = styled(TableHead)`
     position: sticky;
@@ -621,17 +539,9 @@ const StyledTableHead = styled(TableHead)`
     }
 `;
 
-
 const StyledTableContainer = styled(TableContainer)`
     height: 93vh;  /* Adjust to your preference */
     overflow-y: auto;
-`;
-
-const TableCellCompanyName = styled(TableCell)`
-    max-width: 25ch;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
 `;
 
 const TextButton = styled.button`
@@ -649,157 +559,6 @@ const TextButton = styled.button`
         color: #007BFF;  // Change color on hover/focus. Pick any color that suits your design
     }
 `;
-
-
-
-
-// const ButtonHolderDiv = styled.div`
-//   @media ${deviceJobViewAll.mobile} {
-//     display: none;  // Hide the icons by default
-//
-//
-//   }
-//
-//     @media ${deviceJobViewAll.tablet} {
-//       display: flex;
-//       flex-direction: column;
-//       background-color: blue;
-//       margin-left: 10px;
-//     }
-// `;
-
-// const FilterSelect = styled.select`
-//   display: none;  // Hide the icons by default
-//
-//
-//   @media ${deviceJobViewAll.mobile} {
-//     display: flex;
-//     width: 60vw;
-//     margin-left: 20vw;
-//     //position: absolute;
-//     //top: 100%; /* position it right below the triggering element */
-//     //left: 0;
-//     .options {
-//       position: absolute;
-//       top: 5%; /* position it right below the triggering element */
-//       left: 0;
-//       background-color: red;
-//     }
-//
-//   }
-// `;
-
-const FilterSelect = styled.select`
-  display: none;  // Hide by default for larger screens
-
-  @media ${deviceJobViewAll.mobile} {
-    display: block;  // Show only for mobile
-    // ... other styles ...
-  }
-`;
-
-const JobViewAllDiv = styled.div`
-  display: flex;
-  
-  @media ${deviceJobViewAll.mobile} {
-    background-color:  #ff38ec;
-    display: flex; /* Use flexbox layout */
-    flex-direction: column; /* Display items in one row on mobile */
-  }
-
-  @media ${deviceJobViewAll.tablet} {
-    display: flex; 
-    flex-direction: column; 
-    background-color: #ff38ec;
-    justify-content: center;
-    align-items: center;
-  }
-`;
-
-const TitleDiv = styled.div`
-  @media ${deviceJobViewAll.mobile} {
-    flex-direction: column; 
-    flex: 1; 
-    background-color: orangered;
-  }
-  
-    @media ${deviceJobViewAll.tablet} {
-      display: flex;
-      flex-direction: row;
-      width: 90vw;
-      background-color: orangered;
-      border: 2px solid darkred;
-    }
-`;
-
-const DataDiv = styled.div`
-  @media ${deviceJobViewAll.mobile} {
-    display: flex; 
-    flex-direction: column; 
-    align-items: center;
-    flex: 1; 
-    background-color: red;
-    padding-bottom: 10px;
-  }
-
-  @media ${deviceJobViewAll.tablet} {
-    display: flex;
-    flex-direction: row;
-    background-color: red;
-    width: 90vw;
-    border: 2px solid dimgray;
-  }
-`;
-
-const JobTitleDiv = styled.div`
-  display: flex;
-  
-  @media ${deviceJobViewAll.mobile} {
-    flex-direction: column;
-    align-items: center;
-    background-color: yellow;
-  }
-
-    @media ${deviceJobViewAll.tablet} {
-      border: 2px solid blueviolet; /* Add a blue-violet border */
-      justify-content: center;      
-      background-color: yellow;
-      width: 90vw;
-  }
-`;
-
-const JobDataDiv = styled.div`
-  @media ${deviceJobViewAll.mobile} {
-    background-color: green;
-  }
-
-    @media ${deviceJobViewAll.tablet} {
-      display: flex;
-      background-color: green;
-      width: 90vw;
-      justify-content: center;
-      border: 2px solid blueviolet; 
-    }
-`;
-
-const JobCard = styled.div`
-  @media ${deviceJobViewAll.mobile} {
-    display: flex;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 16px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    flex-direction: row; 
-  }
-
-  @media ${deviceJobViewAll.tablet} {
-    display: flex;
-    flex-direction: column; 
-  }
-`;
-
 
 const SimpleSelect = styled.select`
     padding: 5px 10px;

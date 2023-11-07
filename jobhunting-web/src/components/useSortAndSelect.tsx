@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-// Defining the type for sortOrder for better type checking.
+// Define the types for sortOrder and selectValue for better type checking.
 type SortOrder =
     | 'select'
     | 'company-a-z'
@@ -33,7 +33,39 @@ export const useSortAndSelect = (initialSortOrder: SortOrder = 'select', initial
     const handleCompanyNameSortDesc = () => setSortOrder('company-z-a');
 
     // Handler for select value changes
-     const handleSelectChange = (value: SelectValue) => setSelectValue(value);
+    const handleSelectChange = (value: SelectValue) => setSelectValue(value);
+
+    useEffect(() => {
+        switch (selectValue as SortOrder) {
+            case 'date-asc':
+                // Sorting logic for date ascending
+                break;
+            case 'date-desc':
+                // Sorting logic for date descending
+                break;
+            case 'company-a-z':
+                // Sorting logic for company name ascending
+                break;
+            case 'company-z-a':
+                // Sorting logic for company name descending
+                break;
+            case 'contact-a-z':
+                // Sorting logic for contact name ascending
+                break;
+            case 'contact-z-a':
+                // Sorting logic for contact name descending
+                break;
+            case 'rejected-yes':
+                // Sorting logic for rejected-yes
+                break;
+            case 'rejected-no':
+                // Sorting logic for rejected-no
+                break;
+            default:
+                break;
+        }
+    }, [selectValue]);
+
 
     // You can include additional logic or handlers if needed.
 

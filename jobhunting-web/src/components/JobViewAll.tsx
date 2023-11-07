@@ -37,33 +37,6 @@ export const JobViewAll = () => {
     );
 
     useEffect(() => {
-        // Use sortOrder from the hook, not setSortOrder
-        switch (selectValue as string) {
-            case 'date-asc':
-                handleDateSortAsc();
-                break;
-            case 'date-desc':
-                handleDateSortDesc();
-                break;
-            case 'contact-a-z':
-                handleContactNameSortAsc();
-                break;
-            case 'contact-z-a':
-                handleContactNameSortDesc();
-                break;
-            case 'company-a-z':
-                handleCompanyNameSortAsc();
-                break;
-            case 'company-z-a':
-                handleCompanyNameSortDesc();
-                break;
-            default:
-                // Handle the default case if needed
-                break;
-        }
-    }, [selectValue]);
-
-    useEffect(() => {
         localStorage.setItem('jobResponses', JSON.stringify(jobResponses));
     }, [jobResponses]);
 

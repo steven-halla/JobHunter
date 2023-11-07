@@ -129,12 +129,6 @@ const Register: React.FC = () => {
     return (
         <RegisterWrapperDiv >
             <div className="card card-container">
-                {/*<img*/}
-                {/*    src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"*/}
-                {/*    alt="profile-img"*/}
-                {/*    className="profile-img-card"*/}
-                {/*/>*/}
-
                 <Form onSubmit={handleRegister} ref={form}>
                     {!successful && (
                         <div>
@@ -149,7 +143,6 @@ const Register: React.FC = () => {
                                     validations={[required, vusername]}
                                 />
                             </div>
-
                             <div className="form-group">
                                 <label htmlFor="email">Email</label>
                                 <Input
@@ -161,7 +154,6 @@ const Register: React.FC = () => {
                                     validations={[required, validEmail]}
                                 />
                             </div>
-
                             <div className="form-group">
                                 <label htmlFor="password">Password</label>
                                 <Input
@@ -201,11 +193,9 @@ const Register: React.FC = () => {
 
 const RegisterWrapperDiv = styled.div`
   display: flex;
-background-color: blue;
+  background-color: blue;
   height: 60vh;
   margin-top: 8%;
-
-
 `;
 
 export default Register;

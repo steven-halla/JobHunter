@@ -27,7 +27,6 @@ export const FilterByCompanyResponded: React.FC = () => {
                 <div key={job.id}>
                     <h2>{job.companyname}</h2>
                     <p>{job.description}</p>
-                    {/* Display other job details as required */}
                 </div>
             ))}
         </div>

@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Select, MenuItem } from '@mui/material';
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Select, MenuItem } from '@mui/material';
 import { JobsContext } from "../services/jobcontext";
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,7 +20,6 @@ import axios from "axios";
 
 
 export const JobViewAll = () => {
-    // ... (keeping all your state and functions here)
     const { jobs, updateJobRejected, meetingLink} = useContext(JobsContext);
     const [filter] = useState('');
     const [onlyShowResponded] = useState(false);
@@ -49,15 +48,9 @@ export const JobViewAll = () => {
     >('select');
 
     // const [jobResponses, setJobResponses] = useState<Record<string, JobResponse>>({});
-    const history = useNavigate();
     const navigate = useNavigate();
-
-
     const [isDescriptionModalOpen, setDescriptionModalOpen] = useState(false);
     const [selectedDescription, setSelectedDescription] = useState('');
-
-
-    const [open, setOpen] = useState(false);
     const [jobDeclined, setJobDeclined] = useState(false);
 
     const [jobResponses, setJobResponses] = useState<Record<string, JobResponse>>(
@@ -65,16 +58,12 @@ export const JobViewAll = () => {
     );
 
     useEffect(() => {
-        // You can add additional logic here if needed
         setSortOrder(selectValue);
-        console.log("hi")
-        //this is only ran when selectValue changes, this is powerful and important to remember
     }, [selectValue]);
 
     useEffect(() => {
         localStorage.setItem("jobResponses", JSON.stringify(jobResponses));
     }, [jobResponses]);
-
 
     type JobResponse = 'accepted' | 'declined' | 'no response' | 'delete' | 'update';
 
@@ -92,43 +81,33 @@ export const JobViewAll = () => {
         const selectedValue = e.target.value as JobResponse;
         const targetJob = jobs.find(job => job.id === Number(jobId));
 
-        // <-- get the navigate function using the hook
-
         if (targetJob) {
             if (selectedValue === 'declined') {
                 targetJob.companyresponded = false;
-                // targetJob.companyrejected = true;
                 setJobDeclined(true);
             } else if (selectedValue === 'accepted') {
                 targetJob.companyrejected = false;
                 targetJob.companyresponded = true;
                 setJobDeclined(false);
             }
-
             else if (selectedValue === 'update') {
                 console.log("do you want to update?")
             }
-
             else if (selectedValue === 'no response') {
                 console.log("no response?")
             }
-
             else if (selectedValue === 'delete') {
                 console.log("we may need to delete this")
             }
-
-
             else {
                 targetJob.companyrejected = false;
                 targetJob.companyresponded = false;
                 setJobDeclined(false);
             }
-
             await updateJobOnServer(jobId, {
                 companyrejected: targetJob.companyrejected,
                 companyresponded: targetJob.companyresponded
             });
-
             setJobResponses(prev => ({
                 ...prev,
                 [jobId]: selectedValue
@@ -137,24 +116,19 @@ export const JobViewAll = () => {
     };
 
     const updateJobOnServer = async (jobId: string, data: { companyrejected: boolean; companyresponded?: boolean }) => {
-        // Make a PATCH request to your server to update the job with jobId
         try {
             const response = await fetch(`http://localhost:8080/api/jobs/update/${jobId}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             });
-
             if (!response.ok) {
                 throw new Error("Failed to update job.");
             }
-            // Optionally, update your local state if the server responds with updated data.
-            // const updatedJob = await response.json();
         } catch (error) {
             console.error("Error updating job:", error);
         }
     };
-
 
     const currentDateMs = new Date().getTime(); // 1. Get current date in milliseconds
     const TWENTY_ONE_DAYS = 21 * 24 * 60 * 60 * 1000; // Equivalent of 21 days in milliseconds
@@ -170,16 +144,6 @@ export const JobViewAll = () => {
             (onlyShowResponded ? job.companyresponded : true) &&
             job.companyname.toLowerCase().includes(filter.toLowerCase())
         );
-
-
-
-    const responsePriority: Record<JobResponse, number> = {
-        'accepted': 1,
-        'update': 2,
-        'declined': 3,
-        'no response': 4,
-        'delete': 5
-    };
 
     const sortedAndRespondedJobs = [...filteredAndRespondedJobs].sort((a, b) => {
         switch (sortOrder) {
@@ -202,11 +166,9 @@ export const JobViewAll = () => {
             case 'no response':
                 console.log("Job A ID:", a.id, "Response:", jobResponses[a.id]);
                 console.log("Job B ID:", b.id, "Response:", jobResponses[b.id]);
-                // return (jobResponses[b.id] === 'no response' ? 1 : 0) - (jobResponses[a.id] === 'no response' ? 1 : 0);
                 const responseA = jobResponses[a.id] || 'no response'; // default to 'no response' if undefined
                 const responseB = jobResponses[b.id] || 'no response'; // default to 'no response' if undefined
                 return (responseB === 'no response' ? 1 : 0) - (responseA === 'no response' ? 1 : 0);
-
             case 'delete':
                 return (jobResponses[b.id] === 'delete' ? 1 : 0) - (jobResponses[a.id] === 'delete' ? 1 : 0);
             case 'update':
@@ -215,8 +177,6 @@ export const JobViewAll = () => {
                 return 0;
         }
     });
-
-
 
     const [isMobile, setIsMobile] = useState(window.matchMedia(deviceJobViewAll.mobile).matches);
     const [isLaptop, setIsLaptop] = useState(window.matchMedia(deviceJobViewAll.tablet).matches);
@@ -259,7 +219,6 @@ export const JobViewAll = () => {
         setSortOrder('company-z-a');
     };
 
-
     const onButtonClick = async (response: JobResponse, jobId: string) => {
         const targetJob = jobs.find(job => job.id === Number(jobId));
 
@@ -271,9 +230,7 @@ export const JobViewAll = () => {
         }
         else if (response === 'update') {
             navigate(`/updatejob/${jobId}`);  // <-- navigate to the update job page with the jobId
-
         }
-
         else if (response === 'delete') {
             axios.delete(`http://localhost:8080/api/jobs/${jobId}`)
                 .then(res => {
@@ -287,24 +244,15 @@ export const JobViewAll = () => {
                     // Handle error (e.g., show an error message)
                 });
         }
-
-
-
         else if (response === 'declined') {
             console.log("Handling declined job application");
-
-            // Set companyrejected to true and companyresponded to false
             targetJob.companyrejected = true;
             targetJob.companyresponded = false;
-
-            // Update the state for UI feedback
             setJobDeclined(true);
             setJobResponses(prev => ({
                 ...prev,
                 [jobId]: 'declined'
             }));
-
-            // Update the database
             await updateJobOnServer(jobId, {
                 companyrejected: true,
                 companyresponded: false
@@ -313,7 +261,6 @@ export const JobViewAll = () => {
             console.log("Awaiting response from company");
         }
     };
-
 
     return (
         <>
@@ -334,73 +281,43 @@ export const JobViewAll = () => {
                         <option value="no response">No Response</option>
                         <option value="delete">Delete</option>
                         <option value="update">Update</option>
-
-
                     </SimpleSelect>
                 </SelectDiv>
 
             {sortedAndRespondedJobs.map((job, index) => (
-        <MobileJobCard key={job.id}>
+        <MobileJobCardDiv key={job.id}>
             <MobileTitleDiv>
                 <MobileJobTitleDiv>Date</MobileJobTitleDiv>
-                <MobileTableCell>{new Date(job.dateapplied).toISOString().split('T')[0]}</MobileTableCell>
+                <MobileTableCellDiv>{new Date(job.dateapplied).toISOString().split('T')[0]}</MobileTableCellDiv>
             </MobileTitleDiv>
-
             <MobileTitleDiv>
                 <MobileJobTitleDiv>Company</MobileJobTitleDiv>
-
-
-                <MobileTableCell>{job.companyname}</MobileTableCell>
+                <MobileTableCellDiv>{job.companyname}</MobileTableCellDiv>
             </MobileTitleDiv>
-
             <MobileTitleDiv>
                 <MobileJobTitleDiv>Description</MobileJobTitleDiv>
-
-
-                <MobileTableCell>
+                <MobileTableCellDiv>
                     <TextButton onClick={() => openDescriptionModal(job.description)}>Click to View</TextButton>
-                </MobileTableCell>
+                </MobileTableCellDiv>
             </MobileTitleDiv>
-
             <MobileTitleDiv>
                 <MobileJobTitleDiv>Contact</MobileJobTitleDiv>
-
-
-                <MobileTableCell>
-                    <MobileTableCell>{job.primarycontact}</MobileTableCell>
-
-                </MobileTableCell>
-
-
+                <MobileTableCellDiv>
+                    <MobileTableCellDiv>{job.primarycontact}</MobileTableCellDiv>
+                </MobileTableCellDiv>
             </MobileTitleDiv>
-
             <MobileTitleDiv>
                 <MobileJobTitleDiv>job link</MobileJobTitleDiv>
-
-
-                <MobileTableCell>
+                <MobileTableCellDiv>
                         <TextButton><a href={job.joblink} target="_blank" rel="noopener noreferrer">LINK</a></TextButton>
-
-                </MobileTableCell>
-
-
+                </MobileTableCellDiv>
             </MobileTitleDiv>
-
-
             <MobileTitleDiv>
                 <MobileJobTitleDiv>website</MobileJobTitleDiv>
-
-
-                <MobileTableCell>
+                <MobileTableCellDiv>
                     <TextButton><a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">LINK</a></TextButton>
-
-                </MobileTableCell>
-
-
+                </MobileTableCellDiv>
             </MobileTitleDiv>
-
-
-
             <MobileTitleDiv>
                 <MobileJobTitleDiv>  <select value={jobResponses[job.id] || 'no response'} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleResponseChange(e, String(job.id))}>
                     <option value="accepted">Accepted</option>
@@ -409,9 +326,7 @@ export const JobViewAll = () => {
                     <option value="delete">Delete</option>
                     <option value="no response">No Response</option>
                 </select></MobileJobTitleDiv>
-
-                <MobileTableCell>
-
+                <MobileTableCellDiv>
                     {jobResponses[job.id] === "accepted" ? (
                         <Button
                             variant="contained"
@@ -436,7 +351,6 @@ export const JobViewAll = () => {
                         >
                             Declined
                         </Button>
-
                     ) : jobResponses[job.id] === "delete" ? (
                         <Button
                             variant="contained"
@@ -445,29 +359,12 @@ export const JobViewAll = () => {
                         >
                             Delete
                         </Button>
-
-
                     ) : null}
-                </MobileTableCell>
-
-
-
-
-
+                </MobileTableCellDiv>
             </MobileTitleDiv>
-
-
-
-
-        </MobileJobCard>
+        </MobileJobCardDiv>
     ))}
 </div>
-
-
-
-
-
-
 
 ) : (
                 <StyledTableContainer>
@@ -483,7 +380,6 @@ export const JobViewAll = () => {
                                         </ButtonHolderDiv>
                                     </SortLabelContainer>
                                 </TableCell>
-
                                 <TableCell>
                                     <SortLabelContainer>Company
                                         <ButtonHolderDiv>
@@ -492,12 +388,7 @@ export const JobViewAll = () => {
                                         </ButtonHolderDiv>
                                     </SortLabelContainer>
                                 </TableCell>
-
-
-
                                 <TableCell>Description</TableCell>
-
-
                                 <TableCell>
                                     <SortLabelContainer>
                                         Contact
@@ -506,30 +397,21 @@ export const JobViewAll = () => {
                                             <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleContactNameSortDesc} />
                                         </ButtonHolderDiv>
                                     </SortLabelContainer>
-
                                 </TableCell>
-
-
-                                {/*<TableCell>Job Poster</TableCell>*/}
                                 <TableCell>Job Link</TableCell>
                                 <TableCell>Website </TableCell>
-
-
                                 <TableCell>
                                     <Select
                                         style={{ width: '140px', height: '25px' }}
-
                                         value={selectValue}
                                         onChange={e => setSelectValue(e.target.value as
                                         "no response" |
-
                                         "accepted" |
                                         "declined" |
                                         "delete" |
                                         "update"
                                     )}
                                         renderValue={(value) => value ? value : 'Select'}
-
                                     >
                                         <MenuItem value="accepted">Response: Accepted</MenuItem>
                                         <MenuItem value="declined">Response: Declined</MenuItem>
@@ -538,10 +420,7 @@ export const JobViewAll = () => {
                                         <MenuItem value="update">Response: Update</MenuItem>
                                     </Select>
                                 </TableCell>
-
-
                                 <TableCell></TableCell>
-
                             </TableRow>
                         </StyledTableHead>
                         <TableBody>
@@ -553,7 +432,6 @@ export const JobViewAll = () => {
                                         <TextButton onClick={() => openDescriptionModal(job.description)}>Click to View</TextButton>
                                     </TableCell>
                                     <StyledTableCell>{job.primarycontact}</StyledTableCell>
-                                    {/*<TableCell>{job.jobposter}</TableCell>*/}
                                     <TableCell><a href={job.joblink} target="_blank" rel="noopener noreferrer">LINK</a></TableCell>
                                     <TableCell><a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">LINK</a></TableCell>
                                     <TableCell>
@@ -565,7 +443,6 @@ export const JobViewAll = () => {
                                             <option value="no response">No Response</option>
                                         </select>
                                     </TableCell>
-
                                     <TableCell>
                                         {jobResponses[job.id] === "accepted" ? (
                                             <Button
@@ -600,14 +477,8 @@ export const JobViewAll = () => {
                                             >
                                                 Delete
                                             </Button>
-
-
                                         ) : null}
                                     </TableCell>
-
-
-
-
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -649,28 +520,9 @@ export const JobViewAll = () => {
             )}
         </>
     );
-
 };
 
-
-
-
-
-
-
-
-
-const MobileFilterSelect = styled.select`
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
-    margin-bottom: 10px;
-    appearance: none;  // This removes the default styling on some browsers
-`;
-
-const MobileJobCard = styled.div`
+const MobileJobCardDiv = styled.div`
     border: 1px solid #ccc;
     padding: 10px;
     margin: 10px 0;
@@ -691,7 +543,7 @@ const MobileJobTitleDiv = styled.div`
     margin-right: 10px;
 `;
 
-const MobileTableCell = styled.div`
+const MobileTableCellDiv = styled.div`
     flex: 1;
     text-align: right;
 `;

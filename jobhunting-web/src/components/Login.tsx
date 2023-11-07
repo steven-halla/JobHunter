@@ -48,9 +48,7 @@ const Login: React.FC = () => {
   };
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     setState((prevState) => ({ ...prevState, message: "", loading: true }));
-
     if (form.current && checkBtn.current) {
       form.current.validateAll();
 
@@ -68,7 +66,6 @@ const Login: React.FC = () => {
                       error.response.data.message) ||
                   error.message ||
                   error.toString();
-
               setState((prevState) => ({
                 ...prevState,
                 loading: false,
@@ -82,18 +79,11 @@ const Login: React.FC = () => {
     }
   };
 
-
   const { username, password, loading, message } = state;
 
   return (
       <LoginWrapperDiv >
         <div className="card card-container">
-          {/*<img*/}
-          {/*    src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"*/}
-          {/*    alt="profile-img"*/}
-          {/*    className="profile-img-card"*/}
-          {/*/>*/}
-
           <Form onSubmit={handleLogin} ref={form}>
             <div className="form-group">
               <label htmlFor="username">Username</label>
@@ -145,11 +135,9 @@ const Login: React.FC = () => {
 
 const LoginWrapperDiv = styled.div`
   display: flex;
-background-color: blue;
+  background-color: blue;
   height: 60vh;
   margin-top: 8%;
-
-
 `;
 
 export default Login;

@@ -9,16 +9,10 @@ import {device} from "../common/ScreenSizes";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faGithub, faLinkedin} from '@fortawesome/free-brands-svg-icons';
 import { faBriefcase } from '@fortawesome/free-solid-svg-icons';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-
 import {InputLabel, TextFieldProps} from '@mui/material';
-import { Input } from '@mui/material';
-
-import MuiInput from '@mui/material/Input';
 import TextField from '@mui/material/TextField';
-
-
+import {useParams} from "react-router-dom";
 
 export const Home: React.FC = () => {
 
@@ -41,6 +35,7 @@ export const Home: React.FC = () => {
     const currentUser: User | null = AuthService.getCurrentUser();
     const { user } = useContext(UserContext);
     const [id] = useState(null); // or some initial value
+    // const { id } = useParams<{ id: string }>();
 
     const [count, setCount] = useState<number>(() => {
         const storedCount = localStorage.getItem('count');
@@ -53,13 +48,12 @@ export const Home: React.FC = () => {
         }
     });
 
-
     //need  to build out a feature so that if copy /paste/ typing a company
     // it shows up if it exist in the databasse
 
     useEffect(() => {
         localStorage.setItem('count', count.toString());
-        localStorage.setItem('date', new Date().toISOString().split('T')[0]); // store today's date in YYYY-MM-DD format
+        localStorage.setItem('date', new Date().toISOString().split('T')[0]);
     }, [count]);
 
     useEffect(() => {
@@ -68,12 +62,11 @@ export const Home: React.FC = () => {
         localStorage.setItem('selectedOption3', selectedOption3);
     }, [selectedOption1, selectedOption2, selectedOption3]);
 
-    console.log('currentUser:', currentUser);
-    console.log('UserContext user:', user);
-
-
+    //id in url is just id and not the id of user
     useEffect(() => {
         if(id) {
+            console.log("am I being called?")
+
             UserService.getUserById(id) // ensure to pass an id here
                 .then((user: User) => {
                     console.log(`User ${user.id}`);
@@ -89,12 +82,11 @@ export const Home: React.FC = () => {
         }
     }, [id]);
 
+    //this is used a lot so we can make this a helper function
 
     const handleJobSubmit = async (e: FormEvent) => {
         console.log("I'm the handle submit button on the home page");
         e.preventDefault();
-
-
         try {
             if (currentUser) {
                 const response = await fetch(
@@ -109,11 +101,9 @@ export const Home: React.FC = () => {
                             interviewdate, companyresponded, companyrejected}),
                     }
                 );
-
                 if (response.ok) {
                     alert("Your job is created in the database.")
                     console.log("Job created successfully");
-
                     setCompanyName("");
                     setDescription("");
                     setJobPoster("");
@@ -129,8 +119,6 @@ export const Home: React.FC = () => {
                     setCompanyRejected(false);
                     setCount(count + 1);
                     alert("Adding +1 to the counter.")
-
-
                 } else {
                     console.log("Failed to create job");
                 }
@@ -150,10 +138,6 @@ export const Home: React.FC = () => {
         setDescription(e.target.value);
     };
 
-    const handleJobPosterChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setJobPoster(e.target.value);
-    }
-
     const handlePrimaryContact = (e: ChangeEvent<HTMLInputElement>) => {
         setPrimaryContact(e.target.value);
     }
@@ -165,16 +149,6 @@ export const Home: React.FC = () => {
     const handleJobLink = (e: ChangeEvent<HTMLInputElement>) => {
         setJobLink(e.target.value);
     }
-
-    const handleCustomField = (e: ChangeEvent<HTMLInputElement>) => {
-        setCustomField(e.target.value);
-    }
-
-    interface CopyButtonProps {
-        selectedOption: string;
-    }
-
-
 
         const copyToClipboard = async (selectedOption: string) => {
             const textToCopy = () => {
@@ -188,19 +162,14 @@ export const Home: React.FC = () => {
                         return user?.customfield1 || '';
                 }
             }
-
             try {
                 await navigator.clipboard.writeText(textToCopy());
-                alert('Copied!'); // Using alert for simplicity. You can use other UI feedback methods.
+                alert('Copied!');
             } catch (err) {
                 alert('Failed to copy text');
             }
         };
 
-
-// need to change naming conventions Feild Row should be Field Row Div
-    // i need to put the labels, and the inputs into seperate divs
-    // this is not workign currently due to resizing
     return (
         <HomeWrapperDiv>
             <CustomFieldsDiv>
@@ -212,7 +181,6 @@ export const Home: React.FC = () => {
                         style={{ cursor: 'pointer' }}
                     />
                 </FieldRow>
-
                 <FieldRow>
                     <FontAwesomeIcon
                         icon={faLinkedin}
@@ -221,7 +189,6 @@ export const Home: React.FC = () => {
                         style={{ cursor: 'pointer' }}
                     />
                 </FieldRow>
-
                 <FieldRow>
                     <FontAwesomeIcon
                         icon={faBriefcase}
@@ -231,56 +198,35 @@ export const Home: React.FC = () => {
                     />
                 </FieldRow>
             </CustomFieldsDiv>
-
-
-
             <CustomFieldForm onSubmit={handleJobSubmit}>
-
                 <FieldContainer>
                     <StyledInputLabel>Company</StyledInputLabel>
                     <StyledTextField  value={companyname} onChange={handleCompanyNameChange} />
-
                 </FieldContainer>
-
                 <FieldContainer>
                     <StyledInputLabel>Description</StyledInputLabel>
                     <StyledTextField value={description} onChange={handleDescriptionChange} />
-
-
                 </FieldContainer>
-
-
                 <FieldContainer>
                     <StyledInputLabel>Primary Contact</StyledInputLabel>
                     <StyledTextField  value={primarycontact} onChange={handlePrimaryContact} />
-
                 </FieldContainer>
                 <FieldContainer>
                     <StyledInputLabel>Website Link</StyledInputLabel>
                     <StyledTextField  value={companywebsitelink} onChange={handleCompanyWebSiteLink} />
-
                 </FieldContainer>
-
                 <FieldContainer>
                     <StyledInputLabel>Job Link</StyledInputLabel>
                     <StyledTextField  value={joblink} onChange={handleJobLink} />
-
                 </FieldContainer>
                 <ButtonDiv>
                     <SubmitButton variant="contained" type="submit">Submit</SubmitButton>
-
                 </ButtonDiv>
-
             </CustomFieldForm>
-
             <FooterDiv/>
-
         </HomeWrapperDiv>
-
     );
-
 };
-
 
 const ButtonDiv = styled.div`
 
@@ -288,46 +234,32 @@ const ButtonDiv = styled.div`
     justify-content: center;
     align-items: center;
     margin-top: 5%;
-     // This will shift it to the left by 2% of its width
-    
-    
   }
 
   @media ${device.laptop} {
     justify-content: center;
     align-items: center;
     margin-top: 2%;
-    // This will shift it to the left by 2% of its width
   }
 `;
-
-
 
 const StyledInputLabel = styled(InputLabel)`
   width: 100%;
   height: 30px;
-  transform: translateX(-1.5%); // This will shift it to the left by 2% of its width
-  //background-color: blue;
+  transform: translateX(-1.5%); 
 
   @media ${device.mobile} {
     display: flex;
     width: 100%;
     height: 30px;
-    //background-color: blue;
-    transform: translateX(2%); // This will shift it to the left by 2% of its width
+    transform: translateX(2%); 
   }
 `;
 
-
-
-
 const BaseStyledTextField = styled(TextField)`
-
   & .MuiFilledInput-input {
     height: 20px;
   }
-
-
 `;
 const StyledTextField: React.FC<TextFieldProps> = (props) => (
     <BaseStyledTextField
@@ -339,18 +271,10 @@ const StyledTextField: React.FC<TextFieldProps> = (props) => (
     />
 );
 
-
-
-
-
 const SubmitButton = styled(Button)`
   height: 30px;
   display: flex;
-  //justify-content: center;
-  //align-items: center;
-  // add any other styles you need
 `;
-
 
 export const HomeWrapperDiv = styled.div`
   display: flex;
@@ -362,18 +286,13 @@ export const HomeWrapperDiv = styled.div`
     flex-direction: column;  
     justify-content: space-between;
   }
-
+  
   @media ${device.laptop} {
     display: flex;
     width: 100vw;
     height: 100vh;
     flex-direction: column;
     justify-content: space-between;
-    //
-    //p {
-    //  text-align: center;
-    //  //color: red;
-    //}
   }
 `;
 
@@ -387,14 +306,12 @@ export const CustomFieldsDiv = styled.div`
     flex-direction: row;
     justify-content: space-between;
     gap: 15px;
-    //background-color: aquamarine;
   }
 
   @media ${device.laptop} {
     display: flex;
     flex-direction: row;
     gap: 15px;
-    //background-color: #ffedc8;
     width: 100%;
     align-items: center;
     justify-content: center;
@@ -408,7 +325,6 @@ export const FieldRow = styled.div`
 
   @media ${device.mobile} {
     display: flex;
-  
     padding-left: 10px;
     padding-right: 20px;
   }
@@ -417,21 +333,16 @@ export const FieldRow = styled.div`
 export const CustomFieldForm = styled.form`
   display: flex;
   
-
   @media ${device.mobile} {
     display: flex;
-    //background-color: yellow;
     width: 100vw;
     flex-direction: column;
     justify-items: center;
     align-items: center;
-
-    
   }
   
   @media ${device.laptop} {
     display: flex;
-    //background-color: yellow;
     width: 100vw;
     flex-direction: column;
     justify-items: center;
@@ -449,53 +360,19 @@ export const CustomFieldForm = styled.form`
       display: flex;
       margin-left: 5px;
     }
-    
- 
   }
 `;
 
-
-
 const FieldContainer = styled.div`
   @media ${device.laptop} {
-    //margin-bottom: 5%;
     width: 37%; 
     display: flex;
     flex-direction: column;
-    align-items: flex-start; // This ensures children align to the start
-    //background-color: plum;
+    align-items: flex-start; 
   }
 
   @media ${device.mobile} {
     width: 80%;
-    //background-color: plum;
-  }
-  
-`;
-
-
-export const URLSelect = styled.select`
-  
-  @media ${device.mobile} {
-    display: flex;
-    width: 33vw; // adjust as needed
-    height: 35px; // adjust as needed
-    //background-color: purple;
-    flex-direction: row;
-    justify-items: center;
-    margin-right: 14px;
-    
-  }
-
-  @media ${device.laptop} {
-    display: flex;
-    width: 25vw;
-    height: 35px;
-    //background-color: purple;
-    flex-direction: row;
-    justify-items: center;
-    margin-right: 14px;
-    max-width: 140px;
   }
 `;
 
@@ -504,7 +381,6 @@ export const FooterDiv =  styled.div`
   
   @media ${device.mobile} {
     display: flex;
-    //background-color: #95c2ff;
     width: 100vw;
     height: 120px;
   }

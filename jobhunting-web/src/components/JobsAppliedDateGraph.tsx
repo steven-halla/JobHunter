@@ -47,6 +47,8 @@ export const JobsAppliedDateGraph: React.FC = () => {
         return weeks;
     };
 
+    //make change  in what is in labels, no redundant info
+
     const today = new Date();
     const currentMonth = new Date().getMonth() + 1;
     const [selectedMonth, setSelectedMonth] = useState<number>(currentMonth);

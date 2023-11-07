@@ -19,3 +19,6 @@ export const deviceCompanyNoResponse = {
     // Add other device sizes as needed...
     // 1150 is my break point for laptop
 };
+
+
+

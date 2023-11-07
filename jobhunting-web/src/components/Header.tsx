@@ -93,7 +93,7 @@ export const Header = () => {
     return (
         <HeaderDiv>
             <nav>
-                <Link to={"/home/:id"} onClick={closeMenu}>Job Hunter</Link>
+                <Link to={`/home/${currentUser?.id}`} onClick={closeMenu}>Job Hunter</Link>
 
 
                 {currentUser ? (

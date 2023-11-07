@@ -7,6 +7,13 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCaretDown, faCaretUp} from "@fortawesome/free-solid-svg-icons";
 
 
+
+// shrink down vertically,
+//more shade on south partk of box
+//add more space between cards, look at linkedin toom there should be space from all sides
+
+
+
 const ONE_WEEK = 168 * 60 * 60 * 1000;
 
 export const CompanyNoResponse = () => {

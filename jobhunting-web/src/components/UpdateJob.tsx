@@ -9,12 +9,10 @@ import CloseIcon from '@mui/icons-material/Close';
 
 //need to make snackbar not stay for so long
 
-
 export const UpdateJob = () => {
     const { jobId } = useParams<{ jobId: string }>();  // Extracting jobId from URL params
     const { jobs, setJobs, updateJobRejected, updateJobResponded } = useContext(JobsContext);
     const [openSnackbar, setOpenSnackbar] = useState(false);
-
     const currentJob = jobs.find(job => job.id === Number(jobId));
     const [formData, setFormData] = useState<Job>(currentJob || {} as Job);
 
@@ -25,12 +23,10 @@ export const UpdateJob = () => {
         setOpenSnackbar(false);
     };
 
-
     useEffect(() => {
         if (currentJob) {
             setFormData(currentJob);
         }
-        // Optional: You can add a fetch call here if you need to fetch job by jobId from API.
     }, [currentJob]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,11 +37,8 @@ export const UpdateJob = () => {
     const handleSubmit = async () => {
         try {
             const response = await axios.patch(`http://localhost:8080/api/jobs/update/${jobId}`, formData);
-            // Update jobs in context with the updated job details.
-
             setJobs(prevJobs => prevJobs.map(job => job.id === Number(jobId) ? formData : job));
             setOpenSnackbar(true);
-
         } catch (error) {
             console.error('Error updating job:', error);
         }
@@ -57,10 +50,6 @@ export const UpdateJob = () => {
                 '& > :not(style)': { m: 1, width: '25ch' },
             }}
         >
-
-
-
-
             <TextField
                 id="companyname"
                 label="Company name"
@@ -70,8 +59,6 @@ export const UpdateJob = () => {
                 value={formData.companyname || ''}
                 onChange={handleChange}
             />
-
-
             <TextField
                 id="description"
                 label="Description"
@@ -81,7 +68,6 @@ export const UpdateJob = () => {
                 value={formData.description || ''}
                 onChange={handleChange}
             />
-
             <TextField
                 id="primarycontact"
                 label="Primary Contact"
@@ -101,7 +87,6 @@ export const UpdateJob = () => {
                 value={formData.companywebsitelink || ''}
                 onChange={handleChange}
             />
-
             <TextField
                 id="joblink"
                 label="Job Link"
@@ -111,10 +96,6 @@ export const UpdateJob = () => {
                 value={formData.joblink || ''}
                 onChange={handleChange}
             />
-
-
-
-
             <Button
                 variant="contained"
                 color="primary"
@@ -123,7 +104,6 @@ export const UpdateJob = () => {
             >
                 Submit
             </Button>
-
             <Snackbar
                 style={{
                     position: 'fixed',
@@ -143,8 +123,6 @@ export const UpdateJob = () => {
                     </React.Fragment>
                 }
             />
-
-
         </Box>
     );
 };

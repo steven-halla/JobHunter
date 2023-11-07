@@ -96,7 +96,6 @@ const Login: React.FC = () => {
                   validations={[required]}
               />
             </div>
-
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <Input
@@ -108,7 +107,6 @@ const Login: React.FC = () => {
                   validations={[required]}
               />
             </div>
-
             <div className="form-group">
               <button className="btn btn-primary btn-block" disabled={loading}>
                 {loading && (
@@ -131,7 +129,6 @@ const Login: React.FC = () => {
       </LoginWrapperDiv>
   );
 };
-
 
 const LoginWrapperDiv = styled.div`
   display: flex;

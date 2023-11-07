@@ -6,27 +6,11 @@ import { device } from "../common/ScreenSizes";
 import {Interview, Job} from "../models/Job";
 import TextField from '@mui/material/TextField';
 
-// interface Interview {
-//     secured: boolean;
-//     meetinglink: string;
-//     interviewnotes: string;
-//     interviewernames: string;
-//     interviewdate: Date | null;
-//     interviewtime: string;
-// }
-
 export const InterviewSecured = () => {
-    const { job, meetingLink,setMeetingLink, interviewnotes, setInterviewNotes, interviewernames, setInterviewerNames, interviewdate, setInterviewDate, setJob, jobs, setJobs } = useContext(JobsContext);
+    const { meetingLink,setMeetingLink, interviewnotes, setInterviewNotes, interviewernames, setInterviewerNames, interviewdate, setInterviewDate, setJob, jobs, setJobs } = useContext(JobsContext);
     const { jobId } = useParams<{ jobId: string }>();
     const [currentJob, setCurrentJob] = useState<Job | undefined>(undefined);
     const [interviews, setInterviews] = useState<Interview[]>([]);
-    const [interviewCreated, setInterviewCreated] = useState<boolean>(false);
-    const [needsUpdate, setNeedsUpdate] = useState<boolean>(false);
-
-
-
-
-
 
     useEffect(() => {
         const jobIdNumber = jobId ? parseInt(jobId, 10) : null;
@@ -35,33 +19,20 @@ export const InterviewSecured = () => {
             if (selectedJob) {
                 setCurrentJob(selectedJob);
                 setInterviews(selectedJob.interviews || []);
-
-                // Set the state variables correctly
                 setMeetingLink(selectedJob.meetingLink || '');
                 setInterviewNotes(selectedJob.interviewnotes || '');
                 setInterviewerNames(selectedJob.interviewernames || '');
                 setInterviewDate(selectedJob.interviewdate || null);
-
-
             }
         }
     }, [jobs, jobId]);
 
-
-    // When receiving the date from the server, parse it as UTC
-    const utcDateFromServer = "2023-09-20T00:00:00.000Z"; // Replace with the actual date from the server
-    const localDate = utcDateFromServer ? new Date(utcDateFromServer) : null;
-
-// Display the localDate in the UI
-
     function formatDateForInput(date: Date) {
         const yyyy = date.getFullYear();
-        const mm = String(date.getMonth() + 1).padStart(2, '0'); // January is 0!
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
         const dd = String(date.getDate()).padStart(2, '0');
-
         return `${yyyy}-${mm}-${dd}`;
     }
-
 
     const handleFormSubmit = async () => {
         if (!currentJob) return;
@@ -80,7 +51,6 @@ export const InterviewSecured = () => {
                     interviewdate: interviewdate,
                 }),
             });
-
             if (response.ok) {
                 setJobs((prevJobs) =>
                     prevJobs.map((j) =>
@@ -102,27 +72,17 @@ export const InterviewSecured = () => {
         }
     };
 
-
-
-
-
-
-
     function addOneDay(date: string | number | Date) {
         const adjustedDate = new Date(date);
         adjustedDate.setDate(adjustedDate.getDate() + 1); // Add 1 day
         return adjustedDate;
     }
 
-
-
-
     return (
         <InterviewSecuredWrapperDiv>
             <TitleDiv>
                 <h1>Company: {currentJob?.companyname}</h1>
             </TitleDiv>
-
             <form onSubmit={handleFormSubmit}>
                 <InterviewInfoDiv>
                     <label>
@@ -134,7 +94,6 @@ export const InterviewSecured = () => {
                             onChange={(e) => setInterviewerNames(e.target.value)}
                         />
                     </label>
-
                     <label>
                         Meeting Link
                         <input
@@ -144,7 +103,6 @@ export const InterviewSecured = () => {
                             onChange={(e) => setMeetingLink(e.target.value)}
                         />
                     </label>
-
                     <label>
                         Interview Date
                         <input
@@ -156,7 +114,6 @@ export const InterviewSecured = () => {
                             }}
                         />
                     </label>
-
                     <label>
                         Interview Notes
                         <StyledTextField
@@ -174,11 +131,9 @@ export const InterviewSecured = () => {
                     <button type="submit">Save Interview Details</button>
                 </SaveAllButtonDiv>
             </form>
-
             <Footer />
         </InterviewSecuredWrapperDiv>
     );
-
 };
 
 const StyledTextField = styled(TextField)`
@@ -188,7 +143,6 @@ const StyledTextField = styled(TextField)`
     }
   }
 `;
-
 
 const InterviewSecuredWrapperDiv = styled.div`
   @media ${device.mobile} {
@@ -223,8 +177,8 @@ const TitleDiv = styled.div`
     margin-bottom: 5%;
     position: absolute;
     top: 70px;
-    left: 0;  // This ensures it starts at the left edge.
-    width: 100%; // This ensures it spans the full width.
+    left: 0; 
+    width: 100%;
   }
 `;
 
@@ -241,32 +195,16 @@ const SaveAllButtonDiv = styled.div`
   @media ${device.laptop} {
     margin-top: 30px;
     height: 40px;
-    width: 100%;             // You can adjust this if needed
+    width: 100%;       
     align-self: center;
-    justify-content: center;  // This will center the button horizontally
-
-  }
-`;
-
-
-const AddInterviewButtonDiv = styled.div`
-  display: flex;
-
-  @media ${device.mobile} {
-    height: 10vh;
-    width: 100vw;
     justify-content: center;
-    align-items: center;
-  }
-
-  @media ${device.laptop} {
   }
 `;
 
 const InterviewInfoDiv = styled.div`
   display: flex;
   flex-direction: column;
-
+  
   label {
     margin-bottom: 10px;
     display: flex;
@@ -284,50 +222,43 @@ const InterviewInfoDiv = styled.div`
    margin-left: 10vw;
    width: 80vw;
     flex-direction: column;
-    justify-content: center;   // Centers children vertically
-    align-items: center;       // Centers children horizontally
+    justify-content: center; 
+    align-items: center;       
 
     label {
-      align-items: center;    // Centers the input boxes inside the label
+      align-items: center;  
     }
 
     input, textarea {
-      width: 60%;             // Ensures some spacing on the sides
+      width: 60%;           
     }
   }
 
 
   @media ${device.laptop} {
     width: 30vw;
-
     display: flex;
     flex-direction: column;
-    justify-content: center;   // Ensures content is centered vertically
-    align-items: center;       // Ensures content is centered horizontally
+    justify-content: center;   
+    align-items: center;     
 
     label {
-      width: 86%;  // Increasing from 80% to 96% (which is 20% more than 80%)
+      width: 86%;  
       align-items: center;
     }
 
     input, textarea {
-      width: 80%;  // This will now be 100% of the label's increased width
+      width: 80%;  
     }
-
 `;
-
 
 const Footer = styled.div`
   display: flex;
 
   @media ${device.mobile} {
-    //background-color: black;
     height: 10vh;
     width: 100vw;
     bottom: 0;
-  }
-
-  @media ${device.laptop} {
   }
 `;
 

@@ -33,7 +33,7 @@ export const useSortAndSelect = (initialSortOrder: SortOrder = 'select', initial
     const handleCompanyNameSortDesc = () => setSortOrder('company-z-a');
 
     // Handler for select value changes
-    const handleSelectChange = (value: SelectValue) => setSelectValue(value);
+     const handleSelectChange = (value: SelectValue) => setSelectValue(value);
 
     // You can include additional logic or handlers if needed.
 

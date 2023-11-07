@@ -231,7 +231,6 @@ export const JobViewAll = () => {
             {isMobile ? (
             <div>
                 <SelectDiv>
-
                     <SimpleSelect value={sortOrder} onChange={(e: { target: { value: any; }; }) => handleSelectChange(e.target.value as SelectValue)}>
                         <option value="date-asc">Date Asc</option>
                         <option value="date-desc">Date Dsc</option>
@@ -239,12 +238,6 @@ export const JobViewAll = () => {
                         <option value="company-z-a">Company Dsc</option>
                         <option value="contact-a-z">Contact Asc</option>
                         <option value="contact-z-a">Contact Dsc</option>
-
-                        <option value="accepted">Accepted</option>
-                        <option value="declined">Declined</option>
-                        <option value="no response">No Response</option>
-                        <option value="delete">Delete</option>
-                        <option value="update">Update</option>
                     </SimpleSelect>
                 </SelectDiv>
 

@@ -27,7 +27,7 @@ export const CompanyNoResponse = () => {
         handleContactNameSortDesc,
         handleCompanyNameSortAsc,
         handleCompanyNameSortDesc,
-        handleSelectChange: handleSelectChangeFromHook, // Rename the function here
+        handleSelectChange,
     } = useSortAndSelect();
 
 
@@ -57,39 +57,6 @@ export const CompanyNoResponse = () => {
             }
         });
 
-    const handleSelectChange = (event: { target: { value: any; }; }) => {
-        const selectedValue = event.target.value;
-
-        switch(selectedValue) {
-            case 'date-asc':
-                handleDateSortAsc();
-                break;
-            case 'date-desc':
-                handleDateSortDesc();
-                break;
-            case 'company-name-asc':
-                handleCompanyNameSortAsc();
-                break;
-            case 'company-name-desc':
-                handleCompanyNameSortDesc();
-                break;
-            case 'contact-asc':
-                handleContactNameSortAsc();
-                break;
-            case 'contact-desc':
-                handleContactNameSortDesc();
-                break;
-            case 'rejected-yes':
-                handleRejectedSortYes();
-                break;
-            case 'rejected-no':
-                handleRejectedSortNo();
-                break;
-            default:
-                console.log("Invalid selection");
-        }
-    };
-
     const handleRejectedSortYes = () => {
         setSortOrder('rejected-yes');
     };
@@ -108,6 +75,33 @@ export const CompanyNoResponse = () => {
             updateJobResponded(jobId, false);
         }
     };
+
+    useEffect(() => {
+        // Use sortOrder from the hook, not setSortOrder
+        switch (selectValue as string) {
+            case 'date-asc':
+                handleDateSortAsc();
+                break;
+            case 'date-desc':
+                handleDateSortDesc();
+                break;
+            case 'contact-a-z':
+                handleContactNameSortAsc();
+                break;
+            case 'contact-z-a':
+                handleContactNameSortDesc();
+                break;
+            case 'company-a-z':
+                handleCompanyNameSortAsc();
+                break;
+            case 'company-z-a':
+                handleCompanyNameSortDesc();
+                break;
+            default:
+                // Handle the default case if needed
+                break;
+        }
+    }, [selectValue]);
 
     useEffect(() => {
         const checkScreenSize = () => {
@@ -184,15 +178,14 @@ export const CompanyNoResponse = () => {
                 </>
             )}
 <SelectDiv>
-    <SimpleSelect onChange={handleSelectChange}>
-        <option value="company-name-asc">Company  (Asc)</option>
-        <option value="company-name-desc">Company  (Desc)</option>
-        <option value="date-asc">Date (Asc)</option>
-        <option value="date-desc">Date (Desc)</option>
-        <option value="contact-asc">Contact (Asc)</option>
-        <option value="contact-desc">Contact (Desc)</option>
-        <option value="rejected-yes">Rejected (Yes)</option>
-        <option value="rejected-no">Rejected (No)</option>
+    <SimpleSelect value={selectValue} onChange={(e: { target: { value: string; }; }) => handleSelectChange(e.target.value as SelectValue)}>
+
+    <option value="date-asc">Date Asc</option>
+        <option value="date-desc">Date Dsc</option>
+        <option value="company-a-z">Company Asc</option>
+        <option value="company-z-a">Company Dsc</option>
+        <option value="contact-a-z">Contact Asc</option>
+        <option value="contact-z-a">Contact Dsc</option>
     </SimpleSelect>
 </SelectDiv>
 

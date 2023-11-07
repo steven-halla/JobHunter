@@ -226,7 +226,6 @@ export const JobViewAll = () => {
 
         if (response === 'accepted') {
             navigate(`/interviewsecured/${jobId}`);
-            console.log("Preparing for interview");
         }
         else if (response === 'update') {
             navigate(`/updatejob/${jobId}`);  // <-- navigate to the update job page with the jobId
@@ -236,12 +235,9 @@ export const JobViewAll = () => {
                 .then(res => {
                     console.log('Job deleted successfully:', res.data);
                     window.location.reload();
-
-                    // Handle success (e.g., update UI, show a success message, etc.)
                 })
                 .catch(err => {
                     console.error('Error deleting job:', err);
-                    // Handle error (e.g., show an error message)
                 });
         }
         else if (response === 'declined') {
@@ -267,7 +263,6 @@ export const JobViewAll = () => {
             {isMobile ? (
             <div>
                 <SelectDiv>
-
                     <SimpleSelect value={sortOrder} onChange={(e: { target: { value: any; }; }) => setSortOrder(e.target.value as any)}>
                         <option value="date-asc">Date Asc</option>
                         <option value="date-desc">Date Dsc</option>
@@ -275,7 +270,6 @@ export const JobViewAll = () => {
                         <option value="company-z-a">Company Dsc</option>
                         <option value="contact-a-z">Contact Asc</option>
                         <option value="contact-z-a">Contact Dsc</option>
-
                         <option value="accepted">Accepted</option>
                         <option value="declined">Declined</option>
                         <option value="no response">No Response</option>

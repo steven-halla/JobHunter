@@ -6,6 +6,10 @@ import { device } from "../common/ScreenSizes";
 import {Interview, Job} from "../models/Job";
 import TextField from '@mui/material/TextField';
 
+
+//need to include time along with interview date!!!
+//also need to include ways to send notification
+//home page we can do an useEffect hook, setting global state
 export const InterviewSecured = () => {
     const { meetingLink,setMeetingLink, interviewnotes, setInterviewNotes, interviewernames, setInterviewerNames, interviewdate, setInterviewDate, setJob, jobs, setJobs } = useContext(JobsContext);
     const { jobId } = useParams<{ jobId: string }>();

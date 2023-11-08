@@ -163,9 +163,7 @@ export const JobViewAll = () => {
 
     const onButtonClick = async (response: SelectValue, jobId: string) => {
         const targetJob = jobs.find((job) => job.id === Number(jobId));
-
         if (!targetJob) return;
-
         if (response === 'accepted') {
             navigate(`/interviewsecured/${jobId}`);
             console.log('Preparing for interview');

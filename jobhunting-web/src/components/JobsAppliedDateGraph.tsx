@@ -98,8 +98,8 @@ export const JobsAppliedDateGraph: React.FC = () => {
                     <NumberOfJobsAppliedDiv>
                         <p>Jobs Applied:</p>
                         <p>Today: {jobsAppliedToday.length}</p>
-                        <p>Week: {jobsAppliedThisWeek.length}</p>
-                        <p>Month: {jobsAppliedThisMonth.length}</p>
+                        <p>This Week: {jobsAppliedThisWeek.length}</p>
+                        <p>Current Month: {jobsAppliedThisMonth.length}</p>
                     </NumberOfJobsAppliedDiv>
                 ) : (
                     <NumberOfJobsAppliedDiv>

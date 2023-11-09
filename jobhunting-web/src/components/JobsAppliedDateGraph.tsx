@@ -140,13 +140,28 @@ export const GraphContainer = styled.div`
 
 export const NumberOfJobsAppliedDiv = styled.div`
   display: flex;
-  height: 15vh;
-  width: 70vw;
+  height: 22vh;
+  width: 20vw;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top: 5vh;
+  background-color: #c7f3ff;
+
+  /* Box shadow on left, right, and bottom sides */
+  box-shadow:
+          -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */
+          4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
+          0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
+
+  /* Optional: slight border */
+  border: 1px solid #d1e8ff;
+
+  /* For a more advanced 3D effect, consider a gradient background */
+  background-image: linear-gradient(to bottom right, #c7f3ff, #a1d8f0);
 `;
+
+
+
 
 export const BarGraphDiv = styled.div`
   display: flex;

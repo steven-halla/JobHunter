@@ -372,15 +372,21 @@ const RoundColorWrapperDiv = styled.div`
   margin-bottom: 7%;
   padding-top: 3%;
 
+  /* Adding box shadow on left, right, and bottom sides */
+  box-shadow: 
+    -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */
+    4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
+    0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
+
   /* Style for all children except MUI TextFields */
   > *:not(.MuiTextField-root) {
-    /* Add your specific styles here */
     background-color: #c7f3ff;
     width: 50vw;
   }
 
   /* Other styles as needed */
 `;
+
 
 
 const FieldContainerDiv = styled.div`

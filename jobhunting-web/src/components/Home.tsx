@@ -171,6 +171,7 @@ export const Home: React.FC = () => {
     //goes away
     return (
         <HomeWrapperDiv>
+
             <CustomFieldsDiv>
                 <FieldRowDiv>
                     <FontAwesomeIcon
@@ -197,31 +198,37 @@ export const Home: React.FC = () => {
                     />
                 </FieldRowDiv>
             </CustomFieldsDiv>
+            <RoundColorWrapperDiv>
+
             <CustomFieldForm onSubmit={handleJobSubmit}>
-                <FieldContainerDiv>
-                    <StyledInputLabel>Company</StyledInputLabel>
-                    <StyledTextField  value={companyname} onChange={handleCompanyNameChange} />
+
+
+
+                    <FieldContainerDiv>
+                    <StyledTextField         label="company name"
+                                             value={companyname} onChange={handleCompanyNameChange} />
                 </FieldContainerDiv>
                 <FieldContainerDiv>
-                    <StyledInputLabel>Description</StyledInputLabel>
-                    <StyledTextField value={description} onChange={handleDescriptionChange} />
+                    <StyledTextField  label="description" value={description} onChange={handleDescriptionChange} />
                 </FieldContainerDiv>
                 <FieldContainerDiv>
-                    <StyledInputLabel>Primary Contact</StyledInputLabel>
-                    <StyledTextField  value={primarycontact} onChange={handlePrimaryContact} />
+                    <StyledTextField   label="contact" value={primarycontact} onChange={handlePrimaryContact} />
                 </FieldContainerDiv>
                 <FieldContainerDiv>
-                    <StyledInputLabel>Website Link</StyledInputLabel>
-                    <StyledTextField  value={companywebsitelink} onChange={handleCompanyWebSiteLink} />
+                    <StyledTextField   label="website" value={companywebsitelink} onChange={handleCompanyWebSiteLink} />
                 </FieldContainerDiv>
                 <FieldContainerDiv>
-                    <StyledInputLabel>Job Link</StyledInputLabel>
-                    <StyledTextField  value={joblink} onChange={handleJobLink} />
+                    <StyledTextField  label="job link" value={joblink} onChange={handleJobLink} />
                 </FieldContainerDiv>
                 <ButtonDiv>
-                    <SubmitButton variant="contained" type="submit">Submit</SubmitButton>
+                    <SubmitButton  sx={{
+                        borderRadius: 10
+                    }} variant="contained" type="submit">Submit</SubmitButton>
                 </ButtonDiv>
+
             </CustomFieldForm>
+            </RoundColorWrapperDiv>
+
             <FooterDiv/>
         </HomeWrapperDiv>
     );
@@ -230,10 +237,10 @@ export const Home: React.FC = () => {
 const ButtonDiv = styled.div`
   justify-content: center;
   align-items: center;
-  margin-top: 5%;
+  margin-top: 7%;
   
   @media ${device.laptop} {
-    margin-top: 2%;
+    margin-top: 3%;
   }
 `;
 
@@ -255,33 +262,47 @@ const BaseStyledTextField = styled(TextField)`
 `;
 const StyledTextField: React.FC<TextFieldProps> = (props) => (
     <BaseStyledTextField
+
         type="text"
-        id="outlined-size-small"
+        id="outlined-basic"
         size="small"
-        style={{ width: '100%' }}
+        style={{ width: '100%' ,  marginBottom: '5%' , backgroundColor: 'white'}}
         {...props}
     />
 );
 
 const SubmitButton = styled(Button)`
-  height: 30px;
+  height: 9vh;
+  width: 17vw;
   display: flex;
+  padding-bottom: 40px;
 `;
 
 export const HomeWrapperDiv = styled.div`
+  position: relative; // Needed for absolute positioning of the pseudo-element
   width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  
+
+  //&::before {
+  //  content: '';
+  //  position: absolute;
+  //  left: 50%;
+  //  top: 0;
+  //  bottom: 0;
+  //  width: 1px; // Width of the vertical line
+  //  background-color: #000; // Color of the line
+  //  z-index: 1; // Ensure it doesn't overlap content
+  //}
 `;
+
 
 export const CustomFieldsDiv = styled.div`
   display: flex;
   margin-top: 20px;
-  padding-right: 2px;
-  
+  padding-left: 1.2%;
   @media ${device.mobile} {
     display: flex;
     flex-direction: row;
@@ -317,11 +338,14 @@ export const CustomFieldForm = styled.form`
   justify-items: center;
   align-items: center;
   width: 100vw;
+  background-color: red;
   
   @media ${device.laptop} {
     display: flex;
     margin-bottom: 5%;
-    
+    background-color: red;
+
+
     input {
       display: flex;
       width: 20vw;
@@ -336,9 +360,32 @@ export const CustomFieldForm = styled.form`
   }
 `;
 
+const RoundColorWrapperDiv = styled.div`
+  background-color: #c7f3ff;
+  width: 40vw;  /* Example size */
+  height: 70%;
+  border-radius: 5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  margin-bottom: 7%;
+  padding-top: 3%;
+
+  /* Style for all children except MUI TextFields */
+  > *:not(.MuiTextField-root) {
+    /* Add your specific styles here */
+    background-color: #c7f3ff;
+    width: 50vw;
+  }
+
+  /* Other styles as needed */
+`;
+
+
 const FieldContainerDiv = styled.div`
   @media ${device.laptop} {
-    width: 37%; 
+    width: 60%; 
     display: flex;
     flex-direction: column;
     align-items: flex-start; 
@@ -357,3 +404,11 @@ export const FooterDiv =  styled.div`
   }
 `
 
+const VerticalLine = styled.div`
+  position: fixed; // or absolute, depending on your layout
+  left: 50%;
+  height: 100vh;
+  width: 1px; // or as thick as you want
+  background-color: #000; // or any color of your choice
+  z-index: 10; // adjust as needed
+`;

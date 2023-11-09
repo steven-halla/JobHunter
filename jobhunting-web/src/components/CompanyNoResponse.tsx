@@ -243,6 +243,7 @@ const HeaderDiv = styled.div`
   top: 0;
   background-color: white;
   z-index: 1;
+
 `;
 
 const CompanyNameDiv = styled.div`
@@ -308,6 +309,8 @@ const DataDiv = styled.div`
 `;
 
 const JobInfoDiv = styled.div`
+ 
+
   display: flex;
   justify-content: center;
   align-items: center;

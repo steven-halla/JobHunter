@@ -82,39 +82,42 @@ const Profile = () => {
 
     return (
         <ProfileWrapperDiv>
-            <UserNameDiv>
-                User Name:   <strong>{user?.username}</strong>  <br/>
-            </UserNameDiv>
-            <StyledForm onSubmit={handleSubmit}>
-                <p>
-                    <StyledStrong>Github:</StyledStrong>
-                    <input type="text" name="customfield1" value={customfield1} onChange={handleChange} />
-                </p>
-                <p>
-                    <StyledStrong>Linkedin:</StyledStrong>
-                    <input type="text" name="customfield2" value={customfield2} onChange={handleChange} />
-                </p>
-                <p>
-                    <StyledStrong>Portfolio:</StyledStrong>
-                    <input type="text" name="customfield3" value={customfield3} onChange={handleChange} />
-                </p>
+            <InfoContainerDiv>
+                <UserNameDiv>
+                    User Name:   <strong>{user?.username}</strong>  <br/>
+                </UserNameDiv>
+                <StyledForm onSubmit={handleSubmit}>
+                    <p>
+                        <StyledStrong>Github:</StyledStrong>
+                        <input type="text" name="customfield1" value={customfield1} onChange={handleChange} />
+                    </p>
+                    <p>
+                        <StyledStrong>Linkedin:</StyledStrong>
+                        <input type="text" name="customfield2" value={customfield2} onChange={handleChange} />
+                    </p>
+                    <p>
+                        <StyledStrong>Portfolio:</StyledStrong>
+                        <input type="text" name="customfield3" value={customfield3} onChange={handleChange} />
+                    </p>
 
-                <button type="submit">Update</button>
-            </StyledForm>
+                    <button type="submit">Update</button>
+                </StyledForm>
+            </InfoContainerDiv>
+
         </ProfileWrapperDiv>
     );
 };
 
 export const StyledStrong = styled.strong`
   display: flex;
-  margin-bottom: 5px;
 
 `;
 export const UserNameDiv = styled.div`
   display: flex;
   justify-content: center;
   //align-items: center;
-  height: 20vh;
+  //height: 20vh;
+  margin-right: 2%;
 `;
 
 export const ProfileWrapperDiv = styled.div`
@@ -123,17 +126,37 @@ export const ProfileWrapperDiv = styled.div`
   width: 100vw;
   justify-content: center;
   flex-direction: column;
+  align-items: center;
+  //background-color: #586e75; /* A blue-gray hue, reminiscent of slate */
+  //background-color: #30475E; /* A deep, muted blue with a hint of gray */
+  background-color: #496D89; /* A lighter shade of the deep, muted blue with a hint of gray */
+
 `;
 
 export const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
-  height: 40vh;
-  width: 100vw;
+  //height: 40vh;
+  //width: 100vw;
   justify-content: center;
   align-items: center;
-  margin-bottom: 12%;
 `;
+
+const InfoContainerDiv = styled.div`
+  background-color: #c7f3ff;
+  width: 30vw;
+  height: 45vh;
+  justify-content: center;
+  align-items: center;
+  //margin-top: 15%;
+  padding-top:  2.5%;
+
+  // Adding shadows to the bottom left and right
+  box-shadow:
+          10px 10px 15px -5px rgba(0, 0, 0, 0.3), // Shadow for the bottom right
+          -10px 10px 15px -5px rgba(0, 0, 0, 0.3); // Shadow for the bottom left
+`;
+
 
 export default Profile;
 

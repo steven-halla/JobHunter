@@ -92,7 +92,7 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/test/**").permitAll()
                 .antMatchers("/api/users/usernames").permitAll()
-                .antMatchers("/api/users/lifestory").permitAll()
+                .antMatchers("/api/users/lifestory/**").permitAll()
                 .antMatchers("/api/users/updateuser/**").permitAll()
                 .antMatchers("/api/jobs/**").permitAll()
                 .anyRequest().authenticated();

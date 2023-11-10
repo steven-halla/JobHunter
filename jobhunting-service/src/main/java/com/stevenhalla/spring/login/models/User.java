@@ -50,6 +50,10 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Jobs> jobs = new ArrayList<>();
 
+    @NotBlank
+    @Size(max = 2000)
+    private String lifestory;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -121,24 +125,22 @@ public class User {
         this.customfield3 = customfield3;
     }
 
+    public String getLifeStory() {return lifestory;}
+
+    public void setLifeStory(String lifeStory) {
+        this.lifestory = lifeStory;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
 
 
-    @NotBlank
-    @Size(max = 2000)
-    private String lifestory;
+
 
     // ... existing constructors, getters, and setters ...
 
-    public String getLifeStory() {
-        return lifestory;
-    }
 
-    public void setLifeStory(String lifeStory) {
-        this.lifestory = lifeStory;
-    }
 
     public String getEmail() {
         return email;

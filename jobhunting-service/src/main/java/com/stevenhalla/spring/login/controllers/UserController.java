@@ -22,9 +22,43 @@ public class UserController {
         public String customfield1;
         public String customfield2;
         public String customfield3;
-        public String lifestory; // Include life story here
 
     }
+
+    public static class LifeStory {
+        public String lifestory; // Change to lowercase 'lifestory'
+    }
+
+    public static class UserUpdateRequest {
+        public CustomFields customFields;
+        public String lifestory; // Change to lowercase 'lifestory'
+    }
+
+    @PatchMapping("/updateuser/{userid}")
+    public User modifyUserCustomFields(@PathVariable Long userid, @RequestBody UserUpdateRequest request) {
+        Optional<User> optionalUser = userRepository.findById(userid);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            CustomFields customFields = request.customFields;
+
+            // Update custom fields
+            user.setCustomfield1(customFields.customfield1);
+            user.setCustomfield2(customFields.customfield2);
+            user.setCustomfield3(customFields.customfield3);
+
+            // Update lifestory (with lowercase 's')
+            user.setLifeStory(request.lifestory.toLowerCase()); // Convert to lowercase before setting
+
+            userRepository.save(user);
+            return user;
+        } else {
+            throw new RuntimeException("Error: User not found with ID: " + userid);
+        }
+    }
+
+
+
+
 
 
     @PatchMapping("/updateLifestory/{userId}")
@@ -69,21 +103,7 @@ public class UserController {
 
 
 
-    @PatchMapping("/updateuser/{userid}")
-    public User modifyUserCustomFields(@PathVariable Long userid, @RequestBody CustomFields fields) {
-        Optional<User> optionalUser = userRepository.findById(userid);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            user.setCustomfield1(fields.customfield1);
-            user.setCustomfield2(fields.customfield2);
-            user.setCustomfield3(fields.customfield3);
-            user.setLifeStory(fields.lifestory); // Update the life story
-            userRepository.save(user);
-            return user;
-        } else {
-            throw new RuntimeException("Error: User not found with ID: " + userid);
-        }
-    }
+
 
 
     @GetMapping("/customfields")
@@ -95,6 +115,7 @@ public class UserController {
             userCustomFields.add(user.getCustomfield1());
             userCustomFields.add(user.getCustomfield2());
             userCustomFields.add(user.getCustomfield3());
+            userCustomFields.add(user.getLifeStory());
         }
 
         return userCustomFields;

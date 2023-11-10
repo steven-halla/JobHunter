@@ -51,7 +51,7 @@ public class User {
     private List<Jobs> jobs = new ArrayList<>();
 
     @NotBlank
-    @Size(max = 2000)
+    @Size(max = 5000)
     private String lifestory;
 
     @ManyToMany(fetch = FetchType.LAZY)

@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import { UserContext } from '../services/usercontext';
 import UserService from '../services/user.service';
 import styled from "styled-components";
+import TextareaAutosize from '@mui/material/TextareaAutosize';
+
 
 const Profile = () => {
     const { id } = useParams<{ id: string }>();
@@ -36,7 +38,7 @@ const Profile = () => {
     }, [id, setUser, setCustomField1, setCustomField2, setCustomField3, setLifeStory]);
 
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         if (name === 'customfield1') {
             setCustomField1(value);
@@ -44,78 +46,90 @@ const Profile = () => {
             setCustomField2(value);
         } else if (name === 'customfield3') {
             setCustomField3(value);
-        }
-        else if (name === 'lifestory') {
+        } else if (name === 'lifestory') { // Use "lifestory" here to match the JSON
             setLifeStory(value);
         }
-
     };
+
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log("Handled submit");
         try {
-            if (user && user.id) { // Check if user and user.id are not undefined
+            if (user && user.id) {
+                const requestBody = {
+                    customFields: {
+                        customfield1,
+                        customfield2,
+                        customfield3,
+                    },
+                    lifestory: lifeStory, // Ensure "lifestory" matches your JSON data
+                };
+
                 const response = await fetch(`http://localhost:8080/api/users/updateuser/${user.id}`, {
                     method: "PATCH",
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({
-                        customfield1: customfield1,
-                        customfield2: customfield2,
-                        customfield3: customfield3,
-                        lifeStory: lifeStory,
-                    }),
+                    body: JSON.stringify(requestBody),
                 });
+
                 if (response.ok) {
-                    setUser({
+                    const updatedUserData = {
                         ...user,
-                        customfield1,
-                        customfield2,
-                        customfield3,
-                    });
+                        customFields: requestBody.customFields,
+                        lifestory: requestBody.lifestory, // Ensure "lifestory" matches your JSON data
+                    };
+
+                    setUser(updatedUserData);
                     setCustomField1(customfield1);
                     setCustomField2(customfield2);
                     setCustomField3(customfield3);
                     setLifeStory(lifeStory);
                     alert("User updated successfully");
                 } else {
-                    console.error("Failed to update job interview");
+                    console.error("Failed to update user");
                 }
             }
         } catch (error) {
-            console.error("Failed to update job interview:", error);
+            console.error("Failed to update user:", error);
         }
     };
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+
 
     return (
         <ProfileWrapperDiv>
             <InfoContainerDiv>
                 <UserNameDiv>
                     User Name:   <strong>{user?.username}</strong>  <br/>
-                    User Name:   <strong>{user?.lifeStory}</strong>  <br/>
                 </UserNameDiv>
                 <StyledForm onSubmit={handleSubmit}>
                     <p>
                         <StyledStrong>Github:</StyledStrong>
-                        <input type="text" name="customfield1" value={customfield1} onChange={handleChange} />
+                        <TextareaAutosize name="customfield1" value={customfield1} onChange={handleChange} />
                     </p>
                     <p>
                         <StyledStrong>Linkedin:</StyledStrong>
-                        <input type="text" name="customfield2" value={customfield2} onChange={handleChange} />
+                        <TextareaAutosize  name="customfield2" value={customfield2} onChange={handleChange} />
                     </p>
                     <p>
                         <StyledStrong>Portfolio:</StyledStrong>
-                        <input type="text" name="customfield3" value={customfield3} onChange={handleChange} />
+                        <TextareaAutosize  name="customfield3" value={customfield3} onChange={handleChange} />
                     </p>
+                    <TextareaAutosize
+                        name="lifestory"
+                        value={lifeStory}
+                        onChange={handleChange}
+                        minRows={5}
+                        placeholder="Enter your life story..."
+                        style={{ width: '200%' }} // Adjust the width as needed
+                    />
+
 
                     <button type="submit">Update</button>
                 </StyledForm>
             </InfoContainerDiv>
+
 
         </ProfileWrapperDiv>
     );

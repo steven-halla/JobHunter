@@ -1,72 +1,53 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, {useState} from 'react';
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {Slider} from "@mui/material";
 
-// Sample data with colors
-const items = [
-    { id: 'red', color: 'red' },
-    { id: 'blue', color: 'blue' },
-    { id: 'green', color: 'green' },
-    { id: 'purple', color: 'purple' },
-    { id: 'aqua', color: 'aqua' },
-    { id: 'yellow', color: 'yellow' },
-];
 
-const ParentDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-`;
-
-const RolodexContainer = styled.div`
-  perspective: 1000px;
-  height: 400px;
-  position: relative;
-`;
-
-interface CardProps {
-    angle: number;
-    color: string;
-}
-
-const Card = styled.div<CardProps>`
-  width: 100px;
-  height: 100px;
-  background-color: ${props => props.color};
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotateX(${props => props.angle}deg) translateZ(150px);
-  transform-origin: center center;
-  transition: transform 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 
 export const Test = () => {
-    const [selectedIndex, setSelectedIndex] = useState(0);
-
-    const handleNext = () => {
-        setSelectedIndex((prevIndex) => (prevIndex + 1) % items.length);
-    };
-
-    const handlePrev = () => {
-        setSelectedIndex((prevIndex) => (prevIndex - 1 + items.length) % items.length);
+    const [sliderPosition, setSliderPosition] = useState(0); // 0 as the starting middle position
+    const getSliderColor = () => {
+        switch (sliderPosition) {
+            case -1: return 'green'; // Accepted
+            case 1: return 'red'; // Declined
+            default: return 'grey'; // No Response
+        }
     };
 
     return (
-        <ParentDiv>
-            <RolodexContainer>
-                {items.map((item, index) => (
-                    <Card key={item.id} angle={(index - selectedIndex) * 60} color={item.color}>
-                        {item.id}
-                    </Card>
-                ))}
-                <button onClick={handlePrev}>Previous</button>
-                <button onClick={handleNext}>Next</button>
-            </RolodexContainer>
-        </ParentDiv>
-    );
-};
+        <div>
+            <Slider
+                aria-label="Temperature"
+                defaultValue={3}
+                valueLabelDisplay="auto"
+                step={1}
+                marks
+                min={1}
+                max={3}
+                style={{ width: '10%' }} // Adjust the width as needed
+            />
 
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span>Accepted</span>
+                <span>No Response</span>
+                <span>Declined</span>
+            </div>
+
+
+            <p>Hi I'm the place</p>
+            <FontAwesomeIcon
+                icon={faTrash}
+                size="2x"
+                style={{ cursor: 'pointer', marginRight: '10px' }} // marginRight for some spacing
+            />
+
+            <FontAwesomeIcon
+                icon={faEdit}
+                size="2x"
+                style={{ cursor: 'pointer' }}
+            />
+
+        </div>
+    )
+};

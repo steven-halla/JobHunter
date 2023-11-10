@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 const Profile = () => {
     const { id } = useParams<{ id: string }>();
-    const { user, setUser, customfield1, setCustomField1, customfield2, setCustomField2, customfield3, setCustomField3 } = useContext(UserContext);
+    const { user, setUser, lifeStory, setLifeStory, customfield1, setCustomField1, customfield2, setCustomField2, customfield3, setCustomField3 } = useContext(UserContext);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -19,6 +19,11 @@ const Profile = () => {
                     setCustomField1(fetchedUser.customfield1);
                     setCustomField2(fetchedUser.customfield2);
                     setCustomField3(fetchedUser.customfield3);
+                    // Update lifestory state here
+                    setLifeStory(fetchedUser.lifeStory); // Ensure this line sets lifestory correctly
+                    console.log("hi there lifestory", fetchedUser.lifeStory);
+                    console.log("fetchedUser:", fetchedUser);
+
                     setLoading(false);
                 })
                 .catch((error) => {
@@ -28,7 +33,8 @@ const Profile = () => {
         } else {
             console.error('Error: id is not a number');
         }
-    }, [id, setUser]);
+    }, [id, setUser, setCustomField1, setCustomField2, setCustomField3, setLifeStory]);
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -39,6 +45,10 @@ const Profile = () => {
         } else if (name === 'customfield3') {
             setCustomField3(value);
         }
+        else if (name === 'lifestory') {
+            setLifeStory(value);
+        }
+
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -55,6 +65,7 @@ const Profile = () => {
                         customfield1: customfield1,
                         customfield2: customfield2,
                         customfield3: customfield3,
+                        lifeStory: lifeStory,
                     }),
                 });
                 if (response.ok) {
@@ -67,6 +78,7 @@ const Profile = () => {
                     setCustomField1(customfield1);
                     setCustomField2(customfield2);
                     setCustomField3(customfield3);
+                    setLifeStory(lifeStory);
                     alert("User updated successfully");
                 } else {
                     console.error("Failed to update job interview");
@@ -85,6 +97,7 @@ const Profile = () => {
             <InfoContainerDiv>
                 <UserNameDiv>
                     User Name:   <strong>{user?.username}</strong>  <br/>
+                    User Name:   <strong>{user?.lifeStory}</strong>  <br/>
                 </UserNameDiv>
                 <StyledForm onSubmit={handleSubmit}>
                     <p>

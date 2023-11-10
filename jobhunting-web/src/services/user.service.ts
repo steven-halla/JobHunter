@@ -8,6 +8,7 @@ interface User {
   customfield1: string;
   customfield2: string;
   customfield3: string;
+  lifeStory: string;
 }
 
 const BASE_API_URL = "http://localhost:3000/api";

@@ -24,6 +24,9 @@ interface UserContextState {
 
     customfield3: string;
     setCustomField3: (customfield3: string) => void;
+
+    lifeStory: string;
+    setLifeStory: (lifeStory: string) => void;
 }
 
 export const UserContext = React.createContext({} as UserContextState);
@@ -40,6 +43,7 @@ export const UserContextProvider: FC<UserContextProviderProps> = ({children}) =>
     const [customfield1, setCustomField1] = useState<string>('');
     const [customfield2, setCustomField2] = useState<string>('');
     const [customfield3, setCustomField3] = useState<string>('');
+    const [lifeStory, setLifeStory] = useState<string>('');
 
     // Load user data from localStorage when the application starts
     useEffect(() => {
@@ -55,6 +59,10 @@ export const UserContextProvider: FC<UserContextProviderProps> = ({children}) =>
             }
             if (userObj.customfield3) {
                 setCustomField3(userObj.customfield3);
+            }
+
+            if (userObj.lifestory) {
+                setLifeStory(userObj.lifeStory);
             }
 
             if (userObj && userObj.id) {
@@ -74,6 +82,7 @@ export const UserContextProvider: FC<UserContextProviderProps> = ({children}) =>
     return (
         <UserContext.Provider
             value={{
+                lifeStory,setLifeStory,
                 user, setUser,
                 users, setUsers,
                 usernames, setUsernames,

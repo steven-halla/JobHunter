@@ -8,5 +8,6 @@ export interface User {
     customfield1: string;
     customfield2: string;
     customfield3: string;
+    lifeStory: string;
 
 }

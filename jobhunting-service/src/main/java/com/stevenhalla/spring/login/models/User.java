@@ -126,7 +126,19 @@ public class User {
     }
 
 
+    @NotBlank
+    @Size(max = 2000)
+    private String lifestory;
 
+    // ... existing constructors, getters, and setters ...
+
+    public String getLifeStory() {
+        return lifestory;
+    }
+
+    public void setLifeStory(String lifeStory) {
+        this.lifestory = lifeStory;
+    }
 
     public String getEmail() {
         return email;

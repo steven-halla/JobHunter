@@ -22,7 +22,51 @@ public class UserController {
         public String customfield1;
         public String customfield2;
         public String customfield3;
+        public String lifestory; // Include life story here
+
     }
+
+
+    @PatchMapping("/updateLifestory/{userId}")
+    public User updateLifeStory(@PathVariable Long userId, @RequestBody String lifeStory) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setLifeStory(lifeStory);
+            userRepository.save(user);
+            return user;
+        } else {
+            throw new RuntimeException("Error: User not found with ID: " + userId);
+        }
+    }
+
+    @GetMapping("/lifestory/{userId}")
+    public String getLifeStory(@PathVariable Long userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            return optionalUser.get().getLifeStory();
+        } else {
+            throw new RuntimeException("Error: User not found with ID: " + userId);
+        }
+    }
+
+    // In UserController.java (in com.stevenhalla.spring.login.controllers package)
+
+    @PostMapping("/{userId}/lifestory")
+    public User addLifeStoryToUser(@PathVariable Long userId, @RequestBody String lifeStory) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setLifeStory(lifeStory); // Assuming the User class has a setLifeStory method
+            userRepository.save(user);
+            return user;
+        } else {
+            throw new RuntimeException("Error: User not found with ID: " + userId);
+        }
+    }
+
+
+
 
 
     @PatchMapping("/updateuser/{userid}")
@@ -33,12 +77,14 @@ public class UserController {
             user.setCustomfield1(fields.customfield1);
             user.setCustomfield2(fields.customfield2);
             user.setCustomfield3(fields.customfield3);
+            user.setLifeStory(fields.lifestory); // Update the life story
             userRepository.save(user);
             return user;
         } else {
             throw new RuntimeException("Error: User not found with ID: " + userid);
         }
     }
+
 
     @GetMapping("/customfields")
     public List<String> getUserCustomFields() {

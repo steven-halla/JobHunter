@@ -24,6 +24,7 @@ export const JobViewAll = () => {
 
     const [sortOrder, setSortOrder] = useState<
         'select' |
+        'companyResponded'|
         'company-a-z' |
         'company-z-a' |
         'contact-a-z' |
@@ -31,6 +32,7 @@ export const JobViewAll = () => {
         'date-asc' |
         'date-desc' |
         'accepted' |
+        'meetingLink' |
         'declined' |
         'no response' |
         'delete' |
@@ -47,6 +49,7 @@ export const JobViewAll = () => {
         'delete' |
         'update' |
         'olderThanSevenDays' // include this in your type definition
+
     >('select');
 
 
@@ -94,24 +97,24 @@ export const JobViewAll = () => {
     const StyledTableRow = styled.tr<StyledTableRowProps>`
   position: relative;
   background-color: ${props => {
-    if (props.companyRejected) {
-      return 'salmon';
-    }
-    
-    else if (props.meetingLink) {
-      return 'lightgreen';
-    }
+        if (props.companyRejected) {
+            return 'salmon';
+        }
 
-    else if (props.isOlderThanSevenDays) {
-      return 'yellow'; // Color for jobs older than 7 days
-    }
-  
-    else if (!props.companyResponded) {
-      return 'lightgrey';
-    } 
-  
-    return 'lightgrey'; // Default color
-  }};
+        else if (props.meetingLink) {
+            return 'lightgreen';
+        }
+
+        else if (props.isOlderThanSevenDays) {
+            return 'yellow'; // Color for jobs older than 7 days
+        }
+
+        else if (!props.companyResponded) {
+            return 'lightgrey';
+        }
+
+        return 'lightgrey'; // Default color
+    }};
 
 
   .hidden-icons {
@@ -196,8 +199,8 @@ export const JobViewAll = () => {
 
         }
 
-            else if (response === 'no response') {
-           setJobResponses(jobResponses)
+        else if (response === 'no response') {
+            setJobResponses(jobResponses)
 
         }
 
@@ -335,6 +338,7 @@ export const JobViewAll = () => {
             case 'select':
                 // Default sorting, for example by date applied in ascending order
                 return new Date(a.dateapplied).getTime() - new Date(b.dateapplied).getTime();
+
             case 'company-a-z':
                 return a.companyname.toLowerCase().localeCompare(b.companyname.toLowerCase());
             case 'company-z-a':
@@ -348,6 +352,7 @@ export const JobViewAll = () => {
             case 'date-desc':
                 return new Date(b.dateapplied).getTime() - new Date(a.dateapplied).getTime();
             case 'accepted':
+                console.log("you have been accepted")
                 return (jobResponses[b.id] === 'accepted' ? 1 : 0) - (jobResponses[a.id] === 'accepted' ? 1 : 0);
             case 'declined':
                 return (jobResponses[b.id] === 'declined' ? 1 : 0) - (jobResponses[a.id] === 'declined' ? 1 : 0);
@@ -369,9 +374,16 @@ export const JobViewAll = () => {
                 const bOlderThan7Days = bDateDiff > 7 * 24 * 60 * 60 * 1000 ? 1 : 0;
                 return bOlderThan7Days - aOlderThan7Days;
 
+            case 'companyResponded':
+                return (b.companyresponded === false ? 1 : 0) - (a.companyresponded === false ? 1 : 0);
+
 
             case 'update':
-            return (jobResponses[b.id] === 'update' ? 1 : 0) - (jobResponses[a.id] === 'update' ? 1 : 0);
+                return (jobResponses[b.id] === 'update' ? 1 : 0) - (jobResponses[a.id] === 'update' ? 1 : 0);
+
+            case 'meetingLink':
+                console.log("I have a meeting link for you bud bud")
+                return (b.meetingLink ? 1 : 0) - (a.meetingLink ? 1 : 0);
             default:
                 return 0;
         }
@@ -420,6 +432,23 @@ export const JobViewAll = () => {
         setSortOrder('company-z-a');
     };
 
+    const handleSortByAccepted = () => {
+        setSortOrder('accepted');
+    };
+
+    const handleSortByMeetingLink = () => {
+        setSortOrder('meetingLink');
+    };
+
+    const handleSortByNoResponse = () => {
+        setSortOrder('no response');
+    };
+
+    const handleSortByCompanyResponded = () => {
+        setSortOrder('companyResponded');
+    };
+
+
 
 
 
@@ -429,101 +458,101 @@ export const JobViewAll = () => {
     return (
         <>
             {isMobile ? (
-            <div>
-                <SelectDiv>
-                    <SimpleSelect value={sortOrder} onChange={(e: { target: { value: any; }; }) => setSortOrder(e.target.value as SelectValue)}>
-                        <option value="date-asc">Date Asc</option>
-                        <option value="date-desc">Date Dsc</option>
-                        <option value="company-a-z">Company Asc</option>
-                        <option value="company-z-a">Company Dsc</option>
-                        <option value="contact-a-z">Contact Asc</option>
-                        <option value="contact-z-a">Contact Dsc</option>
-                    </SimpleSelect>
-                </SelectDiv>
+                <div>
+                    <SelectDiv>
+                        <SimpleSelect value={sortOrder} onChange={(e: { target: { value: any; }; }) => setSortOrder(e.target.value as SelectValue)}>
+                            <option value="date-asc">Date Asc</option>
+                            <option value="date-desc">Date Dsc</option>
+                            <option value="company-a-z">Company Asc</option>
+                            <option value="company-z-a">Company Dsc</option>
+                            <option value="contact-a-z">Contact Asc</option>
+                            <option value="contact-z-a">Contact Dsc</option>
+                        </SimpleSelect>
+                    </SelectDiv>
 
-            {sortedAndRespondedJobs.map((job, index) => (
-        <MobileJobCardDiv key={job.id}>
-            <MobileTitleDiv>
-                <MobileJobTitleDiv>Date</MobileJobTitleDiv>
-                <MobileTableCellDiv>{new Date(job.dateapplied).toISOString().split('T')[0]}</MobileTableCellDiv>
-            </MobileTitleDiv>
-            <MobileTitleDiv>
-                <MobileJobTitleDiv>Company</MobileJobTitleDiv>
-                <MobileTableCellDiv>{job.companyname}</MobileTableCellDiv>
-            </MobileTitleDiv>
-            <MobileTitleDiv>
-                <MobileJobTitleDiv>Description</MobileJobTitleDiv>
-                <MobileTableCellDiv>
-                    <TextButton onClick={() => openDescriptionModal(job.description)}>Click to View</TextButton>
-                </MobileTableCellDiv>
-            </MobileTitleDiv>
-            <MobileTitleDiv>
-                <MobileJobTitleDiv>Contact</MobileJobTitleDiv>
-                <MobileTableCellDiv>
-                    <MobileTableCellDiv>{job.primarycontact}</MobileTableCellDiv>
-                </MobileTableCellDiv>
-            </MobileTitleDiv>
-            <MobileTitleDiv>
-                <MobileJobTitleDiv>job link</MobileJobTitleDiv>
-                <MobileTableCellDiv>
-                        <TextButton><a href={job.joblink} target="_blank" rel="noopener noreferrer">LINK</a></TextButton>
-                </MobileTableCellDiv>
-            </MobileTitleDiv>
-            <MobileTitleDiv>
-                <MobileJobTitleDiv>website</MobileJobTitleDiv>
-                <MobileTableCellDiv>
-                    <TextButton><a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">LINK</a></TextButton>
-                </MobileTableCellDiv>
-            </MobileTitleDiv>
-            <MobileTitleDiv>
-                <MobileJobTitleDiv>  <select value={jobResponses[job.id] || 'no response'} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleResponseChange(e, String(job.id))}>
-                    <option value="accepted">Accepted</option>
-                    <option value="update">Update</option>
-                    <option value="declined">Declined</option>
-                    <option value="delete">Delete</option>
-                    <option value="no response">No Response</option>
-                </select></MobileJobTitleDiv>
-                <MobileTableCellDiv>
-                    {jobResponses[job.id] === "accepted" ? (
-                        <Button
-                            variant="contained"
-                            style={{backgroundColor: 'green', width: '120px', height: '40px'}}
-                            onClick={() => onButtonClick('accepted', String(job.id))}
-                        >
-                            Interview
-                        </Button>
-                    ) : jobResponses[job.id] === "update" ? (
-                        <Button
-                            variant="contained"
-                            style={{backgroundColor: 'purple', width: '120px', height: '40px'}}
-                            onClick={() => onButtonClick('update', String(job.id))}
-                        >
-                            Update
-                        </Button>
-                    ) : jobResponses[job.id] === "declined" ? (
-                        <Button
-                            variant="contained"
-                            style={{backgroundColor: 'orange', width: '120px', height: '40px'}}
-                            onClick={() => onButtonClick('declined', String(job.id))}
-                        >
-                            Declined
-                        </Button>
-                    ) : jobResponses[job.id] === "delete" ? (
-                        <Button
-                            variant="contained"
-                            style={{backgroundColor: 'red', width: '120px', height: '40px'}}
-                            onClick={() => onButtonClick('delete', String(job.id))}
-                        >
-                            Delete
-                        </Button>
-                    ) : null}
-                </MobileTableCellDiv>
-            </MobileTitleDiv>
-        </MobileJobCardDiv>
-    ))}
-</div>
+                    {sortedAndRespondedJobs.map((job, index) => (
+                        <MobileJobCardDiv key={job.id}>
+                            <MobileTitleDiv>
+                                <MobileJobTitleDiv>Date</MobileJobTitleDiv>
+                                <MobileTableCellDiv>{new Date(job.dateapplied).toISOString().split('T')[0]}</MobileTableCellDiv>
+                            </MobileTitleDiv>
+                            <MobileTitleDiv>
+                                <MobileJobTitleDiv>Company</MobileJobTitleDiv>
+                                <MobileTableCellDiv>{job.companyname}</MobileTableCellDiv>
+                            </MobileTitleDiv>
+                            <MobileTitleDiv>
+                                <MobileJobTitleDiv>Description</MobileJobTitleDiv>
+                                <MobileTableCellDiv>
+                                    <TextButton onClick={() => openDescriptionModal(job.description)}>Click to View</TextButton>
+                                </MobileTableCellDiv>
+                            </MobileTitleDiv>
+                            <MobileTitleDiv>
+                                <MobileJobTitleDiv>Contact</MobileJobTitleDiv>
+                                <MobileTableCellDiv>
+                                    <MobileTableCellDiv>{job.primarycontact}</MobileTableCellDiv>
+                                </MobileTableCellDiv>
+                            </MobileTitleDiv>
+                            <MobileTitleDiv>
+                                <MobileJobTitleDiv>job link</MobileJobTitleDiv>
+                                <MobileTableCellDiv>
+                                    <TextButton><a href={job.joblink} target="_blank" rel="noopener noreferrer">LINK</a></TextButton>
+                                </MobileTableCellDiv>
+                            </MobileTitleDiv>
+                            <MobileTitleDiv>
+                                <MobileJobTitleDiv>website</MobileJobTitleDiv>
+                                <MobileTableCellDiv>
+                                    <TextButton><a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">LINK</a></TextButton>
+                                </MobileTableCellDiv>
+                            </MobileTitleDiv>
+                            <MobileTitleDiv>
+                                <MobileJobTitleDiv>  <select value={jobResponses[job.id] || 'no response'} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleResponseChange(e, String(job.id))}>
+                                    <option value="accepted">Accepted</option>
+                                    <option value="update">Update</option>
+                                    <option value="declined">Declined</option>
+                                    <option value="delete">Delete</option>
+                                    <option value="no response">No Response</option>
+                                </select></MobileJobTitleDiv>
+                                <MobileTableCellDiv>
+                                    {jobResponses[job.id] === "accepted" ? (
+                                        <Button
+                                            variant="contained"
+                                            style={{backgroundColor: 'green', width: '120px', height: '40px'}}
+                                            onClick={() => onButtonClick('accepted', String(job.id))}
+                                        >
+                                            Interview
+                                        </Button>
+                                    ) : jobResponses[job.id] === "update" ? (
+                                        <Button
+                                            variant="contained"
+                                            style={{backgroundColor: 'purple', width: '120px', height: '40px'}}
+                                            onClick={() => onButtonClick('update', String(job.id))}
+                                        >
+                                            Update
+                                        </Button>
+                                    ) : jobResponses[job.id] === "declined" ? (
+                                        <Button
+                                            variant="contained"
+                                            style={{backgroundColor: 'orange', width: '120px', height: '40px'}}
+                                            onClick={() => onButtonClick('declined', String(job.id))}
+                                        >
+                                            Declined
+                                        </Button>
+                                    ) : jobResponses[job.id] === "delete" ? (
+                                        <Button
+                                            variant="contained"
+                                            style={{backgroundColor: 'red', width: '120px', height: '40px'}}
+                                            onClick={() => onButtonClick('delete', String(job.id))}
+                                        >
+                                            Delete
+                                        </Button>
+                                    ) : null}
+                                </MobileTableCellDiv>
+                            </MobileTitleDiv>
+                        </MobileJobCardDiv>
+                    ))}
+                </div>
 
-) : (
+            ) : (
                 <StyledTableContainer>
                     <Table>
                         <StyledTableHead>
@@ -558,18 +587,15 @@ export const JobViewAll = () => {
                                 <TableCell>Job Link</TableCell>
                                 <TableCell>Website </TableCell>
                                 <TableCell>
+                                    <SortLabelContainer>
+                                        Interiew or no response
+                                        <ButtonHolderDiv>
+                                            <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleSortByCompanyResponded} />
+                                            <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleSortByMeetingLink} />
+                                        </ButtonHolderDiv>
+                                    </SortLabelContainer>
 
 
-                                    <Select
-                                        style={{ width: '140px', height: '25px' }}
-                                        value={selectValue}onChange={e => setSortOrder(e.target.value as "no response" | "accepted" | "olderThanSevenDays")}
-
-                                        renderValue={(value) => value ? value : 'Select'}
-                                    >
-                                        <MenuItem value="accepted">Scedule Interview</MenuItem>
-                                        <MenuItem value="no response">No Response</MenuItem>
-                                        <MenuItem value="olderThanSevenDays">Older Than 7 Days</MenuItem>
-                                    </Select>
 
 
 
@@ -588,7 +614,7 @@ export const JobViewAll = () => {
                                     isOlderThanSevenDays={(new Date().getTime() - new Date(job.dateapplied).getTime()) > SEVEN_DAYS_MS}
                                 >
 
-                                <TableCell>{new Date(job.dateapplied).toISOString().split('T')[0]}</TableCell>
+                                    <TableCell>{new Date(job.dateapplied).toISOString().split('T')[0]}</TableCell>
                                     <StyledTableCell>{job.companyname}</StyledTableCell>
                                     <TableCell>
                                         <TextButton onClick={() => openDescriptionModal(job.description)}>Click to View</TextButton>

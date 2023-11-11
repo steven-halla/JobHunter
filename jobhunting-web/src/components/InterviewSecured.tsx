@@ -44,25 +44,26 @@ export const InterviewSecured = () => {
         console.log("Saving all interviews to the server:", interviews);
 
         try {
-            const response = await fetch(`http://localhost:8080/api/jobs/update/${jobId}`, {
+            const response = await fetch(`http://localhost:8080/api/jobs/update/${currentJob.id}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
-
                 body: JSON.stringify({
                     meetingLink: meetingLink,
                     interviewnotes: interviewnotes,
                     interviewernames: interviewernames,
                     interviewdate: interviewdate,
+                    companyresponded: true, // Setting company responded to true
                 }),
             });
+
             if (response.ok) {
                 setJobs((prevJobs) =>
                     prevJobs.map((j) =>
-                        j.id === currentJob.id ? { ...j, interviews } : j
+                        j.id === currentJob.id ? { ...j, interviews, companyresponded: true } : j
                     )
                 );
                 setCurrentJob((prev) =>
-                    prev ? { ...prev, interviews } : prev
+                    prev ? { ...prev, interviews, companyresponded: true } : prev
                 );
                 setMeetingLink(meetingLink);
                 setInterviewNotes(interviewnotes);
@@ -75,6 +76,45 @@ export const InterviewSecured = () => {
             console.error('Failed to update job interview:', error);
         }
     };
+
+
+    // const handleFormSubmit = async () => {
+    //     if (!currentJob) return;
+    //
+    //     console.log("Saving all interviews to the server:", interviews);
+    //
+    //     try {
+    //         const response = await fetch(`http://localhost:8080/api/jobs/update/${jobId}`, {
+    //             method: "PATCH",
+    //             headers: { "Content-Type": "application/json" },
+    //
+    //             body: JSON.stringify({
+    //                 meetingLink: meetingLink,
+    //                 interviewnotes: interviewnotes,
+    //                 interviewernames: interviewernames,
+    //                 interviewdate: interviewdate,
+    //             }),
+    //         });
+    //         if (response.ok) {
+    //             setJobs((prevJobs) =>
+    //                 prevJobs.map((j) =>
+    //                     j.id === currentJob.id ? { ...j, interviews } : j
+    //                 )
+    //             );
+    //             setCurrentJob((prev) =>
+    //                 prev ? { ...prev, interviews } : prev
+    //             );
+    //             setMeetingLink(meetingLink);
+    //             setInterviewNotes(interviewnotes);
+    //             setInterviewerNames(interviewernames);
+    //             setInterviewDate(interviewdate);
+    //         } else {
+    //             console.error('Failed to update job interview');
+    //         }
+    //     } catch (error) {
+    //         console.error('Failed to update job interview:', error);
+    //     }
+    // };
 
     function addOneDay(date: string | number | Date) {
         const adjustedDate = new Date(date);

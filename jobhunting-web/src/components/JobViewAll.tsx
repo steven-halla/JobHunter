@@ -10,11 +10,33 @@ import axios from "axios";
 import { useSortAndSelect } from './useSortAndSelect'; // Make sure to import from the correct path
 import { SelectValue } from './useSortAndSelect'; // Replace with the actual path
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
-
+import {Slider} from "@mui/material";
 export const JobViewAll = () => {
     const { jobs, updateJobRejected, meetingLink } = useContext(JobsContext);
     const [filter] = useState('');
     const [onlyShowResponded] = useState(false);
+    const [sliderValues, setSliderValues] = useState<Record<string, number>>({});
+// Inside JobViewAll component
+
+
+
+    useEffect(() => {
+        const initialSliderValues: Record<string, number> = {};
+        jobs.forEach((job) => {
+            initialSliderValues[job.id.toString()] = 3; // Set the default value (3 in this case) for each job
+        });
+        setSliderValues(initialSliderValues);
+    }, [jobs]);
+
+    const handleSliderChange = (jobId: string, newValue: number | number[]) => {
+        if (typeof newValue === 'number') {
+            setSliderValues((prevSliderValues) => ({
+                ...prevSliderValues,
+                [jobId]: newValue,
+            }));
+        }
+    };
+
 
     const {
         sortOrder,
@@ -50,6 +72,7 @@ export const JobViewAll = () => {
         setDescriptionModalOpen(false);
     };
 
+    //the below is for a select input
     const handleResponseChange = async (e: React.ChangeEvent<{ value: unknown }>, jobId: string) => {
         const selectedValue = e.target.value as SelectValue;
         const targetJob = jobs.find((job) => job.id === Number(jobId));
@@ -59,6 +82,7 @@ export const JobViewAll = () => {
                 targetJob.companyresponded = false;
                 setJobDeclined(true);
             } else if (selectedValue === 'accepted') {
+                console.log("you were accepted")
                 targetJob.companyrejected = false;
                 targetJob.companyresponded = true;
                 setJobDeclined(false);
@@ -83,6 +107,10 @@ export const JobViewAll = () => {
             }));
         }
     };
+
+
+
+
 
     const updateJobOnServer = async (jobId: string, data: { companyrejected: boolean; companyresponded?: boolean }) => {
         try {
@@ -113,6 +141,10 @@ export const JobViewAll = () => {
         );
 
     const sortedAndRespondedJobs = [...filteredAndRespondedJobs].sort((a, b) => {
+        console.log('Sorting jobs based on selectValue:', selectValue);
+
+        let sortedJobs = [...jobs];
+
         switch (sortOrder) {
             case 'company-a-z':
                 return a.companyname.toLowerCase().localeCompare(b.companyname.toLowerCase());
@@ -126,8 +158,15 @@ export const JobViewAll = () => {
                 return new Date(a.dateapplied).getTime() - new Date(b.dateapplied).getTime();
             case 'date-desc':
                 return new Date(b.dateapplied).getTime() - new Date(a.dateapplied).getTime();
+            // case 'accepted':
+            //     console.log("hey there you got accepted")
+            //
+            //
+            //     return (jobResponses[b.id] === 'accepted' ? 1 : 0) - (jobResponses[a.id] === 'accepted' ? 1 : 0);
             case 'accepted':
-                return (jobResponses[b.id] === 'accepted' ? 1 : 0) - (jobResponses[a.id] === 'accepted' ? 1 : 0);
+                // Example: Sort by whether job is accepted
+                sortedJobs.sort((a, b) => jobResponses[a.id] === 'accepted' ? -1 : 1);
+                break;
             case 'declined':
                 return (jobResponses[b.id] === 'declined' ? 1 : 0) - (jobResponses[a.id] === 'declined' ? 1 : 0);
             case 'no response':
@@ -197,6 +236,21 @@ export const JobViewAll = () => {
             console.log('Awaiting response from company');
         }
     };
+
+    const valueToResponse = (value: number): SelectValue => {
+        switch (value) {
+            case 1:
+                return 'accepted';
+            case 2:
+                return 'no response';
+            case 3:
+                return 'declined';
+            default:
+                return 'no response'; // Set a default value if needed
+        }
+    };
+
+
 
     return (
         <>
@@ -330,6 +384,8 @@ export const JobViewAll = () => {
                                 <TableCell>Job Link</TableCell>
                                 <TableCell>Website </TableCell>
                                 <TableCell>
+
+
                                     <Select
                                         style={{ width: '140px', height: '25px' }}
                                         value={selectValue}
@@ -342,6 +398,8 @@ export const JobViewAll = () => {
                                         <MenuItem value="delete">Response: Delete</MenuItem>
                                         <MenuItem value="update">Response: Update</MenuItem>
                                     </Select>
+
+
                                 </TableCell>
                                 <TableCell></TableCell>
                             </TableRow>
@@ -360,11 +418,46 @@ export const JobViewAll = () => {
                                     <TableCell>
                                         <select value={jobResponses[job.id] || 'no response'} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleResponseChange(e, String(job.id))}>
                                             <option value="accepted">Accepted</option>
-                                            <option value="update">Update</option>
                                             <option value="declined">Declined</option>
-                                            <option value="delete">Delete</option>
                                             <option value="no response">No Response</option>
                                         </select>
+
+                                        {/*<Slider*/}
+                                        {/*    aria-label="Temperature"*/}
+                                        {/*    value={jobResponses[job.id.toString()] || 'no response'}*/}
+                                        {/*    valueLabelDisplay="auto"*/}
+                                        {/*    valueLabelFormat={(value) => {*/}
+                                        {/*        if (value === 1) {*/}
+                                        {/*            return 'Schedule interview';*/}
+                                        {/*        } else if (value === 2) {*/}
+                                        {/*            return 'No Response';*/}
+                                        {/*        } else if (value === 3) {*/}
+                                        {/*            return 'Declined';*/}
+                                        {/*        }*/}
+                                        {/*        return ''; // Empty string for other values*/}
+                                        {/*    }}*/}
+                                        {/*    step={1}*/}
+                                        {/*    min={1}*/}
+                                        {/*    max={3}*/}
+                                        {/*    style={{ width: '40%' }}*/}
+                                        {/*    onChange={(event, newValue: number | string) => {*/}
+                                        {/*        // TypeScript expects newValue to be either a number or a string*/}
+                                        {/*        console.log('Slider value changed:', newValue);*/}
+
+                                        {/*        // If you don't need to capture the exact value, you can omit the following line*/}
+                                        {/*        setJobResponses({ ...jobResponses, [job.id.toString()]: newValue });*/}
+                                        {/*    }}*/}
+                                        {/*/>*/}
+
+
+
+
+
+
+
+
+
+
                                     </TableCell>
                                     <TableCell>
                                         <div>

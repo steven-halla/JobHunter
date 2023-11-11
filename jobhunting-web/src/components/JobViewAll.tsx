@@ -9,6 +9,7 @@ import {deviceJobViewAll} from "../common/ScreenSizes";
 import axios from "axios";
 import { useSortAndSelect } from './useSortAndSelect'; // Make sure to import from the correct path
 import { SelectValue } from './useSortAndSelect'; // Replace with the actual path
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 
 export const JobViewAll = () => {
     const { jobs, updateJobRejected, meetingLink } = useContext(JobsContext);
@@ -347,7 +348,7 @@ export const JobViewAll = () => {
                         </StyledTableHead>
                         <TableBody>
                             {sortedAndRespondedJobs.map((job, index) => (
-                                <TableRow key={job.id}>
+                                <StyledTableRow key={job.id}>
                                     <TableCell>{new Date(job.dateapplied).toISOString().split('T')[0]}</TableCell>
                                     <StyledTableCell>{job.companyname}</StyledTableCell>
                                     <TableCell>
@@ -366,42 +367,32 @@ export const JobViewAll = () => {
                                         </select>
                                     </TableCell>
                                     <TableCell>
-                                        {jobResponses[job.id] === "accepted" ? (
-                                            <Button
-                                                variant="contained"
-                                                style={{backgroundColor: 'green', width: '120px', height: '40px'}}
-                                                onClick={() => onButtonClick('accepted', String(job.id))}
-                                            >
-                                                Interview
-                                            </Button>
-                                        ) : jobResponses[job.id] === "update" ? (
-                                            <Button
-                                                variant="contained"
-                                                style={{backgroundColor: 'purple', width: '120px', height: '40px'}}
-                                                onClick={() => onButtonClick('update', String(job.id))}
-                                            >
-                                                Update
-                                            </Button>
-                                        ) : jobResponses[job.id] === "declined" ? (
-                                            <Button
-                                                variant="contained"
-                                                style={{backgroundColor: 'orange', width: '120px', height: '40px'}}
-                                                onClick={() => onButtonClick('declined', String(job.id))}
-                                            >
-                                                Declined
-                                            </Button>
+                                        <div>
 
-                                        ) : jobResponses[job.id] === "delete" ? (
-                                            <Button
-                                                variant="contained"
-                                                style={{backgroundColor: 'red', width: '120px', height: '40px'}}
+
+                                            <FontAwesomeIcon
+                                                icon={faTrash}
+                                                className="custom-icon hidden-icons delete-icon"
+                                                style={{ cursor: 'pointer' }}
                                                 onClick={() => onButtonClick('delete', String(job.id))}
-                                            >
-                                                Delete
-                                            </Button>
-                                        ) : null}
+                                            />
+
+                                            <FontAwesomeIcon
+                                                icon={faEdit}
+                                                className="custom-icon hidden-icons edit-icon"
+                                                style={{ cursor: 'pointer', marginTop: '15px' }}
+                                                onClick={() => onButtonClick('update', String(job.id))}
+                                            />
+
+
+
+
+                                        </div>
+
+
+
                                     </TableCell>
-                                </TableRow>
+                                </StyledTableRow>
                             ))}
                         </TableBody>
                     </Table>
@@ -443,6 +434,101 @@ export const JobViewAll = () => {
         </>
     );
 };
+//
+
+
+//
+//
+// const StyledTableRow = styled.tr`
+//   /* Your other CSS styles for table rows here */
+//   position: relative; /* Add this to maintain a stable layout */
+//
+//   /* Define styles for hidden icons container */
+//   .hidden-icons {
+//     display: none; /* Initially hide the icons container */
+//     //position: absolute; /* Position icons absolutely within the cell */
+//
+//   }
+//
+//   /* Style for each icon container */
+//   .icon-container {
+//     display: inline-block; /* Display each icon container inline-block */
+//     //margin-right: 10px; /* Increase margin-right for more space between icons */
+//     //margin-bottom: 10px; /* Add margin-bottom to create space below each icon */
+//   }
+//
+//   &:hover {
+//     /* Make icons container visible on table row hover */
+//     .hidden-icons {
+//       display: block; /* Change to 'block' to show the icons container */
+//     }
+//
+//     /* Add a green highlight on hover */
+//     background-color: lightgreen;
+//   }
+//
+//   /* Add these classes to your CSS stylesheet */
+//   .custom-icon {
+//     font-size: 20px; /* Adjust the font size as needed */
+//   }
+//
+//   .custom-icon-lg {
+//     font-size: 24px; /* Larger size */
+//   }
+//
+//   .custom-icon-sm {
+//     font-size: 16px; /* Smaller size */
+//   }
+//
+// `;
+
+const StyledTableRow = styled.tr`
+  position: relative;
+
+  .hidden-icons {
+    display: none;
+    position: absolute;
+    right: 50px;
+  }
+
+  .delete-icon {
+    top: 3px;
+  }
+
+  .edit-icon {
+    top: 18px;
+  }
+
+  .icon-container {
+    display: inline-block;
+    padding-right: 30px;
+    margin-bottom: 10px;
+  }
+
+  &:hover {
+    .hidden-icons {
+      display: block;
+    }
+    background-color: lightgreen;
+
+    /* Use min-height to ensure the row height increases */
+    min-height: 70px; /* Adjust as needed */
+  }
+
+  .custom-icon {
+    font-size: 20px;
+  }
+
+  .custom-icon-lg {
+    font-size: 24px;
+  }
+
+  .custom-icon-sm {
+    font-size: 16px;
+  }
+`;
+
+
 
 const MobileJobCardDiv = styled.div`
     border: 1px solid #ccc;

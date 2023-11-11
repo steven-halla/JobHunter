@@ -120,26 +120,25 @@ export const JobViewAll = () => {
   .hidden-icons {
     display: none;
     position: absolute;
-    right: 50px;
   }
 
-  .delete-icon {
-    top: 3px;
-    margin-right: 3.5px;
+  .no-response-icon{
+    bottom: 27px;
+    padding-left: 41.5px;
   }
 
-  .no-response-icon {
-    margin-right: 70.5px;
-  }
+
 
 
   .edit-icon {
     top: 18px;
+    padding-left: 41.5px;
+
   }
   
   .scedule-icon {
     margin-right: 45px;
-    bottom: 14px;
+    bottom: 12px;
   }
 
   .icon-container {
@@ -588,7 +587,7 @@ export const JobViewAll = () => {
                                 <TableCell>Website </TableCell>
                                 <TableCell>
                                     <SortLabelContainer>
-                                        Interiew or no response
+                                        Interiew / no response
                                         <ButtonHolderDiv>
                                             <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleSortByCompanyResponded} />
                                             <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleSortByMeetingLink} />
@@ -664,9 +663,6 @@ export const JobViewAll = () => {
 
 
 
-
-                                    </TableCell>
-                                    <TableCell>
                                         <div>
 
                                             <FontAwesomeIcon
@@ -679,10 +675,10 @@ export const JobViewAll = () => {
                                             />
 
                                             <FontAwesomeIcon
-                                                icon={faTrash}
-                                                className="custom-icon hidden-icons delete-icon"
-                                                style={{ cursor: 'pointer' }}
-                                                onClick={() => onButtonClick('delete', String(job.id))}
+                                                icon={faBan}
+                                                className="custom-icon hidden-icons no-response-icon"
+                                                style={{ cursor: 'pointer', marginTop: '15px' }}
+                                                onClick={() => onButtonClick('declined', String(job.id))}
                                             />
 
                                             <FontAwesomeIcon
@@ -692,21 +688,14 @@ export const JobViewAll = () => {
                                                 onClick={() => onButtonClick('update', String(job.id))}
                                             />
 
-                                            <FontAwesomeIcon
-                                                icon={faBan}
-                                                className="custom-icon hidden-icons no-response-icon"
-                                                style={{ cursor: 'pointer', marginTop: '15px' }}
-                                                onClick={() => onButtonClick('declined', String(job.id))}
-                                            />
-
-
-
-
 
 
 
 
                                         </div>
+                                    </TableCell>
+                                    <TableCell>
+
 
 
 

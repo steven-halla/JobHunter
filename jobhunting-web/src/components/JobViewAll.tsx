@@ -3,7 +3,7 @@ import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRo
 import { JobsContext } from "../services/jobcontext";
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretUp, faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import {faCaretUp, faCaretDown, faTimes, faTimesCircle, faBan} from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import {deviceJobViewAll} from "../common/ScreenSizes";
 import axios from "axios";
@@ -11,59 +11,166 @@ import { useSortAndSelect } from './useSortAndSelect'; // Make sure to import fr
 import { SelectValue } from './useSortAndSelect'; // Replace with the actual path
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import {Slider} from "@mui/material";
+import { faCalendar } from '@fortawesome/free-solid-svg-icons';
+
+
+
 export const JobViewAll = () => {
-    const { jobs, updateJobRejected, meetingLink } = useContext(JobsContext);
+    const { jobs, updateJobRejected, meetingLink} = useContext(JobsContext);
     const [filter] = useState('');
     const [onlyShowResponded] = useState(false);
-    const [sliderValues, setSliderValues] = useState<Record<string, number>>({});
-// Inside JobViewAll component
 
 
 
-    useEffect(() => {
-        const initialSliderValues: Record<string, number> = {};
-        jobs.forEach((job) => {
-            initialSliderValues[job.id.toString()] = 3; // Set the default value (3 in this case) for each job
-        });
-        setSliderValues(initialSliderValues);
-    }, [jobs]);
+    const [sortOrder, setSortOrder] = useState<
+        'select' |
+        'company-a-z' |
+        'company-z-a' |
+        'contact-a-z' |
+        'contact-z-a' |
+        'date-asc' |
+        'date-desc' |
+        'accepted' |
+        'declined' |
+        'no response' |
+        'delete' |
+        'update' |
+        'olderThanSevenDays' // added this new sorting option
+    >('select');
 
-    const handleSliderChange = (jobId: string, newValue: number | number[]) => {
-        if (typeof newValue === 'number') {
-            setSliderValues((prevSliderValues) => ({
-                ...prevSliderValues,
-                [jobId]: newValue,
-            }));
-        }
-    };
+
+    const [selectValue, setSelectValue] = useState<
+        'select' |
+        'accepted' |
+        'no response' |
+        'declined' |
+        'delete' |
+        'update' |
+        'olderThanSevenDays' // include this in your type definition
+    >('select');
 
 
-    const {
-        sortOrder,
-        selectValue,
-        handleDateSortAsc,
-        handleDateSortDesc,
-        handleContactNameSortAsc,
-        handleContactNameSortDesc,
-        handleCompanyNameSortAsc,
-        handleCompanyNameSortDesc,
-        handleSelectChange,
-    } = useSortAndSelect(); // Use the custom hook for sorting and selecting
-
+    // const [jobResponses, setJobResponses] = useState<Record<string, JobResponse>>({});
+    const history = useNavigate();
     const navigate = useNavigate();
+
+
     const [isDescriptionModalOpen, setDescriptionModalOpen] = useState(false);
     const [selectedDescription, setSelectedDescription] = useState('');
+
+
+    const [open, setOpen] = useState(false);
     const [jobDeclined, setJobDeclined] = useState(false);
 
-    const [jobResponses, setJobResponses] = useState<Record<string, SelectValue>>(
-        () => JSON.parse(localStorage.getItem('jobResponses') || '{}')
+    const [jobResponses, setJobResponses] = useState<Record<string, JobResponse>>(
+        () => JSON.parse(localStorage.getItem("jobResponses") || '{}')
     );
 
+
     useEffect(() => {
-        localStorage.setItem('jobResponses', JSON.stringify(jobResponses));
+        // You can add additional logic here if needed
+        setSortOrder(selectValue);
+        console.log("hi")
+        //this is only ran when selectValue changes, this is powerful and important to remember
+    }, [selectValue]);
+
+    useEffect(() => {
+        localStorage.setItem("jobResponses", JSON.stringify(jobResponses));
     }, [jobResponses]);
 
+
+    type JobResponse = 'accepted' | 'declined' | 'no response' | 'delete' | 'update' | 'olderThanSevenDays' ;
+    interface StyledTableRowProps {
+        response: JobResponse;
+        companyRejected: boolean;
+        companyResponded: boolean;
+        meetingLink: string;
+        isOlderThanSevenDays: boolean; // New prop
+    }
+    const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
+
+
+
+    const StyledTableRow = styled.tr<StyledTableRowProps>`
+  position: relative;
+  background-color: ${props => {
+    if (props.companyRejected) {
+      return 'salmon';
+    }
+    
+    else if (props.meetingLink) {
+      return 'lightgreen';
+    }
+
+    else if (props.isOlderThanSevenDays) {
+      return 'yellow'; // Color for jobs older than 7 days
+    }
+  
+    else if (!props.companyResponded) {
+      return 'lightgrey';
+    } 
+  
+    return 'lightgrey'; // Default color
+  }};
+
+
+  .hidden-icons {
+    display: none;
+    position: absolute;
+    right: 50px;
+  }
+
+  .delete-icon {
+    top: 3px;
+    margin-right: 3.5px;
+  }
+
+  .no-response-icon {
+    margin-right: 70.5px;
+  }
+
+
+  .edit-icon {
+    top: 18px;
+  }
+  
+  .scedule-icon {
+    margin-right: 45px;
+    bottom: 14px;
+  }
+
+  .icon-container {
+    display: inline-block;
+    padding-right: 30px;
+    margin-bottom: 10px;
+  }
+
+  &:hover {
+    .hidden-icons {
+      display: block;
+    }
+    //background-color: lightgreen;
+
+    /* Use min-height to ensure the row height increases */
+    min-height: 70px; /* Adjust as needed */
+  }
+
+  .custom-icon {
+    font-size: 20px;
+  }
+
+  .custom-icon-lg {
+    font-size: 30px;
+  }
+
+  .custom-icon-sm {
+    font-size: 16px;
+  }
+`;
+
+
     const openDescriptionModal = (description: string) => {
+        console.log("openDescriptionModal called with:", description);
         setSelectedDescription(description);
         setDescriptionModalOpen(true);
     };
@@ -72,80 +179,162 @@ export const JobViewAll = () => {
         setDescriptionModalOpen(false);
     };
 
-    //the below is for a select input
-    const handleResponseChange = async (e: React.ChangeEvent<{ value: unknown }>, jobId: string) => {
-        const selectedValue = e.target.value as SelectValue;
-        const targetJob = jobs.find((job) => job.id === Number(jobId));
+    const onButtonClick = async (response: JobResponse, jobId: string) => {
+        const targetJob = jobs.find(job => job.id === Number(jobId));
+
+        if (!targetJob) return; // Exit if job is not found
+
+        if (response === 'accepted') {
+            targetJob.companyrejected = false;
+            targetJob.companyresponded = true;
+            setJobDeclined(false);
+            navigate(`/interviewsecured/${jobId}`);
+            console.log("Preparing for interview");
+        }
+        else if (response === 'update') {
+            navigate(`/updatejob/${jobId}`);  // <-- navigate to the update job page with the jobId
+
+        }
+
+            else if (response === 'no response') {
+           setJobResponses(jobResponses)
+
+        }
+
+        else if (response === 'delete') {
+            targetJob.companyresponded = false;
+            // targetJob.companyrejected = true;
+            setJobDeclined(true);
+            axios.delete(`http://localhost:8080/api/jobs/${jobId}`)
+                .then(res => {
+                    console.log('Job deleted successfully:', res.data);
+
+                    window.location.reload();
+
+                    // Handle success (e.g., update UI, show a success message, etc.)
+                })
+                .catch(err => {
+                    console.error('Error deleting job:', err);
+                    // Handle error (e.g., show an error message)
+                });
+        }
+
+
+
+        else if (response === 'declined') {
+            console.log("Handling declined job application");
+
+            // Set companyrejected to true and companyresponded to false
+            targetJob.companyrejected = true;
+            targetJob.companyresponded = false;
+
+            // Update the state for UI feedback
+            setJobDeclined(true);
+            setJobResponses(prev => ({
+                ...prev,
+                [jobId]: 'declined'
+            }));
+
+            // Update the database
+            await updateJobOnServer(jobId, {
+                companyrejected: true,
+                companyresponded: false
+            });
+        } else {
+            console.log("Awaiting response from company");
+        }
+    };
+
+    const handleResponseChange = async (e: any, jobId: string) => {
+        const selectedValue = e.target.value as JobResponse;
+        const targetJob = jobs.find(job => job.id === Number(jobId));
+
+        // <-- get the navigate function using the hook
 
         if (targetJob) {
             if (selectedValue === 'declined') {
                 targetJob.companyresponded = false;
+                // targetJob.companyrejected = true;
                 setJobDeclined(true);
             } else if (selectedValue === 'accepted') {
-                console.log("you were accepted")
                 targetJob.companyrejected = false;
                 targetJob.companyresponded = true;
                 setJobDeclined(false);
-            } else if (selectedValue === 'update') {
-                console.log('do you want to update?');
-            } else if (selectedValue === 'no response') {
-                console.log('no response?');
-            } else if (selectedValue === 'delete') {
-                console.log('we may need to delete this');
-            } else {
+            }
+
+            else if (selectedValue === 'update') {
+                console.log("do you want to update?")
+            }
+
+            else if (selectedValue === 'no response') {
+                console.log("no response?")
+            }
+
+            else if (selectedValue === 'delete') {
+                console.log("we may need to delete this")
+            }
+
+
+            else {
                 targetJob.companyrejected = false;
                 targetJob.companyresponded = false;
                 setJobDeclined(false);
             }
+
             await updateJobOnServer(jobId, {
                 companyrejected: targetJob.companyrejected,
-                companyresponded: targetJob.companyresponded,
+                companyresponded: targetJob.companyresponded
             });
-            setJobResponses((prev) => ({
+
+            setJobResponses(prev => ({
                 ...prev,
-                [jobId]: selectedValue,
+                [jobId]: selectedValue
             }));
         }
     };
 
-
-
-
-
     const updateJobOnServer = async (jobId: string, data: { companyrejected: boolean; companyresponded?: boolean }) => {
+        // Make a PATCH request to your server to update the job with jobId
         try {
-            const response = await axios.patch(`http://localhost:8080/api/jobs/update/${jobId}`, data, {
+            const response = await fetch(`http://localhost:8080/api/jobs/update/${jobId}`, {
+                method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
             });
-            if (response.status !== 200) {
-                throw new Error('Failed to update job.');
+
+            if (!response.ok) {
+                throw new Error("Failed to update job.");
             }
+            // Optionally, update your local state if the server responds with updated data.
+            // const updatedJob = await response.json();
         } catch (error) {
-            console.error('Error updating job:', error);
+            console.error("Error updating job:", error);
         }
     };
 
-    const currentDateMs = new Date().getTime();
-    const TWENTY_ONE_DAYS = 21 * 24 * 60 * 60 * 1000;
-    const twentyOneDaysAgoMs = currentDateMs - TWENTY_ONE_DAYS;
+
+    const currentDateMs = new Date().getTime(); // 1. Get current date in milliseconds
+    const TWENTY_ONE_DAYS = 21 * 24 * 60 * 60 * 1000; // Equivalent of 21 days in milliseconds
+    const twentyOneDaysAgoMs = currentDateMs - TWENTY_ONE_DAYS; // 2. Calculate the timestamp 21 days before current date
 
     const filteredAndRespondedJobs = jobs
-        .filter((job) => !job.companyrejected)
-        .filter(
-            (job) => job.companyresponded || new Date(job.dateapplied).getTime() >= twentyOneDaysAgoMs
+        .filter(job => !job.companyrejected)
+        .filter(job =>
+            job.companyresponded || // If company responded, don't filter out
+            new Date(job.dateapplied).getTime() >= twentyOneDaysAgoMs // If company didn't respond, it should be less than or equal to 21 days old to be included
         )
-        .filter(
-            (job) =>
-                (onlyShowResponded ? job.companyresponded : true) &&
-                job.companyname.toLowerCase().includes(filter.toLowerCase())
+        .filter(job =>
+            (onlyShowResponded ? job.companyresponded : true) &&
+            job.companyname.toLowerCase().includes(filter.toLowerCase())
         );
 
+
+
     const sortedAndRespondedJobs = [...filteredAndRespondedJobs].sort((a, b) => {
-        console.log('Sorting jobs based on selectValue:', selectValue);
-
-        let sortedJobs = [...jobs];
-
         switch (sortOrder) {
+            case 'select':
+                // Default sorting, for example by date applied in ascending order
+                return new Date(a.dateapplied).getTime() - new Date(b.dateapplied).getTime();
             case 'company-a-z':
                 return a.companyname.toLowerCase().localeCompare(b.companyname.toLowerCase());
             case 'company-z-a':
@@ -158,31 +347,37 @@ export const JobViewAll = () => {
                 return new Date(a.dateapplied).getTime() - new Date(b.dateapplied).getTime();
             case 'date-desc':
                 return new Date(b.dateapplied).getTime() - new Date(a.dateapplied).getTime();
-            // case 'accepted':
-            //     console.log("hey there you got accepted")
-            //
-            //
-            //     return (jobResponses[b.id] === 'accepted' ? 1 : 0) - (jobResponses[a.id] === 'accepted' ? 1 : 0);
             case 'accepted':
-                // Example: Sort by whether job is accepted
-                sortedJobs.sort((a, b) => jobResponses[a.id] === 'accepted' ? -1 : 1);
-                break;
+                return (jobResponses[b.id] === 'accepted' ? 1 : 0) - (jobResponses[a.id] === 'accepted' ? 1 : 0);
             case 'declined':
                 return (jobResponses[b.id] === 'declined' ? 1 : 0) - (jobResponses[a.id] === 'declined' ? 1 : 0);
             case 'no response':
-                console.log('Job A ID:', a.id, 'Response:', jobResponses[a.id]);
-                console.log('Job B ID:', b.id, 'Response:', jobResponses[b.id]);
-                const responseA = jobResponses[a.id] || 'no response';
-                const responseB = jobResponses[b.id] || 'no response';
+                console.log("Job A ID:", a.id, "Response:", jobResponses[a.id]);
+                console.log("Job B ID:", b.id, "Response:", jobResponses[b.id]);
+                // return (jobResponses[b.id] === 'no response' ? 1 : 0) - (jobResponses[a.id] === 'no response' ? 1 : 0);
+                const responseA = jobResponses[a.id] || 'no response'; // default to 'no response' if undefined
+                const responseB = jobResponses[b.id] || 'no response'; // default to 'no response' if undefined
                 return (responseB === 'no response' ? 1 : 0) - (responseA === 'no response' ? 1 : 0);
+
             case 'delete':
                 return (jobResponses[b.id] === 'delete' ? 1 : 0) - (jobResponses[a.id] === 'delete' ? 1 : 0);
+            case 'olderThanSevenDays':
+                // Assuming 'dateapplied' holds the application date
+                const aDateDiff = new Date().getTime() - new Date(a.dateapplied).getTime();
+                const bDateDiff = new Date().getTime() - new Date(b.dateapplied).getTime();
+                const aOlderThan7Days = aDateDiff > 7 * 24 * 60 * 60 * 1000 ? 1 : 0;
+                const bOlderThan7Days = bDateDiff > 7 * 24 * 60 * 60 * 1000 ? 1 : 0;
+                return bOlderThan7Days - aOlderThan7Days;
+
+
             case 'update':
-                return (jobResponses[b.id] === 'update' ? 1 : 0) - (jobResponses[a.id] === 'update' ? 1 : 0);
+            return (jobResponses[b.id] === 'update' ? 1 : 0) - (jobResponses[a.id] === 'update' ? 1 : 0);
             default:
                 return 0;
         }
     });
+
+
 
     const [isMobile, setIsMobile] = useState(window.matchMedia(deviceJobViewAll.mobile).matches);
     const [isLaptop, setIsLaptop] = useState(window.matchMedia(deviceJobViewAll.tablet).matches);
@@ -201,54 +396,33 @@ export const JobViewAll = () => {
         };
     }, []);
 
-    const onButtonClick = async (response: SelectValue, jobId: string) => {
-        const targetJob = jobs.find((job) => job.id === Number(jobId));
-        if (!targetJob) return;
-        if (response === 'accepted') {
-            navigate(`/interviewsecured/${jobId}`);
-            console.log('Preparing for interview');
-        } else if (response === 'update') {
-            navigate(`/updatejob/${jobId}`);
-        } else if (response === 'delete') {
-            axios
-                .delete(`http://localhost:8080/api/jobs/${jobId}`)
-                .then((res) => {
-                    console.log('Job deleted successfully:', res.data);
-                    window.location.reload();
-                })
-                .catch((err) => {
-                    console.error('Error deleting job:', err);
-                });
-        } else if (response === 'declined') {
-            console.log('Handling declined job application');
-            targetJob.companyrejected = true;
-            targetJob.companyresponded = false;
-            setJobDeclined(true);
-            setJobResponses((prev) => ({
-                ...prev,
-                [jobId]: 'declined',
-            }));
-            await updateJobOnServer(jobId, {
-                companyrejected: true,
-                companyresponded: false,
-            });
-        } else {
-            console.log('Awaiting response from company');
-        }
+    const handleDateSortAsc = () => {
+        setSortOrder('date-asc');
     };
 
-    const valueToResponse = (value: number): SelectValue => {
-        switch (value) {
-            case 1:
-                return 'accepted';
-            case 2:
-                return 'no response';
-            case 3:
-                return 'declined';
-            default:
-                return 'no response'; // Set a default value if needed
-        }
+    const handleDateSortDesc = () => {
+        setSortOrder('date-desc');
     };
+
+    const handleContactNameSortAsc = () => {
+        setSortOrder('contact-a-z');
+    };
+
+    const handleContactNameSortDesc = () => {
+        setSortOrder('contact-z-a');
+    };
+
+    const handleCompanyNameSortAsc = () => {
+        setSortOrder('company-a-z');
+    };
+
+    const handleCompanyNameSortDesc = () => {
+        setSortOrder('company-z-a');
+    };
+
+
+
+
 
 
 
@@ -257,7 +431,7 @@ export const JobViewAll = () => {
             {isMobile ? (
             <div>
                 <SelectDiv>
-                    <SimpleSelect value={sortOrder} onChange={(e: { target: { value: any; }; }) => handleSelectChange(e.target.value as SelectValue)}>
+                    <SimpleSelect value={sortOrder} onChange={(e: { target: { value: any; }; }) => setSortOrder(e.target.value as SelectValue)}>
                         <option value="date-asc">Date Asc</option>
                         <option value="date-desc">Date Dsc</option>
                         <option value="company-a-z">Company Asc</option>
@@ -388,16 +562,15 @@ export const JobViewAll = () => {
 
                                     <Select
                                         style={{ width: '140px', height: '25px' }}
-                                        value={selectValue}
-                                        onChange={(e) => handleSelectChange(e.target.value as SelectValue)}
+                                        value={selectValue}onChange={e => setSortOrder(e.target.value as "no response" | "accepted" | "olderThanSevenDays")}
+
                                         renderValue={(value) => value ? value : 'Select'}
                                     >
-                                        <MenuItem value="accepted">Response: Accepted</MenuItem>
-                                        <MenuItem value="declined">Response: Declined</MenuItem>
-                                        <MenuItem value="no response">Response: No Response</MenuItem>
-                                        <MenuItem value="delete">Response: Delete</MenuItem>
-                                        <MenuItem value="update">Response: Update</MenuItem>
+                                        <MenuItem value="accepted">Scedule Interview</MenuItem>
+                                        <MenuItem value="no response">No Response</MenuItem>
+                                        <MenuItem value="olderThanSevenDays">Older Than 7 Days</MenuItem>
                                     </Select>
+
 
 
                                 </TableCell>
@@ -406,8 +579,16 @@ export const JobViewAll = () => {
                         </StyledTableHead>
                         <TableBody>
                             {sortedAndRespondedJobs.map((job, index) => (
-                                <StyledTableRow key={job.id}>
-                                    <TableCell>{new Date(job.dateapplied).toISOString().split('T')[0]}</TableCell>
+                                <StyledTableRow
+                                    key={job.id}
+                                    response={jobResponses[job.id] || 'no response'}
+                                    companyRejected={job.companyrejected}
+                                    companyResponded={job.companyresponded}
+                                    meetingLink={job.meetingLink as string} // Explicit type assertion
+                                    isOlderThanSevenDays={(new Date().getTime() - new Date(job.dateapplied).getTime()) > SEVEN_DAYS_MS}
+                                >
+
+                                <TableCell>{new Date(job.dateapplied).toISOString().split('T')[0]}</TableCell>
                                     <StyledTableCell>{job.companyname}</StyledTableCell>
                                     <TableCell>
                                         <TextButton onClick={() => openDescriptionModal(job.description)}>Click to View</TextButton>
@@ -416,11 +597,11 @@ export const JobViewAll = () => {
                                     <TableCell><a href={job.joblink} target="_blank" rel="noopener noreferrer">LINK</a></TableCell>
                                     <TableCell><a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">LINK</a></TableCell>
                                     <TableCell>
-                                        <select value={jobResponses[job.id] || 'no response'} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleResponseChange(e, String(job.id))}>
-                                            <option value="accepted">Accepted</option>
-                                            <option value="declined">Declined</option>
-                                            <option value="no response">No Response</option>
-                                        </select>
+                                        {/*<select value={jobResponses[job.id] || 'no response'} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleResponseChange(e, String(job.id))}>*/}
+                                        {/*    <option value="accepted">Scedule Interview</option>*/}
+                                        {/*    <option value="declined">Declined</option>*/}
+                                        {/*    <option value="no response">No Response</option>*/}
+                                        {/*</select>*/}
 
                                         {/*<Slider*/}
                                         {/*    aria-label="Temperature"*/}
@@ -462,6 +643,14 @@ export const JobViewAll = () => {
                                     <TableCell>
                                         <div>
 
+                                            <FontAwesomeIcon
+                                                className="custom-icon hidden-icons scedule-icon custom-icon-lg"
+
+                                                icon={faCalendar}
+                                                style={{ cursor: 'pointer' }}
+                                                onClick={() => onButtonClick('accepted', String(job.id))}
+
+                                            />
 
                                             <FontAwesomeIcon
                                                 icon={faTrash}
@@ -476,6 +665,17 @@ export const JobViewAll = () => {
                                                 style={{ cursor: 'pointer', marginTop: '15px' }}
                                                 onClick={() => onButtonClick('update', String(job.id))}
                                             />
+
+                                            <FontAwesomeIcon
+                                                icon={faBan}
+                                                className="custom-icon hidden-icons no-response-icon"
+                                                style={{ cursor: 'pointer', marginTop: '15px' }}
+                                                onClick={() => onButtonClick('declined', String(job.id))}
+                                            />
+
+
+
+
 
 
 
@@ -575,51 +775,8 @@ export const JobViewAll = () => {
 //
 // `;
 
-const StyledTableRow = styled.tr`
-  position: relative;
 
-  .hidden-icons {
-    display: none;
-    position: absolute;
-    right: 50px;
-  }
 
-  .delete-icon {
-    top: 3px;
-  }
-
-  .edit-icon {
-    top: 18px;
-  }
-
-  .icon-container {
-    display: inline-block;
-    padding-right: 30px;
-    margin-bottom: 10px;
-  }
-
-  &:hover {
-    .hidden-icons {
-      display: block;
-    }
-    background-color: lightgreen;
-
-    /* Use min-height to ensure the row height increases */
-    min-height: 70px; /* Adjust as needed */
-  }
-
-  .custom-icon {
-    font-size: 20px;
-  }
-
-  .custom-icon-lg {
-    font-size: 24px;
-  }
-
-  .custom-icon-sm {
-    font-size: 16px;
-  }
-`;
 
 
 

@@ -33,6 +33,8 @@ export const useSortAndSelect = (initialSortOrder: SortOrder = 'select', initial
         setSelectValue(value);
     };
 
+
+
     const handleDateSortAsc = () => setSortOrder('date-asc');
     const handleDateSortDesc = () => setSortOrder('date-desc');
     const handleContactNameSortAsc = () => setSortOrder('contact-a-z');

@@ -26,5 +26,6 @@ export interface Job {
     dateapplied: Date;
     companyresponded: boolean;
     companyrejected: boolean;
+    jobsoftdelete: boolean;
     interviews: Interview[];
 }

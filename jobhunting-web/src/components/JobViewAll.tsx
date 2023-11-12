@@ -16,7 +16,7 @@ import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 
 
 export const JobViewAll = () => {
-    const { jobs, updateJobRejected, meetingLink} = useContext(JobsContext);
+    const { jobs, updateJobSoftDelete, updateJobRejected, meetingLink} = useContext(JobsContext);
     const [filter] = useState('');
     const [onlyShowResponded] = useState(false);
 
@@ -141,6 +141,11 @@ export const JobViewAll = () => {
     bottom: 12px;
   }
 
+  .trash-icon {
+    margin-left: 65px;
+    bottom: 12px;
+  }
+
   .icon-container {
     display: inline-block;
     padding-right: 30px;
@@ -204,21 +209,12 @@ export const JobViewAll = () => {
         }
 
         else if (response === 'delete') {
-            targetJob.companyresponded = false;
             // targetJob.companyrejected = true;
-            setJobDeclined(true);
-            axios.delete(`http://localhost:8080/api/jobs/${jobId}`)
-                .then(res => {
-                    console.log('Job deleted successfully:', res.data);
+            // targetJob.jobsoftdelete = true;
+// Assuming jobId is the ID of the job you want to soft delete
+            updateJobSoftDelete(Number(jobId), true);
+            console.log("the state of soft delete is " + targetJob.jobsoftdelete)
 
-                    window.location.reload();
-
-                    // Handle success (e.g., update UI, show a success message, etc.)
-                })
-                .catch(err => {
-                    console.error('Error deleting job:', err);
-                    // Handle error (e.g., show an error message)
-                });
         }
 
 
@@ -686,6 +682,13 @@ export const JobViewAll = () => {
                                                 className="custom-icon hidden-icons edit-icon"
                                                 style={{ cursor: 'pointer', marginTop: '15px' }}
                                                 onClick={() => onButtonClick('update', String(job.id))}
+                                            />
+
+                                            <FontAwesomeIcon
+                                                icon={faTrash}
+                                                className="custom-icon hidden-icons trash-icon"
+                                                style={{ cursor: 'pointer', marginTop: '15px' }}
+                                                onClick={() => onButtonClick('delete', String(job.id))}
                                             />
 
 

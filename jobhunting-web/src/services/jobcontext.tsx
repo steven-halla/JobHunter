@@ -23,6 +23,9 @@ interface JobsContextState {
     interviewdate: Date | null;
     setInterviewDate: React.Dispatch<React.SetStateAction<Date | null>>;
 
+    updateJobSoftDelete: (id: number, softDelete: boolean) => void;
+
+
 
 }
 
@@ -130,6 +133,32 @@ export const JobsContextProvider: FC<JobsContextProviderProps> = ({children}) =>
         }
     };
 
+    const updateJobSoftDelete = async (id: number, softDelete: boolean) => {
+        // Update local state
+        setJobs(prevJobs => {
+            const updatedJobs = prevJobs.map(job =>
+                job.id === id ? { ...job, jobsoftdelete: softDelete } : job
+            );
+            return updatedJobs;
+        });
+
+        // Update job if currently selected
+        if (job && job.id === id) {
+            setJob({ ...job, jobsoftdelete: softDelete });
+        }
+
+        // Send the update to the server
+        try {
+            const response = await axios.patch(`http://localhost:8080/api/jobs/update/${id}`, { jobsoftdelete: softDelete });
+            if (response.data) {
+                console.log("Response from PATCH request for jobsoftdelete: ", response.data);
+            }
+        } catch (error) {
+            console.error('Failed to update job soft delete status:', error);
+        }
+    };
+
+
 
     const updateJobInterview = async (id: number, newInterviews: Interview[]) => {
         setJobs(prevJobs => {
@@ -165,6 +194,8 @@ export const JobsContextProvider: FC<JobsContextProviderProps> = ({children}) =>
                 updateJobResponded,
                 updateJobRejected,  // Added this line
                 updateJobInterview,
+                updateJobSoftDelete, // Add this line for soft delete functionality
+
                 dateApplied, setDateApplied,
                 meetingLink, setMeetingLink,  // Fixed the name to match the interface
                 interviewnotes, setInterviewNotes,

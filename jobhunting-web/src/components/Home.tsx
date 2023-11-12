@@ -14,6 +14,7 @@ import {InputLabel, TextFieldProps} from '@mui/material';
 import TextField from '@mui/material/TextField';
 import {useParams} from "react-router-dom";
 import {Job} from "../models/Job";
+import {DateMutation} from "../common/DateMutation";
 
 export const Home: React.FC = () => {
 
@@ -306,9 +307,10 @@ export const Home: React.FC = () => {
 
 
 
-            <JobCardDiv>
+            <JobCardDiv style={Array.isArray(searchResult) && searchResult.length > 0 ? jobCardStyle : {}}>
                 {Array.isArray(searchResult) && searchResult.length > 0 && (
                     <div>
+
                         <h3>Matches Found:</h3>
                         {searchResult.map((job: Job, index: number) => (
                             <div key={index}>
@@ -316,7 +318,7 @@ export const Home: React.FC = () => {
                                 <p>Company Name: {job.companyname}</p>
                                 <p>Primary Contact: {job.primarycontact}</p>
                                 <p>Job Link: {job.joblink}</p>
-                                {/*<p>Date Applied: {job.dateapplied.toISOString().split('T')[0]}</p>*/}
+                                {DateMutation(typeof job.dateapplied === 'string' ? job.dateapplied : job.dateapplied.toISOString())}
                                 <p>Company Responded: {job.companyresponded ? 'Yes' : 'No'}</p>
                                 <p>Company Rejected: {job.companyrejected ? 'Yes' : 'No'}</p>
                             </div>
@@ -334,13 +336,26 @@ export const Home: React.FC = () => {
     );
 };
 
+const jobCardStyle = {
+    backgroundColor: 'grey',
+    boxShadow: '-4px 0 8px -2px rgba(0, 0, 0, 0.2), 4px 0 8px -2px rgba(0, 0, 0, 0.2), 0 4px 8px -2px rgba(0, 0, 0, 0.2)'
+};
+
+
 const JobCardDiv = styled.div`
-    height: 50%;
-    width: 20%;
+  height: 50%;
+  width: 20%;
+  display: flex;
   position: absolute;
   margin-left: 75%;
   margin-top: 15%;
+  border-radius: 10px; /* Adjust the value as needed for desired roundness */
+  justify-content: center;
+  align-items: center;
+
+
 `;
+
 
 const ButtonDiv = styled.div`
   justify-content: center;

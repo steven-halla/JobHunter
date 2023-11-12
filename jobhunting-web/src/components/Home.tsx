@@ -47,6 +47,65 @@ export const Home: React.FC = () => {
         }
     });
 
+    const [searchResult, setSearchResult] = useState<string | null>(null);
+    const handleSearch = async (companyName: string) => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/jobs`, {
+                headers: {
+                    'Authorization': `Bearer YOUR_AUTH_TOKEN`, // Replace with your actual token if needed
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            // Define the type for the company
+            interface Company {
+                companyname: string;
+
+                // ... include other properties if needed
+            }
+
+            const companies: Company[] = await response.json();
+            console.log("API Response: ", companies); // Debugging - to understand the structure of the response
+
+            // Logging the typed company name
+            console.log("Typed Company Name: ", companyName);
+
+            // Check if any company name exactly matches the typed companyName
+            const isMatched = companies.some((c: Company) => c.companyname === companyName);
+
+            // Logging the result of the search
+            if (isMatched) {
+                console.log("Matching company found: ", companyName);
+                setSearchResult(companyName);
+            } else {
+                console.log("No matching company found");
+                setSearchResult(null);
+            }
+        } catch (error) {
+            console.error("Error during search: ", error);
+        }
+    };
+
+
+
+
+
+
+
+
+
+    useEffect(() => {
+        if (companyname) {
+            handleSearch(companyname);
+        } else {
+            setSearchResult(null);
+        }
+    }, [companyname]);
+
+
     //need  to build out a feature so that if copy /paste/ typing a company
     // it shows up if it exist in the databasse
 
@@ -227,12 +286,32 @@ export const Home: React.FC = () => {
                 </ButtonDiv>
 
             </CustomFieldForm>
+
             </RoundColorWrapperDiv>
+
+
+
+            <JobCardDiv>
+                {searchResult && (
+                    <div>
+                        <h3>Match Found:</h3>
+                        <p>your result: {searchResult}</p>
+                    </div>
+                )}
+            </JobCardDiv>
 
             <FooterDiv/>
         </HomeWrapperDiv>
     );
 };
+
+const JobCardDiv = styled.div`
+    height: 50%;
+    width: 20%;
+  position: absolute;
+  margin-left: 75%;
+  margin-top: 15%;
+`;
 
 const ButtonDiv = styled.div`
   justify-content: center;

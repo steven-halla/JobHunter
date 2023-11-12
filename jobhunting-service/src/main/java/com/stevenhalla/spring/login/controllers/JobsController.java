@@ -21,7 +21,8 @@ public class JobsController {
 
     @GetMapping
     public List<Jobs> getAllJobs() {
-        return jobsRepository.findAll();
+        // Replace findAll() with findAllActiveJobs()
+        return jobsRepository.findAllActiveJobs();
     }
 
     @GetMapping("/{id}")

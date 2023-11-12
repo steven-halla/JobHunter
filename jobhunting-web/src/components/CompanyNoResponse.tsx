@@ -98,38 +98,17 @@ export const CompanyNoResponse = () => {
 
     return (
         <CompanyNoResponseDiv>
-            <input
-                type="text"
-                placeholder="Search by company name or contact..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-            />
 
-            {sortedAndRespondedJobs.map((job) => (
-                <CardDiv key={job.id}>
-                    <ColumnDiv>
-                        <DataItemDiv>{job.companyname}</DataItemDiv>
-                        <DataItemDiv>{new Date(job.dateapplied).toISOString().split('T')[0]}</DataItemDiv>
-                        <DataItemDiv>
-                            <a href={job.joblink} target="_blank" rel="noreferrer">Link</a>
-                        </DataItemDiv>
-                        <DataItemDiv>{job.primarycontact}</DataItemDiv>
-                        <DataItemDiv>
-                            <input
-                                type="checkbox"
-                                checked={job.companyresponded}
-                                onChange={(event) => handleCheckboxChange(job.id, event.target.checked)}
-                            />
-                        </DataItemDiv>
-                        <DataItemDiv>
-                            <input
-                                type="checkbox"
-                                checked={job.companyrejected}
-                            />
-                        </DataItemDiv>
-                    </ColumnDiv>
-                </CardDiv>
-            ))}
+            <SearchDiv>
+                <SearchBar
+                    type="text"
+                    placeholder="Search by company name or contact..."
+                    value={searchTerm}
+                    onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setSearchTerm(e.target.value)}
+                />
+
+            </SearchDiv>
+
 
             <SelectDiv>
                 <SimpleSelect value={selectValue} onChange={(e: { target: { value: string; }; }) => handleSelectChange(e.target.value as SelectValue)}>
@@ -141,10 +120,56 @@ export const CompanyNoResponse = () => {
                     <option value="contact-z-a">Contact Desc</option>
                 </SimpleSelect>
             </SelectDiv>
+
+            {sortedAndRespondedJobs.map((job) => (
+                <CardDiv key={job.id}>
+                    <ColumnDiv>
+                        <DataItemDiv>{job.companyname}</DataItemDiv>
+                        <DataItemDiv>{new Date(job.dateapplied).toISOString().split('T')[0]}</DataItemDiv>
+                        <DataItemDiv>
+                            <a href={job.joblink} target="_blank" rel="noreferrer">Link</a>
+                        </DataItemDiv>
+                        <DataItemDiv>{job.primarycontact}</DataItemDiv>
+                        <DataItemDiv>
+                            respond?
+                            <CheckBoxInput
+                                type="checkbox"
+                                checked={job.companyresponded}
+                                onChange={(event: { target: { checked: boolean; }; }) => handleCheckboxChange(job.id, event.target.checked)}
+                            />
+                        </DataItemDiv>
+                        <DataItemDiv>
+                            rejected?
+                            <CheckBoxInput
+                                type="checkbox"
+                                checked={job.companyrejected}
+                            />
+                        </DataItemDiv>
+                    </ColumnDiv>
+                </CardDiv>
+            ))}
+
+
         </CompanyNoResponseDiv>
 
     );
 };
+
+const SearchBar = styled.input`
+  width: 50%; /* Increase the percentage to make it wider */
+  padding: 10px;
+  margin-bottom: 10px; /* Space between search bar and the next element */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: block;
+  margin-left: auto; /* Centers the search bar */
+  margin-right: auto; /* Centers the search bar */
+`;
+
+const CheckBoxInput = styled.input`
+margin-left: 11%;
+`;
+
 
 
 
@@ -154,6 +179,15 @@ const SelectDiv = styled.div`
     flex-direction: column;
     align-items: center;
   justify-content: center;
+  margin-top: 1%;
+`;
+
+const SearchDiv = styled.div`
+    display: flex;
+    align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: green;
 `;
 
  const SimpleSelect = styled.select`
@@ -178,22 +212,44 @@ const CompanyNoResponseDiv = styled.div`
 
 
 
+// export const CardDiv = styled.div`
+//     display: flex;
+//     flex-direction: row;
+//     border: 1px solid #ccc;
+//     margin: 10px 0;
+// `;
+
 export const CardDiv = styled.div`
-    display: flex;
-    flex-direction: row;
-    border: 1px solid #ccc;
-    margin: 10px 0;
+  display: flex;
+  justify-content: center; /* Centers ColumnDiv horizontally */
+  align-items: center; /* Centers ColumnDiv vertically */
+  height: 50%; /* Sets the height of the card to 50% of its container */
+  width: 100%; /* Full width */
+  margin: 0 auto; /* Centers the card itself horizontally if its container is wider */
+  background-color: blueviolet; /* Sets background color to red */
+  padding: 10px; /* Adds some spacing inside the card */
+  box-sizing: border-box; /* Ensures padding is included in width/height calculations */
 `;
 
+
 export const ColumnDiv = styled.div`
-  flex: 1;
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  justify-content: center; /* Center children vertically */
   padding: 10px;
-  margin-left: 6%;
   white-space: nowrap;
   word-break: break-all;
-  max-width: 100%; 
-  overflow: hidden; 
+  width: 40%;
+  overflow: hidden;
+background-color: rgba(165,169,127,0.86);
+  align-items: center;
+
+  box-shadow:
+          -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */
+          4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
+          0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
 `;
+
 
 
 export const DataItemDiv = styled.div`

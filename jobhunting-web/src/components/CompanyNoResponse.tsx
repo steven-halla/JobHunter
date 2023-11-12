@@ -36,8 +36,9 @@ export const CompanyNoResponse = () => {
     const sortedAndRespondedJobs = jobs
         .filter(job =>
             !job.companyresponded &&
-            (searchTerm.length < 3 || job.companyname.toLowerCase().includes(searchTerm.toLowerCase().trim()))
+            (searchTerm.length < 3 || job.companyname.toLowerCase().includes(searchTerm.toLowerCase().trim()) || job.primarycontact.toLowerCase().includes(searchTerm.toLowerCase().trim()))
         )
+
 
         .sort((a, b) => {
             switch (sortOrder) {
@@ -98,7 +99,7 @@ export const CompanyNoResponse = () => {
         <CompanyNoResponseDiv>
             <input
                 type="text"
-                placeholder="Search by company name..."
+                placeholder="Search by company name or contact..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
             />

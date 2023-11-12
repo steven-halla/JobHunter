@@ -60,6 +60,7 @@ export const Home: React.FC = () => {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
+
             // Define the type for the company
             interface Company {
                 companyname: string;

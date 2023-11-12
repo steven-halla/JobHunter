@@ -1,6 +1,7 @@
 package com.stevenhalla.spring.login.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -74,6 +75,11 @@ public class Jobs {
     @NotNull
     @Column(name = "companyrejected")
     private Boolean companyrejected;
+
+    @NotNull
+    @Column(name = "jobsoftdelete")
+    @JsonProperty("jobsoftdelete")  // This line specifies the JSON field name
+    private Boolean jobsoftdelete;
 
 
 
@@ -208,6 +214,14 @@ public class Jobs {
 
     public void setCompanyresponded(Boolean companyresponded) {
         this.companyresponded = companyresponded;
+    }
+
+    @JsonProperty("jobsoftdelete")
+    public Boolean getJobSoftDelete() {
+        return jobsoftdelete;
+    }
+    public void setJobSoftDelete(Boolean jobsoftdelete) {
+        this.jobsoftdelete = jobsoftdelete;
     }
 
     public Boolean getCompanyrejected() {

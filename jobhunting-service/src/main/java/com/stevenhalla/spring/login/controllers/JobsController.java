@@ -52,6 +52,7 @@ public class JobsController {
             if (jobUpdate.getDateapplied() != null) job.setDateapplied(jobUpdate.getDateapplied());
             if (jobUpdate.getCompanyresponded() != null) job.setCompanyresponded(jobUpdate.getCompanyresponded());
             if (jobUpdate.getCompanyrejected() != null) job.setCompanyrejected(jobUpdate.getCompanyrejected());
+            if (jobUpdate.getJobSoftDelete() != null) job.setJobSoftDelete(jobUpdate.getJobSoftDelete());
             if (jobUpdate.getInterviewnotes() != null) job.setInterviewnotes(jobUpdate.getInterviewnotes());
             if (jobUpdate.getInterviewernames() != null) job.setInterviewernames(jobUpdate.getInterviewernames());
             if (jobUpdate.getInterviewdate() != null) job.setInterviewdate(jobUpdate.getInterviewdate());

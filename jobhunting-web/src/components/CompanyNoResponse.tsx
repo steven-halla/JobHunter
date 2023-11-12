@@ -95,6 +95,7 @@ export const CompanyNoResponse = () => {
         };
     }, []);
 
+
     return (
         <CompanyNoResponseDiv>
             <input
@@ -104,95 +105,22 @@ export const CompanyNoResponse = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
             />
 
-            {isLaptop && (
-                <>
-                    {/* Header for laptop/desktop */}
-                    <HeaderDiv>
-                        <CompanyNameDiv>Company
-                            <ButtonHolderDiv>
-                                <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleCompanyNameSortAsc} />
-                                <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleCompanyNameSortDesc} />
-                            </ButtonHolderDiv>
-                        </CompanyNameDiv>
-                        <DateAppliedDiv>Date
-                            <ButtonHolderDiv>
-                                <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleDateSortAsc} />
-                                <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleDateSortDesc} />
-                            </ButtonHolderDiv>
-                        </DateAppliedDiv>
-                        <JobPosterDiv>Contact
-                            <ButtonHolderDiv>
-                                <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleContactNameSortAsc} />
-                                <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleContactNameSortDesc} />
-                            </ButtonHolderDiv>
-                        </JobPosterDiv>
-                        <JobLinkDiv>Job Link</JobLinkDiv>
-                        <CompnanyRespondedDiv>Responded</CompnanyRespondedDiv>
-                        <CompanyNameDiv>
-                            Rejected?
-                            <ButtonHolderDiv>
-                                <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleRejectedSortYes} />
-                                <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleRejectedSortNo} />
-                            </ButtonHolderDiv>
-                        </CompanyNameDiv>
-                    </HeaderDiv>
-
-                    {sortedAndRespondedJobs.map((job) => (
-                        <DataDiv key={job.id}>
-                            <JobInfoDiv>{job.companyname}</JobInfoDiv>
-                            <JobInfoDiv>{new Date(job.dateapplied).toISOString().split('T')[0]}</JobInfoDiv>
-                            <JobInfoDiv>{job.jobposter}</JobInfoDiv>
-                            <JobInfoDiv>
-                                <a href={job.joblink} target="_blank" rel="noreferrer">Link</a>
-                            </JobInfoDiv>
-                            <JobInfoDiv>
-                                <input
-                                    type="checkbox"
-                                    checked={job.companyresponded}
-                                    onChange={(event) => handleCheckboxChange(job.id, event.target.checked)}
-                                />
-                            </JobInfoDiv>
-                            <JobInfoDiv>
-                                {job.companyrejected}
-                                <input
-                                    type="checkbox"
-                                    checked={job.companyrejected}
-                                />
-                            </JobInfoDiv>
-                        </DataDiv>
-                    ))}
-                </>
-            )}
-<SelectDiv>
-    <SimpleSelect value={selectValue} onChange={(e: { target: { value: string; }; }) => handleSelectChange(e.target.value as SelectValue)}>
-
-    <option value="date-asc">Date Asc</option>
-        <option value="date-desc">Date Dsc</option>
-        <option value="company-a-z">Company Asc</option>
-        <option value="company-z-a">Company Dsc</option>
-        <option value="contact-a-z">Contact Asc</option>
-        <option value="contact-z-a">Contact Dsc</option>
-    </SimpleSelect>
-</SelectDiv>
-
-            {isMobile && sortedAndRespondedJobs.map((job) => (
-
+            {sortedAndRespondedJobs.map((job) => (
                 <CardDiv key={job.id}>
                     <ColumnDiv>
                         <HeaderItemDiv>Company</HeaderItemDiv>
-                        <HeaderItemDiv>Date</HeaderItemDiv>
-                        <HeaderItemDiv>Contact</HeaderItemDiv>
-                        <HeaderItemDiv>Job Link</HeaderItemDiv>
-                        <HeaderItemDiv>Responded</HeaderItemDiv>
-                        <HeaderItemDiv>Rejected?</HeaderItemDiv>
-                    </ColumnDiv>
-                    <ColumnDiv>
                         <DataItemDiv>{job.companyname}</DataItemDiv>
+                        <HeaderItemDiv>Date Applied</HeaderItemDiv>
                         <DataItemDiv>{new Date(job.dateapplied).toISOString().split('T')[0]}</DataItemDiv>
-                        <DataItemDiv>{job.jobposter}</DataItemDiv>
+                        <HeaderItemDiv>Job Link</HeaderItemDiv>
                         <DataItemDiv>
                             <a href={job.joblink} target="_blank" rel="noreferrer">Link</a>
                         </DataItemDiv>
+                    </ColumnDiv>
+                    <ColumnDiv>
+                        <HeaderItemDiv>Contact</HeaderItemDiv>
+                        <DataItemDiv>{job.primarycontact}</DataItemDiv>
+                        <HeaderItemDiv>Responded</HeaderItemDiv>
                         <DataItemDiv>
                             <input
                                 type="checkbox"
@@ -200,8 +128,8 @@ export const CompanyNoResponse = () => {
                                 onChange={(event) => handleCheckboxChange(job.id, event.target.checked)}
                             />
                         </DataItemDiv>
+                        <HeaderItemDiv>Rejected?</HeaderItemDiv>
                         <DataItemDiv>
-                            {job.companyrejected}
                             <input
                                 type="checkbox"
                                 checked={job.companyrejected}
@@ -210,10 +138,24 @@ export const CompanyNoResponse = () => {
                     </ColumnDiv>
                 </CardDiv>
             ))}
-        </CompanyNoResponseDiv>
-    );
 
+            <SelectDiv>
+                <SimpleSelect value={selectValue} onChange={(e: { target: { value: string; }; }) => handleSelectChange(e.target.value as SelectValue)}>
+                    <option value="date-asc">Date Asc</option>
+                    <option value="date-desc">Date Desc</option>
+                    <option value="company-a-z">Company Asc</option>
+                    <option value="company-z-a">Company Desc</option>
+                    <option value="contact-a-z">Contact Asc</option>
+                    <option value="contact-z-a">Contact Desc</option>
+                </SimpleSelect>
+            </SelectDiv>
+        </CompanyNoResponseDiv>
+
+    );
 };
+
+
+
 
 const SelectDiv = styled.div`
     display: flex;

@@ -14,6 +14,7 @@ import { SelectValue } from './useSortAndSelect'; // Replace with the actual pat
 export const CompanyNoResponse = () => {
     const { jobs, updateJobResponded, dateApplied } = useContext(JobsContext);
     const [searchTerm, setSearchTerm] = useState('');
+    const [sortingCriteria, setSortingCriteria] = useState('date-asc'); // default sorting criteria
 
     const [isMobile, setIsMobile] = useState(window.matchMedia(device.mobile).matches);
     const [isLaptop, setIsLaptop] = useState(window.matchMedia(device.laptop).matches);
@@ -31,6 +32,14 @@ export const CompanyNoResponse = () => {
         handleSelectChange,
     } = useSortAndSelect();
 
+    const handleSortingChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
+        setSortingCriteria(e.target.value);
+    };
+
+
+
+
+
 
     //this is for filter
     const sortedAndRespondedJobs = jobs
@@ -38,10 +47,8 @@ export const CompanyNoResponse = () => {
             !job.companyresponded &&
             (searchTerm.length < 3 || job.companyname.toLowerCase().includes(searchTerm.toLowerCase().trim()) || job.primarycontact.toLowerCase().includes(searchTerm.toLowerCase().trim()))
         )
-
-
         .sort((a, b) => {
-            switch (sortOrder) {
+            switch (sortingCriteria) {
                 case 'company-a-z':
                     return a.companyname.toLowerCase().localeCompare(b.companyname.toLowerCase());
                 case 'company-z-a':
@@ -55,9 +62,9 @@ export const CompanyNoResponse = () => {
                 case 'date-desc':
                     return new Date(b.dateapplied).getTime() - new Date(a.dateapplied).getTime();
                 case 'rejected-yes':
-                    return (b.companyrejected ? 1 : 0) - (a.companyrejected ? 1 : 0); // Moves rejected jobs to the top
+                    return (b.companyrejected ? 1 : 0) - (a.companyrejected ? 1 : 0);
                 case 'rejected-no':
-                    return (a.companyrejected ? 1 : 0) - (b.companyrejected ? 1 : 0); // Moves non-rejected jobs to the top
+                    return (a.companyrejected ? 1 : 0) - (b.companyrejected ? 1 : 0);
                 default:
                     return 0;
             }
@@ -111,14 +118,14 @@ export const CompanyNoResponse = () => {
 
 
             <SelectDiv>
-                <SimpleSelect value={selectValue} onChange={(e: { target: { value: string; }; }) => handleSelectChange(e.target.value as SelectValue)}>
-                    <option value="date-asc">Date Asc</option>
-                    <option value="date-desc">Date Desc</option>
-                    <option value="company-a-z">Company Asc</option>
-                    <option value="company-z-a">Company Desc</option>
-                    <option value="contact-a-z">Contact Asc</option>
-                    <option value="contact-z-a">Contact Desc</option>
+                <SimpleSelect value={sortingCriteria} onChange={handleSortingChange}>
+                    <option value="date-asc">Date Ascending</option>
+                    <option value="date-desc">Date Descending</option>
+                    <option value="company-a-z">Company A-Z</option>
+                    <option value="company-z-a">Company Z-A</option>
+                    {/* other options */}
                 </SimpleSelect>
+
             </SelectDiv>
 
             {sortedAndRespondedJobs.map((job) => (

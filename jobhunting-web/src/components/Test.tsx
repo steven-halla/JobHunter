@@ -1,218 +1,344 @@
 import React, {useContext, useEffect, useState} from "react";
-import Box from "@mui/material/Box";
-import {Button, IconButton, Snackbar, TextField} from "@mui/material";
-import {useParams} from "react-router-dom";
 import {JobsContext} from "../services/jobcontext";
-import {Job} from "../models/Job";
-import axios from "axios";
-import CloseIcon from '@mui/icons-material/Close';
-import styled from "styled-components";
-import DeleteIcon from '@mui/icons-material/Delete';
-import SendIcon from '@mui/icons-material/Send';
-import Stack from '@mui/material/Stack';
+import styled from 'styled-components';
+import {device, deviceCompanyNoResponse} from "../common/ScreenSizes";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCaretDown, faCaretUp} from "@fortawesome/free-solid-svg-icons";
+import { useSortAndSelect } from './useSortAndSelect'; // Make sure to import from the correct path
+import { SelectValue } from './useSortAndSelect'; // Replace with the actual path
 
-//need to make snackbar not stay for so long
+// shrink down vertically,
+//more shade on south partk of box
+//add more space between cards, look at linkedin toom there should be space from all sides
 
 export const Test = () => {
+    const { jobs, updateJobResponded, dateApplied } = useContext(JobsContext);
 
-    const { jobId } = useParams<{ jobId: string }>();  // Extracting jobId from URL params
-    const { jobs, setJobs, updateJobRejected, updateJobResponded } = useContext(JobsContext);
-    const [openSnackbar, setOpenSnackbar] = useState(false);
-    const currentJob = jobs.find(job => job.id === Number(jobId));
-    const [formData, setFormData] = useState<Job>(currentJob || {} as Job);
+    const [isMobile, setIsMobile] = useState(window.matchMedia(device.mobile).matches);
+    const [isLaptop, setIsLaptop] = useState(window.matchMedia(device.laptop).matches);
 
-    const handleCloseSnackbar = (event: React.SyntheticEvent | Event, reason?: string) => {
-        if (reason === 'clickaway') {
-            return;
+    const {
+        sortOrder,
+        setSortOrder, // Ensure you have this in your destructured object
+        selectValue,
+        handleDateSortAsc,
+        handleDateSortDesc,
+        handleContactNameSortAsc,
+        handleContactNameSortDesc,
+        handleCompanyNameSortAsc,
+        handleCompanyNameSortDesc,
+        handleSelectChange,
+    } = useSortAndSelect();
+
+
+    //this is for filter
+    const sortedAndRespondedJobs = jobs
+        .filter(job => !job.companyresponded) // This filters out jobs where companyresponded is true
+        .sort((a, b) => {
+            switch (sortOrder) {
+                case 'company-a-z':
+                    return a.companyname.toLowerCase().localeCompare(b.companyname.toLowerCase());
+                case 'company-z-a':
+                    return b.companyname.toLowerCase().localeCompare(a.companyname.toLowerCase());
+                case 'contact-a-z':
+                    return a.primarycontact.toLowerCase().localeCompare(b.primarycontact.toLowerCase());
+                case 'contact-z-a':
+                    return b.primarycontact.toLowerCase().localeCompare(a.primarycontact.toLowerCase());
+                case 'date-asc':
+                    return new Date(a.dateapplied).getTime() - new Date(b.dateapplied).getTime();
+                case 'date-desc':
+                    return new Date(b.dateapplied).getTime() - new Date(a.dateapplied).getTime();
+                case 'rejected-yes':
+                    return (b.companyrejected ? 1 : 0) - (a.companyrejected ? 1 : 0); // Moves rejected jobs to the top
+                case 'rejected-no':
+                    return (a.companyrejected ? 1 : 0) - (b.companyrejected ? 1 : 0); // Moves non-rejected jobs to the top
+                default:
+                    return 0;
+            }
+        });
+
+    const handleRejectedSortYes = () => {
+        setSortOrder('rejected-yes');
+    };
+
+    const handleRejectedSortNo = () => {
+        setSortOrder('rejected-no');
+    };
+
+    const handleCheckboxChange = (jobId: number, checked: boolean) => {
+        if (checked) {
+            const isConfirmed = window.confirm("Confirm company responded?");
+            if (isConfirmed) {
+                updateJobResponded(jobId, true);
+            }
+        } else {
+            updateJobResponded(jobId, false);
         }
-        setOpenSnackbar(false);
     };
 
     useEffect(() => {
-        if (currentJob) {
-            setFormData(currentJob);
-        }
-    }, [currentJob]);
+        const checkScreenSize = () => {
+            setIsMobile(window.matchMedia(device.mobile).matches);
+            setIsLaptop(window.matchMedia(device.laptop).matches);
+        };
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { id, value } = e.target;
-        setFormData(prev => ({ ...prev, [id]: value }));
-    };
+        return () => {
+            window.removeEventListener('resize', checkScreenSize);
+        };
+    }, []);
 
-    const handleSubmit = async () => {
-        try {
-            const response = await axios.patch(`http://localhost:8080/api/jobs/update/${jobId}`, formData);
-            setJobs(prevJobs => prevJobs.map(job => job.id === Number(jobId) ? formData : job));
-            setOpenSnackbar(true);
-        } catch (error) {
-            console.error('Error updating job:', error);
-        }
-    };
+    return (
+        <CompanyNoResponseDiv>
+            {isLaptop && (
+                <>
+                    {/* Header for laptop/desktop */}
+                    <HeaderDiv>
+                        <CompanyNameDiv>Company
+                            <ButtonHolderDiv>
+                                <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleCompanyNameSortAsc} />
+                                <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleCompanyNameSortDesc} />
+                            </ButtonHolderDiv>
+                        </CompanyNameDiv>
+                        <DateAppliedDiv>Date
+                            <ButtonHolderDiv>
+                                <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleDateSortAsc} />
+                                <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleDateSortDesc} />
+                            </ButtonHolderDiv>
+                        </DateAppliedDiv>
+                        <JobPosterDiv>Contact
+                            <ButtonHolderDiv>
+                                <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleContactNameSortAsc} />
+                                <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleContactNameSortDesc} />
+                            </ButtonHolderDiv>
+                        </JobPosterDiv>
+                        <JobLinkDiv>Job Link</JobLinkDiv>
+                        <CompnanyRespondedDiv>Responded</CompnanyRespondedDiv>
+                        <CompanyNameDiv>
+                            Rejected?
+                            <ButtonHolderDiv>
+                                <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleRejectedSortYes} />
+                                <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleRejectedSortNo} />
+                            </ButtonHolderDiv>
+                        </CompanyNameDiv>
+                    </HeaderDiv>
 
-    const handleDelete = async () => {
-        console.log("Delting")
+                    {sortedAndRespondedJobs.map((job) => (
+                        <DataDiv key={job.id}>
+                            <JobInfoDiv>{job.companyname}</JobInfoDiv>
+                            <JobInfoDiv>{new Date(job.dateapplied).toISOString().split('T')[0]}</JobInfoDiv>
+                            <JobInfoDiv>{job.jobposter}</JobInfoDiv>
+                            <JobInfoDiv>
+                                <a href={job.joblink} target="_blank" rel="noreferrer">Link</a>
+                            </JobInfoDiv>
+                            <JobInfoDiv>
+                                <input
+                                    type="checkbox"
+                                    checked={job.companyresponded}
+                                    onChange={(event) => handleCheckboxChange(job.id, event.target.checked)}
+                                />
+                            </JobInfoDiv>
+                            <JobInfoDiv>
+                                {job.companyrejected}
+                                <input
+                                    type="checkbox"
+                                    checked={job.companyrejected}
+                                />
+                            </JobInfoDiv>
+                        </DataDiv>
+                    ))}
+                </>
+            )}
+            <SelectDiv>
+                <SimpleSelect value={selectValue} onChange={(e: { target: { value: string; }; }) => handleSelectChange(e.target.value as SelectValue)}>
 
-    };
-    // const { jobId } = useParams<{ jobId: string }>();  // Extracting jobId from URL params
-    // const { jobs, setJobs, updateJobRejected, updateJobResponded } = useContext(JobsContext);
-    // const [openSnackbar, setOpenSnackbar] = useState(false);
-    // const currentJob = jobs.find(job => job.id === Number(jobId));
-    // const [formData, setFormData] = useState<Job>(currentJob || {} as Job);
-    //
-    // const handleCloseSnackbar = (event: React.SyntheticEvent | Event, reason?: string) => {
-    //     if (reason === 'clickaway') {
-    //         return;
-    //     }
-    //     setOpenSnackbar(false);
-    // };
-    //
-    // useEffect(() => {
-    //     if (currentJob) {
-    //         setFormData(currentJob);
-    //     }
-    // }, [currentJob]);
-    //
-    // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     const { id, value } = e.target;
-    //     setFormData(prev => ({ ...prev, [id]: value }));
-    // };
-    //
-    // const handleSubmit = async () => {
-    //     try {
-    //         const response = await axios.patch(`http://localhost:8080/api/jobs/update/${jobId}`, formData);
-    //         setJobs(prevJobs => prevJobs.map(job => job.id === Number(jobId) ? formData : job));
-    //         setOpenSnackbar(true);
-    //     } catch (error) {
-    //         console.error('Error updating job:', error);
-    //     }
-    // };
-    //
-    // const handleDelete = async () => {
-    //     console.log("Delting")
+                    <option value="date-asc">Date Asc</option>
+                    <option value="date-desc">Date Dsc</option>
+                    <option value="company-a-z">Company Asc</option>
+                    <option value="company-z-a">Company Dsc</option>
+                    <option value="contact-a-z">Contact Asc</option>
+                    <option value="contact-z-a">Contact Dsc</option>
+                </SimpleSelect>
+            </SelectDiv>
 
-    // };
+            {isMobile && sortedAndRespondedJobs.map((job) => (
 
-    return(
-        <TestWrapperBox>
-            <FormBox>
-                <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}> {/* Adjusted margin */}
-                    <TextField
-                        id="companyname"
-                        label="Company name"
-                        variant="outlined"
-                        value={formData.companyname || ''}
-                        onChange={handleChange}
-                        style={{ width: '80%' }}
-                    />
-                </div>
-
-                <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}> {/* Adjusted margin */}
-                    <TextField
-                        id="description"
-                        label="Description"
-                        variant="outlined"
-                        value={formData.description || ''}
-                        onChange={handleChange}
-                        style={{ width: '80%' }}
-                    />
-                </div>
-
-                <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}> {/* Adjusted margin */}
-                    <TextField
-                        id="primarycontact"
-                        label="Primary Contact"
-                        variant="outlined"
-                        value={formData.primarycontact || ''}
-                        onChange={handleChange}
-                        style={{ width: '80%' }}
-                    />
-                </div>
-
-                <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}> {/* Adjusted margin */}
-                    <TextField
-                        id="companywebsitelink"
-                        label="Company Website Link"
-                        variant="outlined"
-                        value={formData.companywebsitelink || ''}
-                        onChange={handleChange}
-                        style={{ width: '80%' }}
-                    />
-                </div>
-
-                <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}> {/* Adjusted margin */}
-                    <TextField
-                        id="joblink"
-                        label="Job Link"
-                        variant="outlined"
-                        value={formData.joblink || ''}
-                        onChange={handleChange}
-                        style={{ width: '80%' }}
-                    />
-                </div>
-
-
-
-
-                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleSubmit}
-                    >
-                        Submit
-                    </Button>
-                </div>
-                <Snackbar
-                    style={{
-                        position: 'fixed',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)'
-                    }}
-                    open={openSnackbar}
-                    autoHideDuration={6000}
-                    onClose={handleCloseSnackbar}
-                    message="Update successful"
-                    action={
-                        <React.Fragment>
-                            <IconButton size="small" aria-label="close" color="inherit" onClick={handleCloseSnackbar}>
-                                <CloseIcon fontSize="small" />
-                            </IconButton>
-                        </React.Fragment>
-                    }
-                />
-            </FormBox>
-
-
-
-
-
-        </TestWrapperBox>
+                <CardDiv key={job.id}>
+                    <ColumnDiv>
+                        <HeaderItemDiv>Company</HeaderItemDiv>
+                        <HeaderItemDiv>Date</HeaderItemDiv>
+                        <HeaderItemDiv>Contact</HeaderItemDiv>
+                        <HeaderItemDiv>Job Link</HeaderItemDiv>
+                        <HeaderItemDiv>Responded</HeaderItemDiv>
+                        <HeaderItemDiv>Rejected?</HeaderItemDiv>
+                    </ColumnDiv>
+                    <ColumnDiv>
+                        <DataItemDiv>{job.companyname}</DataItemDiv>
+                        <DataItemDiv>{new Date(job.dateapplied).toISOString().split('T')[0]}</DataItemDiv>
+                        <DataItemDiv>{job.jobposter}</DataItemDiv>
+                        <DataItemDiv>
+                            <a href={job.joblink} target="_blank" rel="noreferrer">Link</a>
+                        </DataItemDiv>
+                        <DataItemDiv>
+                            <input
+                                type="checkbox"
+                                checked={job.companyresponded}
+                                onChange={(event) => handleCheckboxChange(job.id, event.target.checked)}
+                            />
+                        </DataItemDiv>
+                        <DataItemDiv>
+                            {job.companyrejected}
+                            <input
+                                type="checkbox"
+                                checked={job.companyrejected}
+                            />
+                        </DataItemDiv>
+                    </ColumnDiv>
+                </CardDiv>
+            ))}
+        </CompanyNoResponseDiv>
     );
+
 };
 
+const SelectDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  justify-content: center;
+`;
 
+const SimpleSelect = styled.select`
+    padding: 5px 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    appearance: none;
+    outline: none;
+  width: 40vw;
+`;
 
+const ButtonHolderDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 8px; // Adjusts the spacing between the Date text and the icons
+`;
 
-const TestWrapperBox = styled(Box)`
-  background-color: lightsalmon;
+const CompanyNoResponseDiv = styled.div`
+  display: flex;
   height: 100vh;
   width: 100vw;
-  justify-content: center;
-  align-items: center;
-  display: flex;
   flex-direction: column;
 `;
 
-const FormBox = styled(Box)`
-  height: 60vh;
-  width: 30vw;
 
-  background-color: #c7f3ff;
+const HeaderDiv = styled.div`
+  display: flex;
+  height: 10vh;
+  width: 90vw;
+  margin-left: 5vw;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
+`;
 
-  /* Adding box shadow on left, right, and bottom sides */
-  box-shadow:
-          -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */
-          4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
-          0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
+const CompanyNameDiv = styled.div`
+  display: flex;
+  height: 10vh;
+  width: 20%;
+  justify-content: center;
+  align-items: center;
+`;
+
+const JobPosterDiv = styled.div`
+  display: flex;
+  height: 10vh;
+  width: 20%;
+  justify-content: center;
+  align-items: center;
+`;
+
+const DateAppliedDiv = styled.div`
+  display: flex;
+  height: 10vh;
+  width: 20%;
+  justify-content: center;
+  align-items: center;
+`;
+
+const JobLinkDiv = styled.div`
+  display: flex;
+  height: 10vh;
+  width: 20%;
+  justify-content: center;
+  align-items: center;
+  white-space: pre-line;
+ padding-left: 4vw;
+  
+  @media ${deviceCompanyNoResponse.laptop} {
+    display: flex;
+    padding-left: 0.1vw;
+  }
+  
+`;
+
+const CompnanyRespondedDiv = styled.div`
+  display: flex;
+  height: 10vh;
+  width: 20%;
+  justify-content: center;
+  align-items: center;
+`;
+
+const DataDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90vw;
+  height: 90vh;
+  margin-left: 5vw;
+
+  @media ${device.mobile} {
+    flex-direction: column;
+
+  }
+`;
+
+const JobInfoDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+  height: 20vh;
+  border: 1px solid black; /* Add border styling here */
+  word-break: break-all; /* Break words at any character if they can't fit */
+`;
+
+export const CardDiv = styled.div`
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #ccc;
+    margin: 10px 0;
+`;
+
+export const ColumnDiv = styled.div`
+  flex: 1;
+  padding: 10px;
+  margin-left: 6%;
+  white-space: nowrap;
+  word-break: break-all;
+  max-width: 100%; 
+  overflow: hidden; 
+`;
+
+
+export const HeaderItemDiv = styled.div`
+    /* You can add specific styles for header items here */
+`;
+
+export const DataItemDiv = styled.div`
+    /* You can add specific styles for data items here */
 `;

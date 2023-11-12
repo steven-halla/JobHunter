@@ -108,19 +108,12 @@ export const CompanyNoResponse = () => {
             {sortedAndRespondedJobs.map((job) => (
                 <CardDiv key={job.id}>
                     <ColumnDiv>
-                        <HeaderItemDiv>Company</HeaderItemDiv>
                         <DataItemDiv>{job.companyname}</DataItemDiv>
-                        <HeaderItemDiv>Date Applied</HeaderItemDiv>
                         <DataItemDiv>{new Date(job.dateapplied).toISOString().split('T')[0]}</DataItemDiv>
-                        <HeaderItemDiv>Job Link</HeaderItemDiv>
                         <DataItemDiv>
                             <a href={job.joblink} target="_blank" rel="noreferrer">Link</a>
                         </DataItemDiv>
-                    </ColumnDiv>
-                    <ColumnDiv>
-                        <HeaderItemDiv>Contact</HeaderItemDiv>
                         <DataItemDiv>{job.primarycontact}</DataItemDiv>
-                        <HeaderItemDiv>Responded</HeaderItemDiv>
                         <DataItemDiv>
                             <input
                                 type="checkbox"
@@ -128,7 +121,6 @@ export const CompanyNoResponse = () => {
                                 onChange={(event) => handleCheckboxChange(job.id, event.target.checked)}
                             />
                         </DataItemDiv>
-                        <HeaderItemDiv>Rejected?</HeaderItemDiv>
                         <DataItemDiv>
                             <input
                                 type="checkbox"
@@ -174,12 +166,7 @@ const SelectDiv = styled.div`
   width: 40vw;
 `;
 
-const ButtonHolderDiv = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-left: 8px; // Adjusts the spacing between the Date text and the icons
-`;
+
 
 const CompanyNoResponseDiv = styled.div`
   display: flex;
@@ -190,91 +177,6 @@ const CompanyNoResponseDiv = styled.div`
 `;
 
 
-const HeaderDiv = styled.div`
-  display: flex;
-  height: 10vh;
-  width: 90vw;
-  margin-left: 5vw;
-  position: sticky;
-  top: 0;
-  background-color: white;
-  z-index: 1;
-
-`;
-
-const CompanyNameDiv = styled.div`
-  display: flex;
-  height: 10vh;
-  width: 20%;
-  justify-content: center;
-  align-items: center;
-`;
-
-const JobPosterDiv = styled.div`
-  display: flex;
-  height: 10vh;
-  width: 20%;
-  justify-content: center;
-  align-items: center;
-`;
-
-const DateAppliedDiv = styled.div`
-  display: flex;
-  height: 10vh;
-  width: 20%;
-  justify-content: center;
-  align-items: center;
-`;
-
-const JobLinkDiv = styled.div`
-  display: flex;
-  height: 10vh;
-  width: 20%;
-  justify-content: center;
-  align-items: center;
-  white-space: pre-line;
- padding-left: 4vw;
-  
-  @media ${deviceCompanyNoResponse.laptop} {
-    display: flex;
-    padding-left: 0.1vw;
-  }
-  
-`;
-
-const CompnanyRespondedDiv = styled.div`
-  display: flex;
-  height: 10vh;
-  width: 20%;
-  justify-content: center;
-  align-items: center;
-`;
-
-const DataDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 90vw;
-  height: 90vh;
-  margin-left: 5vw;
-
-  @media ${device.mobile} {
-    flex-direction: column;
-
-  }
-`;
-
-const JobInfoDiv = styled.div`
- 
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 20%;
-  height: 20vh;
-  border: 1px solid black; /* Add border styling here */
-  word-break: break-all; /* Break words at any character if they can't fit */
-`;
 
 export const CardDiv = styled.div`
     display: flex;
@@ -293,10 +195,6 @@ export const ColumnDiv = styled.div`
   overflow: hidden; 
 `;
 
-
-export const HeaderItemDiv = styled.div`
-    /* You can add specific styles for header items here */
-`;
 
 export const DataItemDiv = styled.div`
     /* You can add specific styles for data items here */

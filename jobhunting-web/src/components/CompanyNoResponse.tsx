@@ -5,7 +5,8 @@ import {device, deviceCompanyNoResponse} from "../common/ScreenSizes";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCaretDown, faCaretUp} from "@fortawesome/free-solid-svg-icons";
 import { useSortAndSelect } from './useSortAndSelect'; // Make sure to import from the correct path
-import { SelectValue } from './useSortAndSelect'; // Replace with the actual path
+import { SelectValue } from './useSortAndSelect';
+import {DateMutation} from "../common/DateMutation"; // Replace with the actual path
 
 // shrink down vertically,
 //more shade on south partk of box
@@ -37,6 +38,9 @@ export const CompanyNoResponse = () => {
     };
 
 
+    useEffect(() => {
+        console.log("orky boys here to party" + jobs[0]?.dateapplied, typeof jobs[0]?.dateapplied);
+    }, [jobs]);
 
 
 
@@ -123,8 +127,13 @@ export const CompanyNoResponse = () => {
                     <option value="date-desc">Date Descending</option>
                     <option value="company-a-z">Company A-Z</option>
                     <option value="company-z-a">Company Z-A</option>
+                    <option value="contact-a-z">Contact A-Z</option>
+                    <option value="contact-z-a">Contact Z-A</option>
+                    <option value="rejected-yes">Rejected Yes</option>
+                    <option value="rejected-no">Rejected No</option>
                     {/* other options */}
                 </SimpleSelect>
+
 
             </SelectDiv>
 
@@ -132,7 +141,11 @@ export const CompanyNoResponse = () => {
                 <CardDiv key={job.id}>
                     <ColumnDiv>
                         <DataItemDiv>{job.companyname}</DataItemDiv>
-                        <DataItemDiv>{new Date(job.dateapplied).toISOString().split('T')[0]}</DataItemDiv>
+
+
+                        {DateMutation(typeof job.dateapplied === 'string' ? job.dateapplied : job.dateapplied.toISOString())}
+
+
                         <DataItemDiv>
                             <a href={job.joblink} target="_blank" rel="noreferrer">Link</a>
                         </DataItemDiv>
@@ -163,7 +176,7 @@ export const CompanyNoResponse = () => {
 };
 
 const SearchBar = styled.input`
-  width: 50%; /* Increase the percentage to make it wider */
+  width: 30%; /* Increase the percentage to make it wider */
   padding: 10px;
   margin-bottom: 10px; /* Space between search bar and the next element */
   border: 1px solid #ccc;
@@ -194,7 +207,6 @@ const SearchDiv = styled.div`
     align-items: center;
   justify-content: center;
   width: 100%;
-  background-color: green;
 `;
 
  const SimpleSelect = styled.select`
@@ -204,17 +216,19 @@ const SearchDiv = styled.div`
     border-radius: 4px;
     appearance: none;
     outline: none;
-  width: 40vw;
+  width: 15vw;
 `;
 
 
 
 const CompanyNoResponseDiv = styled.div`
   display: flex;
-  height: 100vh;
+  //height: 100vh;
   width: 100vw;
   flex-direction: column;
-  background-color: rgba(14,55,138,0.86) ;
+  //background-color: rgba(138,169,142,0.86); /* Sets background color to red */
+  background-color: rgba(138,169,142,0.86); /* Sets background color to red */
+
 `;
 
 
@@ -233,7 +247,7 @@ export const CardDiv = styled.div`
   height: 50%; /* Sets the height of the card to 50% of its container */
   width: 100%; /* Full width */
   margin: 0 auto; /* Centers the card itself horizontally if its container is wider */
-  background-color: blueviolet; /* Sets background color to red */
+  background-color: rgba(138,169,142,0.86); /* Sets background color to red */
   padding: 10px; /* Adds some spacing inside the card */
   box-sizing: border-box; /* Ensures padding is included in width/height calculations */
 `;

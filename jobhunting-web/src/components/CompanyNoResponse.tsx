@@ -13,6 +13,7 @@ import { SelectValue } from './useSortAndSelect'; // Replace with the actual pat
 
 export const CompanyNoResponse = () => {
     const { jobs, updateJobResponded, dateApplied } = useContext(JobsContext);
+    const [searchTerm, setSearchTerm] = useState('');
 
     const [isMobile, setIsMobile] = useState(window.matchMedia(device.mobile).matches);
     const [isLaptop, setIsLaptop] = useState(window.matchMedia(device.laptop).matches);
@@ -33,7 +34,11 @@ export const CompanyNoResponse = () => {
 
     //this is for filter
     const sortedAndRespondedJobs = jobs
-        .filter(job => !job.companyresponded) // This filters out jobs where companyresponded is true
+        .filter(job =>
+            !job.companyresponded &&
+            (searchTerm.length < 3 || job.companyname.toLowerCase().includes(searchTerm.toLowerCase().trim()))
+        )
+
         .sort((a, b) => {
             switch (sortOrder) {
                 case 'company-a-z':
@@ -91,6 +96,13 @@ export const CompanyNoResponse = () => {
 
     return (
         <CompanyNoResponseDiv>
+            <input
+                type="text"
+                placeholder="Search by company name..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+            />
+
             {isLaptop && (
                 <>
                     {/* Header for laptop/desktop */}
@@ -231,6 +243,7 @@ const CompanyNoResponseDiv = styled.div`
   height: 100vh;
   width: 100vw;
   flex-direction: column;
+  background-color: rgba(14,55,138,0.86) ;
 `;
 
 

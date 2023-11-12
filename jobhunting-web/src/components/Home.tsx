@@ -13,6 +13,7 @@ import Button from '@mui/material/Button';
 import {InputLabel, TextFieldProps} from '@mui/material';
 import TextField from '@mui/material/TextField';
 import {useParams} from "react-router-dom";
+import {Job} from "../models/Job";
 
 export const Home: React.FC = () => {
 
@@ -47,52 +48,19 @@ export const Home: React.FC = () => {
         }
     });
 
-    const [searchResult, setSearchResult] = useState<string | null>(null);
-    const handleSearch = async (companyName: string) => {
-        try {
-            const response = await fetch(`http://localhost:8080/api/jobs`, {
-                headers: {
-                    'Authorization': `Bearer YOUR_AUTH_TOKEN`, // Replace with your actual token if needed
-                    'Content-Type': 'application/json'
-                }
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-
-            // Define the type for the company
-            interface Company {
-                companyname: string;
-
-                // ... include other properties if needed
-            }
-
-            const companies: Company[] = await response.json();
-            console.log("API Response: ", companies); // Debugging - to understand the structure of the response
-
-            // Logging the typed company name
-            console.log("Typed Company Name: ", companyName);
-
-            // Check if any company name exactly matches the typed companyName
-            const isMatched = companies.some((c: Company) => c.companyname === companyName);
-
-            // Logging the result of the search
-            if (isMatched) {
-                console.log("Matching company found: ", companyName);
-                setSearchResult(companyName);
-            } else {
-                console.log("No matching company found");
-                setSearchResult(null);
-            }
-        } catch (error) {
-            console.error("Error during search: ", error);
-        }
-    };
+    const [searchResult, setSearchResult] = useState<Job[] | null>(null);
 
 
 
 
+    interface Job {
+        companyname: string;
+        primarycontact: string;
+        joblink: string;
+        dateapplied: Date;
+        companyresponded: boolean;
+        companyrejected: boolean;
+    }
 
 
 
@@ -225,6 +193,52 @@ export const Home: React.FC = () => {
         }
     };
 
+    const handleSearch = async (companyName: string) => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/jobs`, {
+                headers: {
+                    'Authorization': `Bearer YOUR_AUTH_TOKEN`, // Replace with your actual token if needed
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            // Define the type for the company
+            interface Job {
+                companyname: string;
+                primarycontact: string;
+                joblink: string;
+                dateapplied: Date;
+                companyresponded: boolean;
+                companyrejected: boolean;
+            }
+
+            const companies: Job[] = await response.json();
+            console.log("API Response: ", companies); // Debugging - to understand the structure of the response
+
+            // Logging the typed company name
+            console.log("Typed Company Name: ", companyName);
+
+            // Check if any company name exactly matches the typed companyName
+            const matchingJobs: Job[] = companies.filter((job: Job) => job.companyname === companyName);
+
+            // Logging the result of the search
+            if (matchingJobs.length > 0) {
+                console.log("Matching companies found: ", matchingJobs);
+                setSearchResult(matchingJobs);
+            } else {
+                console.log("No matching companies found");
+                setSearchResult([]);
+            }
+        } catch (error) {
+            console.error("Error during search: ", error);
+        }
+    };
+
+
+
 
     //need to get rid of labels
     //have it like face book where we put text in the input, and as we type, the place holder
@@ -293,13 +307,27 @@ export const Home: React.FC = () => {
 
 
             <JobCardDiv>
-                {searchResult && (
+                {Array.isArray(searchResult) && searchResult.length > 0 && (
                     <div>
-                        <h3>Match Found:</h3>
-                        <p>your result: {searchResult}</p>
+                        <h3>Matches Found:</h3>
+                        {searchResult.map((job: Job, index: number) => (
+                            <div key={index}>
+                                <p>Result {index + 1}:</p>
+                                <p>Company Name: {job.companyname}</p>
+                                <p>Primary Contact: {job.primarycontact}</p>
+                                <p>Job Link: {job.joblink}</p>
+                                {/*<p>Date Applied: {job.dateapplied.toISOString().split('T')[0]}</p>*/}
+                                <p>Company Responded: {job.companyresponded ? 'Yes' : 'No'}</p>
+                                <p>Company Rejected: {job.companyrejected ? 'Yes' : 'No'}</p>
+                            </div>
+                        ))}
                     </div>
                 )}
             </JobCardDiv>
+
+
+
+
 
             <FooterDiv/>
         </HomeWrapperDiv>

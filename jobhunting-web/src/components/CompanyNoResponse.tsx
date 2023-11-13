@@ -295,4 +295,5 @@ const SelectDiv = styled.div`
   top: 14.3%;
   z-index: 5;
   position: sticky;
+  background-color: white;
 `;

@@ -442,12 +442,6 @@ export const JobViewAll = () => {
     };
 
 
-
-
-
-
-
-
     return (
         <>
             {isMobile ? (
@@ -602,57 +596,14 @@ export const JobViewAll = () => {
                                     meetingLink={job.meetingLink as string} // Explicit type assertion
                                     isOlderThanSevenDays={(new Date().getTime() - new Date(job.dateapplied).getTime()) > SEVEN_DAYS_MS}
                                 >
-
                                     <TableCell>{new Date(job.dateapplied).toISOString().split('T')[0]}</TableCell>
-                                    <StyledTableCell>{job.companyname}</StyledTableCell>
+                                    <StyledTableCell><a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">{job.companyname}</a></StyledTableCell>
                                     <TableCell>
                                         <TextButton onClick={() => openDescriptionModal(job.description)}>Click to View</TextButton>
                                     </TableCell>
                                     <StyledTableCell>{job.primarycontact}</StyledTableCell>
                                     <TableCell><a href={job.joblink} target="_blank" rel="noopener noreferrer">LINK</a></TableCell>
-                                    <TableCell><a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">LINK</a></TableCell>
                                     <TableCell>
-                                        {/*<select value={jobResponses[job.id] || 'no response'} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleResponseChange(e, String(job.id))}>*/}
-                                        {/*    <option value="accepted">Scedule Interview</option>*/}
-                                        {/*    <option value="declined">Declined</option>*/}
-                                        {/*    <option value="no response">No Response</option>*/}
-                                        {/*</select>*/}
-
-                                        {/*<Slider*/}
-                                        {/*    aria-label="Temperature"*/}
-                                        {/*    value={jobResponses[job.id.toString()] || 'no response'}*/}
-                                        {/*    valueLabelDisplay="auto"*/}
-                                        {/*    valueLabelFormat={(value) => {*/}
-                                        {/*        if (value === 1) {*/}
-                                        {/*            return 'Schedule interview';*/}
-                                        {/*        } else if (value === 2) {*/}
-                                        {/*            return 'No Response';*/}
-                                        {/*        } else if (value === 3) {*/}
-                                        {/*            return 'Declined';*/}
-                                        {/*        }*/}
-                                        {/*        return ''; // Empty string for other values*/}
-                                        {/*    }}*/}
-                                        {/*    step={1}*/}
-                                        {/*    min={1}*/}
-                                        {/*    max={3}*/}
-                                        {/*    style={{ width: '40%' }}*/}
-                                        {/*    onChange={(event, newValue: number | string) => {*/}
-                                        {/*        // TypeScript expects newValue to be either a number or a string*/}
-                                        {/*        console.log('Slider value changed:', newValue);*/}
-
-                                        {/*        // If you don't need to capture the exact value, you can omit the following line*/}
-                                        {/*        setJobResponses({ ...jobResponses, [job.id.toString()]: newValue });*/}
-                                        {/*    }}*/}
-                                        {/*/>*/}
-
-
-
-
-
-
-
-
-
                                         <div>
 
                                             <FontAwesomeIcon
@@ -686,14 +637,9 @@ export const JobViewAll = () => {
                                             />
 
 
-
-
-
                                         </div>
                                     </TableCell>
                                     <TableCell>
-
-
 
 
                                     </TableCell>
@@ -739,57 +685,6 @@ export const JobViewAll = () => {
         </>
     );
 };
-//
-
-
-//
-//
-// const StyledTableRow = styled.tr`
-//   /* Your other CSS styles for table rows here */
-//   position: relative; /* Add this to maintain a stable layout */
-//
-//   /* Define styles for hidden icons container */
-//   .hidden-icons {
-//     display: none; /* Initially hide the icons container */
-//     //position: absolute; /* Position icons absolutely within the cell */
-//
-//   }
-//
-//   /* Style for each icon container */
-//   .icon-container {
-//     display: inline-block; /* Display each icon container inline-block */
-//     //margin-right: 10px; /* Increase margin-right for more space between icons */
-//     //margin-bottom: 10px; /* Add margin-bottom to create space below each icon */
-//   }
-//
-//   &:hover {
-//     /* Make icons container visible on table row hover */
-//     .hidden-icons {
-//       display: block; /* Change to 'block' to show the icons container */
-//     }
-//
-//     /* Add a green highlight on hover */
-//     background-color: lightgreen;
-//   }
-//
-//   /* Add these classes to your CSS stylesheet */
-//   .custom-icon {
-//     font-size: 20px; /* Adjust the font size as needed */
-//   }
-//
-//   .custom-icon-lg {
-//     font-size: 24px; /* Larger size */
-//   }
-//
-//   .custom-icon-sm {
-//     font-size: 16px; /* Smaller size */
-//   }
-//
-// `;
-
-
-
-
 
 
 const MobileJobCardDiv = styled.div`

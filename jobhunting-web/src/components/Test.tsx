@@ -75,15 +75,27 @@ export const Test = () => {
         }
     };
 
+    const getTileClassName = ({ date, view }: { date: Date; view: string }) => {
+        if (view === 'month') {
+            const hasInterview = interviewData.some(interview =>
+                interview.interviewdate && interview.interviewdate.toDateString() === date.toDateString()
+            );
+            return hasInterview ? 'interview-day' : '';
+        }
+    };
+
+
     return (
         <CalendarContainer>
-            <StyledCalendar tileContent={getTileContent} onClickDay={onDayClick} />
+            <StyledCalendar
+                tileContent={getTileContent}
+                tileClassName={getTileClassName}
+                onClickDay={onDayClick} />
             <InterviewCalendarModal show={showModal} onClose={() => setShowModal(false)}>
                 {modalContent}
             </InterviewCalendarModal>
         </CalendarContainer>
     );
-
 };
 
 
@@ -95,8 +107,15 @@ const StyledCalendar = styled(Calendar)`
     max-height: 100px; // Adjust as needed
     overflow: hidden;
   }
+
+  .interview-day {
+    background-color: lightgreen;
+  }
+
   /* Add additional styling here if needed */
 `;
+
+
 
 // If needed, create a styled div to center the calendar
 const CalendarContainer = styled.div`
@@ -105,3 +124,4 @@ const CalendarContainer = styled.div`
   align-items: center;
   height: 100vh; // This makes sure the container takes the full height of the viewport
 `;
+

@@ -120,6 +120,7 @@ export const Header = () => {
                     <li><Link to={"/dategraphs"} onClick={closeMenu}>Jobs Graphs</Link></li>
                     <li><Link to={"/companynoresponse"} onClick={closeMenu}>No Response</Link></li>
                     <li><Link to={"/jobviewall"} onClick={closeMenu}>View All Jobs</Link></li>
+                    <li><Link to={"/allinterviews"} onClick={closeMenu}>Interview Calandar</Link></li>
 
                     <li><Link to={`/profile/${currentUser.id}`} onClick={closeMenu}>Profile</Link></li>
                     <li><a href="/login" onClick={logOut} >LogOut</a></li>

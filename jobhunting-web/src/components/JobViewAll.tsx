@@ -90,34 +90,32 @@ export const JobViewAll = () => {
         meetingLink: string;
         isOlderThanSevenDays: boolean; // New prop
     }
+
     const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
 
 
 
     const StyledTableRow = styled.tr<StyledTableRowProps>`
-  position: relative;
-  background-color: ${props => {
+      position: relative;
+      background: ${props => {
         if (props.companyRejected) {
-            return 'salmon';
+          return 'linear-gradient(to left, #ff0000, #ff9999)'; // Red gradient (light to slightly darker)
         }
-
         else if (props.meetingLink) {
-            return 'lightgreen';
+          return 'linear-gradient(to left,#34e89e, #78ffd6)'; // Green gradient (light to slightly darker)
         }
-
         else if (props.isOlderThanSevenDays) {
-            return 'yellow'; // Color for jobs older than 7 days
+          return 'linear-gradient(to left, #ffcc00, #ffecb3)'; // Yellow gradient (light to slightly darker)
         }
-
         else if (!props.companyResponded) {
-            return 'lightgrey';
+          return 'linear-gradient(to left, #808080, #b3b3b3)'; // Grey gradient (light to slightly darker)
         }
+        return 'linear-gradient(to left, #808080, #b3b3b3)'; // Default gradient color
+      }};
 
-        return 'lightgrey'; // Default color
-    }};
 
 
-  .hidden-icons {
+      .hidden-icons {
     display: none;
     position: absolute;
   }

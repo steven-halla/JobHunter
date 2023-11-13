@@ -583,7 +583,6 @@ export const JobViewAll = () => {
                                     </SortLabelContainer>
 
                                 </TableCell>
-                                <TableCell></TableCell>
                             </TableRow>
                         </StyledTableHead>
                         <TableBody>

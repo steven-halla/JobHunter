@@ -585,69 +585,100 @@ export const JobViewAll = () => {
                                 </TableCell>
                             </TableRow>
                         </StyledTableHead>
-                        <TableBody>
-                            {sortedAndRespondedJobs.map((job, index) => (
-                                <StyledTableRow
-                                    key={job.id}
-                                    response={jobResponses[job.id] || 'no response'}
-                                    companyRejected={job.companyrejected}
-                                    companyResponded={job.companyresponded}
-                                    meetingLink={job.meetingLink as string} // Explicit type assertion
-                                    isOlderThanSevenDays={(new Date().getTime() - new Date(job.dateapplied).getTime()) > SEVEN_DAYS_MS}
-                                >
-                                    <TableCell>{new Date(job.dateapplied).toISOString().split('T')[0]}</TableCell>
-                                    <StyledTableCell><a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">{job.companyname}</a></StyledTableCell>
-                                    <TableCell>
-                                        <TextButton onClick={() => openDescriptionModal(job.description)}>Click to View</TextButton>
-                                    </TableCell>
-                                    <StyledTableCell>{job.primarycontact}</StyledTableCell>
-                                    <TableCell><a href={job.joblink} target="_blank" rel="noopener noreferrer">LINK</a></TableCell>
-                                    <TableCell>
-                                        <div>
 
-                                            <FontAwesomeIcon
-                                                className="custom-icon hidden-icons scedule-icon custom-icon-lg"
-
-                                                icon={faCalendar}
-                                                style={{ cursor: 'pointer' }}
-                                                onClick={() => onButtonClick('accepted', String(job.id))}
-
-                                            />
-
-                                            <FontAwesomeIcon
-                                                icon={faBan}
-                                                className="custom-icon hidden-icons no-response-icon"
-                                                style={{ cursor: 'pointer', marginTop: '15px' }}
-                                                onClick={() => onButtonClick('declined', String(job.id))}
-                                            />
-
-                                            <FontAwesomeIcon
-                                                icon={faEdit}
-                                                className="custom-icon hidden-icons edit-icon"
-                                                style={{ cursor: 'pointer', marginTop: '15px' }}
-                                                onClick={() => onButtonClick('update', String(job.id))}
-                                            />
-
-                                            <FontAwesomeIcon
-                                                icon={faTrash}
-                                                className="custom-icon hidden-icons trash-icon"
-                                                style={{ cursor: 'pointer', marginTop: '15px' }}
-                                                onClick={() => onButtonClick('delete', String(job.id))}
-                                            />
-
-
-                                        </div>
-                                    </TableCell>
-                                    <TableCell>
-
-
-                                    </TableCell>
-                                </StyledTableRow>
-                            ))}
-                        </TableBody>
                     </Table>
+
+
+
+                        <CardBoxDiv>
+
+                                {sortedAndRespondedJobs.map((job, index) => (
+                                <CardDiv key={index}>
+                                    <h5><a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">{job.companyname}</a></h5>
+                                    <h5>{job.primarycontact}</h5>
+                                    <TextButton onClick={() => openDescriptionModal(job.description)}>Click to View</TextButton>
+                                    <h5>{new Date(job.dateapplied).toISOString().split('T')[0]}</h5>
+                                    <h5><a href={job.joblink} target="_blank" rel="noopener noreferrer">Job Link</a></h5>
+
+                                </CardDiv>
+                            ))}
+                        </CardBoxDiv>
+
+
+                        {/*<TableBody>*/}
+                        {/*    {sortedAndRespondedJobs.map((job, index) => (*/}
+                        {/*        <StyledTableRow*/}
+                        {/*            key={job.id}*/}
+                        {/*            response={jobResponses[job.id] || 'no response'}*/}
+                        {/*            companyRejected={job.companyrejected}*/}
+                        {/*            companyResponded={job.companyresponded}*/}
+                        {/*            meetingLink={job.meetingLink as string} // Explicit type assertion*/}
+                        {/*            isOlderThanSevenDays={(new Date().getTime() - new Date(job.dateapplied).getTime()) > SEVEN_DAYS_MS}*/}
+                        {/*        >*/}
+                        {/*            <TableCell>{new Date(job.dateapplied).toISOString().split('T')[0]}</TableCell>*/}
+                        {/*            <StyledTableCell><a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">{job.companyname}</a></StyledTableCell>*/}
+                        {/*            <TableCell>*/}
+                        {/*                <TextButton onClick={() => openDescriptionModal(job.description)}>Click to View</TextButton>*/}
+                        {/*            </TableCell>*/}
+                        {/*            <StyledTableCell>{job.primarycontact}</StyledTableCell>*/}
+                        {/*            <TableCell><a href={job.joblink} target="_blank" rel="noopener noreferrer">LINK</a></TableCell>*/}
+                        {/*            <TableCell>*/}
+                        {/*                <div>*/}
+
+                        {/*                    <FontAwesomeIcon*/}
+                        {/*                        className="custom-icon hidden-icons scedule-icon custom-icon-lg"*/}
+
+                        {/*                        icon={faCalendar}*/}
+                        {/*                        style={{ cursor: 'pointer' }}*/}
+                        {/*                        onClick={() => onButtonClick('accepted', String(job.id))}*/}
+
+                        {/*                    />*/}
+
+                        {/*                    <FontAwesomeIcon*/}
+                        {/*                        icon={faBan}*/}
+                        {/*                        className="custom-icon hidden-icons no-response-icon"*/}
+                        {/*                        style={{ cursor: 'pointer', marginTop: '15px' }}*/}
+                        {/*                        onClick={() => onButtonClick('declined', String(job.id))}*/}
+                        {/*                    />*/}
+
+                        {/*                    <FontAwesomeIcon*/}
+                        {/*                        icon={faEdit}*/}
+                        {/*                        className="custom-icon hidden-icons edit-icon"*/}
+                        {/*                        style={{ cursor: 'pointer', marginTop: '15px' }}*/}
+                        {/*                        onClick={() => onButtonClick('update', String(job.id))}*/}
+                        {/*                    />*/}
+
+                        {/*                    <FontAwesomeIcon*/}
+                        {/*                        icon={faTrash}*/}
+                        {/*                        className="custom-icon hidden-icons trash-icon"*/}
+                        {/*                        style={{ cursor: 'pointer', marginTop: '15px' }}*/}
+                        {/*                        onClick={() => onButtonClick('delete', String(job.id))}*/}
+                        {/*                    />*/}
+
+
+                        {/*                </div>*/}
+                        {/*            </TableCell>*/}
+                        {/*            <TableCell>*/}
+
+
+                        {/*            </TableCell>*/}
+                        {/*        </StyledTableRow>*/}
+                        {/*    ))}*/}
+
+
+
+                        {/*</TableBody>*/}
+
+
+
+
+
                 </StyledTableContainer>
             )}
+
+
+
+
 
             {isDescriptionModalOpen && (
                 <div
@@ -780,4 +811,29 @@ const SelectDiv = styled.div`
     flex-direction: column;
     align-items: center;
   justify-content: center;
+`;
+
+
+
+
+const CardBoxDiv = styled.div`
+  display: flex;
+  flex-direction: column; /* Keep the cards aligned vertically */
+  gap: 10px; /* Maintain the 10px spacing between cards */
+  align-items: center; /* Center-align the cards horizontally */
+  justify-content: center; /* Center the content vertically if needed */
+`;
+
+
+const CardDiv = styled.div`
+  background-color: white; /* Background color for each card */
+  padding: 10px; /* Add some padding around each card */
+  border: 1px solid #ccc; /* Add a border for each card */
+  min-width: 50%; /* Set a minimum width for each card */
+  margin-top: 1%; /* Top margin for each card */
+
+  display: flex; /* Make this a flex container */
+  flex-direction: column; /* Align children vertically */
+  align-items: center; /* Center-align items horizontally within the card */
+  justify-content: center; /* Center-align items vertically within the card */
 `;

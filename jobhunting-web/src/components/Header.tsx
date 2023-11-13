@@ -141,6 +141,10 @@ export const HeaderDiv = styled.div`
   width: 100vw;
   height: 7vh;
   align-items: center; /* Vertically aligns items to the center */
+  position: sticky;
+  top: 0;
+  //background-color: white;
+  z-index: 6;
 
   nav {
     display: flex;

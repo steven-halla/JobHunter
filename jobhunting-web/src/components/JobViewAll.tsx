@@ -588,10 +588,6 @@ export const JobViewAll = () => {
                                         </ButtonHolderDiv>
                                     </SortLabelContainer>
 
-
-
-
-
                                 </TableCell>
                                 <TableCell></TableCell>
                             </TableRow>

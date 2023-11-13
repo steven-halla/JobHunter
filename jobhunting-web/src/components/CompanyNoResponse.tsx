@@ -110,15 +110,15 @@ export const CompanyNoResponse = () => {
     return (
         <CompanyNoResponseDiv>
 
-            <SearchDiv>
-                <SearchBar
-                    type="text"
-                    placeholder="Search by company name or contact..."
-                    value={searchTerm}
-                    onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setSearchTerm(e.target.value)}
-                />
+                <StickySearchDiv>
+                    <SearchBar
+                        type="text"
+                        placeholder="Search by company name or contact..."
+                        value={searchTerm}
+                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setSearchTerm(e.target.value)}
+                    />
+                </StickySearchDiv>
 
-            </SearchDiv>
 
 
             <SelectDiv>
@@ -174,17 +174,23 @@ export const CompanyNoResponse = () => {
 
     );
 };
-
 const SearchBar = styled.input`
-  width: 30%; /* Increase the percentage to make it wider */
+  width: 30%;
   padding: 10px;
-  margin-bottom: 10px; /* Space between search bar and the next element */
+  margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   display: block;
-  margin-left: auto; /* Centers the search bar */
-  margin-right: auto; /* Centers the search bar */
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white; /* Set the background color of SearchBar */
+  position: sticky; /* Make it sticky */
+  top: 0; /* Stick it to the top */
+  z-index: 1; /* Ensure it's above other elements */
+  overflow: hidden; /* Hide any overflow */
 `;
+
+
 
 const CheckBoxInput = styled.input`
 margin-left: 11%;
@@ -194,19 +200,14 @@ margin-left: 11%;
 
 
 
-const SelectDiv = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  justify-content: center;
-  margin-top: 1%;
-`;
+
 
 const SearchDiv = styled.div`
     display: flex;
     align-items: center;
   justify-content: center;
   width: 100%;
+  
 `;
 
  const SimpleSelect = styled.select`
@@ -217,6 +218,7 @@ const SearchDiv = styled.div`
     appearance: none;
     outline: none;
   width: 15vw;
+   
 `;
 
 
@@ -228,6 +230,7 @@ const CompanyNoResponseDiv = styled.div`
   flex-direction: column;
   //background-color: rgba(138,169,142,0.86); /* Sets background color to red */
   background-color: rgba(138,169,142,0.86); /* Sets background color to red */
+
 
 `;
 
@@ -275,4 +278,21 @@ background-color: rgba(165,169,127,0.86);
 
 export const DataItemDiv = styled.div`
     /* You can add specific styles for data items here */
+`;
+
+const StickySearchDiv = styled.div`
+  position: sticky;
+  top: 7%;
+  z-index: 5;
+  background-color: white;
+`;
+
+const SelectDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  justify-content: center;
+  top: 14.3%;
+  z-index: 5;
+  position: sticky;
 `;

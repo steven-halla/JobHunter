@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import {JobsContext} from "../services/jobcontext";
 import {Interview} from "../models/Job";
 import {DateMutation} from "../common/DateMutation";
+import styled from "styled-components";
 
 type InterviewData = {
     jobId: number;
@@ -53,11 +54,11 @@ export const AllInterviews = () => {
     };
 
     return (
-        <div>
-            <h2>All Interviews</h2>
-            <ul>
+        <AllInterviewsWrapperDiv>
+            <CardDiv>
+                <h2>All Interviews</h2>
                 {allInterviewData.map((data, index) => (
-                    <li key={index}>
+                    <JobCard key={index}>
                         <p>Company Name: {data.companyname}</p>
                         <p>Interviewer Names: {data.interviewernames}</p>
                         <p>Interview Notes: {data.interviewnotes}</p>
@@ -67,9 +68,44 @@ export const AllInterviews = () => {
                                 ? DateMutation(typeof data.interviewdate === 'string' ? data.interviewdate : data.interviewdate.toISOString())
                                 : 'Date not available'
                         }</p>
-                    </li>
+                    </JobCard>
                 ))}
-            </ul>
-        </div>
+            </CardDiv>
+        </AllInterviewsWrapperDiv>
     );
-}
+};
+
+const AllInterviewsWrapperDiv = styled.div`
+  display: flex;
+  height: 100%; // Full height of the viewport
+  width: 100%; // Full width of the viewport
+  background-color: rgba(88,104,169,0.86);
+  justify-content: center; // Centers child horizontally
+  align-items: center; // Centers child vertically
+`;
+
+const CardDiv = styled.div`
+  display: flex;
+  height: 100%; // Half of the parent's height
+  width: 50%; // Half of the parent's width
+  background-color: rgba(129,169,144,0.86)
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+
+const JobCard = styled.div`
+  background-color: white;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 8px;
+  width: calc(50% - 20px); // Adjust width as needed
+
+  /* Adding box shadow on left, right, and bottom sides */
+  box-shadow:
+          -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */
+          4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
+          0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
+  // Additional styling...
+`;

@@ -105,7 +105,7 @@ export const JobViewAll = () => {
           return 'linear-gradient(to left,#34e89e, #78ffd6)'; // Green gradient (light to slightly darker)
         }
         else if (props.isOlderThanSevenDays) {
-          return 'linear-gradient(to left, #ffcc00, #ffecb3)'; // Yellow gradient (light to slightly darker)
+          return 'linear-gradient(to left, #FFDD3C, #FFEA61)'; // Yellow gradient (light to slightly darker)
         }
         else if (!props.companyResponded) {
           return 'linear-gradient(to left, #808080, #b3b3b3)'; // Grey gradient (light to slightly darker)

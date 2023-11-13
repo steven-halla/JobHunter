@@ -4,6 +4,7 @@ import {Interview} from "../models/Job";
 import {DateMutation} from "../common/DateMutation";
 import styled from "styled-components";
 
+
 type InterviewData = {
     jobId: number;
     userId: number;

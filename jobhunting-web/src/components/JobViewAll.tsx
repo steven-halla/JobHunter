@@ -590,22 +590,27 @@ export const JobViewAll = () => {
 
 
 
-                        <CardBoxDiv>
+                    <CardBoxDiv>
+                        {sortedAndRespondedJobs.map((job, index) => (
+                            <CardDiv
+                                key={index}
+                                companyRejected={job.companyrejected}
+                                companyResponded={job.companyresponded}
+                                meetingLink={job.meetingLink}
+                                isOlderThanSevenDays={(new Date().getTime() - new Date(job.dateapplied).getTime()) > SEVEN_DAYS_MS}
+                            >
+                                <h5><a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">{job.companyname}</a></h5>
+                                <h5>{job.primarycontact}</h5>
+                                <TextButton onClick={() => openDescriptionModal(job.description)}>Click to View</TextButton>
+                                <h5>{new Date(job.dateapplied).toISOString().split('T')[0]}</h5>
+                                <h5><a href={job.joblink} target="_blank" rel="noopener noreferrer">Job Link</a></h5>
+                            </CardDiv>
+                        ))}
+                    </CardBoxDiv>
 
-                                {sortedAndRespondedJobs.map((job, index) => (
-                                <CardDiv key={index}>
-                                    <h5><a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">{job.companyname}</a></h5>
-                                    <h5>{job.primarycontact}</h5>
-                                    <TextButton onClick={() => openDescriptionModal(job.description)}>Click to View</TextButton>
-                                    <h5>{new Date(job.dateapplied).toISOString().split('T')[0]}</h5>
-                                    <h5><a href={job.joblink} target="_blank" rel="noopener noreferrer">Job Link</a></h5>
-
-                                </CardDiv>
-                            ))}
-                        </CardBoxDiv>
 
 
-                        {/*<TableBody>*/}
+                    {/*<TableBody>*/}
                         {/*    {sortedAndRespondedJobs.map((job, index) => (*/}
                         {/*        <StyledTableRow*/}
                         {/*            key={job.id}*/}
@@ -824,16 +829,59 @@ const CardBoxDiv = styled.div`
   justify-content: center; /* Center the content vertically if needed */
 `;
 
+interface CardProps {
+    companyRejected: boolean;
+    companyResponded: boolean;
+    meetingLink: string;
+    isOlderThanSevenDays: boolean;
+}
 
-const CardDiv = styled.div`
-  background-color: white; /* Background color for each card */
-  padding: 10px; /* Add some padding around each card */
-  border: 1px solid #ccc; /* Add a border for each card */
-  min-width: 50%; /* Set a minimum width for each card */
-  margin-top: 1%; /* Top margin for each card */
+const CardDiv = styled.div<CardProps>`
+  position: relative;
+  background: ${props => {
+    if (props.companyRejected) {
+        return 'linear-gradient(to left, #ff0000, #ff9999)'; // Red gradient
+    } else if (props.meetingLink) {
+        return 'linear-gradient(to left, #34e89e, #78ffd6)'; // Green gradient
+    } else if (props.isOlderThanSevenDays) {
+        return 'linear-gradient(to left, #FFDD3C, #FFEA61)'; // Yellow gradient
+    } else if (!props.companyResponded) {
+        return 'linear-gradient(to left, #808080, #b3b3b3)'; // Grey gradient
+    }
+    return 'linear-gradient(to left, #808080, #b3b3b3)'; // Default gradient color
+}};
+  // ... other styles
+  padding: 10px;
+  border: 1px solid #ccc;
+  min-width: 50%;
+  margin-top: 1%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-  display: flex; /* Make this a flex container */
-  flex-direction: column; /* Align children vertically */
-  align-items: center; /* Center-align items horizontally within the card */
-  justify-content: center; /* Center-align items vertically within the card */
+  // Icons styles
+  .hidden-icons {
+    display: none;
+    position: absolute;
+    // ... other icon styles
+  }
+
+  &:hover {
+    .hidden-icons {
+      display: block;
+    }
+    min-height: 70px;
+  }
+
+  .custom-icon {
+    font-size: 20px;
+  }
+
+  .custom-icon-lg {
+    font-size: 30px;
+  }
+
+  .custom-icon-sm {
+    font-size: 16px;
+  }
 `;

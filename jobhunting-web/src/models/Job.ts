@@ -13,7 +13,8 @@ export interface Job {
     interviewdate: ((prevState: (Date | null)) => (Date | null)) | Date | null;
     interviewernames: ((prevState: string) => string) | string;
     interviewnotes: ((prevState: string) => string) | string;
-    meetingLink: ((prevState: string) => string) | string;
+    // meetingLink: ((prevState: string) => string) | string;
+    meetingLink:  string;
     id: number;
     userid: number;
     companyname: string;

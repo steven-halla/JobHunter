@@ -6,13 +6,13 @@ import EventBus from "../common/EventBus";
 import styled from "styled-components";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-    faBuilding,
-    faCalendar,
+    faBuilding, faBuildingFlag,
+    faCalendar, faCalendarCheck,
     faCalendarDays,
     faCaretDown,
     faCaretUp, faChartArea,
     faChartLine,
-    faClipboard, faLandmark, faSignOutAlt
+    faClipboard, faClipboardCheck, faLandmark, faLandmarkFlag, faSignOutAlt
 } from "@fortawesome/free-solid-svg-icons";
 
 
@@ -34,6 +34,10 @@ export const Header = () => {
     const [isMenuOpen, setMenuOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
     const [graphIconState, setGraphIconState] = useState<boolean>(true);
+    const [clipboardIconState, setClipboardIconState] = useState<boolean>(true);
+    const [buildingIconState, setBuildingIconState] = useState<boolean>(true);
+    const [calendarIconState, setCalendarIconState] = useState<boolean>(true);
+    const [landmarkIconState, setLandmarkIconState] = useState<boolean>(true);
 
     const toggleMenu = () => {
         setMenuOpen(!isMenuOpen);
@@ -41,7 +45,67 @@ export const Header = () => {
 
     const handleJobGraphsClick = () => {
         setGraphIconState(false);
-        console.log("nugle" + graphIconState)
+        console.log("nurgle" + graphIconState)
+
+        setClipboardIconState(true);
+        setBuildingIconState(true);
+        setCalendarIconState(true);
+        setLandmarkIconState(true);
+
+
+        // ... other logic for when Job Graphs is clicked ...
+    };
+
+    const handleJobClipboardClick = () => {
+        setClipboardIconState(false);
+
+
+        setGraphIconState(true);
+        setBuildingIconState(true);
+        setCalendarIconState(true);
+        setLandmarkIconState(true);
+
+
+        console.log("nugle" + clipboardIconState)
+        // ... other logic for when Job Graphs is clicked ...
+    };
+
+    const handleJobBuildingClick = () => {
+        setBuildingIconState(false);
+
+        setClipboardIconState(true);
+        setGraphIconState(true);
+        setCalendarIconState(true);
+        setLandmarkIconState(true);
+
+
+        console.log("nugle" + clipboardIconState)
+        // ... other logic for when Job Graphs is clicked ...
+    };
+
+    const handleJobCalendarClick = () => {
+        setCalendarIconState(false);
+
+        setClipboardIconState(true);
+        setBuildingIconState(true);
+        setGraphIconState(true);
+        setLandmarkIconState(true);
+
+
+        console.log("nugle" + clipboardIconState)
+        // ... other logic for when Job Graphs is clicked ...
+    };
+
+    const handleJobLandmarkClick = () => {
+        setLandmarkIconState(false);
+
+        setClipboardIconState(true);
+        setBuildingIconState(true);
+        setGraphIconState(true);
+        setCalendarIconState(true);
+
+
+        console.log("nugle" + clipboardIconState)
         // ... other logic for when Job Graphs is clicked ...
     };
 
@@ -56,6 +120,12 @@ export const Header = () => {
 
     const closeMenu = () => {
         setMenuOpen(false);
+        setCalendarIconState(true);
+
+        setClipboardIconState(true);
+        setBuildingIconState(true);
+        setGraphIconState(true);
+        setLandmarkIconState(true);
     };
 
 
@@ -123,40 +193,69 @@ export const Header = () => {
                                 </Link>
                             </IconWrapper>
 
-                            <IconWrapper>
 
-                                <a href={"/companynoresponse"} style={{ display: "flex" , flexDirection: "column" }}>
-                                    <FontAwesomeIcon icon={faClipboard} size="lg" />
+                            <IconWrapper>
+                                    <Link
+                                        to="/companynoresponse"
+                                        onClick={handleJobClipboardClick}
+                                        style={{ display: "flex", flexDirection: "column" }}
+                                    >
+                                        <FontAwesomeIcon icon={clipboardIconState ?  faClipboard : faClipboardCheck} size="lg" />
+                                        <span>All Jobs</span>
+
+                                    </Link>
+                            </IconWrapper>
+
+                            <IconWrapper>
+                                <Link
+                                    to="/jobviewall"
+                                    onClick={handleJobBuildingClick}
+                                    style={{ display: "flex", flexDirection: "column" }}
+
+                                >
+                                    <FontAwesomeIcon icon={buildingIconState ?  faBuilding : faBuildingFlag} size="lg"
+                                                     transform={buildingIconState ? undefined : { flipX: true }}
+                                    />
                                     <span>All Jobs</span>
-                                </a>
-                            </IconWrapper>
 
-                            <IconWrapper>
-
-                                <a href={"/jobviewall"} style={{ display: "flex" , flexDirection: "column" }}>
-                                    <FontAwesomeIcon icon={faBuilding} size="lg" />
-                                    <span>Current Jobs</span>
-                                </a>
+                                </Link>
                             </IconWrapper>
 
 
-
                             <IconWrapper>
+                                <Link
+                                    to="/allinterviews"
+                                    onClick={handleJobCalendarClick}
+                                    style={{ display: "flex", flexDirection: "column" }}
 
-                                <a href={"/allinterviews"} style={{ display: "flex" , flexDirection: "column" }}>
-                                    <FontAwesomeIcon icon={faCalendarDays} size="lg" />
-                                    <span>Interviews</span>
-                                </a>
+                                >
+                                    <FontAwesomeIcon icon={calendarIconState ?  faCalendarDays : faCalendarCheck} size="lg"
+                                    />
+                                    <span>All Jobs</span>
+
+                                </Link>
                             </IconWrapper>
 
+
                             <IconWrapper>
-                                <a href={`/profile/${currentUser.id}`} style={{ display: "flex" , flexDirection: "column" }}>
-                                    <FontAwesomeIcon icon={faLandmark} size="lg" />
+                                <Link
+                                    to={`/profile/${currentUser.id}`}
+                                    onClick={handleJobLandmarkClick}
+                                    style={{ display: "flex", flexDirection: "column" }}
+
+                                >
+                                    <FontAwesomeIcon icon={landmarkIconState ?  faLandmark : faLandmarkFlag} size="lg"
+                                    />
                                     <span>Profile</span>
-                                </a>
 
-                                {/*<Link to={`/profile/${currentUser.id}`} ></Link>*/}
+                                </Link>
                             </IconWrapper>
+
+
+
+
+
+
 
 
 

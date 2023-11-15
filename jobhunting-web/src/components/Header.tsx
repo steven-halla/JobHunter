@@ -10,7 +10,7 @@ import {
     faCalendar,
     faCalendarDays,
     faCaretDown,
-    faCaretUp,
+    faCaretUp, faChartArea,
     faChartLine,
     faClipboard, faLandmark, faSignOutAlt
 } from "@fortawesome/free-solid-svg-icons";
@@ -33,10 +33,18 @@ export const Header = () => {
 
     const [isMenuOpen, setMenuOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
+    const [graphIconState, setGraphIconState] = useState<boolean>(true);
 
     const toggleMenu = () => {
         setMenuOpen(!isMenuOpen);
     };
+
+    const handleJobGraphsClick = () => {
+        setGraphIconState(false);
+        console.log("nugle" + graphIconState)
+        // ... other logic for when Job Graphs is clicked ...
+    };
+
 
     const handleClickOutside = useCallback((event: MouseEvent) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -102,13 +110,17 @@ export const Header = () => {
 
                 {currentUser ? (
                         <IconContainer>
+
+
                             <IconWrapper>
-
-
-                                <a href={"/dategraphs"} style={{ display: "flex" , flexDirection: "column" }}>
-                                    <FontAwesomeIcon icon={faChartLine} size="lg" />
+                                <Link
+                                    to="/dategraphs" // Use the "to" prop of Link to specify the URL
+                                    onClick={handleJobGraphsClick} // Call your function
+                                    style={{ display: "flex", flexDirection: "column" }}
+                                >
+                                    <FontAwesomeIcon icon={graphIconState ? faChartLine : faChartArea} size="lg" />
                                     <span>Job Graphs</span>
-                                </a>
+                                </Link>
                             </IconWrapper>
 
                             <IconWrapper>

@@ -25,7 +25,7 @@ export const JobViewAll = () => {
 
     const [sortOrder, setSortOrder] = useState<
         'select' |
-        'companyResponded'|
+        'companyResponded' |
         'company-a-z' |
         'company-z-a' |
         'contact-a-z' |
@@ -38,9 +38,10 @@ export const JobViewAll = () => {
         'no response' |
         'delete' |
         'update' |
-        'olderThanSevenDays' // added this new sorting option
+        'olderThanSevenDays' |
+        'company-asc' | // Add this
+        'company-desc'  // And this
     >('select');
-
 
     const [selectValue, setSelectValue] = useState<
         'select' |
@@ -343,6 +344,10 @@ export const JobViewAll = () => {
                 return a.companyname.toLowerCase().localeCompare(b.companyname.toLowerCase());
             case 'company-z-a':
                 return b.companyname.toLowerCase().localeCompare(a.companyname.toLowerCase());
+            case 'company-asc':
+                return a.companyname.toLowerCase().localeCompare(b.companyname.toLowerCase());
+            case 'company-desc':
+                return b.companyname.toLowerCase().localeCompare(a.companyname.toLowerCase());
             case 'contact-a-z':
                 return a.primarycontact.toLowerCase().localeCompare(b.primarycontact.toLowerCase());
             case 'contact-z-a':
@@ -452,6 +457,12 @@ export const JobViewAll = () => {
         const newSortOrder = dateSortDirection === 'asc' ? 'date-desc' : 'date-asc';
         setDateSortDirection(newSortOrder === 'date-asc' ? 'asc' : 'desc');
         setSortOrder(newSortOrder);
+    };
+
+    const toggleCompanySortDirection = () => {
+        const companySortOrder = companySortDirection === 'asc' ? 'company-desc' : 'company-asc';
+        setCompanySortDirection(companySortOrder === 'company-asc' ? 'asc' : 'desc');
+        setSortOrder(companySortOrder);
     };
 
     // Example sorting logic based on sortOrder
@@ -591,13 +602,7 @@ export const JobViewAll = () => {
                         <StyledTableHead>
                             <TableRow>
                                 <TableCell>
-                                    {/*<SortLabelContainer>*/}
-                                    {/*    Date*/}
-                                    {/*    <ButtonHolderDiv>*/}
-                                    {/*        <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleDateSortAsc} />*/}
-                                    {/*        <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleDateSortDesc} />*/}
-                                    {/*    </ButtonHolderDiv>*/}
-                                    {/*</SortLabelContainer>*/}
+
                                     <RedPillContainer>
                                         <button onClick={toggleDateSortDirection} style={{ all: 'unset' }}>
                                             {dateSortDirection === 'asc' ? 'Date Asc' : 'Date Desc'}
@@ -606,12 +611,12 @@ export const JobViewAll = () => {
                                     </RedPillContainer>
                                 </TableCell>
                                 <TableCell>
-                                    <SortLabelContainer>Company
-                                        <ButtonHolderDiv>
-                                            <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleCompanyNameSortAsc} />
-                                            <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleCompanyNameSortDesc} />
-                                        </ButtonHolderDiv>
-                                    </SortLabelContainer>
+                                    <RedPillContainer>
+                                        <button onClick={toggleCompanySortDirection} style={{ all: 'unset' }}>
+                                            {companySortDirection === 'asc' ? 'Company Asc' : 'Company Desc'}
+                                            <FontAwesomeIcon icon={companySortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
+                                        </button>
+                                    </RedPillContainer>
                                 </TableCell>
                                 <TableCell>
                                     <SortLabelContainer>

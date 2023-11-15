@@ -20,6 +20,9 @@ export const CompanyNoResponse = () => {
     const [isMobile, setIsMobile] = useState(window.matchMedia(device.mobile).matches);
     const [isLaptop, setIsLaptop] = useState(window.matchMedia(device.laptop).matches);
     const [dateSortDirection, setDateSortDirection] = useState('asc');
+    const [contactSortDirection, setContactSortDirection] = useState('asc'); // New state for contact sorting
+    const [companySortDirection, setCompanySortDirection] = useState('asc'); // New state for company sorting
+    const [rejectedSortStatus, setRejectedSortStatus] = useState('no'); // New state for rejected sorting
 
     // const {
     //     sortOrder,
@@ -44,6 +47,38 @@ export const CompanyNoResponse = () => {
             setSortingCriteria('date-asc'); // Set criteria for ascending date sort
         }
     };
+
+    const toggleContactSortDirection = () => {
+        if (contactSortDirection === 'asc') {
+            setContactSortDirection('dsc');
+            setSortingCriteria('contact-z-a'); // Set criteria for descending contact sort
+        } else {
+            setContactSortDirection('asc');
+            setSortingCriteria('contact-a-z'); // Set criteria for ascending contact sort
+        }
+    };
+
+    const toggleCompanySortDirection = () => {
+        if (companySortDirection === 'asc') {
+            setCompanySortDirection('dsc');
+            setSortingCriteria('company-z-a'); // Set criteria for descending company sort
+        } else {
+            setCompanySortDirection('asc');
+            setSortingCriteria('company-a-z'); // Set criteria for ascending company sort
+        }
+    };
+
+    const toggleRejectedSortStatus = () => {
+        if (rejectedSortStatus === 'no') {
+            setRejectedSortStatus('yes');
+            setSortingCriteria('rejected-yes'); // Set criteria for rejected yes sort
+        } else {
+            setRejectedSortStatus('no');
+            setSortingCriteria('rejected-no'); // Set criteria for rejected no sort
+        }
+    };
+
+
     const handleSortingChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
         setSortingCriteria(e.target.value);
     };
@@ -142,17 +177,24 @@ export const CompanyNoResponse = () => {
                         </button>
                     </RedPillContainer>
 
-                    <RedPillContainer>
-                        Company Asc
+                    <RedPillContainer onClick={toggleContactSortDirection}>
+                        {contactSortDirection === 'asc' ? 'Contact Asc' : 'Contact Desc'}
+                        <FontAwesomeIcon icon={contactSortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
                     </RedPillContainer>
 
-                    <RedPillContainer>
-                        Contact Asc
+
+                    <RedPillContainer onClick={toggleCompanySortDirection}>
+                        {companySortDirection === 'asc' ? 'Company Asc' : 'Company Desc'}
+                        <FontAwesomeIcon icon={companySortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
                     </RedPillContainer>
 
-                    <RedPillContainer>
-                        Rejected No
+
+
+                    <RedPillContainer onClick={toggleRejectedSortStatus}>
+                        {rejectedSortStatus === 'no' ? 'Rejected No' : 'Rejected Yes'}
+                        <FontAwesomeIcon icon={rejectedSortStatus === 'no' ? faCaretDown : faCaretUp} size="lg" />
                     </RedPillContainer>
+
                 </StickySearchDiv>
 
 

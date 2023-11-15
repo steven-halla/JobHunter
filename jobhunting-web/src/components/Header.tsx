@@ -38,12 +38,16 @@ export const Header = () => {
     const [buildingIconState, setBuildingIconState] = useState<boolean>(true);
     const [calendarIconState, setCalendarIconState] = useState<boolean>(true);
     const [landmarkIconState, setLandmarkIconState] = useState<boolean>(true);
+    const [logoState, setLogoState] = useState<boolean>(true);
 
     const toggleMenu = () => {
         setMenuOpen(!isMenuOpen);
     };
 
+
     const handleJobGraphsClick = () => {
+        setLogoState(true);
+
         setGraphIconState(false);
         console.log("nurgle" + graphIconState)
 
@@ -57,6 +61,8 @@ export const Header = () => {
     };
 
     const handleJobClipboardClick = () => {
+        setLogoState(true);
+
         setClipboardIconState(false);
 
 
@@ -71,6 +77,8 @@ export const Header = () => {
     };
 
     const handleJobBuildingClick = () => {
+        setLogoState(true);
+
         setBuildingIconState(false);
 
         setClipboardIconState(true);
@@ -84,6 +92,8 @@ export const Header = () => {
     };
 
     const handleJobCalendarClick = () => {
+        setLogoState(true);
+
         setCalendarIconState(false);
 
         setClipboardIconState(true);
@@ -97,6 +107,8 @@ export const Header = () => {
     };
 
     const handleJobLandmarkClick = () => {
+        setLogoState(true);
+
         setLandmarkIconState(false);
 
         setClipboardIconState(true);
@@ -105,7 +117,7 @@ export const Header = () => {
         setCalendarIconState(true);
 
 
-        console.log("nugle" + clipboardIconState)
+        console.log("nurgle" + clipboardIconState)
         // ... other logic for when Job Graphs is clicked ...
     };
 
@@ -119,6 +131,8 @@ export const Header = () => {
 
 
     const closeMenu = () => {
+
+        setLogoState(false);
         setMenuOpen(false);
         setCalendarIconState(true);
 
@@ -172,7 +186,14 @@ export const Header = () => {
             <nav>
                 <LogoDiv>
                     <h3>
-                        <LogoLink to={`/home/${currentUser?.id}`} onClick={closeMenu}>
+                        <LogoLink to={`/home/${currentUser?.id}`} onClick={closeMenu}
+                                  style={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      // textDecoration: graphIconState ? 'none' : 'underline',
+                                      borderBottom: logoState ? 'none' : '3px solid', // Thicker underline
+                                      // paddingBottom: graphIconState ? '0' : '3px', // Add padding to space out the underline
+                                  }}    >
                             JH
                         </LogoLink>
                     </h3>
@@ -186,8 +207,13 @@ export const Header = () => {
                                 <Link
                                     to="/dategraphs" // Use the "to" prop of Link to specify the URL
                                     onClick={handleJobGraphsClick} // Call your function
-                                    style={{ display: "flex", flexDirection: "column" }}
-                                >
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        // textDecoration: graphIconState ? 'none' : 'underline',
+                                        borderBottom: graphIconState ? 'none' : '3px solid', // Thicker underline
+                                        // paddingBottom: graphIconState ? '0' : '3px', // Add padding to space out the underline
+                                    }}                              >
                                     <FontAwesomeIcon icon={graphIconState ? faChartLine : faChartArea} size="lg" />
                                     <span>Job Graphs</span>
                                 </Link>
@@ -198,8 +224,13 @@ export const Header = () => {
                                     <Link
                                         to="/companynoresponse"
                                         onClick={handleJobClipboardClick}
-                                        style={{ display: "flex", flexDirection: "column" }}
-                                    >
+                                        style={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            // textDecoration: graphIconState ? 'none' : 'underline',
+                                            borderBottom: clipboardIconState ? 'none' : '3px solid', // Thicker underline
+                                            // paddingBottom: graphIconState ? '0' : '3px', // Add padding to space out the underline
+                                        }}                                         >
                                         <FontAwesomeIcon icon={clipboardIconState ?  faClipboard : faClipboardCheck} size="lg" />
                                         <span>All Jobs</span>
 
@@ -210,8 +241,13 @@ export const Header = () => {
                                 <Link
                                     to="/jobviewall"
                                     onClick={handleJobBuildingClick}
-                                    style={{ display: "flex", flexDirection: "column" }}
-
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        // textDecoration: graphIconState ? 'none' : 'underline',
+                                        borderBottom: buildingIconState ? 'none' : '3px solid', // Thicker underline
+                                        // paddingBottom: graphIconState ? '0' : '3px', // Add padding to space out the underline
+                                    }}
                                 >
                                     <FontAwesomeIcon icon={buildingIconState ?  faBuilding : faBuildingFlag} size="lg"
                                                      transform={buildingIconState ? undefined : { flipX: true }}
@@ -226,8 +262,13 @@ export const Header = () => {
                                 <Link
                                     to="/allinterviews"
                                     onClick={handleJobCalendarClick}
-                                    style={{ display: "flex", flexDirection: "column" }}
-
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        // textDecoration: graphIconState ? 'none' : 'underline',
+                                        borderBottom: calendarIconState ? 'none' : '3px solid', // Thicker underline
+                                        // paddingBottom: graphIconState ? '0' : '3px', // Add padding to space out the underline
+                                    }}
                                 >
                                     <FontAwesomeIcon icon={calendarIconState ?  faCalendarDays : faCalendarCheck} size="lg"
                                     />
@@ -241,8 +282,13 @@ export const Header = () => {
                                 <Link
                                     to={`/profile/${currentUser.id}`}
                                     onClick={handleJobLandmarkClick}
-                                    style={{ display: "flex", flexDirection: "column" }}
-
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        // textDecoration: graphIconState ? 'none' : 'underline',
+                                        borderBottom: landmarkIconState ? 'none' : '3px solid', // Thicker underline
+                                        // paddingBottom: graphIconState ? '0' : '3px', // Add padding to space out the underline
+                                    }}
                                 >
                                     <FontAwesomeIcon icon={landmarkIconState ?  faLandmark : faLandmarkFlag} size="lg"
                                     />
@@ -259,7 +305,7 @@ export const Header = () => {
 
 
 
-                            <a href="/login" onClick={logOut}>
+                            <a href="/login" onClick={logOut} style={{ textDecoration: 'none' }}>
                                 <FontAwesomeIcon icon={faSignOutAlt} size="lg" /> Logout
                             </a>
 
@@ -481,6 +527,25 @@ export const IconWrapper = styled.div`
     align-items: center;
     text-align: center;
     gap: 5px;
+
+    &:hover {
+      text-decoration: none; // Removes underline on hover
+
+      // Change color of SVG and text on hover
+      svg, span {
+        color: #0056b3; // Adjust the color as needed
+      }
+    }
+
+    //svg:hover {
+    //  color: #0056b3; // Example darker shade, adjust the color as needed
+    //}
+    //
+    //span:hover {
+    //  color: #0056b3; // Example darker shade, adjust the color as needed
+    //
+    //}
+    
   }
 
   svg {
@@ -503,5 +568,15 @@ export const LogoDiv = styled.div`
   height: 5vh;
   width: 3vw;
   justify-content: center;
+
+  a {
+    // Apply your base styles to LogoLink here if needed
+
+    // Apply hover styles
+    &:hover {
+      text-decoration: none; // Removes underline on hover
+      color: #0056b3; // Change color on hover
+    }
+  }
 
 `;

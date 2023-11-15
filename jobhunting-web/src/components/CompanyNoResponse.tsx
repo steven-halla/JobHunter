@@ -19,20 +19,31 @@ export const CompanyNoResponse = () => {
 
     const [isMobile, setIsMobile] = useState(window.matchMedia(device.mobile).matches);
     const [isLaptop, setIsLaptop] = useState(window.matchMedia(device.laptop).matches);
+    const [dateSortDirection, setDateSortDirection] = useState('asc');
 
-    const {
-        sortOrder,
-        setSortOrder, // Ensure you have this in your destructured object
-        selectValue,
-        handleDateSortAsc,
-        handleDateSortDesc,
-        handleContactNameSortAsc,
-        handleContactNameSortDesc,
-        handleCompanyNameSortAsc,
-        handleCompanyNameSortDesc,
-        handleSelectChange,
-    } = useSortAndSelect();
+    // const {
+    //     sortOrder,
+    //     setSortOrder, // Ensure you have this in your destructured object
+    //     selectValue,
+    //     handleDateSortAsc,
+    //     handleDateSortDesc,
+    //     handleContactNameSortAsc,
+    //     handleContactNameSortDesc,
+    //     handleCompanyNameSortAsc,
+    //     handleCompanyNameSortDesc,
+    //     handleSelectChange,
+    // } = useSortAndSelect();
 
+
+    const toggleDateSortDirection = () => {
+        if (dateSortDirection === 'asc') {
+            setDateSortDirection('dsc');
+            setSortingCriteria('date-desc'); // Set criteria for descending date sort
+        } else {
+            setDateSortDirection('asc');
+            setSortingCriteria('date-asc'); // Set criteria for ascending date sort
+        }
+    };
     const handleSortingChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
         setSortingCriteria(e.target.value);
     };
@@ -41,6 +52,7 @@ export const CompanyNoResponse = () => {
     useEffect(() => {
         console.log("orky boys here to party" + jobs[0]?.dateapplied, typeof jobs[0]?.dateapplied);
     }, [jobs]);
+
 
 
 
@@ -74,13 +86,13 @@ export const CompanyNoResponse = () => {
             }
         });
 
-    const handleRejectedSortYes = () => {
-        setSortOrder('rejected-yes');
-    };
-
-    const handleRejectedSortNo = () => {
-        setSortOrder('rejected-no');
-    };
+    // const handleRejectedSortYes = () => {
+    //     setSortOrder('rejected-yes');
+    // };
+    //
+    // const handleRejectedSortNo = () => {
+    //     setSortOrder('rejected-no');
+    // };
 
     const handleCheckboxChange = (jobId: number, checked: boolean) => {
         if (checked) {
@@ -106,6 +118,11 @@ export const CompanyNoResponse = () => {
         };
     }, []);
 
+    const handleDateAscSort = () => {
+        setSortingCriteria('date-asc');
+        // The sortedAndRespondedJobs will automatically recalculate and sort jobs by date in ascending order
+    };
+
 
     return (
         <CompanyNoResponseDiv>
@@ -119,10 +136,12 @@ export const CompanyNoResponse = () => {
                     />
 
                     <RedPillContainer>
-                        Date Asc
-                        <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleCompanyNameSortAsc} />
-
+                        <button onClick={toggleDateSortDirection} style={{ all: 'unset' }}>
+                            {dateSortDirection === 'asc' ? 'Date Asc' : 'Date Desc'}
+                            <FontAwesomeIcon icon={dateSortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
+                        </button>
                     </RedPillContainer>
+
                     <RedPillContainer>
                         Company Asc
                     </RedPillContainer>
@@ -302,6 +321,12 @@ const StickySearchDiv = styled.div`
   top: 7%;
   z-index: 5;
   background-color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-right: 150px;
+  height: 10vh;
 `;
 
 const SelectDiv = styled.div`

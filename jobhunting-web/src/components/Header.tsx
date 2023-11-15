@@ -252,7 +252,7 @@ export const Header = () => {
                                     <FontAwesomeIcon icon={buildingIconState ?  faBuilding : faBuildingFlag} size="lg"
                                                      transform={buildingIconState ? undefined : { flipX: true }}
                                     />
-                                    <span>All Jobs</span>
+                                    <span>Recent Jobs</span>
 
                                 </Link>
                             </IconWrapper>
@@ -272,7 +272,7 @@ export const Header = () => {
                                 >
                                     <FontAwesomeIcon icon={calendarIconState ?  faCalendarDays : faCalendarCheck} size="lg"
                                     />
-                                    <span>All Jobs</span>
+                                    <span>Interviews</span>
 
                                 </Link>
                             </IconWrapper>

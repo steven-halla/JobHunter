@@ -1,20 +1,19 @@
 import React, {useCallback, useEffect, useRef, useState} from "react";
 import {Link, Route, Routes} from "react-router-dom";
-import {Home} from "./Home";
-import {JobsAppliedDateGraph} from "./JobsAppliedDateGraph";
-import Login from "./Login";
-import Register from "./Register";
-import Profile from "./Profile";
-import {JobViewAll} from "./JobViewAll";
-import {CompanyNoResponse} from "./CompanyNoResponse";
-import {InterviewSecured} from "./InterviewSecured";
-import BoardUser from "./BoardUser";
-import BoardModerator from "./BoardModerator";
-import BoardAdmin from "./BoardAdmin";
 import {User} from "../models/User";
 import AuthService from "../services/auth.service";
 import EventBus from "../common/EventBus";
 import styled from "styled-components";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {
+    faBuilding,
+    faCalendar,
+    faCalendarDays,
+    faCaretDown,
+    faCaretUp,
+    faChartLine,
+    faClipboard, faLandmark, faSignOutAlt
+} from "@fortawesome/free-solid-svg-icons";
 
 
 interface DropdownMenuProps {
@@ -93,14 +92,76 @@ export const Header = () => {
     return (
         <HeaderDiv>
             <nav>
-                <Link to={`/home/${currentUser?.id}`} onClick={closeMenu}>Job Hunter</Link>
-
+                <LogoDiv>
+                    <h3>
+                        <LogoLink to={`/home/${currentUser?.id}`} onClick={closeMenu}>
+                            JH
+                        </LogoLink>
+                    </h3>
+                </LogoDiv>
 
                 {currentUser ? (
-                    <UserDisplay onClick={toggleMenu}>
-                        <span>{currentUser.username}</span>
-                        <Caret>^</Caret>
-                    </UserDisplay>
+                        <IconContainer>
+                            <IconWrapper>
+
+
+                                <a href={"/dategraphs"} style={{ display: "flex" , flexDirection: "column" }}>
+                                    <FontAwesomeIcon icon={faChartLine} size="lg" />
+                                    <span>Job Graphs</span>
+                                </a>
+                            </IconWrapper>
+
+                            <IconWrapper>
+
+                                <a href={"/companynoresponse"} style={{ display: "flex" , flexDirection: "column" }}>
+                                    <FontAwesomeIcon icon={faClipboard} size="lg" />
+                                    <span>All Jobs</span>
+                                </a>
+                            </IconWrapper>
+
+                            <IconWrapper>
+
+                                <a href={"/jobviewall"} style={{ display: "flex" , flexDirection: "column" }}>
+                                    <FontAwesomeIcon icon={faBuilding} size="lg" />
+                                    <span>Current Jobs</span>
+                                </a>
+                            </IconWrapper>
+
+
+
+                            <IconWrapper>
+
+                                <a href={"/allinterviews"} style={{ display: "flex" , flexDirection: "column" }}>
+                                    <FontAwesomeIcon icon={faCalendarDays} size="lg" />
+                                    <span>Interviews</span>
+                                </a>
+                            </IconWrapper>
+
+                            <IconWrapper>
+                                <a href={`/profile/${currentUser.id}`} style={{ display: "flex" , flexDirection: "column" }}>
+                                    <FontAwesomeIcon icon={faLandmark} size="lg" />
+                                    <span>Profile</span>
+                                </a>
+
+                                {/*<Link to={`/profile/${currentUser.id}`} ></Link>*/}
+                            </IconWrapper>
+
+
+
+                            <a href="/login" onClick={logOut}>
+                                <FontAwesomeIcon icon={faSignOutAlt} size="lg" /> Logout
+                            </a>
+
+
+                            {/*<UserDisplay onClick={toggleMenu}>*/}
+                            {/*    <span>{currentUser.username}</span>*/}
+                            {/*    <FontAwesomeIcon icon={faCaretDown} size="lg" />*/}
+                            {/*</UserDisplay>*/}
+                        </IconContainer>
+
+
+
+
                 ) : (
                     <>
                         <li><Link to={"/login"}>Login</Link></li>
@@ -135,78 +196,201 @@ export const Header = () => {
 };
 
 
+// export const HeaderDiv = styled.div`
+//   display: flex;
+//   background-color: #adc1ff;
+//   width: 100vw;
+//   height: 7vh;
+//   align-items: center; /* Vertically aligns items to the center */
+//   position: sticky;
+//   top: 0;
+//   //background-color: white;
+//   z-index: 6;
+//
+//   nav {
+//     display: flex;
+//     flex-direction: row;
+//     width: 100%; /* Ensures nav takes up full width of the HeaderDiv */
+//     justify-content: space-between; /* Distributes items evenly with equal space around them */
+//     padding: 0 5%; /* Add padding to left and right */
+//
+//     li {
+//       margin: 0 15px; /* Provides some spacing between nav items */
+//       list-style-type: none; /* Removes the bullet points */
+//
+//
+//     }
+//   }
+// `;
+
+// export const HamburgerIcon = styled.span`
+//     cursor: pointer;
+// `;
+//
+// export const DropdownMenu = styled.div<DropdownMenuProps>`
+//   display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
+//   flex-direction: column;
+//   gap: 10px;
+//   position: absolute;
+//   align-items: end;
+//   top: 7vh;
+//   right: 10px;
+//   background-color: #f9f9f9;
+//   border: 1px solid #ccc;
+//   border-radius: 5px;
+//   z-index: 2;
+//
+//   li {
+//     list-style-type: none; /* Removes the bullet points */
+//
+//
+//   }
+// `;
+//
+//
+// export const UserDisplay = styled.div`
+//     cursor: pointer;
+//     display: flex;
+//     align-items: end;
+//     gap: 10px;
+//     position: relative;  // Add this line
+//
+//
+//   span {
+//         font-weight: bold;
+//     }
+//
+//     &.active > i {
+//         transform: rotate(180deg);
+//     }
+// `;
+//
+// export const Caret = styled.i`
+//   transition: transform 0.3s ease;
+//   transform: rotate(180deg) translateY(+10%);
+// `;
+//
+//
+// export const IconContainer = styled.div`
+//   display: flex;
+//   align-items: center;
+//   gap: 10px;
+// `;
+//
+// export const IconWrapper = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   gap: 5px;
+//
+//   svg {
+//     color: #007bff; /* Change the color to your desired icon color */
+//   }
+//
+//   span {
+//     font-size: 0.8rem;
+//     text-align: center;
+//   }
+// `;
+//
+// const LogoLink = styled(Link)`
+//   text-decoration: underline;
+//   font-family: 'Papyrus, sans-serif';
+//   margin-right: 20px; /* Adjust margin as needed to create spacing between the logo and other elements */
+// `;
+
 export const HeaderDiv = styled.div`
   display: flex;
   background-color: #adc1ff;
   width: 100vw;
   height: 7vh;
-  align-items: center; /* Vertically aligns items to the center */
+  align-items: center;
   position: sticky;
   top: 0;
-  //background-color: white;
   z-index: 6;
 
   nav {
     display: flex;
     flex-direction: row;
-    width: 100%; /* Ensures nav takes up full width of the HeaderDiv */
+    width: 100%;
     justify-content: space-between; /* Distributes items evenly with equal space around them */
-    padding: 0 5%; /* Add padding to left and right */
-
-    li {
-      margin: 0 15px; /* Provides some spacing between nav items */
-      list-style-type: none; /* Removes the bullet points */
-
-
-    }
+    padding: 0 5%;
+    align-items: center; /* Vertically center the items within the nav */
   }
 `;
 
-// export const HamburgerIcon = styled.span`
-//     cursor: pointer;
-// `;
 
 export const DropdownMenu = styled.div<DropdownMenuProps>`
   display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
   flex-direction: column;
   gap: 10px;
   position: absolute;
-  align-items: end;
+  align-items: flex-end; /* Align menu items to the right */
   top: 7vh;
   right: 10px;
-  background-color: #f9f9f9;
+  //background-color: #f9f9f9;
+  background-color: purple;
   border: 1px solid #ccc;
   border-radius: 5px;
   z-index: 2;
+`;
 
-  li {
-    list-style-type: none; /* Removes the bullet points */
+export const UserDisplay = styled.div`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  span {
+    font-weight: bold;
+  }
+`;
+
+export const IconContainer = styled.div`
+  display: flex;
+  justify-content: space-between; /* Space elements evenly */
+  align-items: center; /* Center child items vertically */
+  gap: 10px;
+  flex-grow: 3; /* Allow the container to grow and take up available space */
+  margin-left: 15%;
+`;
 
 
+export const IconWrapper = styled.div`
+  display: flex;
+  grid-template-columns: 1fr; /* Forces columns */
+  align-items: center;
+  text-align: center;
+  gap: 5px;
+  flex-direction: column;
+
+  a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 5px;
+  }
+
+  svg {
+    color: #007bff;
+  }
+
+  span {
+    font-size: 0.8rem;
   }
 `;
 
 
-export const UserDisplay = styled.div`
-    cursor: pointer;
-    display: flex;
-    align-items: end;
-    gap: 10px;
-    position: relative;  // Add this line
-
-
-  span {
-        font-weight: bold;
-    }
-
-    &.active > i {
-        transform: rotate(180deg);
-    }
+const LogoLink = styled(Link)`
+  font-family: 'Papyrus, sans-serif';
 `;
 
-export const Caret = styled.i`
-  transition: transform 0.3s ease;
-  transform: rotate(180deg) translateY(+10%);
+export const LogoDiv = styled.div`
+  display: flex;
+  background-color: rgba(97,78,169,0.86);
+  height: 5vh;
+  width: 3vw;
+  justify-content: center;
+
 `;
-
-

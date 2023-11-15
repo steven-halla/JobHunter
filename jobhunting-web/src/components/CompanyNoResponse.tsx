@@ -19,9 +19,9 @@ export const CompanyNoResponse = () => {
 
     const [isMobile, setIsMobile] = useState(window.matchMedia(device.mobile).matches);
     const [isLaptop, setIsLaptop] = useState(window.matchMedia(device.laptop).matches);
-    const [dateSortDirection, setDateSortDirection] = useState('asc');
-    const [contactSortDirection, setContactSortDirection] = useState('asc'); // New state for contact sorting
-    const [companySortDirection, setCompanySortDirection] = useState('asc'); // New state for company sorting
+    const [dateSortDirection, setDateSortDirection] = useState('dsc');
+    const [contactSortDirection, setContactSortDirection] = useState('dsc'); // New state for contact sorting
+    const [companySortDirection, setCompanySortDirection] = useState('dsc'); // New state for company sorting
     const [rejectedSortStatus, setRejectedSortStatus] = useState('no'); // New state for rejected sorting
 
     // const {
@@ -38,46 +38,43 @@ export const CompanyNoResponse = () => {
     // } = useSortAndSelect();
 
 
+
+    // Toggle functions updated to reset other sort states
     const toggleDateSortDirection = () => {
-        if (dateSortDirection === 'asc') {
-            setDateSortDirection('dsc');
-            setSortingCriteria('date-desc'); // Set criteria for descending date sort
-        } else {
-            setDateSortDirection('asc');
-            setSortingCriteria('date-asc'); // Set criteria for ascending date sort
-        }
+        setDateSortDirection(dateSortDirection === 'asc' ? 'dsc' : 'asc');
+        setSortingCriteria(dateSortDirection === 'asc' ? 'date-desc' : 'date-asc');
+        // Reset other sort buttons to their original state
+        setContactSortDirection('dsc');
+        setCompanySortDirection('dsc');
+        setRejectedSortStatus('yes');
     };
 
     const toggleContactSortDirection = () => {
-        if (contactSortDirection === 'asc') {
-            setContactSortDirection('dsc');
-            setSortingCriteria('contact-z-a'); // Set criteria for descending contact sort
-        } else {
-            setContactSortDirection('asc');
-            setSortingCriteria('contact-a-z'); // Set criteria for ascending contact sort
-        }
+        setContactSortDirection(contactSortDirection === 'asc' ? 'dsc' : 'asc');
+        setSortingCriteria(contactSortDirection === 'asc' ? 'contact-z-a' : 'contact-a-z');
+        // Reset other sort buttons to their original state
+        setDateSortDirection('dsc');
+        setCompanySortDirection('dsc');
+        setRejectedSortStatus('yes');
     };
 
     const toggleCompanySortDirection = () => {
-        if (companySortDirection === 'asc') {
-            setCompanySortDirection('dsc');
-            setSortingCriteria('company-z-a'); // Set criteria for descending company sort
-        } else {
-            setCompanySortDirection('asc');
-            setSortingCriteria('company-a-z'); // Set criteria for ascending company sort
-        }
+        setCompanySortDirection(companySortDirection === 'asc' ? 'dsc' : 'asc');
+        setSortingCriteria(companySortDirection === 'asc' ? 'company-z-a' : 'company-a-z');
+        // Reset other sort buttons to their original state
+        setDateSortDirection('dsc');
+        setContactSortDirection('dsc');
+        setRejectedSortStatus('yes');
     };
 
     const toggleRejectedSortStatus = () => {
-        if (rejectedSortStatus === 'no') {
-            setRejectedSortStatus('yes');
-            setSortingCriteria('rejected-yes'); // Set criteria for rejected yes sort
-        } else {
-            setRejectedSortStatus('no');
-            setSortingCriteria('rejected-no'); // Set criteria for rejected no sort
-        }
+        setRejectedSortStatus(rejectedSortStatus === 'no' ? 'yes' : 'no');
+        setSortingCriteria(rejectedSortStatus === 'no' ? 'rejected-yes' : 'rejected-no');
+        // Reset other sort buttons to their original state
+        setDateSortDirection('dsc');
+        setContactSortDirection('dsc');
+        setCompanySortDirection('dsc');
     };
-
 
     const handleSortingChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
         setSortingCriteria(e.target.value);
@@ -390,6 +387,7 @@ const RedPillContainer = styled.div`
   background-color: red;
   border-radius: 15px;
   box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5);
+  margin-right: 1.5%;
   
   border: 2px solid black;
   text-align: center; /* Center children horizontally */
@@ -397,5 +395,9 @@ const RedPillContainer = styled.div`
 
   & > svg {
     margin-left: 10px; /* Add margin to the left of the FontAwesomeIcon */
+  }
+
+  &:hover {
+    cursor: pointer;
   }
 `;

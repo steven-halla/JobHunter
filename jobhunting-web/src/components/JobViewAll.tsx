@@ -20,6 +20,7 @@ export const JobViewAll = () => {
     const [filter] = useState('');
     const [onlyShowResponded] = useState(false);
 
+    const [sortingCriteria, setSortingCriteria] = useState('date-asc'); // default sorting criteria
 
 
     const [sortOrder, setSortOrder] = useState<
@@ -68,6 +69,12 @@ export const JobViewAll = () => {
     const [jobResponses, setJobResponses] = useState<Record<string, JobResponse>>(
         () => JSON.parse(localStorage.getItem("jobResponses") || '{}')
     );
+
+    const [dateSortDirection, setDateSortDirection] = useState('dsc');
+    const [contactSortDirection, setContactSortDirection] = useState('dsc'); // New state for contact sorting
+    const [companySortDirection, setCompanySortDirection] = useState('dsc'); // New state for company sorting
+    const [rejectedSortStatus, setRejectedSortStatus] = useState('no'); // New state for rejected sorting
+
 
 
     useEffect(() => {
@@ -441,6 +448,45 @@ export const JobViewAll = () => {
         setSortOrder('companyResponded');
     };
 
+    const toggleDateSortDirection = () => {
+        const newSortOrder = dateSortDirection === 'asc' ? 'date-desc' : 'date-asc';
+        setDateSortDirection(newSortOrder === 'date-asc' ? 'asc' : 'desc');
+        setSortOrder(newSortOrder);
+    };
+
+    // Example sorting logic based on sortOrder
+
+
+
+    //
+    // const toggleContactSortDirection = () => {
+    //     setContactSortDirection(contactSortDirection === 'asc' ? 'dsc' : 'asc');
+    //     setSortingCriteria(contactSortDirection === 'asc' ? 'contact-z-a' : 'contact-a-z');
+    //     // Reset other sort buttons to their original state
+    //     setDateSortDirection('dsc');
+    //     setCompanySortDirection('dsc');
+    //     setRejectedSortStatus('yes');
+    // };
+    //
+    // const toggleCompanySortDirection = () => {
+    //     setCompanySortDirection(companySortDirection === 'asc' ? 'dsc' : 'asc');
+    //     setSortingCriteria(companySortDirection === 'asc' ? 'company-z-a' : 'company-a-z');
+    //     // Reset other sort buttons to their original state
+    //     setDateSortDirection('dsc');
+    //     setContactSortDirection('dsc');
+    //     setRejectedSortStatus('yes');
+    // };
+    //
+    // const toggleRejectedSortStatus = () => {
+    //     setRejectedSortStatus(rejectedSortStatus === 'no' ? 'yes' : 'no');
+    //     setSortingCriteria(rejectedSortStatus === 'no' ? 'rejected-yes' : 'rejected-no');
+    //     // Reset other sort buttons to their original state
+    //     setDateSortDirection('dsc');
+    //     setContactSortDirection('dsc');
+    //     setCompanySortDirection('dsc');
+    // };
+
+
 
     return (
         <>
@@ -545,13 +591,19 @@ export const JobViewAll = () => {
                         <StyledTableHead>
                             <TableRow>
                                 <TableCell>
-                                    <SortLabelContainer>
-                                        Date
-                                        <ButtonHolderDiv>
-                                            <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleDateSortAsc} />
-                                            <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleDateSortDesc} />
-                                        </ButtonHolderDiv>
-                                    </SortLabelContainer>
+                                    {/*<SortLabelContainer>*/}
+                                    {/*    Date*/}
+                                    {/*    <ButtonHolderDiv>*/}
+                                    {/*        <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleDateSortAsc} />*/}
+                                    {/*        <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleDateSortDesc} />*/}
+                                    {/*    </ButtonHolderDiv>*/}
+                                    {/*</SortLabelContainer>*/}
+                                    <RedPillContainer>
+                                        <button onClick={toggleDateSortDirection} style={{ all: 'unset' }}>
+                                            {dateSortDirection === 'asc' ? 'Date Asc' : 'Date Desc'}
+                                            <FontAwesomeIcon icon={dateSortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
+                                        </button>
+                                    </RedPillContainer>
                                 </TableCell>
                                 <TableCell>
                                     <SortLabelContainer>Company
@@ -561,7 +613,6 @@ export const JobViewAll = () => {
                                         </ButtonHolderDiv>
                                     </SortLabelContainer>
                                 </TableCell>
-                                <TableCell>Description</TableCell>
                                 <TableCell>
                                     <SortLabelContainer>
                                         Contact
@@ -571,8 +622,7 @@ export const JobViewAll = () => {
                                         </ButtonHolderDiv>
                                     </SortLabelContainer>
                                 </TableCell>
-                                <TableCell>Job Link</TableCell>
-                                <TableCell>Website </TableCell>
+
                                 <TableCell>
                                     <SortLabelContainer>
                                         Interiew / no response
@@ -607,75 +657,6 @@ export const JobViewAll = () => {
                             </CardDiv>
                         ))}
                     </CardBoxDiv>
-
-
-
-                    {/*<TableBody>*/}
-                        {/*    {sortedAndRespondedJobs.map((job, index) => (*/}
-                        {/*        <StyledTableRow*/}
-                        {/*            key={job.id}*/}
-                        {/*            response={jobResponses[job.id] || 'no response'}*/}
-                        {/*            companyRejected={job.companyrejected}*/}
-                        {/*            companyResponded={job.companyresponded}*/}
-                        {/*            meetingLink={job.meetingLink as string} // Explicit type assertion*/}
-                        {/*            isOlderThanSevenDays={(new Date().getTime() - new Date(job.dateapplied).getTime()) > SEVEN_DAYS_MS}*/}
-                        {/*        >*/}
-                        {/*            <TableCell>{new Date(job.dateapplied).toISOString().split('T')[0]}</TableCell>*/}
-                        {/*            <StyledTableCell><a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">{job.companyname}</a></StyledTableCell>*/}
-                        {/*            <TableCell>*/}
-                        {/*                <TextButton onClick={() => openDescriptionModal(job.description)}>Click to View</TextButton>*/}
-                        {/*            </TableCell>*/}
-                        {/*            <StyledTableCell>{job.primarycontact}</StyledTableCell>*/}
-                        {/*            <TableCell><a href={job.joblink} target="_blank" rel="noopener noreferrer">LINK</a></TableCell>*/}
-                        {/*            <TableCell>*/}
-                        {/*                <div>*/}
-
-                        {/*                    <FontAwesomeIcon*/}
-                        {/*                        className="custom-icon hidden-icons scedule-icon custom-icon-lg"*/}
-
-                        {/*                        icon={faCalendar}*/}
-                        {/*                        style={{ cursor: 'pointer' }}*/}
-                        {/*                        onClick={() => onButtonClick('accepted', String(job.id))}*/}
-
-                        {/*                    />*/}
-
-                        {/*                    <FontAwesomeIcon*/}
-                        {/*                        icon={faBan}*/}
-                        {/*                        className="custom-icon hidden-icons no-response-icon"*/}
-                        {/*                        style={{ cursor: 'pointer', marginTop: '15px' }}*/}
-                        {/*                        onClick={() => onButtonClick('declined', String(job.id))}*/}
-                        {/*                    />*/}
-
-                        {/*                    <FontAwesomeIcon*/}
-                        {/*                        icon={faEdit}*/}
-                        {/*                        className="custom-icon hidden-icons edit-icon"*/}
-                        {/*                        style={{ cursor: 'pointer', marginTop: '15px' }}*/}
-                        {/*                        onClick={() => onButtonClick('update', String(job.id))}*/}
-                        {/*                    />*/}
-
-                        {/*                    <FontAwesomeIcon*/}
-                        {/*                        icon={faTrash}*/}
-                        {/*                        className="custom-icon hidden-icons trash-icon"*/}
-                        {/*                        style={{ cursor: 'pointer', marginTop: '15px' }}*/}
-                        {/*                        onClick={() => onButtonClick('delete', String(job.id))}*/}
-                        {/*                    />*/}
-
-
-                        {/*                </div>*/}
-                        {/*            </TableCell>*/}
-                        {/*            <TableCell>*/}
-
-
-                        {/*            </TableCell>*/}
-                        {/*        </StyledTableRow>*/}
-                        {/*    ))}*/}
-
-
-
-                        {/*</TableBody>*/}
-
-
-
 
 
                 </StyledTableContainer>
@@ -883,5 +864,27 @@ const CardDiv = styled.div<CardProps>`
 
   .custom-icon-sm {
     font-size: 16px;
+  }
+`;
+
+const RedPillContainer = styled.div`
+  display: inline-block;
+  min-width: 150px;
+  height: 30px;
+  background-color: red;
+  border-radius: 15px;
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5);
+  margin-right: 1.5%;
+  
+  border: 2px solid black;
+  text-align: center; /* Center children horizontally */
+  //line-height: 30px; /* Center children vertically */
+
+  & > svg {
+    margin-left: 10px; /* Add margin to the left of the FontAwesomeIcon */
+  }
+
+  &:hover {
+    cursor: pointer;
   }
 `;

@@ -117,25 +117,42 @@ export const CompanyNoResponse = () => {
                         value={searchTerm}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setSearchTerm(e.target.value)}
                     />
+
+                    <RedPillContainer>
+                        Date Asc
+                        <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleCompanyNameSortAsc} />
+
+                    </RedPillContainer>
+                    <RedPillContainer>
+                        Company Asc
+                    </RedPillContainer>
+
+                    <RedPillContainer>
+                        Contact Asc
+                    </RedPillContainer>
+
+                    <RedPillContainer>
+                        Rejected No
+                    </RedPillContainer>
                 </StickySearchDiv>
 
 
 
-            <SelectDiv>
-                <SimpleSelect value={sortingCriteria} onChange={handleSortingChange}>
-                    <option value="date-asc">Date Ascending</option>
-                    <option value="date-desc">Date Descending</option>
-                    <option value="company-a-z">Company A-Z</option>
-                    <option value="company-z-a">Company Z-A</option>
-                    <option value="contact-a-z">Contact A-Z</option>
-                    <option value="contact-z-a">Contact Z-A</option>
-                    <option value="rejected-yes">Rejected Yes</option>
-                    <option value="rejected-no">Rejected No</option>
-                    {/* other options */}
-                </SimpleSelect>
+            {/*<SelectDiv>*/}
+            {/*    <SimpleSelect value={sortingCriteria} onChange={handleSortingChange}>*/}
+            {/*        <option value="date-asc">Date Ascending</option>*/}
+            {/*        <option value="date-desc">Date Descending</option>*/}
+            {/*        <option value="company-a-z">Company A-Z</option>*/}
+            {/*        <option value="company-z-a">Company Z-A</option>*/}
+            {/*        <option value="contact-a-z">Contact A-Z</option>*/}
+            {/*        <option value="contact-z-a">Contact Z-A</option>*/}
+            {/*        <option value="rejected-yes">Rejected Yes</option>*/}
+            {/*        <option value="rejected-no">Rejected No</option>*/}
+            {/*        /!* other options *!/*/}
+            {/*    </SimpleSelect>*/}
 
 
-            </SelectDiv>
+            {/*</SelectDiv>*/}
 
             {sortedAndRespondedJobs.map((job) => (
                 <CardDiv key={job.id}>
@@ -296,4 +313,22 @@ const SelectDiv = styled.div`
   z-index: 5;
   position: sticky;
   background-color: white;
+`;
+
+
+const RedPillContainer = styled.div`
+  display: inline-block;
+  min-width: 150px;
+  height: 30px;
+  background-color: red;
+  border-radius: 15px;
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5);
+  
+  border: 2px solid black;
+  text-align: center; /* Center children horizontally */
+  //line-height: 30px; /* Center children vertically */
+
+  & > svg {
+    margin-left: 10px; /* Add margin to the left of the FontAwesomeIcon */
+  }
 `;

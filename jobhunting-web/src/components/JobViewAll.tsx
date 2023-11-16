@@ -16,6 +16,8 @@ import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 
 
 export const JobViewAll = () => {
+    const [searchTerm, setSearchTerm] = useState('');
+
     const { jobs, updateJobSoftDelete, updateJobRejected, meetingLink} = useContext(JobsContext);
     const [filter] = useState('');
     const [onlyShowResponded] = useState(false);
@@ -337,8 +339,18 @@ export const JobViewAll = () => {
 
 
 
-    const sortedAndRespondedJobs = [...filteredAndRespondedJobs].sort((a, b) => {
+    const sortedAndRespondedJobs = [...filteredAndRespondedJobs]
+        .filter(job =>
+            !job.companyresponded &&
+            (searchTerm.length < 3 || job.companyname.toLowerCase().includes(searchTerm.toLowerCase().trim()) || job.primarycontact.toLowerCase().includes(searchTerm.toLowerCase().trim()))
+        )
+
+
+        .sort((a, b) => {
+
+
         switch (sortOrder) {
+
             case 'select':
                 // Default sorting, for example by date applied in ascending order
                 return new Date(a.dateapplied).getTime() - new Date(b.dateapplied).getTime();
@@ -621,6 +633,12 @@ export const JobViewAll = () => {
                     <Table>
                         <StyledTableHead>
                             <TableRow>
+                                <SearchBar
+                                    type="text"
+                                    placeholder="Search by company name or contact..."
+                                    value={searchTerm}
+                                    onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setSearchTerm(e.target.value)}
+                                />
                                 <TableCell>
 
                                     <RedPillContainer>
@@ -912,4 +930,20 @@ const RedPillContainer = styled.div`
   &:hover {
     cursor: pointer;
   }
+`;
+
+const SearchBar = styled.input`
+  width: 30%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white; /* Set the background color of SearchBar */
+  position: sticky; /* Make it sticky */
+  top: 0; /* Stick it to the top */
+  z-index: 1; /* Ensure it's above other elements */
+  overflow: hidden; /* Hide any overflow */
 `;

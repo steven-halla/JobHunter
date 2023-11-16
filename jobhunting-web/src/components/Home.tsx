@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faGithub, faLinkedin} from '@fortawesome/free-brands-svg-icons';
 import { faBriefcase } from '@fortawesome/free-solid-svg-icons';
 import Button from '@mui/material/Button';
-import {InputLabel, TextFieldProps} from '@mui/material';
+import {InputLabel, TextFieldProps, useTheme} from '@mui/material';
 import TextField from '@mui/material/TextField';
 import {useParams} from "react-router-dom";
 import {Job} from "../models/Job";
@@ -258,6 +258,7 @@ export const Home: React.FC = () => {
         };
     }, []);
 
+    const theme = useTheme();
 
 
 
@@ -272,7 +273,8 @@ export const Home: React.FC = () => {
                 height: "100%",
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "space-between",
+
+
                 // Add other CSS styles as needed
             }}
         >
@@ -287,8 +289,16 @@ export const Home: React.FC = () => {
                     width: "100%",
                     alignItems: "center",
                     justifyContent: "center",
-                    marginBottom: "5%"
+                    marginBottom: "5%",
                     // Add other CSS styles as needed
+
+
+                    [theme.breakpoints.down('sm')]: {
+                        // padding: '10px',
+                        backgroundColor: "purple", // Example responsive style
+                        height: "5vh",
+                        marginTop: "15px",
+                    },
                 }}
             >
                 <Box
@@ -319,6 +329,7 @@ export const Home: React.FC = () => {
                         style={{ cursor: 'pointer' }}
                     />
                 </Box>
+
                 <Box
                     display="flex"
                     paddingLeft="20px"
@@ -338,11 +349,19 @@ export const Home: React.FC = () => {
 
 
 
+
+
+
             <Box
                 sx={{
+
+                    justifyContent: "space-evenly", // Evenly distribute space around items
+
+
+
                     backgroundColor: "#c7f3ff",
 
-                    marginTop: "2%",
+                    // marginTop: "2%",
                     width: "40vw",
                     minWidth: "300px",
                     height: "70vh",
@@ -351,57 +370,65 @@ export const Home: React.FC = () => {
                     borderRadius: "5%",
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "center",
+                    // justifyContent: "space-around",
                     margin: "auto",
-                    marginBottom: "7%",
-                    paddingTop: "3%",
+                    // flexDirection: "colum",
+
+                    gap: "20px", // Adjust the value as needed
+                    // marginBottom: "7%",
+                    // paddingTop: "3%",
                     boxShadow: "0px 4px 8px -2px rgba(0, 0, 0, 0.2)", // Horizontal shadow, Vertical shadow, Blur radius, Spread radius, Color
 
                     "& > *:not(.MuiTextField-root)": {
                         backgroundColor: "#c7f3ff",
-                        width: "50vw",
+                        width: "60vw",
                     },
 
+                    [theme.breakpoints.down('sm')]: {
+                        // padding: '10px',
+                        backgroundColor: "purple", // Example responsive style
+                        height: "5vh",
 
+                    },
                     // Add other CSS styles as needed
                 }}
             >
-            <CustomFieldForm onSubmit={handleJobSubmit}>
+                <CustomFieldForm onSubmit={handleJobSubmit}>
 
 
 
-                <FieldContainerDiv
+                    <FieldContainerDiv
 
-                >
+                    >
 
-                    <StyledTextField         label="company name"
-                                             value={companyname} onChange={handleCompanyNameChange} />
-                </FieldContainerDiv>
-
-
-
-                <FieldContainerDiv>
-                    <StyledTextField  label="description" value={description} onChange={handleDescriptionChange} />
-                </FieldContainerDiv>
+                        <StyledTextField         label="company name"
+                                                 value={companyname} onChange={handleCompanyNameChange} />
+                    </FieldContainerDiv>
 
 
-                <FieldContainerDiv>
-                    <StyledTextField   label="contact" value={primarycontact} onChange={handlePrimaryContact} />
-                </FieldContainerDiv>
-                <FieldContainerDiv>
-                    <StyledTextField   label="website" value={companywebsitelink} onChange={handleCompanyWebSiteLink} />
-                </FieldContainerDiv>
-                <FieldContainerDiv>
-                    <StyledTextField  label="job link" value={joblink} onChange={handleJobLink} />
-                </FieldContainerDiv>
-                <ButtonDiv>
-                    <SubmitButton  sx={{
-                        borderRadius: 10,
 
-                    }} variant="contained" type="submit">Submit</SubmitButton>
-                </ButtonDiv>
+                    <FieldContainerDiv>
+                        <StyledTextField  label="description" value={description} onChange={handleDescriptionChange} />
+                    </FieldContainerDiv>
 
-            </CustomFieldForm>
+
+                    <FieldContainerDiv>
+                        <StyledTextField   label="contact" value={primarycontact} onChange={handlePrimaryContact} />
+                    </FieldContainerDiv>
+                    <FieldContainerDiv>
+                        <StyledTextField   label="website" value={companywebsitelink} onChange={handleCompanyWebSiteLink} />
+                    </FieldContainerDiv>
+                    <FieldContainerDiv>
+                        <StyledTextField  label="job link" value={joblink} onChange={handleJobLink} />
+                    </FieldContainerDiv>
+                    <ButtonDiv>
+                        <SubmitButton  sx={{
+                            borderRadius: 10,
+
+                        }} variant="contained" type="submit">Submit</SubmitButton>
+                    </ButtonDiv>
+
+                </CustomFieldForm>
 
             </Box>
 
@@ -438,27 +465,40 @@ export const Home: React.FC = () => {
 
 const jobCardStyle = {
     backgroundColor: 'grey',
+    justifyContent: "center",
+alignItems: "center",
+
+    // marginTop: "1%",
+    paddingTop: device.mobile ? '3%' : '0.1%', // 3% padding for mobile, 1% for others
     boxShadow: '-4px 0 8px -2px rgba(0, 0, 0, 0.2), 4px 0 8px -2px rgba(0, 0, 0, 0.2), 0 4px 8px -2px rgba(0, 0, 0, 0.2)'
 };
 
 
 const JobCardDiv = styled.div`
-  height: 50%;
+  height: 59%;
   width: 20%;
+  min-width: 200px;
   display: flex;
   position: absolute;
   margin-left: 75%;
   margin-top: 15%;
+  padding-bottom: 2%;
   border-radius: 10px; /* Adjust the value as needed for desired roundness */
   justify-content: center;
   align-items: center;
+  
 
   @media ${deviceHome.mobile} {
-    //background-color: rgba(150,116,169,0.86);
-
+    position: relative; // Keeps the element in the normal document flow
+    width: 76%; // Sets the width to 80% of the parent element
+    height: 50%;
+    margin-left: auto; // Centers the element along the horizontal axis
+    margin-right: auto; // Centers the element along the horizontal axis
+    margin-top: 1em; // Adds space above the element
+    height: auto; // Lets the height adjust based on content
+    background-color: rgba(150,116,169,0.86); // Optional background color change for mobile
+    padding-top: 3%;
   }
-
-
 
 
 
@@ -468,11 +508,29 @@ const JobCardDiv = styled.div`
 const ButtonDiv = styled.div`
   justify-content: center;
   align-items: center;
-  margin-top: 10%;
-  margin-bottom: 5%;
-  
-  @media ${deviceHome.laptop} {
-    margin-top: 3%;
+  background-color: yellow;
+  //margin-top: 5.5%;
+  //margin-top: 10%;
+  //margin-bottom: 1.5%;
+
+  @media ${deviceHome.mobile} {
+    background-color: rgba(150,116,169,0.86);
+    width: 36vw;
+    display: flex;
+
+    .button {
+      background-color; red;
+    }
+  }
+`;
+
+const StyledButton = styled(Button)`
+  // Default styles for the button
+  // ...
+
+  @media ${deviceHome.mobile} {
+    background-color: red; // Style for mobile
+    // Add other mobile-specific styles here
   }
 `;
 
@@ -495,15 +553,16 @@ const StyledTextField: React.FC<TextFieldProps> = (props) => (
 
 const SubmitButton = styled(Button)`
   height: 9vh;
-  width: 17vw;
+  width: 23vw;
   display: flex;
   padding-bottom: 70px;
-  margin-bottom: 50px;
+  //margin-bottom: 50px;
   background-color: yellow;
-  
-  @media ${deviceHome.mobile} {
-    //background-color: rgba(50,86,169,0.86);
 
+  @media ${deviceHome.mobile} {
+    background-color: red;
+    width: 30vw;
+    height: 7vh;
   }
 
 
@@ -516,7 +575,7 @@ export const HomeWrapperDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  
+
 
 
   @media ${deviceHome.mobile} {
@@ -536,8 +595,8 @@ export const CustomFieldsDiv = styled.div`
   width: 100%;
   align-items: center;
   justify-content: center;
-  
- 
+
+
 `;
 
 export const FieldRowDiv = styled.div`
@@ -546,8 +605,8 @@ export const FieldRowDiv = styled.div`
   padding-right: 30px;
 
   @media ${deviceHome.mobile} {
-   //background-color: lightskyblue;
-    
+    //background-color: lightskyblue;
+
   }
 `;
 
@@ -557,28 +616,47 @@ export const CustomFieldForm = styled.form`
   justify-items: center;
   align-items: center;
   width: 100vw;
-  //background-color: red;
-  
-  @media ${deviceHome.laptop} {
+  background-color: rebeccapurple;
+
+
+
+  input {
     display: flex;
-    margin-bottom: 5%;
-    //background-color: red;
+    //width: 20vw;
+    height: 40px;
+    //max-width: 200px;
+    //min-width: 150px;
+    background-color: lightsalmon;
+  }
 
+  label {
+    display: flex;
+    margin-left: 5px;
+    background-color: orangered;
+  }
 
+  @media ${deviceHome.mobile} {
+    // Adjust styles for mobile view
+
+    // Example: Adjust input width and padding for mobile devices
     input {
-      display: flex;
-      width: 20vw;
-      height: 40px;
-      max-width: 150px;
+      width: 100%; // Increase width for better visibility on mobile
+      height: 50px; // Increase height for better touch interaction
+
+      padding: 5px; // Add some padding for better appearance
+
+      //background-color: chartreuse;
+      padding-right: 10px;
     }
-    
+
+    // Example: Adjust label styling for mobile devices
     label {
-      display: flex;
-      margin-left: 5px;
+      margin-left: 2px; // Reduce margin
+
+      font-size: 14px; // Adjust font size for readability
     }
   }
 
- 
 `;
 
 const RoundColorWrapperDiv = styled.div`
@@ -594,10 +672,10 @@ const RoundColorWrapperDiv = styled.div`
   padding-top: 3%;
 
   /* Adding box shadow on left, right, and bottom sides */
-  box-shadow: 
-    -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */
-    4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
-    0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
+  box-shadow:
+          -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */
+          4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
+          0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
 
   /* Style for all children except MUI TextFields */
   > *:not(.MuiTextField-root) {
@@ -615,24 +693,19 @@ const RoundColorWrapperDiv = styled.div`
 
 
 const FieldContainerDiv = styled.div`
-  @media ${deviceHome.laptop} {
-    width: 60%; 
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; 
-  }
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: purple;
 
-  @media ${deviceHome.mobile} {
-   //background-color: red;
-  }
 
 `;
 
 export const FooterDiv =  styled.div`
   
   @media ${device.mobile} {
-    width: 100vw;
-    height: 120px;
+    background-color: gold;
   }
 `
 

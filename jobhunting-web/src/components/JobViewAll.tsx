@@ -76,6 +76,7 @@ export const JobViewAll = () => {
     const [dateSortDirection, setDateSortDirection] = useState('dsc');
     const [contactSortDirection, setContactSortDirection] = useState('dsc'); // New state for contact sorting
     const [companySortDirection, setCompanySortDirection] = useState('dsc'); // New state for company sorting
+    const [interviewSortDirection, setInterviewSortDirection] = useState('dsc'); // New state for company sorting
     const [rejectedSortStatus, setRejectedSortStatus] = useState('no'); // New state for rejected sorting
 
 
@@ -461,9 +462,10 @@ export const JobViewAll = () => {
 
     const toggleDateSortDirection = () => {
         const newSortOrder = dateSortDirection === 'asc' ? 'date-desc' : 'date-asc';
-        setDateSortDirection(newSortOrder === 'date-asc' ? 'asc' : 'desc');
+        setDateSortDirection(dateSortDirection === 'asc' ? 'desc' : 'asc');
         setSortOrder(newSortOrder);
     };
+
 
     const toggleCompanySortDirection = () => {
         const companySortOrder = companySortDirection === 'asc' ? 'company-desc' : 'company-asc';
@@ -475,6 +477,12 @@ export const JobViewAll = () => {
         const contactSortOrder = contactSortDirection === 'asc' ? 'contact-desc' : 'contact-asc';
         setContactSortDirection(contactSortOrder === 'contact-asc' ? 'asc' : 'desc');
         setSortOrder(contactSortOrder);
+    };
+
+    const toggleInterviewSortDirection = () => {
+        const interviewSortOrder = interviewSortDirection === 'asc' ? 'accepted' : 'no response';
+        setInterviewSortDirection(interviewSortOrder === 'no response' ? 'asc' : 'accepted');
+        setSortOrder(interviewSortOrder);
     };
 
     // Example sorting logic based on sortOrder
@@ -621,6 +629,7 @@ export const JobViewAll = () => {
                                             <FontAwesomeIcon icon={dateSortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
                                         </button>
                                     </RedPillContainer>
+
                                 </TableCell>
                                 <TableCell>
                                     <RedPillContainer>
@@ -629,6 +638,7 @@ export const JobViewAll = () => {
                                             <FontAwesomeIcon icon={companySortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
                                         </button>
                                     </RedPillContainer>
+
                                 </TableCell>
                                 <TableCell>
                                     <RedPillContainer>
@@ -640,13 +650,12 @@ export const JobViewAll = () => {
                                 </TableCell>
 
                                 <TableCell>
-                                    <SortLabelContainer>
-                                        Interiew / no response
-                                        <ButtonHolderDiv>
-                                            <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleSortByCompanyResponded} />
-                                            <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleSortByMeetingLink} />
-                                        </ButtonHolderDiv>
-                                    </SortLabelContainer>
+                                    <RedPillContainer>
+                                        <button onClick={toggleInterviewSortDirection} style={{ all: 'unset' }}>
+                                            {interviewSortDirection === 'asc' ? 'Accepted' : 'No Response'}
+                                            <FontAwesomeIcon icon={interviewSortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
+                                        </button>
+                                    </RedPillContainer>
 
                                 </TableCell>
                             </TableRow>

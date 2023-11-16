@@ -264,6 +264,15 @@ export const Home: React.FC = () => {
     //need to get rid of labels
     //have it like face book where we put text in the input, and as we type, the place holder
     //goes away
+
+
+
+
+
+
+
+
+    //its the god damn input tags thata are ruining hte rounded corners
     return (
         <Box
             sx={{
@@ -347,7 +356,7 @@ export const Home: React.FC = () => {
                     marginTop: "5%", // Adjust this margin-bottom value to control the gap
 
                     width: "40vw",
-                    height: "70%",
+                    height: "70vh",
                     borderRadius: "5%",
                     display: "flex",
                     alignItems: "center",
@@ -355,7 +364,8 @@ export const Home: React.FC = () => {
                     margin: "auto",
                     marginBottom: "7%",
                     paddingTop: "3%",
-                    boxShadow: "-4px 0 8px -2px rgba(0, 0, 0, 0.2), 4px 0 8px -2px rgba(0, 0, 0, 0.2), 0 4px 8px -2px rgba(0, 0, 0, 0.2)",
+                    boxShadow: "0px 4px 8px -2px rgba(0, 0, 0, 0.2)", // Horizontal shadow, Vertical shadow, Blur radius, Spread radius, Color
+
                     "& > *:not(.MuiTextField-root)": {
                         backgroundColor: "#c7f3ff",
                         width: "50vw",

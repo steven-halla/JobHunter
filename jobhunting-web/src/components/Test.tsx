@@ -434,25 +434,25 @@ export const Test: React.FC = () => {
 
 
 
-            {/*<JobCardDiv style={Array.isArray(searchResult) && searchResult.length > 0 ? jobCardStyle : {}}>*/}
-            {/*    {Array.isArray(searchResult) && searchResult.length > 0 && (*/}
-            {/*        <div>*/}
+            <JobCardDiv style={Array.isArray(searchResult) && searchResult.length > 0 ? jobCardStyle : {}}>
+                {Array.isArray(searchResult) && searchResult.length > 0 && (
+                    <div>
 
-            {/*            <h3>Matches Found:</h3>*/}
-            {/*            {searchResult.map((job: Job, index: number) => (*/}
-            {/*                <div key={index}>*/}
-            {/*                    <p>Result {index + 1}:</p>*/}
-            {/*                    <p>Company Name: {job.companyname}</p>*/}
-            {/*                    <p>Primary Contact: {job.primarycontact}</p>*/}
-            {/*                    <p>Job Link: {job.joblink}</p>*/}
-            {/*                    {DateMutation(typeof job.dateapplied === 'string' ? job.dateapplied : job.dateapplied.toISOString())}*/}
-            {/*                    <p>Company Responded: {job.companyresponded ? 'Yes' : 'No'}</p>*/}
-            {/*                    <p>Company Rejected: {job.companyrejected ? 'Yes' : 'No'}</p>*/}
-            {/*                </div>*/}
-            {/*            ))}*/}
-            {/*        </div>*/}
-            {/*    )}*/}
-            {/*</JobCardDiv>*/}
+                        <h3>Matches Found:</h3>
+                        {searchResult.map((job: Job, index: number) => (
+                            <div key={index}>
+                                <p>Result {index + 1}:</p>
+                                <p>Company Name: {job.companyname}</p>
+                                <p>Primary Contact: {job.primarycontact}</p>
+                                <p>Job Link: {job.joblink}</p>
+                                {DateMutation(typeof job.dateapplied === 'string' ? job.dateapplied : job.dateapplied.toISOString())}
+                                <p>Company Responded: {job.companyresponded ? 'Yes' : 'No'}</p>
+                                <p>Company Rejected: {job.companyrejected ? 'Yes' : 'No'}</p>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </JobCardDiv>
 
 
 
@@ -465,13 +465,18 @@ export const Test: React.FC = () => {
 
 const jobCardStyle = {
     backgroundColor: 'grey',
+
+
+    // marginTop: "1%",
+    paddingTop: device.mobile ? '3%' : '1%', // 3% padding for mobile, 1% for others
     boxShadow: '-4px 0 8px -2px rgba(0, 0, 0, 0.2), 4px 0 8px -2px rgba(0, 0, 0, 0.2), 0 4px 8px -2px rgba(0, 0, 0, 0.2)'
 };
 
 
 const JobCardDiv = styled.div`
-  height: 50%;
+  height: 61%;
   width: 20%;
+  min-width: 200px;
   display: flex;
   position: absolute;
   margin-left: 75%;
@@ -479,13 +484,19 @@ const JobCardDiv = styled.div`
   border-radius: 10px; /* Adjust the value as needed for desired roundness */
   justify-content: center;
   align-items: center;
+  background-color: red;
 
   @media ${deviceHome.mobile} {
-    //background-color: rgba(150,116,169,0.86);
-
+    position: relative; // Keeps the element in the normal document flow
+    width: 76%; // Sets the width to 80% of the parent element
+    height: 50%;
+    margin-left: auto; // Centers the element along the horizontal axis
+    margin-right: auto; // Centers the element along the horizontal axis
+    margin-top: 1em; // Adds space above the element
+    height: auto; // Lets the height adjust based on content
+    background-color: rgba(150,116,169,0.86); // Optional background color change for mobile
+    padding-top: 3%;
   }
-
-
 
 
 
@@ -540,7 +551,7 @@ const StyledTextField: React.FC<TextFieldProps> = (props) => (
 
 const SubmitButton = styled(Button)`
   height: 9vh;
-  width: 17vw;
+  width: 23vw;
   display: flex;
   padding-bottom: 70px;
   //margin-bottom: 50px;
@@ -550,7 +561,6 @@ const SubmitButton = styled(Button)`
     background-color: red;
     width: 30vw;
     height: 7vh;
-
   }
 
 

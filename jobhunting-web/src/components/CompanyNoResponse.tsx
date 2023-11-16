@@ -150,6 +150,8 @@ export const CompanyNoResponse = () => {
         };
     }, []);
 
+
+
     const handleDateAscSort = () => {
         setSortingCriteria('date-asc');
         // The sortedAndRespondedJobs will automatically recalculate and sort jobs by date in ascending order

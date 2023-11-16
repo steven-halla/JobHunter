@@ -20,5 +20,13 @@ export const deviceCompanyNoResponse = {
     // 1150 is my break point for laptop
 };
 
+export const deviceHome = {
+    mobile: `(max-width: 800px) and (max-height: 900px)`,
+
+    laptop: `(min-width: 801px) and (max-height: 901px)`,
+    // Add other device sizes as needed...
+    // 1150 is my break point for laptop
+};
+
 
 

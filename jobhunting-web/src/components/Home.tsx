@@ -5,7 +5,7 @@ import { UserContext } from "../services/usercontext";
 import styled from 'styled-components';
 import "react-datepicker/dist/react-datepicker.css";
 import UserService from "../services/user.service";
-import {device} from "../common/ScreenSizes";
+import {device, deviceHome, deviceJobViewAll} from "../common/ScreenSizes";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faGithub, faLinkedin} from '@fortawesome/free-brands-svg-icons';
 import { faBriefcase } from '@fortawesome/free-solid-svg-icons';
@@ -240,6 +240,25 @@ export const Home: React.FC = () => {
 
 
 
+    const [isMobile, setIsMobile] = useState(window.matchMedia(deviceHome.mobile).matches);
+    const [isLaptop, setIsLaptop] = useState(window.matchMedia(deviceHome.laptop).matches);
+
+    useEffect(() => {
+        const checkScreenSize = () => {
+            setIsMobile(window.matchMedia(deviceHome.mobile).matches);
+            setIsLaptop(window.matchMedia(deviceHome.laptop).matches);
+        };
+
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+
+        return () => {
+            window.removeEventListener('resize', checkScreenSize);
+        };
+    }, []);
+
+
+
 
     //need to get rid of labels
     //have it like face book where we put text in the input, and as we type, the place holder
@@ -353,6 +372,14 @@ const JobCardDiv = styled.div`
   justify-content: center;
   align-items: center;
 
+  @media ${deviceHome.mobile} {
+    background-color: rgba(150,116,169,0.86);
+
+  }
+
+
+
+
 
 `;
 
@@ -362,21 +389,11 @@ const ButtonDiv = styled.div`
   align-items: center;
   margin-top: 7%;
   
-  @media ${device.laptop} {
+  @media ${deviceHome.laptop} {
     margin-top: 3%;
   }
 `;
 
-const StyledInputLabel = styled(InputLabel)`
-  width: 100%;
-  height: 30px;
-  transform: translateX(-1.5%); 
-
-  @media ${device.mobile} {
-    display: flex;
-    transform: translateX(2%); 
-  }
-`;
 
 const BaseStyledTextField = styled(TextField)`
   & .MuiFilledInput-input {
@@ -399,6 +416,13 @@ const SubmitButton = styled(Button)`
   width: 17vw;
   display: flex;
   padding-bottom: 40px;
+  
+  @media ${deviceHome.mobile} {
+    background-color: rgba(50,86,169,0.86);
+
+  }
+
+
 `;
 
 export const HomeWrapperDiv = styled.div`
@@ -408,6 +432,11 @@ export const HomeWrapperDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  @media ${deviceHome.mobile} {
+    background-color: rgba(48,169,52,0.86);
+
+  }
 
   //&::before {
   //  content: '';
@@ -426,11 +455,9 @@ export const CustomFieldsDiv = styled.div`
   display: flex;
   margin-top: 20px;
   padding-left: 1.2%;
-  @media ${device.mobile} {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 15px;
+  @media ${deviceHome.mobile} {
+    background-color: navy;
+
   }
 
   @media ${device.laptop} {
@@ -448,10 +475,9 @@ export const FieldRowDiv = styled.div`
   padding-left: 20px;
   padding-right: 30px;
 
-  @media ${device.mobile} {
-    display: flex;
-    padding-left: 10px;
-    padding-right: 20px;
+  @media ${deviceHome.mobile} {
+   background-color: lightskyblue;
+    
   }
 `;
 
@@ -463,7 +489,7 @@ export const CustomFieldForm = styled.form`
   width: 100vw;
   background-color: red;
   
-  @media ${device.laptop} {
+  @media ${deviceHome.laptop} {
     display: flex;
     margin-bottom: 5%;
     background-color: red;
@@ -480,6 +506,10 @@ export const CustomFieldForm = styled.form`
       display: flex;
       margin-left: 5px;
     }
+  }
+
+  @media ${deviceHome.mobile} {
+    background-color: yellow;
   }
 `;
 
@@ -507,22 +537,27 @@ const RoundColorWrapperDiv = styled.div`
     width: 50vw;
   }
 
+  @media ${deviceHome.mobile} {
+    background-color: purple;
+  }
+
   /* Other styles as needed */
 `;
 
 
 
 const FieldContainerDiv = styled.div`
-  @media ${device.laptop} {
+  @media ${deviceHome.laptop} {
     width: 60%; 
     display: flex;
     flex-direction: column;
     align-items: flex-start; 
   }
 
-  @media ${device.mobile} {
-    width: 80%;
+  @media ${deviceHome.mobile} {
+   background-color: red;
   }
+
 `;
 
 export const FooterDiv =  styled.div`

@@ -361,6 +361,8 @@ export const Home: React.FC = () => {
                         backgroundColor: "#c7f3ff",
                         width: "50vw",
                     },
+
+
                     // Add other CSS styles as needed
                 }}
             >

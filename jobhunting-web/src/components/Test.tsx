@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faGithub, faLinkedin} from '@fortawesome/free-brands-svg-icons';
 import { faBriefcase } from '@fortawesome/free-solid-svg-icons';
 import Button from '@mui/material/Button';
-import {InputLabel, TextFieldProps} from '@mui/material';
+import {InputLabel, TextFieldProps, useTheme} from '@mui/material';
 import TextField from '@mui/material/TextField';
 import {useParams} from "react-router-dom";
 import {Job} from "../models/Job";
@@ -258,6 +258,7 @@ export const Test: React.FC = () => {
         };
     }, []);
 
+    const theme = useTheme();
 
 
 
@@ -272,6 +273,8 @@ export const Test: React.FC = () => {
                 height: "100%",
                 display: "flex",
                 flexDirection: "column",
+
+
                 // Add other CSS styles as needed
             }}
         >
@@ -286,8 +289,16 @@ export const Test: React.FC = () => {
                     width: "100%",
                     alignItems: "center",
                     justifyContent: "center",
-                    marginBottom: "5%"
+                    marginBottom: "5%",
                     // Add other CSS styles as needed
+
+
+                        [theme.breakpoints.down('sm')]: {
+                    // padding: '10px',
+                    backgroundColor: "purple", // Example responsive style
+                        height: "5vh",
+                            marginTop: "15px",
+                },
                 }}
             >
                 <Box
@@ -318,6 +329,7 @@ export const Test: React.FC = () => {
                         style={{ cursor: 'pointer' }}
                     />
                 </Box>
+
                 <Box
                     display="flex"
                     paddingLeft="20px"
@@ -342,9 +354,14 @@ export const Test: React.FC = () => {
 
             <Box
                 sx={{
+
+                    justifyContent: "space-evenly", // Evenly distribute space around items
+
+
+
                     backgroundColor: "#c7f3ff",
 
-                    marginTop: "2%",
+                    // marginTop: "2%",
                     width: "40vw",
                     minWidth: "300px",
                     height: "70vh",
@@ -353,15 +370,25 @@ export const Test: React.FC = () => {
                     borderRadius: "5%",
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "center",
+                    // justifyContent: "space-around",
                     margin: "auto",
-                    marginBottom: "7%",
-                    paddingTop: "3%",
+                    // flexDirection: "colum",
+
+                    gap: "20px", // Adjust the value as needed
+                    // marginBottom: "7%",
+                    // paddingTop: "3%",
                     boxShadow: "0px 4px 8px -2px rgba(0, 0, 0, 0.2)", // Horizontal shadow, Vertical shadow, Blur radius, Spread radius, Color
 
                     "& > *:not(.MuiTextField-root)": {
                         backgroundColor: "#c7f3ff",
-                        width: "50vw",
+                        width: "60vw",
+                    },
+
+                    [theme.breakpoints.down('sm')]: {
+                        // padding: '10px',
+                        backgroundColor: "purple", // Example responsive style
+                        height: "5vh",
+
                     },
                     // Add other CSS styles as needed
                 }}
@@ -407,25 +434,25 @@ export const Test: React.FC = () => {
 
 
 
-            <JobCardDiv style={Array.isArray(searchResult) && searchResult.length > 0 ? jobCardStyle : {}}>
-                {Array.isArray(searchResult) && searchResult.length > 0 && (
-                    <div>
+            {/*<JobCardDiv style={Array.isArray(searchResult) && searchResult.length > 0 ? jobCardStyle : {}}>*/}
+            {/*    {Array.isArray(searchResult) && searchResult.length > 0 && (*/}
+            {/*        <div>*/}
 
-                        <h3>Matches Found:</h3>
-                        {searchResult.map((job: Job, index: number) => (
-                            <div key={index}>
-                                <p>Result {index + 1}:</p>
-                                <p>Company Name: {job.companyname}</p>
-                                <p>Primary Contact: {job.primarycontact}</p>
-                                <p>Job Link: {job.joblink}</p>
-                                {DateMutation(typeof job.dateapplied === 'string' ? job.dateapplied : job.dateapplied.toISOString())}
-                                <p>Company Responded: {job.companyresponded ? 'Yes' : 'No'}</p>
-                                <p>Company Rejected: {job.companyrejected ? 'Yes' : 'No'}</p>
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </JobCardDiv>
+            {/*            <h3>Matches Found:</h3>*/}
+            {/*            {searchResult.map((job: Job, index: number) => (*/}
+            {/*                <div key={index}>*/}
+            {/*                    <p>Result {index + 1}:</p>*/}
+            {/*                    <p>Company Name: {job.companyname}</p>*/}
+            {/*                    <p>Primary Contact: {job.primarycontact}</p>*/}
+            {/*                    <p>Job Link: {job.joblink}</p>*/}
+            {/*                    {DateMutation(typeof job.dateapplied === 'string' ? job.dateapplied : job.dateapplied.toISOString())}*/}
+            {/*                    <p>Company Responded: {job.companyresponded ? 'Yes' : 'No'}</p>*/}
+            {/*                    <p>Company Rejected: {job.companyrejected ? 'Yes' : 'No'}</p>*/}
+            {/*                </div>*/}
+            {/*            ))}*/}
+            {/*        </div>*/}
+            {/*    )}*/}
+            {/*</JobCardDiv>*/}
 
 
 
@@ -468,10 +495,30 @@ const JobCardDiv = styled.div`
 const ButtonDiv = styled.div`
   justify-content: center;
   align-items: center;
+  background-color: yellow;
+  //margin-top: 5.5%;
   //margin-top: 10%;
   //margin-bottom: 1.5%;
-  
 
+  @media ${deviceHome.mobile} {
+    background-color: rgba(150,116,169,0.86);
+  width: 36vw;   
+    display: flex;
+    
+    .button {
+      background-color; red;
+    }
+  }
+`;
+
+const StyledButton = styled(Button)`
+  // Default styles for the button
+  // ...
+
+  @media ${deviceHome.mobile} {
+    background-color: red; // Style for mobile
+    // Add other mobile-specific styles here
+  }
 `;
 
 
@@ -496,11 +543,13 @@ const SubmitButton = styled(Button)`
   width: 17vw;
   display: flex;
   padding-bottom: 70px;
-  margin-bottom: 50px;
+  //margin-bottom: 50px;
   background-color: yellow;
   
   @media ${deviceHome.mobile} {
-    //background-color: rgba(50,86,169,0.86);
+    background-color: red;
+    width: 30vw;
+    height: 7vh;
 
   }
 
@@ -555,16 +604,17 @@ export const CustomFieldForm = styled.form`
   justify-items: center;
   align-items: center;
   width: 100vw;
+  background-color: rebeccapurple;
 
 
 
     input {
       display: flex;
-      width: 20vw;
+      //width: 20vw;
       height: 40px;
-      max-width: 200px;
-      min-width: 150px;
-      background-color: red;
+      //max-width: 200px;
+      //min-width: 150px;
+      background-color: lightsalmon;
     }
     
     label {
@@ -572,6 +622,29 @@ export const CustomFieldForm = styled.form`
       margin-left: 5px;
       background-color: orangered;
     }
+
+  @media ${deviceHome.mobile} {
+    // Adjust styles for mobile view
+
+    // Example: Adjust input width and padding for mobile devices
+    input {
+      width: 100%; // Increase width for better visibility on mobile
+      height: 50px; // Increase height for better touch interaction
+    
+      padding: 5px; // Add some padding for better appearance
+      
+      //background-color: chartreuse;
+      padding-right: 10px;
+    }
+
+    // Example: Adjust label styling for mobile devices
+    label {
+      margin-left: 2px; // Reduce margin
+     
+      font-size: 14px; // Adjust font size for readability
+    }
+  }
+
 `;
 
 const RoundColorWrapperDiv = styled.div`

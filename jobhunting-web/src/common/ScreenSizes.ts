@@ -21,12 +21,10 @@ export const deviceCompanyNoResponse = {
 };
 
 export const deviceHome = {
-    mobile: `(max-width: 800px) and (max-height: 900px)`,
-
-    laptop: `(min-width: 801px) and (max-height: 901px)`,
-    // Add other device sizes as needed...
-    // 1150 is my break point for laptop
+    mobile: `(max-width: 600px)`, // Handles typical mobile devices
+    laptop: `(min-width: 601px)`, // Covers devices wider than 600px, including tablets and laptops
 };
+
 
 
 

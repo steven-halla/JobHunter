@@ -295,9 +295,8 @@ export const Home: React.FC = () => {
                     display="flex"
                     paddingLeft="20px"
                     paddingRight="30px"
-                    marginBottom="4%"
+                    marginBottom="-3%"
 
-                    style={{ backgroundColor: "red" }}
                 >
                     <FontAwesomeIcon
                         icon={faGithub}
@@ -310,9 +309,8 @@ export const Home: React.FC = () => {
                     display="flex"
                     paddingLeft="20px"
                     paddingRight="30px"
-                    marginBottom="4%"
+                    marginBottom="-3%"
 
-                    style={{ backgroundColor: "red" }}
                 >
                     <FontAwesomeIcon
                         icon={faLinkedin}
@@ -325,8 +323,8 @@ export const Home: React.FC = () => {
                     display="flex"
                     paddingLeft="20px"
                     paddingRight="30px"
-                    style={{ backgroundColor: "red" }}
-                    marginBottom="4%"
+                    marginBottom="-3%"
+
                 >
                     <FontAwesomeIcon
                         icon={faBriefcase}
@@ -344,13 +342,13 @@ export const Home: React.FC = () => {
                 sx={{
                     backgroundColor: "#c7f3ff",
 
-                    marginTop: "3%", // Adjust this margin-bottom value to control the gap
-
+                    marginTop: "2%",
                     width: "40vw",
+                    minWidth: "300px",
                     height: "70vh",
                     minHeight: "500px",
                     maxHeight: "550px",
-                    borderRadius: "4%",
+                    borderRadius: "5%",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -370,17 +368,13 @@ export const Home: React.FC = () => {
 
 
 
-                <Box
-                    width="60%"
-                    display="flex"
-                    flexDirection="column"
-                    alignItems="flex-start"
-                    paddingTop="5%"
+                <FieldContainerDiv
+
                 >
 
                     <StyledTextField         label="company name"
                                              value={companyname} onChange={handleCompanyNameChange} />
-                </Box>
+                </FieldContainerDiv>
 
 
 
@@ -561,7 +555,7 @@ export const CustomFieldForm = styled.form`
   justify-items: center;
   align-items: center;
   width: 100vw;
-  background-color: red;
+  //background-color: red;
   
   @media ${deviceHome.laptop} {
     display: flex;

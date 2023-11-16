@@ -15,6 +15,7 @@ import TextField from '@mui/material/TextField';
 import {useParams} from "react-router-dom";
 import {Job} from "../models/Job";
 import {DateMutation} from "../common/DateMutation";
+import Box from "@mui/material/Box";
 
 export const Home: React.FC = () => {
 
@@ -264,36 +265,104 @@ export const Home: React.FC = () => {
     //have it like face book where we put text in the input, and as we type, the place holder
     //goes away
     return (
-        <HomeWrapperDiv>
+        <Box
+            sx={{
+                position: "relative",
+                width: "100vw",
+                height: "100vh",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                // Add other CSS styles as needed
+            }}
+        >
 
-            <CustomFieldsDiv>
-                <FieldRowDiv>
+            <Box
+                sx={{
+                    display: "flex",
+                    marginTop: "20px",
+                    paddingLeft: "1.2%",
+                    flexDirection: "row",
+                    gap: "15px",
+                    width: "100%",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginBottom: "5%"
+                    // Add other CSS styles as needed
+                }}
+            >
+                <Box
+                    display="flex"
+                    paddingLeft="20px"
+                    paddingRight="30px"
+                    marginBottom="2%"
+
+                    style={{ backgroundColor: "red" }}
+                >
                     <FontAwesomeIcon
                         icon={faGithub}
                         size="2x"
                         onClick={() => copyToClipboard(selectedOption1)}
                         style={{ cursor: 'pointer' }}
                     />
-                </FieldRowDiv>
-                <FieldRowDiv>
+                </Box>
+                <Box
+                    display="flex"
+                    paddingLeft="20px"
+                    paddingRight="30px"
+                    marginBottom="2%"
+
+                    style={{ backgroundColor: "red" }}
+                >
                     <FontAwesomeIcon
                         icon={faLinkedin}
                         size="2x"
                         onClick={() => copyToClipboard(selectedOption2)}
                         style={{ cursor: 'pointer' }}
                     />
-                </FieldRowDiv>
-                <FieldRowDiv>
+                </Box>
+                <Box
+                    display="flex"
+                    paddingLeft="20px"
+                    paddingRight="30px"
+                    style={{ backgroundColor: "red" }}
+                    marginBottom="2%"
+                >
                     <FontAwesomeIcon
                         icon={faBriefcase}
                         size="2x"
                         onClick={() => copyToClipboard(selectedOption3)}
                         style={{ cursor: 'pointer' }}
                     />
-                </FieldRowDiv>
-            </CustomFieldsDiv>
-            <RoundColorWrapperDiv>
+                </Box>
+            </Box>
 
+
+
+
+            <Box
+                sx={{
+                    backgroundColor: "#c7f3ff",
+
+                    marginTop: "5%", // Adjust this margin-bottom value to control the gap
+
+                    width: "40vw",
+                    height: "70%",
+                    borderRadius: "5%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    margin: "auto",
+                    marginBottom: "7%",
+                    paddingTop: "3%",
+                    boxShadow: "-4px 0 8px -2px rgba(0, 0, 0, 0.2), 4px 0 8px -2px rgba(0, 0, 0, 0.2), 0 4px 8px -2px rgba(0, 0, 0, 0.2)",
+                    "& > *:not(.MuiTextField-root)": {
+                        backgroundColor: "#c7f3ff",
+                        width: "50vw",
+                    },
+                    // Add other CSS styles as needed
+                }}
+            >
             <CustomFieldForm onSubmit={handleJobSubmit}>
 
 
@@ -322,7 +391,7 @@ export const Home: React.FC = () => {
 
             </CustomFieldForm>
 
-            </RoundColorWrapperDiv>
+            </Box>
 
 
 
@@ -351,7 +420,7 @@ export const Home: React.FC = () => {
 
 
             <FooterDiv/>
-        </HomeWrapperDiv>
+        </Box>
     );
 };
 
@@ -373,7 +442,7 @@ const JobCardDiv = styled.div`
   align-items: center;
 
   @media ${deviceHome.mobile} {
-    background-color: rgba(150,116,169,0.86);
+    //background-color: rgba(150,116,169,0.86);
 
   }
 
@@ -418,7 +487,7 @@ const SubmitButton = styled(Button)`
   padding-bottom: 40px;
   
   @media ${deviceHome.mobile} {
-    background-color: rgba(50,86,169,0.86);
+    //background-color: rgba(50,86,169,0.86);
 
   }
 
@@ -432,22 +501,14 @@ export const HomeWrapperDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  
+
 
   @media ${deviceHome.mobile} {
-    background-color: rgba(48,169,52,0.86);
+    //background-color: rgba(48,169,52,0.86);
 
   }
 
-  //&::before {
-  //  content: '';
-  //  position: absolute;
-  //  left: 50%;
-  //  top: 0;
-  //  bottom: 0;
-  //  width: 1px; // Width of the vertical line
-  //  background-color: #000; // Color of the line
-  //  z-index: 1; // Ensure it doesn't overlap content
-  //}
 `;
 
 
@@ -455,19 +516,13 @@ export const CustomFieldsDiv = styled.div`
   display: flex;
   margin-top: 20px;
   padding-left: 1.2%;
-  @media ${deviceHome.mobile} {
-    background-color: navy;
-
-  }
-
-  @media ${device.laptop} {
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-  }
+  flex-direction: row;
+  gap: 15px;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  
+ 
 `;
 
 export const FieldRowDiv = styled.div`
@@ -476,7 +531,7 @@ export const FieldRowDiv = styled.div`
   padding-right: 30px;
 
   @media ${deviceHome.mobile} {
-   background-color: lightskyblue;
+   //background-color: lightskyblue;
     
   }
 `;
@@ -487,12 +542,12 @@ export const CustomFieldForm = styled.form`
   justify-items: center;
   align-items: center;
   width: 100vw;
-  background-color: red;
+  //background-color: red;
   
   @media ${deviceHome.laptop} {
     display: flex;
     margin-bottom: 5%;
-    background-color: red;
+    //background-color: red;
 
 
     input {
@@ -508,9 +563,7 @@ export const CustomFieldForm = styled.form`
     }
   }
 
-  @media ${deviceHome.mobile} {
-    background-color: yellow;
-  }
+ 
 `;
 
 const RoundColorWrapperDiv = styled.div`
@@ -538,7 +591,7 @@ const RoundColorWrapperDiv = styled.div`
   }
 
   @media ${deviceHome.mobile} {
-    background-color: purple;
+    //background-color: purple;
   }
 
   /* Other styles as needed */
@@ -555,7 +608,7 @@ const FieldContainerDiv = styled.div`
   }
 
   @media ${deviceHome.mobile} {
-   background-color: red;
+   //background-color: red;
   }
 
 `;

@@ -264,21 +264,12 @@ export const Home: React.FC = () => {
     //need to get rid of labels
     //have it like face book where we put text in the input, and as we type, the place holder
     //goes away
-
-
-
-
-
-
-
-
-    //its the god damn input tags thata are ruining hte rounded corners
     return (
         <Box
             sx={{
                 position: "relative",
-                width: "100vw",
-                height: "100vh",
+                width: "100%",
+                height: "100%",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
@@ -304,7 +295,7 @@ export const Home: React.FC = () => {
                     display="flex"
                     paddingLeft="20px"
                     paddingRight="30px"
-                    marginBottom="2%"
+                    marginBottom="4%"
 
                     style={{ backgroundColor: "red" }}
                 >
@@ -319,7 +310,7 @@ export const Home: React.FC = () => {
                     display="flex"
                     paddingLeft="20px"
                     paddingRight="30px"
-                    marginBottom="2%"
+                    marginBottom="4%"
 
                     style={{ backgroundColor: "red" }}
                 >
@@ -335,7 +326,7 @@ export const Home: React.FC = () => {
                     paddingLeft="20px"
                     paddingRight="30px"
                     style={{ backgroundColor: "red" }}
-                    marginBottom="2%"
+                    marginBottom="4%"
                 >
                     <FontAwesomeIcon
                         icon={faBriefcase}
@@ -353,11 +344,13 @@ export const Home: React.FC = () => {
                 sx={{
                     backgroundColor: "#c7f3ff",
 
-                    marginTop: "5%", // Adjust this margin-bottom value to control the gap
+                    marginTop: "3%", // Adjust this margin-bottom value to control the gap
 
                     width: "40vw",
                     height: "70vh",
-                    borderRadius: "5%",
+                    minHeight: "500px",
+                    maxHeight: "550px",
+                    borderRadius: "4%",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -377,13 +370,25 @@ export const Home: React.FC = () => {
 
 
 
-                    <FieldContainerDiv>
+                <Box
+                    width="60%"
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="flex-start"
+                    paddingTop="5%"
+                >
+
                     <StyledTextField         label="company name"
                                              value={companyname} onChange={handleCompanyNameChange} />
-                </FieldContainerDiv>
+                </Box>
+
+
+
                 <FieldContainerDiv>
                     <StyledTextField  label="description" value={description} onChange={handleDescriptionChange} />
                 </FieldContainerDiv>
+
+
                 <FieldContainerDiv>
                     <StyledTextField   label="contact" value={primarycontact} onChange={handlePrimaryContact} />
                 </FieldContainerDiv>
@@ -395,7 +400,8 @@ export const Home: React.FC = () => {
                 </FieldContainerDiv>
                 <ButtonDiv>
                     <SubmitButton  sx={{
-                        borderRadius: 10
+                        borderRadius: 10,
+
                     }} variant="contained" type="submit">Submit</SubmitButton>
                 </ButtonDiv>
 
@@ -466,7 +472,8 @@ const JobCardDiv = styled.div`
 const ButtonDiv = styled.div`
   justify-content: center;
   align-items: center;
-  margin-top: 7%;
+  margin-top: 10%;
+  margin-bottom: 5%;
   
   @media ${deviceHome.laptop} {
     margin-top: 3%;
@@ -494,7 +501,9 @@ const SubmitButton = styled(Button)`
   height: 9vh;
   width: 17vw;
   display: flex;
-  padding-bottom: 40px;
+  padding-bottom: 70px;
+  margin-bottom: 50px;
+  background-color: yellow;
   
   @media ${deviceHome.mobile} {
     //background-color: rgba(50,86,169,0.86);
@@ -552,7 +561,7 @@ export const CustomFieldForm = styled.form`
   justify-items: center;
   align-items: center;
   width: 100vw;
-  //background-color: red;
+  background-color: red;
   
   @media ${deviceHome.laptop} {
     display: flex;

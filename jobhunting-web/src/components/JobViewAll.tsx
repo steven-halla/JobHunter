@@ -933,9 +933,9 @@ const RedPillContainer = styled.div`
 `;
 
 const SearchBar = styled.input`
-  width: 30%;
+  width: 25vw;
   padding: 10px;
-  margin-bottom: 10px;
+  margin-top: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   display: block;

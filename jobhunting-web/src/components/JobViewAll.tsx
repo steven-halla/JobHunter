@@ -29,6 +29,8 @@ export const JobViewAll = () => {
         'company-a-z' |
         'company-z-a' |
         'contact-a-z' |
+        'contact-asc' |
+        'contact-desc' |
         'contact-z-a' |
         'date-asc' |
         'date-desc' |
@@ -352,6 +354,10 @@ export const JobViewAll = () => {
                 return a.primarycontact.toLowerCase().localeCompare(b.primarycontact.toLowerCase());
             case 'contact-z-a':
                 return b.primarycontact.toLowerCase().localeCompare(a.primarycontact.toLowerCase());
+            case 'contact-asc':
+                return a.primarycontact.toLowerCase().localeCompare(b.primarycontact.toLowerCase());
+            case 'contact-desc':
+                return b.primarycontact.toLowerCase().localeCompare(a.primarycontact.toLowerCase());
             case 'date-asc':
                 return new Date(a.dateapplied).getTime() - new Date(b.dateapplied).getTime();
             case 'date-desc':
@@ -463,6 +469,12 @@ export const JobViewAll = () => {
         const companySortOrder = companySortDirection === 'asc' ? 'company-desc' : 'company-asc';
         setCompanySortDirection(companySortOrder === 'company-asc' ? 'asc' : 'desc');
         setSortOrder(companySortOrder);
+    };
+
+    const toggleContactSortDirection = () => {
+        const contactSortOrder = contactSortDirection === 'asc' ? 'contact-desc' : 'contact-asc';
+        setContactSortDirection(contactSortOrder === 'contact-asc' ? 'asc' : 'desc');
+        setSortOrder(contactSortOrder);
     };
 
     // Example sorting logic based on sortOrder
@@ -619,13 +631,12 @@ export const JobViewAll = () => {
                                     </RedPillContainer>
                                 </TableCell>
                                 <TableCell>
-                                    <SortLabelContainer>
-                                        Contact
-                                        <ButtonHolderDiv>
-                                            <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleContactNameSortAsc} />
-                                            <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleContactNameSortDesc} />
-                                        </ButtonHolderDiv>
-                                    </SortLabelContainer>
+                                    <RedPillContainer>
+                                        <button onClick={toggleContactSortDirection} style={{ all: 'unset' }}>
+                                            {contactSortDirection === 'asc' ? 'Contact Asc' : 'Contact Desc'}
+                                            <FontAwesomeIcon icon={contactSortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
+                                        </button>
+                                    </RedPillContainer>
                                 </TableCell>
 
                                 <TableCell>

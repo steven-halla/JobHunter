@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, {useState, useRef, useContext, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -7,6 +7,8 @@ import AuthService from "../services/auth.service";
 import { UserContext } from "../services/usercontext";
 import {CustomCheckButton, CustomForm} from "../models/LoginHelper";
 import styled from "styled-components";
+import {deviceLogin, deviceProfile} from "../common/ScreenSizes";
+import {TextField} from "@mui/material";
 
 interface LoginState {
   username: string;
@@ -81,30 +83,52 @@ const Login: React.FC = () => {
 
   const { username, password, loading, message } = state;
 
+  const [isMobile, setIsMobile] = useState(window.matchMedia(deviceLogin.mobile).matches);
+  const [isLaptop, setIsLaptop] = useState(window.matchMedia(deviceLogin.laptop).matches);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.matchMedia(deviceLogin.mobile).matches);
+      setIsLaptop(window.matchMedia(deviceLogin.laptop).matches);
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+
+    return () => {
+      window.removeEventListener('resize', checkScreenSize);
+    };
+  }, []);
+
+
   return (
       <LoginWrapperDiv >
         <div className="card card-container">
-          <Form onSubmit={handleLogin} ref={form}>
+          <Form onSubmit={handleLogin} ref={form} >
             <div className="form-group">
-              <label htmlFor="username">Username</label>
-              <Input
+              <TextField
                   type="text"
                   className="form-control"
                   name="username"
                   value={username}
                   onChange={onChangeUsername}
-                  validations={[required]}
+                  required
+                  fullWidth
+                  placeholder="Username"
+                  variant="outlined"
               />
             </div>
             <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <Input
+              <TextField
                   type="password"
                   className="form-control"
                   name="password"
                   value={password}
                   onChange={onChangePassword}
-                  validations={[required]}
+                  required
+                  fullWidth
+                  placeholder="Password"
+                  variant="outlined"
               />
             </div>
             <div className="form-group">
@@ -132,9 +156,21 @@ const Login: React.FC = () => {
 
 const LoginWrapperDiv = styled.div`
   display: flex;
-  background-color: blue;
-  height: 60vh;
+  height: 50vh;
   margin-top: 8%;
+  justify-content: center; // Distribute space between elements
+  align-items: center;
+
+
+  .form-group {
+    padding: 10px 0; // Add vertical padding to each form-group
+  }
+
+
+  @media ${deviceLogin.mobile} {
+    // Styles for laptop and larger devices
+background-color: red  }
+  
 `;
 
 export default Login;

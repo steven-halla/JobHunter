@@ -6,6 +6,7 @@ import CheckButton from "react-validation/build/button";
 import isEmail from "validator/lib/isEmail";
 import {CustomCheckButton, CustomForm} from "../models/LoginHelper";
 
+import TextField from '@mui/material/TextField';
 
 import AuthService from "../services/auth.service";
 import styled from "styled-components";
@@ -133,36 +134,39 @@ const Register: React.FC = () => {
                     {!successful && (
                         <div>
                             <div className="form-group">
-                                <label htmlFor="username">Username</label>
-                                <Input
+                                <TextField
                                     type="text"
                                     className="form-control"
                                     name="username"
+                                    label="Username"
+                                    variant="outlined"
                                     value={username}
                                     onChange={onChangeUsername}
-                                    validations={[required, vusername]}
+                                    fullWidth
                                 />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="email">Email</label>
-                                <Input
+                                <TextField
                                     type="text"
                                     className="form-control"
                                     name="email"
+                                    label="Email"
+                                    variant="outlined"
                                     value={email}
                                     onChange={onChangeEmail}
-                                    validations={[required, validEmail]}
+                                    fullWidth
                                 />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="password">Password</label>
-                                <Input
+                                <TextField
                                     type="password"
                                     className="form-control"
                                     name="password"
+                                    label="Password"
+                                    variant="outlined"
                                     value={password}
                                     onChange={onChangePassword}
-                                    validations={[required, vpassword]}
+                                    fullWidth
                                 />
                             </div>
 
@@ -196,6 +200,14 @@ const RegisterWrapperDiv = styled.div`
   background-color: blue;
   height: 60vh;
   margin-top: 8%;
+  justify-content: space-between; // Distribute space between elements
+  align-items: flex-start;
+
+  .form-group {
+    width: 100%; // Ensure form groups take full width
+    padding: 10px 0; // Vertical padding for each form group
+    box-sizing: border-box; // Ensures padding does not add to the width
+  }
 `;
 
 export default Register;

@@ -204,7 +204,7 @@ export const CompanyNoResponse = () => {
 
                     <SelectDiv>
                         <SimpleSelect value={sortingCriteria} onChange={handleSortingChange}>
-                            <option value="" disabled selected>Filter</option> {/* Default option */}
+                            <option value="">Default Filter</option> {/* Default option */}
 
                             <option value="date-asc">Date Ascending</option>
                             <option value="date-desc">Date Descending</option>
@@ -334,7 +334,8 @@ const SearchDiv = styled.div`
     border-radius: 4px;
     appearance: none;
     outline: none;
-  width: 15vw;
+  width: 25vw;
+   margin-right: -4px;
    
 `;
 

@@ -1,12 +1,13 @@
 import React, {useContext, useEffect, useState} from "react";
 import {JobsContext} from "../services/jobcontext";
 import styled from 'styled-components';
-import {device, deviceCompanyNoResponse} from "../common/ScreenSizes";
+import {device, deviceCompanyNoResponse, deviceHome, noResponseJobs} from "../common/ScreenSizes";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCaretDown, faCaretUp} from "@fortawesome/free-solid-svg-icons";
 import { useSortAndSelect } from './useSortAndSelect'; // Make sure to import from the correct path
 import { SelectValue } from './useSortAndSelect';
-import {DateMutation} from "../common/DateMutation"; // Replace with the actual path
+import {DateMutation} from "../common/DateMutation";
+import {useTheme} from "@mui/material"; // Replace with the actual path
 
 // shrink down vertically,
 //more shade on south partk of box
@@ -15,10 +16,11 @@ import {DateMutation} from "../common/DateMutation"; // Replace with the actual 
 export const CompanyNoResponse = () => {
     const { jobs, updateJobResponded, dateApplied } = useContext(JobsContext);
     const [searchTerm, setSearchTerm] = useState('');
-    const [sortingCriteria, setSortingCriteria] = useState('date-asc'); // default sorting criteria
+    // const [sortingCriteria, setSortingCriteria] = useState('date-asc'); // default sorting criteria
+    const [sortingCriteria, setSortingCriteria] = useState("");
 
-    const [isMobile, setIsMobile] = useState(window.matchMedia(device.mobile).matches);
-    const [isLaptop, setIsLaptop] = useState(window.matchMedia(device.laptop).matches);
+    const [isMobile, setIsMobile] = useState(window.matchMedia(deviceCompanyNoResponse.mobile).matches);
+    const [isLaptop, setIsLaptop] = useState(window.matchMedia(deviceCompanyNoResponse.laptop).matches);
     const [dateSortDirection, setDateSortDirection] = useState('dsc');
     const [contactSortDirection, setContactSortDirection] = useState('dsc'); // New state for contact sorting
     const [companySortDirection, setCompanySortDirection] = useState('dsc'); // New state for company sorting
@@ -137,11 +139,13 @@ export const CompanyNoResponse = () => {
         }
     };
 
+
     useEffect(() => {
         const checkScreenSize = () => {
-            setIsMobile(window.matchMedia(device.mobile).matches);
-            setIsLaptop(window.matchMedia(device.laptop).matches);
+            setIsMobile(window.matchMedia(deviceCompanyNoResponse.mobile).matches);
+            setIsLaptop(window.matchMedia(deviceCompanyNoResponse.laptop).matches);
         };
+
         checkScreenSize();
         window.addEventListener('resize', checkScreenSize);
 
@@ -150,6 +154,7 @@ export const CompanyNoResponse = () => {
         };
     }, []);
 
+    const theme = useTheme();
 
 
     const handleDateAscSort = () => {
@@ -164,11 +169,11 @@ export const CompanyNoResponse = () => {
                 <StickySearchDiv>
                     <SearchBar
                         type="text"
-                        placeholder="Search by company name or contact..."
+                        placeholder="Search"
                         value={searchTerm}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setSearchTerm(e.target.value)}
                     />
-
+<RedPillParentDiv>
                     <RedPillContainer>
                         <button onClick={toggleDateSortDirection} style={{ all: 'unset' }}>
                             {dateSortDirection === 'asc' ? 'Date Asc' : 'Date Desc'}
@@ -193,26 +198,32 @@ export const CompanyNoResponse = () => {
                         {rejectedSortStatus === 'no' ? 'Rejected No' : 'Rejected Yes'}
                         <FontAwesomeIcon icon={rejectedSortStatus === 'no' ? faCaretDown : faCaretUp} size="lg" />
                     </RedPillContainer>
+</RedPillParentDiv>
+
+
+
+                    <SelectDiv>
+                        <SimpleSelect value={sortingCriteria} onChange={handleSortingChange}>
+                            <option value="" disabled selected>Filter</option> {/* Default option */}
+
+                            <option value="date-asc">Date Ascending</option>
+                            <option value="date-desc">Date Descending</option>
+                            <option value="company-a-z">Company A-Z</option>
+                            <option value="company-z-a">Company Z-A</option>
+                            <option value="contact-a-z">Contact A-Z</option>
+                            <option value="contact-z-a">Contact Z-A</option>
+                            <option value="rejected-yes">Rejected Yes</option>
+                            <option value="rejected-no">Rejected No</option>
+                            {/* other options */}
+                        </SimpleSelect>
+
+
+                    </SelectDiv>
 
                 </StickySearchDiv>
 
 
 
-            {/*<SelectDiv>*/}
-            {/*    <SimpleSelect value={sortingCriteria} onChange={handleSortingChange}>*/}
-            {/*        <option value="date-asc">Date Ascending</option>*/}
-            {/*        <option value="date-desc">Date Descending</option>*/}
-            {/*        <option value="company-a-z">Company A-Z</option>*/}
-            {/*        <option value="company-z-a">Company Z-A</option>*/}
-            {/*        <option value="contact-a-z">Contact A-Z</option>*/}
-            {/*        <option value="contact-z-a">Contact Z-A</option>*/}
-            {/*        <option value="rejected-yes">Rejected Yes</option>*/}
-            {/*        <option value="rejected-no">Rejected No</option>*/}
-            {/*        /!* other options *!/*/}
-            {/*    </SimpleSelect>*/}
-
-
-            {/*</SelectDiv>*/}
 
             {sortedAndRespondedJobs.map((job) => (
                 <CardDiv key={job.id}>
@@ -251,6 +262,21 @@ export const CompanyNoResponse = () => {
 
     );
 };
+
+const RedPillParentDiv = styled.div`
+  display: flex;
+  margin-left: 150px;
+  
+
+  @media ${noResponseJobs.mobile} {
+    display: none; // Hide on larger screens
+
+    @media (max-width: 1150px) {
+    }
+  }
+`;
+
+
 const SearchBar = styled.input`
   width: 30%;
   padding: 10px;
@@ -265,6 +291,17 @@ const SearchBar = styled.input`
   top: 0; /* Stick it to the top */
   z-index: 1; /* Ensure it's above other elements */
   overflow: hidden; /* Hide any overflow */
+
+  @media ${noResponseJobs.mobile} {
+    width: 50vw; /* Adjust width to 80% on mobile devices */
+  }
+
+  @media ${noResponseJobs.laptop} {
+   min-width: 200px; /* Adjust width to 80% on mobile devices */
+    left: 5%;
+    transform: translateX(-10%); // Adjust to move the element back by 10% of its own width
+
+  }
 `;
 
 
@@ -327,9 +364,11 @@ export const CardDiv = styled.div`
   height: 50%; /* Sets the height of the card to 50% of its container */
   width: 100%; /* Full width */
   margin: 0 auto; /* Centers the card itself horizontally if its container is wider */
-  background-color: rgba(138,169,142,0.86); /* Sets background color to red */
+  //background-color: rgba(138,169,142,0.86); /* Sets background color to red */
+ background-color: yellow;
   padding: 10px; /* Adds some spacing inside the card */
   box-sizing: border-box; /* Ensures padding is included in width/height calculations */
+  
 `;
 
 
@@ -340,15 +379,20 @@ export const ColumnDiv = styled.div`
   padding: 10px;
   white-space: nowrap;
   word-break: break-all;
-  width: 40%;
+  width: 50%;
   overflow: hidden;
-background-color: rgba(165,169,127,0.86);
+//background-color: rgba(165,169,127,0.86);
+  background-color: chartreuse;
   align-items: center;
 
   box-shadow:
           -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */
           4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
           0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
+
+  @media ${noResponseJobs.mobile} {
+    width: 80%; /* Adjust width to 80% on mobile devices */
+  }
 `;
 
 
@@ -361,30 +405,49 @@ const StickySearchDiv = styled.div`
   position: sticky;
   top: 7%;
   z-index: 5;
-  background-color: white;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   padding-right: 150px;
   height: 10vh;
+  background-color: blue;
+
+  @media ${noResponseJobs.mobile} {
+    width: 100vw;
+    background-color: grey;
+    padding-right: 12%;
+
+  }
+  //
+  // @media ${noResponseJobs.laptop} {
+  //  
+  //   @media (max-width: 1150px) {
+  //     margin-left: 10%; // Apply 10% left margin for screens up to 1150px
+  //   }
+  // }
+
+
+
 `;
 
 const SelectDiv = styled.div`
     display: flex;
-    flex-direction: column;
-    align-items: center;
-  justify-content: center;
-  top: 14.3%;
-  z-index: 5;
-  position: sticky;
-  background-color: white;
+
+
+  // @media ${noResponseJobs.mobile} {
+  //   display: block; // Show on mobile devices
+  // }
+
+  @media ${noResponseJobs.laptop} {
+    display: none; // Hide on larger screens
+  }
 `;
 
 
 const RedPillContainer = styled.div`
   display: inline-block;
-  min-width: 150px;
+  min-width: 140px;
   height: 30px;
   background-color: red;
   border-radius: 15px;
@@ -401,5 +464,13 @@ const RedPillContainer = styled.div`
 
   &:hover {
     cursor: pointer;
+  }
+
+  @media ${noResponseJobs.mobile} {
+    display: none; // Hide on mobile devices
+  }
+
+  @media (max-width: 1150px) {
+    background-color: blue; // Background color for screens wider than 1150px
   }
 `;

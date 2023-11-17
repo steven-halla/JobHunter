@@ -41,6 +41,11 @@ export const deviceCalendar = {
     laptop: `(min-width: 601px)`, // Covers devices wider than 600px, including tablets and laptops
 };
 
+export const deviceProfile = {
+    mobile: `(max-width: 800px)`, // Handles typical mobile devices
+    laptop: `(min-width: 801px)`, // Covers devices wider than 600px, including tablets and laptops
+};
+
 
 
 

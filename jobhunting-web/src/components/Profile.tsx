@@ -1,15 +1,17 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, {useContext, useState, useEffect, useRef} from 'react';
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../services/usercontext';
 import UserService from '../services/user.service';
 import styled from "styled-components";
 import TextareaAutosize from '@mui/material/TextareaAutosize';
+import {deviceCalendar, deviceProfile} from "../common/ScreenSizes";
 
 
 const Profile = () => {
     const { id } = useParams<{ id: string }>();
     const { user, setUser, lifeStory, setLifeStory, customfield1, setCustomField1, customfield2, setCustomField2, customfield3, setCustomField3 } = useContext(UserContext);
     const [loading, setLoading] = useState(true);
+    const isMountedRef = useRef(true);
 
     useEffect(() => {
         const userId = Number(id);
@@ -17,24 +19,29 @@ const Profile = () => {
             setLoading(true);
             UserService.getUserById(userId)
                 .then((fetchedUser) => {
-                    setUser(fetchedUser);
-                    setCustomField1(fetchedUser.customfield1);
-                    setCustomField2(fetchedUser.customfield2);
-                    setCustomField3(fetchedUser.customfield3);
-                    // Update lifestory state here
-                    setLifeStory(fetchedUser.lifeStory); // Ensure this line sets lifestory correctly
-                    console.log("hi there lifestory", fetchedUser.lifeStory);
-                    console.log("fetchedUser:", fetchedUser);
-
-                    setLoading(false);
+                    if (isMountedRef.current) { // Check if component is still mounted
+                        setUser(fetchedUser);
+                        setCustomField1(fetchedUser.customfield1);
+                        setCustomField2(fetchedUser.customfield2);
+                        setCustomField3(fetchedUser.customfield3);
+                        setLifeStory(fetchedUser.lifeStory);
+                    }
                 })
                 .catch((error) => {
                     console.error('Error fetching user by id:', error);
-                    setLoading(false);
+                })
+                .finally(() => {
+                    if (isMountedRef.current) {
+                        setLoading(false);
+                    }
                 });
         } else {
             console.error('Error: id is not a number');
         }
+
+        return () => {
+            isMountedRef.current = false; // Set the flag to false when the component unmounts
+        };
     }, [id, setUser, setCustomField1, setCustomField2, setCustomField3, setLifeStory]);
 
 
@@ -97,6 +104,23 @@ const Profile = () => {
     };
 
 
+    const [isMobile, setIsMobile] = useState(window.matchMedia(deviceProfile.mobile).matches);
+    const [isLaptop, setIsLaptop] = useState(window.matchMedia(deviceProfile.laptop).matches);
+
+    useEffect(() => {
+        const checkScreenSize = () => {
+            setIsMobile(window.matchMedia(deviceProfile.mobile).matches);
+            setIsLaptop(window.matchMedia(deviceProfile.laptop).matches);
+        };
+
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+
+        return () => {
+            window.removeEventListener('resize', checkScreenSize);
+        };
+    }, []);
+
     return (
         <ProfileWrapperDiv>
             <InfoContainerDiv>
@@ -116,13 +140,12 @@ const Profile = () => {
                         <StyledStrong>Portfolio:</StyledStrong>
                         <TextareaAutosize  name="customfield3" value={customfield3} onChange={handleChange} />
                     </p>
-                    <TextareaAutosize
+
+                    <StyledTextareaAutosize
                         name="lifestory"
                         value={lifeStory}
                         onChange={handleChange}
-                        minRows={5}
                         placeholder="Enter your life story..."
-                        style={{ width: '200%' }} // Adjust the width as needed
                     />
 
 
@@ -152,8 +175,8 @@ export const ProfileWrapperDiv = styled.div`
   height: 100vh;
   width: 100vw;
   justify-content: center;
-  flex-direction: column;
-  align-items: center;
+  ////flex-direction: column;
+  //align-items: center;
   //background-color: #586e75; /* A blue-gray hue, reminiscent of slate */
   //background-color: #30475E; /* A deep, muted blue with a hint of gray */
   background-color: #496D89; /* A lighter shade of the deep, muted blue with a hint of gray */
@@ -170,20 +193,48 @@ export const StyledForm = styled.form`
 `;
 
 const InfoContainerDiv = styled.div`
+  //display: flex; for some reason this breaks everything
+
+  //justify-content: center;
+  //align-items: center;
+  margin-top: 5%;
   background-color: #c7f3ff;
-  width: 30vw;
-  height: 45vh;
-  justify-content: center;
-  align-items: center;
+  width: 400px;
+  height: 50vh;
+  min-height: 325px;
+  max-height: 355px;
+
   //margin-top: 15%;
-  padding-top:  2.5%;
+  padding-top:  1.5%;
+  margin-bottom: 5%;
+ 
 
   // Adding shadows to the bottom left and right
   box-shadow:
           10px 10px 15px -5px rgba(0, 0, 0, 0.3), // Shadow for the bottom right
           -10px 10px 15px -5px rgba(0, 0, 0, 0.3); // Shadow for the bottom left
+
+  @media ${deviceProfile.mobile} {
+    // Styles for laptop and larger devices
+    width: 300px;
+  }
 `;
 
+const StyledTextareaAutosize = styled(TextareaAutosize)`
+    // Add more styles here
+    border: 1px solid #ccc; // Example style
+    padding: 8px; // Example style
+    border-radius: 4px; // Example style
+    width: 700px;
+  margin-top: 13%;
+  
+
+    // You can also add media queries for responsive design
+  @media ${deviceProfile.mobile} {
+    // Styles for laptop and larger devices
+    width: 400px;
+  }
+`;
 
 export default Profile;
 

@@ -293,7 +293,10 @@ const SearchBar = styled.input`
   overflow: hidden; /* Hide any overflow */
 
   @media ${noResponseJobs.mobile} {
-    width: 50vw; /* Adjust width to 80% on mobile devices */
+   display: flex;
+    align-items: flex-start;
+    margin-left: 12%;
+    width: 150px /* Adjust width to 80% on mobile devices */
   }
 
   @media ${noResponseJobs.laptop} {

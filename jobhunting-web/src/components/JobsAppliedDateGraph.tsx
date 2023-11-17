@@ -1,9 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { JobsContext } from "../services/jobcontext";
 import { Job } from "../models/Job";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import styled from "styled-components";
-import {device} from "../common/ScreenSizes";
+import {device, deviceHome} from "../common/ScreenSizes";
+import {useTheme} from "@mui/material";
 
 export const JobsAppliedDateGraph: React.FC = () => {
     const { jobs } = useContext(JobsContext);
@@ -71,10 +72,31 @@ export const JobsAppliedDateGraph: React.FC = () => {
         }).length
     }));
 
+    const [isMobile, setIsMobile] = useState(window.matchMedia(deviceHome.mobile).matches);
+    const [isLaptop, setIsLaptop] = useState(window.matchMedia(deviceHome.laptop).matches);
+
+
+    useEffect(() => {
+        const checkScreenSize = () => {
+            setIsMobile(window.matchMedia(deviceHome.mobile).matches);
+            setIsLaptop(window.matchMedia(deviceHome.laptop).matches);
+        };
+
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+
+        return () => {
+            window.removeEventListener('resize', checkScreenSize);
+        };
+    }, []);
+
+    const theme = useTheme();
+
 // there is an issue in that the graph is not updating, I need to update this component each time the create job button is pushed
 
     return (
         <JobsAppliedDateGraphDiv>
+
             <GraphContainer>
                 <MonthPickerDiv>
                     <select
@@ -107,10 +129,16 @@ export const JobsAppliedDateGraph: React.FC = () => {
                     </NumberOfJobsAppliedDiv>
                 )}
                 <BarGraphDiv>
-                    <ResponsiveContainer width="100%" height={400}>
+                    <ResponsiveContainer width="100%" height={400} >
                         <BarChart
                             data={dataForBarChart}
-                            margin={{ top: 15, right: 5, left: 5, bottom: 5 }}>
+                            margin={{
+                                top: 40,
+                                right: 45, // Increased right margin
+                                left: 10,  // Increased left margin
+                                bottom: 25 // Increased bottom margin
+                            }}
+                        >
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="name" />
                             <YAxis />
@@ -127,38 +155,42 @@ export const JobsAppliedDateGraph: React.FC = () => {
 
 export const JobsAppliedDateGraphDiv = styled.div`
   display: flex;
-  height: 100vh;
+  height: 100%;
   width: 100vw;
   justify-content: center; 
+  align-items: center;
+  flex-direction: column;
 `;
 
 export const GraphContainer = styled.div`
   display: flex;
+  width: 90vw;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  background-color: red;
+  flex-wrap: wrap; // Allows items to wrap when space is limited
 `;
+
 
 export const NumberOfJobsAppliedDiv = styled.div`
   display: flex;
-  height: 22vh;
+  height: 25vh;
+  min-height: 200px; // Set a minimum height
   width: 20vw;
+  min-width: 200px; // Set a minimum width
   justify-content: center;
   align-items: center;
   flex-direction: column;
   background-color: #c7f3ff;
-
-  /* Box shadow on left, right, and bottom sides */
-  box-shadow:
-          -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */
-          4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
-          0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
-
-  /* Optional: slight border */
+  padding-top: 1%;
+  box-shadow: -4px 0 8px -2px rgba(0, 0, 0, 0.2), 4px 0 8px -2px rgba(0, 0, 0, 0.2), 0 4px 8px -2px rgba(0, 0, 0, 0.2);
   border: 1px solid #d1e8ff;
-
-  /* For a more advanced 3D effect, consider a gradient background */
   background-image: linear-gradient(to bottom right, #c7f3ff, #a1d8f0);
+  overflow: auto; // Manage overflow content
+  margin-right: 4.5%;
 `;
+
 
 
 
@@ -167,24 +199,39 @@ export const BarGraphDiv = styled.div`
   display: flex;
   margin-top: 10px;
   height: 60vh;
-  width: 85vw;
+  min-height: 300px; // Set a minimum height
+  width: 90vw;
   justify-content: center;
   align-items: center;
-  margin-right: 12vw;
-  
-  @media ${device.laptop} {
-    margin-right: 5vw;
-  }
+  background-color: yellow;
+  margin-right: 8.5vw;
+
+
 `;
+
 
 export const MonthPickerDiv = styled.div`
   display: flex;
   height: 10vh;
+  min-height: 50px; // Set a minimum height
   width: 70vw;
   align-items: center;
   justify-content: center;
-  
+  margin-right: 4.5%;
+
+
   select {
     height: 30px;
   }
+`;
+
+
+
+const VerticalLine = styled.div`
+  position: fixed; // or absolute, depending on your layout
+  left: 50%;
+  height: 100vh;
+  width: 1px; // or as thick as you want
+  background-color: #000; // or any color of your choice
+  z-index: 10; // adjust as needed
 `;

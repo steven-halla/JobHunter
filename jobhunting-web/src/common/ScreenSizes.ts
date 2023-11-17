@@ -36,6 +36,11 @@ export const noResponseJobs = {
     laptop: `(min-width: 801px)`, // Covers devices wider than 600px, including tablets and laptops
 };
 
+export const deviceCalendar = {
+    mobile: `(max-width: 600px)`, // Handles typical mobile devices
+    laptop: `(min-width: 601px)`, // Covers devices wider than 600px, including tablets and laptops
+};
+
 
 
 

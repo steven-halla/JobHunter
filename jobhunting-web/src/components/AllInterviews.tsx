@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import 'react-calendar/dist/Calendar.css';
 import { JobsContext } from "../services/jobcontext";
 import {InterviewCalendarModal} from "./InterviewCalandarModal";
+import {deviceCalendar, deviceHome} from "../common/ScreenSizes";
+import {useTheme} from "@mui/material";
 
 
 
@@ -38,23 +40,38 @@ export const AllInterviews = () => {
 
         setInterviewData(formattedData);
     }, [jobs]);
+
+
     const getTileContent = ({ date, view }: { date: Date; view: string }) => {
         if (view === 'month') {
             const dayInterviews = interviewData.filter(interview =>
                 interview.interviewdate && interview.interviewdate.toDateString() === date.toDateString()
             );
-            return (
-                <div>
-                    {dayInterviews.map((interview, index) => (
-                        <div key={index}>
-                            <p> {interview.companyname}</p>
-                            {/* Display other interview details as needed */}
-                        </div>
-                    ))}
-                </div>
-            );
+
+            // Check if the view is on a mobile device
+            const isMobile = window.matchMedia(deviceCalendar.mobile).matches;
+
+            // Determine the display text or symbol based on the number of interviews and device type
+            let displayContent;
+            if (isMobile) {
+                if (dayInterviews.length > 0) {
+                    displayContent = <div>✔️</div>; // Or use any other symbol like "•"
+                }
+            } else {
+                if (dayInterviews.length === 1) {
+                    displayContent = <div>Interview</div>;
+                } else if (dayInterviews.length > 1) {
+                    displayContent = <div>Interviews</div>;
+                }
+            }
+
+            return displayContent;
         }
     };
+
+
+
+
 
     const onDayClick = (value: Date, event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         const dayInterviews = interviewData.filter(interview =>
@@ -84,6 +101,25 @@ export const AllInterviews = () => {
         }
     };
 
+    const [isMobile, setIsMobile] = useState(window.matchMedia(deviceCalendar.mobile).matches);
+    const [isLaptop, setIsLaptop] = useState(window.matchMedia(deviceCalendar.laptop).matches);
+
+    useEffect(() => {
+        const checkScreenSize = () => {
+            setIsMobile(window.matchMedia(deviceCalendar.mobile).matches);
+            setIsLaptop(window.matchMedia(deviceCalendar.laptop).matches);
+        };
+
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+
+        return () => {
+            window.removeEventListener('resize', checkScreenSize);
+        };
+    }, []);
+
+    const theme = useTheme();
+
 
     return (
         <CalendarContainer>
@@ -100,9 +136,13 @@ export const AllInterviews = () => {
 
 
 const StyledCalendar = styled(Calendar)`
+  padding: 30px;
+  margin-top: 5%;
   width: 75%;
-  height: 75vh;
-  max-width: 100%;
+  height: 50%;
+  max-height: 425px;
+  //min-width: 600px;
+  //min-height: 600px;
   .react-calendar__tile {
     max-height: 100px; // Adjust as needed
     overflow: hidden;
@@ -110,6 +150,15 @@ const StyledCalendar = styled(Calendar)`
 
   .interview-day {
     background-color: lightgreen;
+  }
+
+  @media ${deviceCalendar.mobile} {
+    /* Add mobile-specific styles here */
+    height: 80%;
+    max-height: 600px;
+    width: 95%;
+    padding: 10px;
+
   }
 
   /* Add additional styling here if needed */
@@ -122,6 +171,7 @@ const CalendarContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; // This makes sure the container takes the full height of the viewport
+  height: 100%; // This makes sure the container takes the full height of the viewport
+
 `;
 

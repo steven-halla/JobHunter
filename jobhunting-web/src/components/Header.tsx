@@ -460,7 +460,7 @@ export const HeaderDiv = styled.div`
   display: flex;
   background-color: #adc1ff;
   width: 100vw;
-  height: 7vh;
+  height: 8.5vh;
   align-items: center;
   position: sticky;
   top: 0;

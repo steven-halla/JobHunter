@@ -51,6 +51,12 @@ export const deviceLogin = {
     laptop: `(min-width: 801px)`, // Covers devices wider than 600px, including tablets and laptops
 };
 
+export const nothingHere = {
+    mobile: `(max-width: 9999)`, // Handles typical mobile devices
+    laptop: `(min-width: 10000)`, // Covers devices wider than 600px, including tablets and laptops
+};
+
+
 
 
 

@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCaretUp, faCaretDown, faTimes, faTimesCircle, faBan} from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import {deviceJobViewAll} from "../common/ScreenSizes";
+import {nothingHere} from "../common/ScreenSizes";
 import axios from "axios";
 import { useSortAndSelect } from './useSortAndSelect'; // Make sure to import from the correct path
 import { SelectValue } from './useSortAndSelect'; // Replace with the actual path
@@ -96,96 +97,8 @@ export const JobViewAll = () => {
 
 
     type JobResponse = 'accepted' | 'declined' | 'no response' | 'delete' | 'update' | 'olderThanSevenDays' ;
-    interface StyledTableRowProps {
-        response: JobResponse;
-        companyRejected: boolean;
-        companyResponded: boolean;
-        meetingLink: string;
-        isOlderThanSevenDays: boolean; // New prop
-    }
 
     const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
-
-
-
-    const StyledTableRow = styled.tr<StyledTableRowProps>`
-      position: relative;
-      background: ${props => {
-        if (props.companyRejected) {
-          return 'linear-gradient(to left, #ff0000, #ff9999)'; // Red gradient (light to slightly darker)
-        }
-        else if (props.meetingLink) {
-          return 'linear-gradient(to left,#34e89e, #78ffd6)'; // Green gradient (light to slightly darker)
-        }
-        else if (props.isOlderThanSevenDays) {
-          return 'linear-gradient(to left, #FFDD3C, #FFEA61)'; // Yellow gradient (light to slightly darker)
-        }
-        else if (!props.companyResponded) {
-          return 'linear-gradient(to left, #808080, #b3b3b3)'; // Grey gradient (light to slightly darker)
-        }
-        return 'linear-gradient(to left, #808080, #b3b3b3)'; // Default gradient color
-      }};
-
-
-
-      .hidden-icons {
-    display: none;
-    position: absolute;
-  }
-
-  .no-response-icon{
-    bottom: 27px;
-    padding-left: 41.5px;
-  }
-
-
-
-
-  .edit-icon {
-    top: 18px;
-    padding-left: 41.5px;
-
-  }
-  
-  .scedule-icon {
-    margin-right: 45px;
-    bottom: 12px;
-  }
-
-  .trash-icon {
-    margin-left: 65px;
-    bottom: 12px;
-  }
-
-  .icon-container {
-    display: inline-block;
-    padding-right: 30px;
-    margin-bottom: 10px;
-  }
-
-  &:hover {
-    .hidden-icons {
-      display: block;
-    }
-    //background-color: lightgreen;
-
-    /* Use min-height to ensure the row height increases */
-    min-height: 70px; /* Adjust as needed */
-  }
-
-  .custom-icon {
-    font-size: 20px;
-  }
-
-  .custom-icon-lg {
-    font-size: 30px;
-  }
-
-  .custom-icon-sm {
-    font-size: 16px;
-  }
-`;
-
 
     const openDescriptionModal = (description: string) => {
         console.log("openDescriptionModal called with:", description);
@@ -228,8 +141,6 @@ export const JobViewAll = () => {
 
         }
 
-
-
         else if (response === 'declined') {
             console.log("Handling declined job application");
 
@@ -254,53 +165,7 @@ export const JobViewAll = () => {
         }
     };
 
-    const handleResponseChange = async (e: any, jobId: string) => {
-        const selectedValue = e.target.value as JobResponse;
-        const targetJob = jobs.find(job => job.id === Number(jobId));
 
-        // <-- get the navigate function using the hook
-
-        if (targetJob) {
-            if (selectedValue === 'declined') {
-                targetJob.companyresponded = false;
-                // targetJob.companyrejected = true;
-                setJobDeclined(true);
-            } else if (selectedValue === 'accepted') {
-                targetJob.companyrejected = false;
-                targetJob.companyresponded = true;
-                setJobDeclined(false);
-            }
-
-            else if (selectedValue === 'update') {
-                console.log("do you want to update?")
-            }
-
-            else if (selectedValue === 'no response') {
-                console.log("no response?")
-            }
-
-            else if (selectedValue === 'delete') {
-                console.log("we may need to delete this")
-            }
-
-
-            else {
-                targetJob.companyrejected = false;
-                targetJob.companyresponded = false;
-                setJobDeclined(false);
-            }
-
-            await updateJobOnServer(jobId, {
-                companyrejected: targetJob.companyrejected,
-                companyresponded: targetJob.companyresponded
-            });
-
-            setJobResponses(prev => ({
-                ...prev,
-                [jobId]: selectedValue
-            }));
-        }
-    };
 
     const updateJobOnServer = async (jobId: string, data: { companyrejected: boolean; companyresponded?: boolean }) => {
         // Make a PATCH request to your server to update the job with jobId
@@ -414,6 +279,7 @@ export const JobViewAll = () => {
     });
 
 
+    const [isMobileNothing, setIsMobileNothing] = useState(window.matchMedia(nothingHere.mobile).matches);
 
     const [isMobile, setIsMobile] = useState(window.matchMedia(deviceJobViewAll.mobile).matches);
     const [isLaptop, setIsLaptop] = useState(window.matchMedia(deviceJobViewAll.tablet).matches);
@@ -432,45 +298,9 @@ export const JobViewAll = () => {
         };
     }, []);
 
-    const handleDateSortAsc = () => {
-        setSortOrder('date-asc');
-    };
 
-    const handleDateSortDesc = () => {
-        setSortOrder('date-desc');
-    };
 
-    const handleContactNameSortAsc = () => {
-        setSortOrder('contact-a-z');
-    };
 
-    const handleContactNameSortDesc = () => {
-        setSortOrder('contact-z-a');
-    };
-
-    const handleCompanyNameSortAsc = () => {
-        setSortOrder('company-a-z');
-    };
-
-    const handleCompanyNameSortDesc = () => {
-        setSortOrder('company-z-a');
-    };
-
-    const handleSortByAccepted = () => {
-        setSortOrder('accepted');
-    };
-
-    const handleSortByMeetingLink = () => {
-        setSortOrder('meetingLink');
-    };
-
-    const handleSortByNoResponse = () => {
-        setSortOrder('no response');
-    };
-
-    const handleSortByCompanyResponded = () => {
-        setSortOrder('companyResponded');
-    };
 
     const toggleDateSortDirection = () => {
         const newSortOrder = dateSortDirection === 'asc' ? 'date-desc' : 'date-asc';
@@ -497,138 +327,17 @@ export const JobViewAll = () => {
         setSortOrder(interviewSortOrder);
     };
 
-    // Example sorting logic based on sortOrder
-
-
-
-    //
-    // const toggleContactSortDirection = () => {
-    //     setContactSortDirection(contactSortDirection === 'asc' ? 'dsc' : 'asc');
-    //     setSortingCriteria(contactSortDirection === 'asc' ? 'contact-z-a' : 'contact-a-z');
-    //     // Reset other sort buttons to their original state
-    //     setDateSortDirection('dsc');
-    //     setCompanySortDirection('dsc');
-    //     setRejectedSortStatus('yes');
-    // };
-    //
-    // const toggleCompanySortDirection = () => {
-    //     setCompanySortDirection(companySortDirection === 'asc' ? 'dsc' : 'asc');
-    //     setSortingCriteria(companySortDirection === 'asc' ? 'company-z-a' : 'company-a-z');
-    //     // Reset other sort buttons to their original state
-    //     setDateSortDirection('dsc');
-    //     setContactSortDirection('dsc');
-    //     setRejectedSortStatus('yes');
-    // };
-    //
-    // const toggleRejectedSortStatus = () => {
-    //     setRejectedSortStatus(rejectedSortStatus === 'no' ? 'yes' : 'no');
-    //     setSortingCriteria(rejectedSortStatus === 'no' ? 'rejected-yes' : 'rejected-no');
-    //     // Reset other sort buttons to their original state
-    //     setDateSortDirection('dsc');
-    //     setContactSortDirection('dsc');
-    //     setCompanySortDirection('dsc');
-    // };
-
-
 
     return (
         <>
-            {isMobile ? (
+            {isMobileNothing ? (
                 <div>
-                    <SelectDiv>
-                        <SimpleSelect value={sortOrder} onChange={(e: { target: { value: any; }; }) => setSortOrder(e.target.value as SelectValue)}>
-                            <option value="date-asc">Date Asc</option>
-                            <option value="date-desc">Date Dsc</option>
-                            <option value="company-a-z">Company Asc</option>
-                            <option value="company-z-a">Company Dsc</option>
-                            <option value="contact-a-z">Contact Asc</option>
-                            <option value="contact-z-a">Contact Dsc</option>
-                        </SimpleSelect>
-                    </SelectDiv>
 
-                    {sortedAndRespondedJobs.map((job, index) => (
-                        <MobileJobCardDiv key={job.id}>
-                            <MobileTitleDiv>
-                                <MobileJobTitleDiv>Date</MobileJobTitleDiv>
-                                <MobileTableCellDiv>{new Date(job.dateapplied).toISOString().split('T')[0]}</MobileTableCellDiv>
-                            </MobileTitleDiv>
-                            <MobileTitleDiv>
-                                <MobileJobTitleDiv>Company</MobileJobTitleDiv>
-                                <MobileTableCellDiv>{job.companyname}</MobileTableCellDiv>
-                            </MobileTitleDiv>
-                            <MobileTitleDiv>
-                                <MobileJobTitleDiv>Description</MobileJobTitleDiv>
-                                <MobileTableCellDiv>
-                                    <TextButton onClick={() => openDescriptionModal(job.description)}>Click to View</TextButton>
-                                </MobileTableCellDiv>
-                            </MobileTitleDiv>
-                            <MobileTitleDiv>
-                                <MobileJobTitleDiv>Contact</MobileJobTitleDiv>
-                                <MobileTableCellDiv>
-                                    <MobileTableCellDiv>{job.primarycontact}</MobileTableCellDiv>
-                                </MobileTableCellDiv>
-                            </MobileTitleDiv>
-                            <MobileTitleDiv>
-                                <MobileJobTitleDiv>job link</MobileJobTitleDiv>
-                                <MobileTableCellDiv>
-                                    <TextButton><a href={job.joblink} target="_blank" rel="noopener noreferrer">LINK</a></TextButton>
-                                </MobileTableCellDiv>
-                            </MobileTitleDiv>
-                            <MobileTitleDiv>
-                                <MobileJobTitleDiv>website</MobileJobTitleDiv>
-                                <MobileTableCellDiv>
-                                    <TextButton><a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">LINK</a></TextButton>
-                                </MobileTableCellDiv>
-                            </MobileTitleDiv>
-                            <MobileTitleDiv>
-                                <MobileJobTitleDiv>  <select value={jobResponses[job.id] || 'no response'} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleResponseChange(e, String(job.id))}>
-                                    <option value="accepted">Accepted</option>
-                                    <option value="update">Update</option>
-                                    <option value="declined">Declined</option>
-                                    <option value="delete">Delete</option>
-                                    <option value="no response">No Response</option>
-                                </select></MobileJobTitleDiv>
-                                <MobileTableCellDiv>
-                                    {jobResponses[job.id] === "accepted" ? (
-                                        <Button
-                                            variant="contained"
-                                            style={{backgroundColor: 'green', width: '120px', height: '40px'}}
-                                            onClick={() => onButtonClick('accepted', String(job.id))}
-                                        >
-                                            Interview
-                                        </Button>
-                                    ) : jobResponses[job.id] === "update" ? (
-                                        <Button
-                                            variant="contained"
-                                            style={{backgroundColor: 'purple', width: '120px', height: '40px'}}
-                                            onClick={() => onButtonClick('update', String(job.id))}
-                                        >
-                                            Update
-                                        </Button>
-                                    ) : jobResponses[job.id] === "declined" ? (
-                                        <Button
-                                            variant="contained"
-                                            style={{backgroundColor: 'orange', width: '120px', height: '40px'}}
-                                            onClick={() => onButtonClick('declined', String(job.id))}
-                                        >
-                                            Declined
-                                        </Button>
-                                    ) : jobResponses[job.id] === "delete" ? (
-                                        <Button
-                                            variant="contained"
-                                            style={{backgroundColor: 'red', width: '120px', height: '40px'}}
-                                            onClick={() => onButtonClick('delete', String(job.id))}
-                                        >
-                                            Delete
-                                        </Button>
-                                    ) : null}
-                                </MobileTableCellDiv>
-                            </MobileTitleDiv>
-                        </MobileJobCardDiv>
-                    ))}
                 </div>
-
             ) : (
+
+
+
                 <StyledTableContainer>
                     <Table>
                         <StyledTableHead>
@@ -703,11 +412,11 @@ export const JobViewAll = () => {
 
 
                 </StyledTableContainer>
-            )}
+            )
 
 
 
-
+            }
 
             {isDescriptionModalOpen && (
                 <div
@@ -746,56 +455,15 @@ export const JobViewAll = () => {
 };
 
 
-const MobileJobCardDiv = styled.div`
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin: 10px 0;
-    display: flex;
-    flex-direction: column;
-    background-color: #f7f7f7; // Light gray background
-`;
 
-const MobileTitleDiv = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-`;
 
-const MobileJobTitleDiv = styled.div`
-    font-weight: bold;
-    margin-right: 10px;
-`;
-
-const MobileTableCellDiv = styled.div`
-    flex: 1;
-    text-align: right;
-`;
-
-const SortLabelContainer = styled.div`
-    display: flex;
-    align-items: center; // align vertically in the center
-`;
-
-const ButtonHolderDiv = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-left: 8px; // Adjusts the spacing between the Date text and the icons
-`;
-
-const StyledTableCell = styled(TableCell)`
-  max-width: 20ch;
-  white-space: pre-wrap;   // Allows content to wrap to the next line
-  word-wrap: break-word;   // Allows breaking between words
-  overflow-wrap: break-word; // In case a single word is longer than 25ch, it'll break
-`;
 
 const StyledTableHead = styled(TableHead)`
     position: sticky;
     top: 0;
     background-color: white;
     z-index: 1;
+  background-color: grey;
 
     @media ${deviceJobViewAll.mobile} {
         & > * {
@@ -825,24 +493,6 @@ const TextButton = styled.button`
         color: #007BFF;  // Change color on hover/focus. Pick any color that suits your design
     }
 `;
-
-const SimpleSelect = styled.select`
-    padding: 5px 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    appearance: none;
-    outline: none;
-  width: 40vw;
-`;
-const SelectDiv = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  justify-content: center;
-`;
-
-
 
 
 const CardBoxDiv = styled.div`
@@ -912,9 +562,9 @@ const CardDiv = styled.div<CardProps>`
 
 const RedPillContainer = styled.div`
   display: inline-block;
-  min-width: 150px;
+  min-width: 120px;
   height: 30px;
-  background-color: red;
+  background-color: purple;
   border-radius: 15px;
   box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5);
   margin-right: 1.5%;

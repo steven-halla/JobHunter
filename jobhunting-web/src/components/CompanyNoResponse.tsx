@@ -173,52 +173,52 @@ export const CompanyNoResponse = () => {
                         value={searchTerm}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setSearchTerm(e.target.value)}
                     />
-<RedPillParentDiv>
-                    <RedPillContainer>
-                        <button onClick={toggleDateSortDirection} style={{ all: 'unset' }}>
-                            {dateSortDirection === 'asc' ? 'Date Asc' : 'Date Desc'}
-                            <FontAwesomeIcon icon={dateSortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
-                        </button>
-                    </RedPillContainer>
+                    <RedPillParentDiv>
+                        <RedPillContainer>
+                            <button onClick={toggleDateSortDirection} style={{ all: 'unset' }}>
+                                {dateSortDirection === 'asc' ? 'Date Asc' : 'Date Desc'}
+                                <FontAwesomeIcon icon={dateSortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
+                            </button>
+                        </RedPillContainer>
 
-                    <RedPillContainer onClick={toggleContactSortDirection}>
-                        {contactSortDirection === 'asc' ? 'Contact Asc' : 'Contact Desc'}
-                        <FontAwesomeIcon icon={contactSortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
-                    </RedPillContainer>
-
-
-                    <RedPillContainer onClick={toggleCompanySortDirection}>
-                        {companySortDirection === 'asc' ? 'Company Asc' : 'Company Desc'}
-                        <FontAwesomeIcon icon={companySortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
-                    </RedPillContainer>
+                        <RedPillContainer onClick={toggleContactSortDirection}>
+                            {contactSortDirection === 'asc' ? 'Contact Asc' : 'Contact Desc'}
+                            <FontAwesomeIcon icon={contactSortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
+                        </RedPillContainer>
 
 
-
-                    <RedPillContainer onClick={toggleRejectedSortStatus}>
-                        {rejectedSortStatus === 'no' ? 'Rejected No' : 'Rejected Yes'}
-                        <FontAwesomeIcon icon={rejectedSortStatus === 'no' ? faCaretDown : faCaretUp} size="lg" />
-                    </RedPillContainer>
-</RedPillParentDiv>
+                        <RedPillContainer onClick={toggleCompanySortDirection}>
+                            {companySortDirection === 'asc' ? 'Company Asc' : 'Company Desc'}
+                            <FontAwesomeIcon icon={companySortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
+                        </RedPillContainer>
 
 
 
-                    <SelectDiv>
-                        <SimpleSelect value={sortingCriteria} onChange={handleSortingChange}>
-                            <option value="">Default Filter</option> {/* Default option */}
-
-                            <option value="date-asc">Date Ascending</option>
-                            <option value="date-desc">Date Descending</option>
-                            <option value="company-a-z">Company A-Z</option>
-                            <option value="company-z-a">Company Z-A</option>
-                            <option value="contact-a-z">Contact A-Z</option>
-                            <option value="contact-z-a">Contact Z-A</option>
-                            <option value="rejected-yes">Rejected Yes</option>
-                            <option value="rejected-no">Rejected No</option>
-                            {/* other options */}
-                        </SimpleSelect>
+                        <RedPillContainer onClick={toggleRejectedSortStatus}>
+                            {rejectedSortStatus === 'no' ? 'Rejected No' : 'Rejected Yes'}
+                            <FontAwesomeIcon icon={rejectedSortStatus === 'no' ? faCaretDown : faCaretUp} size="lg" />
+                        </RedPillContainer>
+                    </RedPillParentDiv>
 
 
-                    </SelectDiv>
+
+                        <SelectDiv>
+                            <SimpleSelect value={sortingCriteria} onChange={handleSortingChange}>
+                                <option value="">Default Filter</option> {/* Default option */}
+
+                                <option value="date-asc">Date Ascending</option>
+                                <option value="date-desc">Date Descending</option>
+                                <option value="company-a-z">Company A-Z</option>
+                                <option value="company-z-a">Company Z-A</option>
+                                <option value="contact-a-z">Contact A-Z</option>
+                                <option value="contact-z-a">Contact Z-A</option>
+                                <option value="rejected-yes">Rejected Yes</option>
+                                <option value="rejected-no">Rejected No</option>
+                                {/* other options */}
+                            </SimpleSelect>
+
+
+                        </SelectDiv>
 
                 </StickySearchDiv>
 
@@ -423,15 +423,6 @@ const StickySearchDiv = styled.div`
     padding-right: 12%;
 
   }
-  //
-  // @media ${noResponseJobs.laptop} {
-  //  
-  //   @media (max-width: 1150px) {
-  //     margin-left: 10%; // Apply 10% left margin for screens up to 1150px
-  //   }
-  // }
-
-
 
 `;
 

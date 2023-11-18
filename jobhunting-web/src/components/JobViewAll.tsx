@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCaretUp, faCaretDown, faTimes, faTimesCircle, faBan} from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
-import {deviceJobViewAll} from "../common/ScreenSizes";
+import {deviceJobViewAll, noResponseJobs} from "../common/ScreenSizes";
 import {nothingHere} from "../common/ScreenSizes";
 import axios from "axios";
 import { useSortAndSelect } from './useSortAndSelect'; // Make sure to import from the correct path
@@ -339,16 +339,16 @@ export const JobViewAll = () => {
 
 
                 <StyledTableContainer>
-                    <Table>
-                        <StyledTableHead>
-                            <TableRow>
+
+                    <StickySearchDiv>
+
                                 <SearchBar
                                     type="text"
                                     placeholder="Search by company name or contact..."
                                     value={searchTerm}
                                     onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setSearchTerm(e.target.value)}
                                 />
-                                <TableCell>
+                                    <RedPillParentDiv>
 
                                     <RedPillContainer>
                                         <button onClick={toggleDateSortDirection} style={{ all: 'unset' }}>
@@ -357,8 +357,6 @@ export const JobViewAll = () => {
                                         </button>
                                     </RedPillContainer>
 
-                                </TableCell>
-                                <TableCell>
                                     <RedPillContainer>
                                         <button onClick={toggleCompanySortDirection} style={{ all: 'unset' }}>
                                             {companySortDirection === 'asc' ? 'Company Asc' : 'Company Desc'}
@@ -366,17 +364,14 @@ export const JobViewAll = () => {
                                         </button>
                                     </RedPillContainer>
 
-                                </TableCell>
-                                <TableCell>
+
                                     <RedPillContainer>
                                         <button onClick={toggleContactSortDirection} style={{ all: 'unset' }}>
                                             {contactSortDirection === 'asc' ? 'Contact Asc' : 'Contact Desc'}
                                             <FontAwesomeIcon icon={contactSortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
                                         </button>
                                     </RedPillContainer>
-                                </TableCell>
 
-                                <TableCell>
                                     <RedPillContainer>
                                         <button onClick={toggleInterviewSortDirection} style={{ all: 'unset' }}>
                                             {interviewSortDirection === 'asc' ? 'Accepted' : 'No Response'}
@@ -384,13 +379,11 @@ export const JobViewAll = () => {
                                         </button>
                                     </RedPillContainer>
 
-                                </TableCell>
-                            </TableRow>
-                        </StyledTableHead>
-
-                    </Table>
+                        </RedPillParentDiv>
 
 
+
+                </StickySearchDiv>
 
                     <CardBoxDiv>
                         {sortedAndRespondedJobs.map((job, index) => (
@@ -454,7 +447,18 @@ export const JobViewAll = () => {
     );
 };
 
+const RedPillParentDiv = styled.div`
+  display: flex;
+  margin-left: 10px;
+  
 
+  @media ${noResponseJobs.mobile} {
+    display: none; // Hide on larger screens
+
+    @media (max-width: 1150px) {
+    }
+  }
+`;
 
 
 
@@ -464,6 +468,7 @@ const StyledTableHead = styled(TableHead)`
     background-color: white;
     z-index: 1;
   background-color: grey;
+  height: 10vh;
 
     @media ${deviceJobViewAll.mobile} {
         & > * {
@@ -476,6 +481,7 @@ const StyledTableHead = styled(TableHead)`
 const StyledTableContainer = styled(TableContainer)`
     height: 93vh;  /* Adjust to your preference */
     overflow-y: auto;
+  background-color: lightsalmon;
 `;
 
 const TextButton = styled.button`
@@ -524,6 +530,10 @@ const CardDiv = styled.div<CardProps>`
     }
     return 'linear-gradient(to left, #808080, #b3b3b3)'; // Default gradient color
 }};
+  box-shadow:
+          -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */
+          4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
+          0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
   // ... other styles
   padding: 10px;
   border: 1px solid #ccc;
@@ -560,11 +570,29 @@ const CardDiv = styled.div<CardProps>`
   }
 `;
 
+const SearchBar = styled.input`
+  width: 25%;
+  min-width: 200px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: block;
+  margin-left: auto;
+  //margin-right: auto;
+  background-color: white; /* Set the background color of SearchBar */
+  position: sticky; /* Make it sticky */
+  top: 0; /* Stick it to the top */
+  z-index: 1; /* Ensure it's above other elements */
+  overflow: hidden; /* Hide any overflow */
+  @media (max-width: 1150px) {
+    margin-left: 170px; // Background color for screens wider than 1150px
+  }
+`;
 const RedPillContainer = styled.div`
   display: inline-block;
-  min-width: 120px;
+  min-width: 140px;
   height: 30px;
-  background-color: purple;
+  background-color: red;
   border-radius: 15px;
   box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5);
   margin-right: 1.5%;
@@ -580,20 +608,34 @@ const RedPillContainer = styled.div`
   &:hover {
     cursor: pointer;
   }
+
+  @media ${noResponseJobs.mobile} {
+    display: none; // Hide on mobile devices
+  }
+
+  @media (max-width: 1150px) {
+    background-color: blue; // Background color for screens wider than 1150px
+  }
 `;
 
-const SearchBar = styled.input`
-  width: 25vw;
-  padding: 10px;
-  margin-top: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: white; /* Set the background color of SearchBar */
-  position: sticky; /* Make it sticky */
-  top: 0; /* Stick it to the top */
-  z-index: 1; /* Ensure it's above other elements */
-  overflow: hidden; /* Hide any overflow */
+
+const StickySearchDiv = styled.div`
+  position: sticky;
+  top: 0%;
+  z-index: 5;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-right: 180px;
+  height: 10vh;
+  background-color: blue;
+
+  @media ${noResponseJobs.mobile} {
+    width: 100vw;
+    background-color: grey;
+    padding-right: 12%;
+
+  }
+
 `;

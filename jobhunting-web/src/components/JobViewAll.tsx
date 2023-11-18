@@ -421,6 +421,31 @@ export const JobViewAll = () => {
                                 <TextButton onClick={() => openDescriptionModal(job.description)}>Click to View</TextButton>
                                 <h5>{new Date(job.dateapplied).toISOString().split('T')[0]}</h5>
                                 <h5><a href={job.joblink} target="_blank" rel="noopener noreferrer">Job Link</a></h5>
+
+                                <FontAwesomeIcon
+                                    className="custom-icon hidden-icons schedule-icon custom-icon-lg"
+                                    icon={faCalendar}
+                                    style={{ cursor: 'pointer', marginLeft: '170' }} // Added marginRight here
+                                    onClick={() => onButtonClick('accepted', String(job.id))}
+                                />
+
+                                <FontAwesomeIcon
+                                    icon={faBan}
+                                    className="custom-icon hidden-icons no-response-icon"
+                                    style={{ cursor: 'pointer', marginTop: '15px',marginLeft: '400' }}
+                                    onClick={() => onButtonClick('declined', String(job.id))}
+
+                                />
+
+                                <FontAwesomeIcon
+                                    icon={faEdit}
+                                    className="custom-icon hidden-icons edit-icon"
+                                    style={{ cursor: 'pointer', marginTop: '15px', marginLeft: '555' }}
+                                    onClick={() => onButtonClick('update', String(job.id))}
+
+                                />
+
+
                             </CardDiv>
                         ))}
                     </CardBoxDiv>

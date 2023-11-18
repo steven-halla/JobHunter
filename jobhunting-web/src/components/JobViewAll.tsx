@@ -23,7 +23,7 @@ export const JobViewAll = () => {
     const [filter] = useState('');
     const [onlyShowResponded] = useState(false);
 
-    const [sortingCriteria, setSortingCriteria] = useState('date-asc'); // default sorting criteria
+    const [sortingCriteria, setSortingCriteria] = useState(""); // default sorting criteria
 
 
     const [sortOrder, setSortOrder] = useState<
@@ -282,12 +282,12 @@ export const JobViewAll = () => {
     const [isMobileNothing, setIsMobileNothing] = useState(window.matchMedia(nothingHere.mobile).matches);
 
     const [isMobile, setIsMobile] = useState(window.matchMedia(deviceJobViewAll.mobile).matches);
-    const [isLaptop, setIsLaptop] = useState(window.matchMedia(deviceJobViewAll.tablet).matches);
+    const [isLaptop, setIsLaptop] = useState(window.matchMedia(deviceJobViewAll.laptop).matches);
 
     useEffect(() => {
         const checkScreenSize = () => {
             setIsMobile(window.matchMedia(deviceJobViewAll.mobile).matches);
-            setIsLaptop(window.matchMedia(deviceJobViewAll.tablet).matches);
+            setIsLaptop(window.matchMedia(deviceJobViewAll.laptop).matches);
         };
 
         checkScreenSize();
@@ -326,6 +326,12 @@ export const JobViewAll = () => {
         setInterviewSortDirection(interviewSortOrder === 'no response' ? 'asc' : 'accepted');
         setSortOrder(interviewSortOrder);
     };
+
+    const handleSortingChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
+        setSortingCriteria(e.target.value);
+    };
+
+//give min heights for containers like our grey boy so it dont get flat
 
 
     return (
@@ -381,7 +387,23 @@ export const JobViewAll = () => {
 
                         </RedPillParentDiv>
 
+                        <SelectDiv>
+                            <SimpleSelect value={sortingCriteria} onChange={handleSortingChange}>
+                                <option value="">Default Filter</option> {/* Default option */}
 
+                                <option value="date-asc">Date Ascending</option>
+                                <option value="date-desc">Date Descending</option>
+                                <option value="company-a-z">Company A-Z</option>
+                                <option value="company-z-a">Company Z-A</option>
+                                <option value="contact-a-z">Contact A-Z</option>
+                                <option value="contact-z-a">Contact Z-A</option>
+                                <option value="rejected-yes">Rejected Yes</option>
+                                <option value="rejected-no">Rejected No</option>
+                                {/* other options */}
+                            </SimpleSelect>
+
+
+                        </SelectDiv>
 
                 </StickySearchDiv>
 
@@ -462,21 +484,7 @@ const RedPillParentDiv = styled.div`
 
 
 
-const StyledTableHead = styled(TableHead)`
-    position: sticky;
-    top: 0;
-    background-color: white;
-    z-index: 1;
-  background-color: grey;
-  height: 10vh;
 
-    @media ${deviceJobViewAll.mobile} {
-        & > * {
-          display: none;  // Hide for mobile
-
-        }
-    }
-`;
 
 const StyledTableContainer = styled(TableContainer)`
     height: 93vh;  /* Adjust to your preference */
@@ -587,6 +595,23 @@ const SearchBar = styled.input`
   @media (max-width: 1150px) {
     margin-left: 170px; // Background color for screens wider than 1150px
   }
+
+  @media ${noResponseJobs.mobile} {
+    display: flex;
+    align-items: flex-start;
+    width: 50px ;/* Adjust width to 80% on mobile devices */
+    margin-right: auto;
+    margin-left: 40px;
+
+  }
+
+  @media ${noResponseJobs.laptop} {
+    min-width: 200px; /* Adjust width to 80% on mobile devices */
+    left: 5%;
+    transform: translateX(-10%); // Adjust to move the element back by 10% of its own width
+    margin-right: 10%;
+
+  }
 `;
 const RedPillContainer = styled.div`
   display: inline-block;
@@ -635,7 +660,35 @@ const StickySearchDiv = styled.div`
     width: 100vw;
     background-color: grey;
     padding-right: 12%;
+    min-height: 50px;
 
   }
 
+`;
+
+
+const SelectDiv = styled.div`
+    display: flex;
+
+
+  // @media ${noResponseJobs.mobile} {
+  //   display: block; // Show on mobile devices
+  // }
+
+  @media ${noResponseJobs.laptop} {
+    display: none; // Hide on larger screens
+  }
+`;
+
+
+const SimpleSelect = styled.select`
+    padding: 5px 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    appearance: none;
+    outline: none;
+  width: 25vw;
+   margin-right: -4px;
+   
 `;

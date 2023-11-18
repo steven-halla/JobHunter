@@ -296,7 +296,8 @@ const SearchBar = styled.input`
    display: flex;
     align-items: flex-start;
     margin-left: 12%;
-    width: 150px /* Adjust width to 80% on mobile devices */
+    width: 150px; /* Adjust width to 80% on mobile devices */
+    margin-top: 10px;
   }
 
   @media ${noResponseJobs.laptop} {
@@ -416,6 +417,8 @@ const StickySearchDiv = styled.div`
   padding-right: 150px;
   height: 10vh;
   background-color: blue;
+  min-height: 50px;
+
 
   @media ${noResponseJobs.mobile} {
     width: 100vw;
@@ -423,6 +426,15 @@ const StickySearchDiv = styled.div`
     padding-right: 12%;
 
   }
+  //
+  // @media ${noResponseJobs.laptop} {
+  //  
+  //   @media (max-width: 1150px) {
+  //     margin-left: 10%; // Apply 10% left margin for screens up to 1150px
+  //   }
+  // }
+
+
 
 `;
 

@@ -14,6 +14,7 @@ import {
     faChartLine,
     faClipboard, faClipboardCheck, faLandmark, faLandmarkFlag, faSignOutAlt
 } from "@fortawesome/free-solid-svg-icons";
+import {noResponseJobs} from "../common/ScreenSizes";
 
 
 interface DropdownMenuProps {
@@ -465,6 +466,7 @@ export const HeaderDiv = styled.div`
   position: sticky;
   top: 0;
   z-index: 6;
+  min-height: 50px;
 
   nav {
     display: flex;
@@ -555,19 +557,26 @@ export const IconWrapper = styled.div`
   span {
     font-size: 0.8rem;
   }
+
+  @media ${noResponseJobs.mobile} {
+    margin-bottom: 3%;
+  }
 `;
 
 
 const LogoLink = styled(Link)`
   font-family: 'Papyrus, sans-serif';
+  background-color: red;
+  //margin-bottom: 8%;
+  padding-bottom: 4%;
 `;
 
 export const LogoDiv = styled.div`
   display: flex;
-  background-color: rgba(97,78,169,0.86);
   height: 5vh;
   width: 3vw;
   justify-content: center;
+  margin-bottom: 0.7%;
 
   a {
     // Apply your base styles to LogoLink here if needed
@@ -577,6 +586,10 @@ export const LogoDiv = styled.div`
       text-decoration: none; // Removes underline on hover
       color: #0056b3; // Change color on hover
     }
+  }
+
+  @media ${noResponseJobs.mobile} {
+    margin-bottom: 3%;
   }
 
 `;

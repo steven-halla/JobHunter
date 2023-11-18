@@ -227,6 +227,7 @@ const StyledTextareaAutosize = styled(TextareaAutosize)`
     border-radius: 4px; // Example style
     width: 700px;
   margin-top: 13%;
+margin-bottom: 8%;
   
 
     // You can also add media queries for responsive design

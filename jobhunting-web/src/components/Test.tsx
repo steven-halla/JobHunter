@@ -237,15 +237,19 @@ export const Test = () => {
 
                         </DateDiv>
                         <NameDiv>
-                            <h2>
-                                <DataItemDiv>{job.companyname}</DataItemDiv>
+                            <HDiv>
+                                <h2>
+                                   {job.companyname}
+                                </h2>
+                                <div className="hide">{job.companyname}</div>
+                            </HDiv>
+                            <div>
                                 <a href={job.joblink} target="_blank" rel="noreferrer">
                                     <FontAwesomeIcon icon={faGlasses} />
                                 </a>
-                            </h2>
-                            <div className="hide">{job.companyname}</div>
-
+                            </div>
                         </NameDiv>
+
 
                         <ContactContainerDiv>
                             <ContactNameDiv>
@@ -332,15 +336,21 @@ const ContactContainerDiv = styled.div`
   transform: translateX(-50%);
 `;
 
+const HDiv = styled.div`
+  
+  max-width: 70%;
+  overflow: hidden;
+  background-color: red;
+  margin-right: 3%;
+`;
+
 const NameDiv = styled.div`
   background-color: purple;
   display: flex;
   align-items: center;
   height: 30%;
-  width: 50%;
   margin: 0 auto;
   justify-content: center;
-  white-space: nowrap;
   overflow: visible; /* Allow content to overflow */
   text-overflow: ellipsis;
   position: relative; /* Needed for absolute positioning of pseudo-element */
@@ -348,10 +358,16 @@ const NameDiv = styled.div`
   h2 {
     display: flex;
     align-items: center;
-    width: 100%;
-    justify-content: center;
+    justify-content: flex-start; /* Display text from left to right */
+    content: attr(data-content); /* Display the content of the data-content attribute */
+    overflow: hidden; /* Hide any overflowing content */
+    box-sizing: content-box; /* Ensure padding doesn't affect the width */
+    position: relative; /* Needed for z-index */
+    white-space: nowrap; /* Prevent text from wrapping */
+    max-width: 20ch; /* Set the maximum width to 20 characters (adjust as needed) */
+    
 
-    &:hover + .hide {
+    &:hover ~ .hide {
       display: block; /* Show the .hide div when h2 is hovered */
       z-index: 10;
     }
@@ -366,16 +382,24 @@ const NameDiv = styled.div`
   .hide {
     display: none; /* Initially hidden */
     position: absolute;
-    top: -20px; /* Position 50 pixels above the company name */
+    top: -20px; /* Position 20 pixels above the company name */
     left: 0; /* Align with the left edge of the h2 */
     z-index: 10; /* Increase the z-index value to ensure it appears above other content */
     color: blue;
+    background-color: grey;
     margin-bottom: 20px; /* Add some margin to separate from h2 */
+    padding: 10px; /* Add padding for the character limit indicator */
+    pointer-events: none; /* Ignore pointer events on the .hide element */
   }
 
+  .hide::before {
+    content: attr(data-text); /* Use the data-text attribute for the content */
+    display: block;
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 `;
-
-
 
 
 

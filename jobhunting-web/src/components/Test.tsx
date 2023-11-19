@@ -14,7 +14,7 @@ import {useTheme} from "@mui/material"; // Replace with the actual path
 //add more space between cards, look at linkedin toom there should be space from all sides
 
 export const Test = () => {
-    const { jobs, updateJobResponded, dateApplied } = useContext(JobsContext);
+    const { jobs, updateJobResponded, updateJobRejected, dateApplied } = useContext(JobsContext);
     const [searchTerm, setSearchTerm] = useState('');
     // const [sortingCriteria, setSortingCriteria] = useState('date-asc'); // default sorting criteria
     const [sortingCriteria, setSortingCriteria] = useState("");
@@ -136,6 +136,17 @@ export const Test = () => {
             }
         } else {
             updateJobResponded(jobId, false);
+        }
+    };
+
+    const handleRejectionChange = (jobId: number, checked: boolean) => {
+        if (checked) {
+            const isConfirmed = window.confirm("Confirm company rejected?");
+            if (isConfirmed) {
+                updateJobRejected(jobId, true);
+            }
+        } else {
+            updateJobRejected(jobId, false);
         }
     };
 
@@ -271,6 +282,8 @@ export const Test = () => {
                                     <CheckBoxInput
                                         type="checkbox"
                                         checked={job.companyrejected}
+                                        onChange={(event: { target: { checked: boolean; }; }) => handleRejectionChange(job.id, event.target.checked)}
+
                                     />
                                 </DataItemDiv>
 

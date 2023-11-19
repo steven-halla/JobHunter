@@ -471,7 +471,6 @@ export const IconWrapper = styled.div`
 
 const LogoLink = styled(Link)`
   font-family: 'Papyrus, sans-serif';
-  background-color: red;
   //margin-bottom: 8%;
   padding-bottom: 4%;
 `;

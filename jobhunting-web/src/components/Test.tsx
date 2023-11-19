@@ -237,13 +237,43 @@ export const Test = () => {
 
                         </DateDiv>
                         <NameDiv>
-                                <h2>
-                                    <DataItemDiv>{job.companyname}</DataItemDiv>
+                            <h2>
+                                <DataItemDiv>{job.companyname}</DataItemDiv>
+                                <a href={job.joblink} target="_blank" rel="noreferrer">
                                     <FontAwesomeIcon icon={faGlasses} />
-
-                                </h2>
+                                </a>
+                            </h2>
+                            <div className="hide">{job.companyname}</div>
 
                         </NameDiv>
+
+                        <ContactContainerDiv>
+                            <ContactNameDiv>
+                                <DataItemDiv>{job.primarycontact}</DataItemDiv>
+
+                            </ContactNameDiv>
+                            <CheckBoxDiv>
+                                <DataItemDiv>
+                                    respond?
+                                    <CheckBoxInput
+                                        type="checkbox"
+                                        checked={job.companyresponded}
+                                        onChange={(event: { target: { checked: boolean; }; }) => handleCheckboxChange(job.id, event.target.checked)}
+                                    />
+                                </DataItemDiv>
+
+                                <DataItemDiv>
+                                    rejected?
+                                    <CheckBoxInput
+                                        type="checkbox"
+                                        checked={job.companyrejected}
+                                    />
+                                </DataItemDiv>
+
+                            </CheckBoxDiv>
+
+                        </ContactContainerDiv>
+
 
                     </BusinessCardDiv>
 
@@ -259,19 +289,72 @@ export const Test = () => {
     );
 };
 
-export const NameDiv = styled.div`
+const CheckBoxDiv = styled.div`
+  height: 50%;
+  width: 100%;
+  background-color: darkkhaki;
+  display: flex;
+  align-items: center; /* Vertically center the content */
+
+  /* Direct child divs (assuming these are the containers for each checkbox) */
+  > div {
+    flex: 1; /* This makes each child div take equal space */
+    display: flex;
+    justify-content: center; /* Center the content of each child div */
+  }
+
+  /* First child div (for the first checkbox) */
+  > div:first-child {
+    justify-content: flex-start; /* Aligns content to the left */
+  }
+
+  /* Last child div (for the second checkbox) */
+  > div:last-child {
+    justify-content: flex-end; /* Aligns content to the right */
+  }
+`;
+
+
+const ContactNameDiv = styled.div`
+height: 50%;
+  width: 100%;
+  background-color: grey;
+`;
+
+const ContactContainerDiv = styled.div`
+  position: absolute;
+  bottom: 0;
+  height: 40%;
+  width: 80%;
+  background-color: lightsalmon;
+  /* Ensure it's horizontally centered */
+  left: 50%;
+  transform: translateX(-50%);
+`;
+
+const NameDiv = styled.div`
   background-color: purple;
   display: flex;
   align-items: center;
   height: 30%;
   width: 50%;
   margin: 0 auto;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: visible; /* Allow content to overflow */
+  text-overflow: ellipsis;
+  position: relative; /* Needed for absolute positioning of pseudo-element */
 
   h2 {
     display: flex;
-    justify-content: space-between; /* Aligns children on the same row with space between */
     align-items: center;
-    width: 100%; /* Ensure it spans the full width of the parent */
+    width: 100%;
+    justify-content: center;
+
+    &:hover + .hide {
+      display: block; /* Show the .hide div when h2 is hovered */
+      z-index: 10;
+    }
   }
 
   svg:not(:root).svg-inline--fa,
@@ -279,7 +362,23 @@ export const NameDiv = styled.div`
     color: white;
     font-size: 24px;
   }
+
+  .hide {
+    display: none; /* Initially hidden */
+    position: absolute;
+    top: -20px; /* Position 50 pixels above the company name */
+    left: 0; /* Align with the left edge of the h2 */
+    z-index: 10; /* Increase the z-index value to ensure it appears above other content */
+    color: blue;
+    margin-bottom: 20px; /* Add some margin to separate from h2 */
+  }
+
 `;
+
+
+
+
+
 
 
 
@@ -292,6 +391,7 @@ export const DateDiv = styled.div`
 `;
 export const BusinessCardDiv = styled.div`
     background-color: yellow;
+  position: relative;
     height: 25vh;
   width: 50vw;
 `;
@@ -404,6 +504,7 @@ export const CardDiv = styled.div`
 
 export const DataItemDiv = styled.div`
     /* You can add specific styles for data items here */
+  margin-right: 5%;
 `;
 
 const StickySearchDiv = styled.div`

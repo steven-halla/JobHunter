@@ -354,108 +354,9 @@ export const Header = () => {
 };
 
 
-// export const HeaderDiv = styled.div`
-//   display: flex;
-//   background-color: #adc1ff;
-//   width: 100vw;
-//   height: 7vh;
-//   align-items: center; /* Vertically aligns items to the center */
-//   position: sticky;
-//   top: 0;
-//   //background-color: white;
-//   z-index: 6;
-//
-//   nav {
-//     display: flex;
-//     flex-direction: row;
-//     width: 100%; /* Ensures nav takes up full width of the HeaderDiv */
-//     justify-content: space-between; /* Distributes items evenly with equal space around them */
-//     padding: 0 5%; /* Add padding to left and right */
-//
-//     li {
-//       margin: 0 15px; /* Provides some spacing between nav items */
-//       list-style-type: none; /* Removes the bullet points */
-//
-//
-//     }
-//   }
-// `;
 
-// export const HamburgerIcon = styled.span`
-//     cursor: pointer;
-// `;
-//
-// export const DropdownMenu = styled.div<DropdownMenuProps>`
-//   display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
-//   flex-direction: column;
-//   gap: 10px;
-//   position: absolute;
-//   align-items: end;
-//   top: 7vh;
-//   right: 10px;
-//   background-color: #f9f9f9;
-//   border: 1px solid #ccc;
-//   border-radius: 5px;
-//   z-index: 2;
-//
-//   li {
-//     list-style-type: none; /* Removes the bullet points */
-//
-//
-//   }
-// `;
-//
-//
-// export const UserDisplay = styled.div`
-//     cursor: pointer;
-//     display: flex;
-//     align-items: end;
-//     gap: 10px;
-//     position: relative;  // Add this line
-//
-//
-//   span {
-//         font-weight: bold;
-//     }
-//
-//     &.active > i {
-//         transform: rotate(180deg);
-//     }
-// `;
-//
-// export const Caret = styled.i`
-//   transition: transform 0.3s ease;
-//   transform: rotate(180deg) translateY(+10%);
-// `;
-//
-//
-// export const IconContainer = styled.div`
-//   display: flex;
-//   align-items: center;
-//   gap: 10px;
-// `;
-//
-// export const IconWrapper = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   gap: 5px;
-//
-//   svg {
-//     color: #007bff; /* Change the color to your desired icon color */
-//   }
-//
-//   span {
-//     font-size: 0.8rem;
-//     text-align: center;
-//   }
-// `;
-//
-// const LogoLink = styled(Link)`
-//   text-decoration: underline;
-//   font-family: 'Papyrus, sans-serif';
-//   margin-right: 20px; /* Adjust margin as needed to create spacing between the logo and other elements */
-// `;
+
+
 
 export const HeaderDiv = styled.div`
   display: flex;
@@ -475,6 +376,10 @@ export const HeaderDiv = styled.div`
     justify-content: space-between; /* Distributes items evenly with equal space around them */
     padding: 0 5%;
     align-items: center; /* Vertically center the items within the nav */
+  }
+
+  @media ${noResponseJobs.mobile} {
+    padding-right: 13%;
   }
 `;
 

@@ -17,6 +17,7 @@ import {Job} from "../models/Job";
 import {DateMutation} from "../common/DateMutation";
 import Box from "@mui/material/Box";
 
+
 export const Home: React.FC = () => {
 
     //useContext might be a better idea for V2

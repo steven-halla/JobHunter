@@ -218,6 +218,7 @@ export const Home: React.FC = () => {
                 dateapplied: Date;
                 companyresponded: boolean;
                 companyrejected: boolean;
+                jobsoftdelete: boolean;
             }
 
             const companies: Job[] = await response.json();

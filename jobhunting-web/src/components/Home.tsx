@@ -299,9 +299,8 @@ export const Home: React.FC = () => {
 
                     [theme.breakpoints.down('sm')]: {
                         // padding: '10px',
-                        backgroundColor: "purple", // Example responsive style
                         height: "5vh",
-                        marginTop: "15px",
+
                     },
                 }}
             >
@@ -390,7 +389,6 @@ export const Home: React.FC = () => {
 
                     [theme.breakpoints.down('sm')]: {
                         // padding: '10px',
-                        backgroundColor: "purple", // Example responsive style
                         height: "5vh",
 
                     },
@@ -500,7 +498,7 @@ const JobCardDiv = styled.div`
     margin-right: auto; // Centers the element along the horizontal axis
     margin-top: 1em; // Adds space above the element
     height: auto; // Lets the height adjust based on content
-    background-color: rgba(150,116,169,0.86); // Optional background color change for mobile
+    //background-color: rgba(150,116,169,0.86); // Optional background color change for mobile
     padding-top: 3%;
   }
 
@@ -512,13 +510,13 @@ const JobCardDiv = styled.div`
 const ButtonDiv = styled.div`
   justify-content: center;
   align-items: center;
-  background-color: yellow;
+  //background-color: yellow;
   //margin-top: 5.5%;
   //margin-top: 10%;
   //margin-bottom: 1.5%;
 
   @media ${deviceHome.mobile} {
-    background-color: rgba(150,116,169,0.86);
+    //background-color: rgba(150,116,169,0.86);
     width: 36vw;
     display: flex;
 
@@ -533,10 +531,11 @@ const StyledButton = styled(Button)`
   // ...
 
   @media ${deviceHome.mobile} {
-    background-color: red; // Style for mobile
+    //background-color: red; // Style for mobile
     // Add other mobile-specific styles here
   }
 `;
+
 
 
 const BaseStyledTextField = styled(TextField)`
@@ -561,10 +560,10 @@ const SubmitButton = styled(Button)`
   display: flex;
   padding-bottom: 70px;
   //margin-bottom: 50px;
-  background-color: yellow;
+  //background-color: yellow;
 
   @media ${deviceHome.mobile} {
-    background-color: red;
+    //background-color: red;
     width: 30vw;
     height: 7vh;
   }
@@ -620,7 +619,7 @@ export const CustomFieldForm = styled.form`
   justify-items: center;
   align-items: center;
   width: 100vw;
-  background-color: rebeccapurple;
+  //background-color: rebeccapurple;
 
 
 
@@ -630,13 +629,13 @@ export const CustomFieldForm = styled.form`
     height: 40px;
     //max-width: 200px;
     //min-width: 150px;
-    background-color: lightsalmon;
+    //background-color: lightsalmon;
   }
 
   label {
     display: flex;
     margin-left: 5px;
-    background-color: orangered;
+    //background-color: orangered;
   }
 
   @media ${deviceHome.mobile} {
@@ -701,7 +700,7 @@ const FieldContainerDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  background-color: purple;
+  //background-color: purple;
 
 
 `;
@@ -709,7 +708,7 @@ const FieldContainerDiv = styled.div`
 export const FooterDiv =  styled.div`
   
   @media ${device.mobile} {
-    background-color: gold;
+    //background-color: gold;
   }
 `
 

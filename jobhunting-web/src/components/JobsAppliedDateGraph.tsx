@@ -168,7 +168,6 @@ export const GraphContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: red;
   flex-wrap: wrap; // Allows items to wrap when space is limited
 `;
 
@@ -203,7 +202,6 @@ export const BarGraphDiv = styled.div`
   width: 90vw;
   justify-content: center;
   align-items: center;
-  background-color: yellow;
   margin-right: 8.5vw;
 
 

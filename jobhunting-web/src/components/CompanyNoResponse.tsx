@@ -346,6 +346,8 @@ const CompanyNoResponseDiv = styled.div`
   display: flex;
   //height: 100vh;
   width: 100vw;
+  height: 100%;
+  
   flex-direction: column;
   //background-color: rgba(138,169,142,0.86); /* Sets background color to red */
   background-color: rgba(138,169,142,0.86); /* Sets background color to red */
@@ -370,7 +372,6 @@ export const CardDiv = styled.div`
   width: 100%; /* Full width */
   margin: 0 auto; /* Centers the card itself horizontally if its container is wider */
   //background-color: rgba(138,169,142,0.86); /* Sets background color to red */
- background-color: yellow;
   padding: 10px; /* Adds some spacing inside the card */
   box-sizing: border-box; /* Ensures padding is included in width/height calculations */
   
@@ -408,7 +409,7 @@ export const DataItemDiv = styled.div`
 
 const StickySearchDiv = styled.div`
   position: sticky;
-  top: 7%;
+  top: 8.5%;
   z-index: 5;
   display: flex;
   flex-direction: row;

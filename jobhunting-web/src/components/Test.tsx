@@ -296,7 +296,7 @@ export const Test = () => {
 const CheckBoxDiv = styled.div`
   height: 50%;
   width: 100%;
-  background-color: darkkhaki;
+  padding: 10px;
   display: flex;
   align-items: center; /* Vertically center the content */
 
@@ -322,15 +322,16 @@ const CheckBoxDiv = styled.div`
 const ContactNameDiv = styled.div`
 height: 50%;
   width: 100%;
-  background-color: grey;
+justify-content: center;
+  align-items: center;
+
 `;
 
 const ContactContainerDiv = styled.div`
   position: absolute;
   bottom: 0;
   height: 40%;
-  width: 80%;
-  background-color: lightsalmon;
+  width: 100%;
   /* Ensure it's horizontally centered */
   left: 50%;
   transform: translateX(-50%);
@@ -338,14 +339,13 @@ const ContactContainerDiv = styled.div`
 
 const HDiv = styled.div`
   
-  max-width: 70%;
+  max-width: 80%;
   overflow: hidden;
-  background-color: red;
   margin-right: 3%;
+  margin-left: 7%;
 `;
 
 const NameDiv = styled.div`
-  background-color: purple;
   display: flex;
   align-items: center;
   height: 30%;
@@ -385,7 +385,6 @@ const NameDiv = styled.div`
     top: -20px; /* Position 20 pixels above the company name */
     left: 0; /* Align with the left edge of the h2 */
     z-index: 10; /* Increase the z-index value to ensure it appears above other content */
-    color: blue;
     background-color: grey;
     margin-bottom: 20px; /* Add some margin to separate from h2 */
     padding: 10px; /* Add padding for the character limit indicator */
@@ -409,15 +408,17 @@ const NameDiv = styled.div`
 
 
 export const DateDiv = styled.div`
-    background-color: red;
     height: 20%;
   width: 30%;
 `;
 export const BusinessCardDiv = styled.div`
-    background-color: yellow;
+    background-color: chartreuse;
   position: relative;
     height: 25vh;
   width: 50vw;
+  @media ${noResponseJobs.mobile} {
+    width: 80%; /* Adjust width to 80% on mobile devices */
+  }
 `;
 const RedPillParentDiv = styled.div`
   display: flex;
@@ -518,7 +519,6 @@ export const CardDiv = styled.div`
   //background-color: rgba(138,169,142,0.86); /* Sets background color to red */
   padding: 10px; /* Adds some spacing inside the card */
   box-sizing: border-box; /* Ensures padding is included in width/height calculations */
-  background-color: #ef8d89;
 `;
 
 
@@ -526,10 +526,14 @@ export const CardDiv = styled.div`
 
 
 
-export const DataItemDiv = styled.div`
+ const DataItemDiv = styled.div`
     /* You can add specific styles for data items here */
-  margin-right: 5%;
-`;
+   justify-content: center;
+   align-items: center;
+     display: flex;
+     margin: 0 auto;
+
+ `;
 
 const StickySearchDiv = styled.div`
   position: sticky;

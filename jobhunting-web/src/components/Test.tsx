@@ -1,253 +1,402 @@
-import React, {useState, ChangeEvent, FormEvent, useContext, useEffect} from "react";
-import { User } from "../models/User";
-import AuthService from "../services/auth.service";
-import { UserContext } from "../services/usercontext";
-import styled from 'styled-components';
-import "react-datepicker/dist/react-datepicker.css";
-import UserService from "../services/user.service";
-import {device, deviceHome, deviceJobViewAll} from "../common/ScreenSizes";
+import React, {useContext, useEffect, useState} from 'react';
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Select, MenuItem } from '@mui/material';
+import { JobsContext } from "../services/jobcontext";
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faGithub, faLinkedin} from '@fortawesome/free-brands-svg-icons';
-import { faBriefcase } from '@fortawesome/free-solid-svg-icons';
-import Button from '@mui/material/Button';
-import {InputLabel, TextFieldProps, useTheme} from '@mui/material';
-import TextField from '@mui/material/TextField';
-import {useParams} from "react-router-dom";
-import {Job} from "../models/Job";
-import {DateMutation} from "../common/DateMutation";
-import Box from "@mui/material/Box";
+import {faCaretUp, faCaretDown, faTimes, faTimesCircle, faBan} from "@fortawesome/free-solid-svg-icons";
+import styled from "styled-components";
+import {deviceJobViewAll} from "../common/ScreenSizes";
+import axios from "axios";
+import { useSortAndSelect } from './useSortAndSelect'; // Make sure to import from the correct path
+import { SelectValue } from './useSortAndSelect'; // Replace with the actual path
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import {Slider} from "@mui/material";
+import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 
-export const Test: React.FC = () => {
 
-    //useContext might be a better idea for V2
-    const [companyname, setCompanyName] = useState<string>("");
-    const [description, setDescription] = useState<string>("");
-    const [jobposter, setJobPoster] = useState<string>("n/a");
-    const [  primarycontact, setPrimaryContact] = useState<string>("");
-    const [ companywebsitelink, setCompanyWebSiteLink] = useState<string>("");
-    const [ joblink, setJobLink] = useState<string>("");
-    const [ interviewnotes, setInterviewNotes] = useState<string>("n/a");
-    const [ customfield, setCustomField] = useState<string>("n/a");
-    const [ interviewernames, setInterviewerNames] = useState<string>("n/a");
-    const [dateapplied, setDateApplied] = useState<Date>(new Date());
-    const [ interviewdate, setInterviewDate] = useState<Date>(new Date("2023-07-22"));
-    const [companyresponded, setCompanyResponded] = useState<boolean>(false);
-    const [companyrejected, setCompanyRejected] = useState<boolean>(false);
-    const [selectedOption1, setSelectedOption1] = useState(localStorage.getItem('selectedOption1') || 'github');
-    const [selectedOption2, setSelectedOption2] = useState(localStorage.getItem('selectedOption2') || 'default');
-    const [selectedOption3, setSelectedOption3] = useState(localStorage.getItem('selectedOption3') || 'portfolio');
-    const currentUser: User | null = AuthService.getCurrentUser();
-    const { user } = useContext(UserContext);
-    const [id] = useState(null); // or some initial value
-    const [count, setCount] = useState<number>(() => {
-        const storedCount = localStorage.getItem('count');
-        const storedDate = localStorage.getItem('date');
-        const today = new Date().toISOString().split('T')[0]; // get today's date in YYYY-MM-DD format
-        if (storedDate === today && storedCount !== null) {
-            return parseInt(storedCount);
+
+export const Test = () => {
+    const { jobs, updateJobRejected, meetingLink} = useContext(JobsContext);
+    const [filter] = useState('');
+    const [onlyShowResponded] = useState(false);
+
+
+
+    const [sortOrder, setSortOrder] = useState<
+        'select' |
+        'companyResponded'|
+        'company-a-z' |
+        'company-z-a' |
+        'contact-a-z' |
+        'contact-z-a' |
+        'date-asc' |
+        'date-desc' |
+        'accepted' |
+        'meetingLink' |
+        'declined' |
+        'no response' |
+        'delete' |
+        'update' |
+        'olderThanSevenDays' // added this new sorting option
+    >('select');
+
+
+    const [selectValue, setSelectValue] = useState<
+        'select' |
+        'accepted' |
+        'no response' |
+        'declined' |
+        'delete' |
+        'update' |
+        'olderThanSevenDays' // include this in your type definition
+
+    >('select');
+
+
+    // const [jobResponses, setJobResponses] = useState<Record<string, JobResponse>>({});
+    const history = useNavigate();
+    const navigate = useNavigate();
+
+
+    const [isDescriptionModalOpen, setDescriptionModalOpen] = useState(false);
+    const [selectedDescription, setSelectedDescription] = useState('');
+
+
+    const [open, setOpen] = useState(false);
+    const [jobDeclined, setJobDeclined] = useState(false);
+
+    const [jobResponses, setJobResponses] = useState<Record<string, JobResponse>>(
+        () => JSON.parse(localStorage.getItem("jobResponses") || '{}')
+    );
+
+
+    useEffect(() => {
+        // You can add additional logic here if needed
+        setSortOrder(selectValue);
+        console.log("hi")
+        //this is only ran when selectValue changes, this is powerful and important to remember
+    }, [selectValue]);
+
+    useEffect(() => {
+        localStorage.setItem("jobResponses", JSON.stringify(jobResponses));
+    }, [jobResponses]);
+
+
+    type JobResponse = 'accepted' | 'declined' | 'no response' | 'delete' | 'update' | 'olderThanSevenDays' ;
+    interface StyledTableRowProps {
+        response: JobResponse;
+        companyRejected: boolean;
+        companyResponded: boolean;
+        meetingLink: string;
+        isOlderThanSevenDays: boolean; // New prop
+    }
+    const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
+
+
+
+    const StyledTableRow = styled.tr<StyledTableRowProps>`
+  position: relative;
+  background-color: ${props => {
+        if (props.companyRejected) {
+            return 'salmon';
+        }
+
+        else if (props.meetingLink) {
+            return 'lightgreen';
+        }
+
+        else if (props.isOlderThanSevenDays) {
+            return 'yellow'; // Color for jobs older than 7 days
+        }
+
+        else if (!props.companyResponded) {
+            return 'lightgrey';
+        }
+
+        return 'lightgrey'; // Default color
+    }};
+
+
+  .hidden-icons {
+    display: none;
+    position: absolute;
+  }
+
+  .no-response-icon{
+    bottom: 27px;
+    padding-left: 41.5px;
+  }
+
+
+
+
+  .edit-icon {
+    top: 18px;
+    padding-left: 41.5px;
+
+  }
+  
+  .scedule-icon {
+    margin-right: 45px;
+    bottom: 12px;
+  }
+
+  .icon-container {
+    display: inline-block;
+    padding-right: 30px;
+    margin-bottom: 10px;
+  }
+
+  &:hover {
+    .hidden-icons {
+      display: block;
+    }
+    //background-color: lightgreen;
+
+    /* Use min-height to ensure the row height increases */
+    min-height: 70px; /* Adjust as needed */
+  }
+
+  .custom-icon {
+    font-size: 20px;
+  }
+
+  .custom-icon-lg {
+    font-size: 30px;
+  }
+
+  .custom-icon-sm {
+    font-size: 16px;
+  }
+`;
+
+
+    const openDescriptionModal = (description: string) => {
+        console.log("openDescriptionModal called with:", description);
+        setSelectedDescription(description);
+        setDescriptionModalOpen(true);
+    };
+
+    const closeDescriptionModal = () => {
+        setDescriptionModalOpen(false);
+    };
+
+    const onButtonClick = async (response: JobResponse, jobId: string) => {
+        const targetJob = jobs.find(job => job.id === Number(jobId));
+
+        if (!targetJob) return; // Exit if job is not found
+
+        if (response === 'accepted') {
+            targetJob.companyrejected = false;
+            targetJob.companyresponded = true;
+            setJobDeclined(false);
+            navigate(`/interviewsecured/${jobId}`);
+            console.log("Preparing for interview");
+        }
+        else if (response === 'update') {
+            navigate(`/updatejob/${jobId}`);  // <-- navigate to the update job page with the jobId
+
+        }
+
+        else if (response === 'no response') {
+            setJobResponses(jobResponses)
+
+        }
+
+        else if (response === 'delete') {
+            targetJob.companyresponded = false;
+            // targetJob.companyrejected = true;
+            setJobDeclined(true);
+            axios.delete(`http://localhost:8080/api/jobs/${jobId}`)
+                .then(res => {
+                    console.log('Job deleted successfully:', res.data);
+
+                    window.location.reload();
+
+                    // Handle success (e.g., update UI, show a success message, etc.)
+                })
+                .catch(err => {
+                    console.error('Error deleting job:', err);
+                    // Handle error (e.g., show an error message)
+                });
+        }
+
+
+
+        else if (response === 'declined') {
+            console.log("Handling declined job application");
+
+            // Set companyrejected to true and companyresponded to false
+            targetJob.companyrejected = true;
+            targetJob.companyresponded = false;
+
+            // Update the state for UI feedback
+            setJobDeclined(true);
+            setJobResponses(prev => ({
+                ...prev,
+                [jobId]: 'declined'
+            }));
+
+            // Update the database
+            await updateJobOnServer(jobId, {
+                companyrejected: true,
+                companyresponded: false
+            });
         } else {
-            return 0;
+            console.log("Awaiting response from company");
+        }
+    };
+
+    const handleResponseChange = async (e: any, jobId: string) => {
+        const selectedValue = e.target.value as JobResponse;
+        const targetJob = jobs.find(job => job.id === Number(jobId));
+
+        // <-- get the navigate function using the hook
+
+        if (targetJob) {
+            if (selectedValue === 'declined') {
+                targetJob.companyresponded = false;
+                // targetJob.companyrejected = true;
+                setJobDeclined(true);
+            } else if (selectedValue === 'accepted') {
+                targetJob.companyrejected = false;
+                targetJob.companyresponded = true;
+                setJobDeclined(false);
+            }
+
+            else if (selectedValue === 'update') {
+                console.log("do you want to update?")
+            }
+
+            else if (selectedValue === 'no response') {
+                console.log("no response?")
+            }
+
+            else if (selectedValue === 'delete') {
+                console.log("we may need to delete this")
+            }
+
+
+            else {
+                targetJob.companyrejected = false;
+                targetJob.companyresponded = false;
+                setJobDeclined(false);
+            }
+
+            await updateJobOnServer(jobId, {
+                companyrejected: targetJob.companyrejected,
+                companyresponded: targetJob.companyresponded
+            });
+
+            setJobResponses(prev => ({
+                ...prev,
+                [jobId]: selectedValue
+            }));
+        }
+    };
+
+    const updateJobOnServer = async (jobId: string, data: { companyrejected: boolean; companyresponded?: boolean }) => {
+        // Make a PATCH request to your server to update the job with jobId
+        try {
+            const response = await fetch(`http://localhost:8080/api/jobs/update/${jobId}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to update job.");
+            }
+            // Optionally, update your local state if the server responds with updated data.
+            // const updatedJob = await response.json();
+        } catch (error) {
+            console.error("Error updating job:", error);
+        }
+    };
+
+
+    const currentDateMs = new Date().getTime(); // 1. Get current date in milliseconds
+    const TWENTY_ONE_DAYS = 21 * 24 * 60 * 60 * 1000; // Equivalent of 21 days in milliseconds
+    const twentyOneDaysAgoMs = currentDateMs - TWENTY_ONE_DAYS; // 2. Calculate the timestamp 21 days before current date
+
+    const filteredAndRespondedJobs = jobs
+        .filter(job => !job.companyrejected)
+        .filter(job =>
+            job.companyresponded || // If company responded, don't filter out
+            new Date(job.dateapplied).getTime() >= twentyOneDaysAgoMs // If company didn't respond, it should be less than or equal to 21 days old to be included
+        )
+        .filter(job =>
+            (onlyShowResponded ? job.companyresponded : true) &&
+            job.companyname.toLowerCase().includes(filter.toLowerCase())
+        );
+
+
+
+    const sortedAndRespondedJobs = [...filteredAndRespondedJobs].sort((a, b) => {
+        switch (sortOrder) {
+            case 'select':
+                // Default sorting, for example by date applied in ascending order
+                return new Date(a.dateapplied).getTime() - new Date(b.dateapplied).getTime();
+
+            case 'company-a-z':
+                return a.companyname.toLowerCase().localeCompare(b.companyname.toLowerCase());
+            case 'company-z-a':
+                return b.companyname.toLowerCase().localeCompare(a.companyname.toLowerCase());
+            case 'contact-a-z':
+                return a.primarycontact.toLowerCase().localeCompare(b.primarycontact.toLowerCase());
+            case 'contact-z-a':
+                return b.primarycontact.toLowerCase().localeCompare(a.primarycontact.toLowerCase());
+            case 'date-asc':
+                return new Date(a.dateapplied).getTime() - new Date(b.dateapplied).getTime();
+            case 'date-desc':
+                return new Date(b.dateapplied).getTime() - new Date(a.dateapplied).getTime();
+            case 'accepted':
+                console.log("you have been accepted")
+                return (jobResponses[b.id] === 'accepted' ? 1 : 0) - (jobResponses[a.id] === 'accepted' ? 1 : 0);
+            case 'declined':
+                return (jobResponses[b.id] === 'declined' ? 1 : 0) - (jobResponses[a.id] === 'declined' ? 1 : 0);
+            case 'no response':
+                console.log("Job A ID:", a.id, "Response:", jobResponses[a.id]);
+                console.log("Job B ID:", b.id, "Response:", jobResponses[b.id]);
+                // return (jobResponses[b.id] === 'no response' ? 1 : 0) - (jobResponses[a.id] === 'no response' ? 1 : 0);
+                const responseA = jobResponses[a.id] || 'no response'; // default to 'no response' if undefined
+                const responseB = jobResponses[b.id] || 'no response'; // default to 'no response' if undefined
+                return (responseB === 'no response' ? 1 : 0) - (responseA === 'no response' ? 1 : 0);
+
+            case 'delete':
+                return (jobResponses[b.id] === 'delete' ? 1 : 0) - (jobResponses[a.id] === 'delete' ? 1 : 0);
+            case 'olderThanSevenDays':
+                // Assuming 'dateapplied' holds the application date
+                const aDateDiff = new Date().getTime() - new Date(a.dateapplied).getTime();
+                const bDateDiff = new Date().getTime() - new Date(b.dateapplied).getTime();
+                const aOlderThan7Days = aDateDiff > 7 * 24 * 60 * 60 * 1000 ? 1 : 0;
+                const bOlderThan7Days = bDateDiff > 7 * 24 * 60 * 60 * 1000 ? 1 : 0;
+                return bOlderThan7Days - aOlderThan7Days;
+
+            case 'companyResponded':
+                return (b.companyresponded === false ? 1 : 0) - (a.companyresponded === false ? 1 : 0);
+
+
+            case 'update':
+                return (jobResponses[b.id] === 'update' ? 1 : 0) - (jobResponses[a.id] === 'update' ? 1 : 0);
+
+            case 'meetingLink':
+                console.log("I have a meeting link for you bud bud")
+                return (b.meetingLink ? 1 : 0) - (a.meetingLink ? 1 : 0);
+            default:
+                return 0;
         }
     });
 
-    const [searchResult, setSearchResult] = useState<Job[] | null>(null);
 
 
-
-
-    interface Job {
-        companyname: string;
-        primarycontact: string;
-        joblink: string;
-        dateapplied: Date;
-        companyresponded: boolean;
-        companyrejected: boolean;
-    }
-
-
-
-
-
-    useEffect(() => {
-        if (companyname) {
-            handleSearch(companyname);
-        } else {
-            setSearchResult(null);
-        }
-    }, [companyname]);
-
-
-    //need  to build out a feature so that if copy /paste/ typing a company
-    // it shows up if it exist in the databasse
-
-    useEffect(() => {
-        localStorage.setItem('count', count.toString());
-        localStorage.setItem('date', new Date().toISOString().split('T')[0]);
-    }, [count]);
-
-    useEffect(() => {
-        localStorage.setItem('selectedOption1', selectedOption1);
-        localStorage.setItem('selectedOption2', selectedOption2);
-        localStorage.setItem('selectedOption3', selectedOption3);
-    }, [selectedOption1, selectedOption2, selectedOption3]);
-
-    useEffect(() => {
-        if(id) {
-            console.log("am I being called?")
-
-            UserService.getUserById(id) // ensure to pass an id here
-                .then((user: User) => {
-                    console.log(`User ${user.id}`);
-                    console.log(` - Username: ${user.username}`);
-                    console.log(` - Email: ${user.email}`);
-                    console.log(` - CustomField1: ${user.customfield1}`);
-                    console.log(` - CustomField2: ${user.customfield2}`);
-                    console.log(` - CustomField3: ${user.customfield3}`);
-                })
-                .catch((error: any) => {
-                    console.error("Error fetching user: ", error);
-                });
-        }
-    }, [id]);
-
-    const handleJobSubmit = async (e: FormEvent) => {
-        console.log("I'm the handle submit button on the home page");
-        e.preventDefault();
-        try {
-            if (currentUser) {
-                const response = await fetch(
-                    `http://localhost:8080/api/jobs/createjob/${currentUser.id}`,
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({ companyname, customfield, description, jobposter, primarycontact,
-                            companywebsitelink, joblink , interviewnotes,  interviewernames, dateapplied,
-                            interviewdate, companyresponded, companyrejected}),
-                    }
-                );
-                if (response.ok) {
-                    alert("Your job is created in the database.")
-                    console.log("Job created successfully");
-                    setCompanyName("");
-                    setDescription("");
-                    setJobPoster("");
-                    setPrimaryContact("");
-                    setCompanyWebSiteLink("");
-                    setJobLink("");
-                    setInterviewNotes("n/a");
-                    setCustomField("n/a");
-                    setInterviewerNames("n/a");
-                    setDateApplied(new Date());
-                    setInterviewDate(new Date());
-                    setCompanyResponded(false);
-                    setCompanyRejected(false);
-                    setCount(count + 1);
-                    alert("Adding +1 to the counter.")
-                } else {
-                    console.log("Failed to create job");
-                }
-            } else {
-                console.log("Current user is null or undefined");
-            }
-        } catch (error) {
-            console.log("Error occurred:", error);
-        }
-    };
-
-    const handleCompanyNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setCompanyName(e.target.value);
-    };
-
-    const handleDescriptionChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setDescription(e.target.value);
-    };
-
-    const handlePrimaryContact = (e: ChangeEvent<HTMLInputElement>) => {
-        setPrimaryContact(e.target.value);
-    }
-
-    const handleCompanyWebSiteLink = (e: ChangeEvent<HTMLInputElement>) => {
-        setCompanyWebSiteLink(e.target.value);
-    }
-
-    const handleJobLink = (e: ChangeEvent<HTMLInputElement>) => {
-        setJobLink(e.target.value);
-    }
-    const copyToClipboard = async (selectedOption: string) => {
-        const textToCopy = () => {
-            switch(selectedOption) {
-                case 'github':
-                    return user?.customfield3 || '';
-                case 'linkedin':
-                    return user?.customfield2 || '';
-                case 'portfolio':
-                default:
-                    return user?.customfield1 || '';
-            }
-        }
-        try {
-            await navigator.clipboard.writeText(textToCopy());
-            alert('Copied!');
-        } catch (err) {
-            alert('Failed to copy text');
-        }
-    };
-
-    const handleSearch = async (companyName: string) => {
-        try {
-            const response = await fetch(`http://localhost:8080/api/jobs`, {
-                headers: {
-                    'Authorization': `Bearer YOUR_AUTH_TOKEN`, // Replace with your actual token if needed
-                    'Content-Type': 'application/json'
-                }
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            // Define the type for the company
-            interface Job {
-                companyname: string;
-                primarycontact: string;
-                joblink: string;
-                dateapplied: Date;
-                companyresponded: boolean;
-                companyrejected: boolean;
-            }
-
-            const companies: Job[] = await response.json();
-            console.log("API Response: ", companies); // Debugging - to understand the structure of the response
-
-            // Logging the typed company name
-            console.log("Typed Company Name: ", companyName);
-
-            // Check if any company name exactly matches the typed companyName
-            const matchingJobs: Job[] = companies.filter((job: Job) => job.companyname === companyName);
-
-            // Logging the result of the search
-            if (matchingJobs.length > 0) {
-                console.log("Matching companies found: ", matchingJobs);
-                setSearchResult(matchingJobs);
-            } else {
-                console.log("No matching companies found");
-                setSearchResult([]);
-            }
-        } catch (error) {
-            console.error("Error during search: ", error);
-        }
-    };
-
-
-
-    const [isMobile, setIsMobile] = useState(window.matchMedia(deviceHome.mobile).matches);
-    const [isLaptop, setIsLaptop] = useState(window.matchMedia(deviceHome.laptop).matches);
+    const [isMobile, setIsMobile] = useState(window.matchMedia(deviceJobViewAll.mobile).matches);
+    const [isLaptop, setIsLaptop] = useState(window.matchMedia(deviceJobViewAll.laptop).matches);
 
     useEffect(() => {
         const checkScreenSize = () => {
-            setIsMobile(window.matchMedia(deviceHome.mobile).matches);
-            setIsLaptop(window.matchMedia(deviceHome.laptop).matches);
+            setIsMobile(window.matchMedia(deviceJobViewAll.mobile).matches);
+            setIsLaptop(window.matchMedia(deviceJobViewAll.laptop).matches);
         };
 
         checkScreenSize();
@@ -258,460 +407,448 @@ export const Test: React.FC = () => {
         };
     }, []);
 
-    const theme = useTheme();
+    const handleDateSortAsc = () => {
+        setSortOrder('date-asc');
+    };
+
+    const handleDateSortDesc = () => {
+        setSortOrder('date-desc');
+    };
+
+    const handleContactNameSortAsc = () => {
+        setSortOrder('contact-a-z');
+    };
+
+    const handleContactNameSortDesc = () => {
+        setSortOrder('contact-z-a');
+    };
+
+    const handleCompanyNameSortAsc = () => {
+        setSortOrder('company-a-z');
+    };
+
+    const handleCompanyNameSortDesc = () => {
+        setSortOrder('company-z-a');
+    };
+
+    const handleSortByAccepted = () => {
+        setSortOrder('accepted');
+    };
+
+    const handleSortByMeetingLink = () => {
+        setSortOrder('meetingLink');
+    };
+
+    const handleSortByNoResponse = () => {
+        setSortOrder('no response');
+    };
+
+    const handleSortByCompanyResponded = () => {
+        setSortOrder('companyResponded');
+    };
 
 
 
-    //need to get rid of labels
-    //have it like face book where we put text in the input, and as we type, the place holder
-    //goes away
+
+
+
+
+
     return (
-        <Box
-            sx={{
-                position: "relative",
-                width: "100%",
-                height: "100%",
-                display: "flex",
-                flexDirection: "column",
+        <>
+            {isMobile ? (
+                <div>
+                    <SelectDiv>
+                        <SimpleSelect value={sortOrder} onChange={(e: { target: { value: any; }; }) => setSortOrder(e.target.value as SelectValue)}>
+                            <option value="date-asc">Date Asc</option>
+                            <option value="date-desc">Date Dsc</option>
+                            <option value="company-a-z">Company Asc</option>
+                            <option value="company-z-a">Company Dsc</option>
+                            <option value="contact-a-z">Contact Asc</option>
+                            <option value="contact-z-a">Contact Dsc</option>
+                        </SimpleSelect>
+                    </SelectDiv>
+
+                    {sortedAndRespondedJobs.map((job, index) => (
+                        <MobileJobCardDiv key={job.id}>
+                            <MobileTitleDiv>
+                                <MobileJobTitleDiv>Date</MobileJobTitleDiv>
+                                <MobileTableCellDiv>{new Date(job.dateapplied).toISOString().split('T')[0]}</MobileTableCellDiv>
+                            </MobileTitleDiv>
+                            <MobileTitleDiv>
+                                <MobileJobTitleDiv>Company</MobileJobTitleDiv>
+                                <MobileTableCellDiv>{job.companyname}</MobileTableCellDiv>
+                            </MobileTitleDiv>
+                            <MobileTitleDiv>
+                                <MobileJobTitleDiv>Description</MobileJobTitleDiv>
+                                <MobileTableCellDiv>
+                                    <TextButton onClick={() => openDescriptionModal(job.description)}>Click to View</TextButton>
+                                </MobileTableCellDiv>
+                            </MobileTitleDiv>
+                            <MobileTitleDiv>
+                                <MobileJobTitleDiv>Contact</MobileJobTitleDiv>
+                                <MobileTableCellDiv>
+                                    <MobileTableCellDiv>{job.primarycontact}</MobileTableCellDiv>
+                                </MobileTableCellDiv>
+                            </MobileTitleDiv>
+                            <MobileTitleDiv>
+                                <MobileJobTitleDiv>job link</MobileJobTitleDiv>
+                                <MobileTableCellDiv>
+                                    <TextButton><a href={job.joblink} target="_blank" rel="noopener noreferrer">LINK</a></TextButton>
+                                </MobileTableCellDiv>
+                            </MobileTitleDiv>
+                            <MobileTitleDiv>
+                                <MobileJobTitleDiv>website</MobileJobTitleDiv>
+                                <MobileTableCellDiv>
+                                    <TextButton><a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">LINK</a></TextButton>
+                                </MobileTableCellDiv>
+                            </MobileTitleDiv>
+                            <MobileTitleDiv>
+                                <MobileJobTitleDiv>  <select value={jobResponses[job.id] || 'no response'} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleResponseChange(e, String(job.id))}>
+                                    <option value="accepted">Accepted</option>
+                                    <option value="update">Update</option>
+                                    <option value="declined">Declined</option>
+                                    <option value="delete">Delete</option>
+                                    <option value="no response">No Response</option>
+                                </select></MobileJobTitleDiv>
+                                <MobileTableCellDiv>
+                                    {jobResponses[job.id] === "accepted" ? (
+                                        <Button
+                                            variant="contained"
+                                            style={{backgroundColor: 'green', width: '120px', height: '40px'}}
+                                            onClick={() => onButtonClick('accepted', String(job.id))}
+                                        >
+                                            Interview
+                                        </Button>
+                                    ) : jobResponses[job.id] === "update" ? (
+                                        <Button
+                                            variant="contained"
+                                            style={{backgroundColor: 'purple', width: '120px', height: '40px'}}
+                                            onClick={() => onButtonClick('update', String(job.id))}
+                                        >
+                                            Update
+                                        </Button>
+                                    ) : jobResponses[job.id] === "declined" ? (
+                                        <Button
+                                            variant="contained"
+                                            style={{backgroundColor: 'orange', width: '120px', height: '40px'}}
+                                            onClick={() => onButtonClick('declined', String(job.id))}
+                                        >
+                                            Declined
+                                        </Button>
+                                    ) : jobResponses[job.id] === "delete" ? (
+                                        <Button
+                                            variant="contained"
+                                            style={{backgroundColor: 'red', width: '120px', height: '40px'}}
+                                            onClick={() => onButtonClick('delete', String(job.id))}
+                                        >
+                                            Delete
+                                        </Button>
+                                    ) : null}
+                                </MobileTableCellDiv>
+                            </MobileTitleDiv>
+                        </MobileJobCardDiv>
+                    ))}
+                </div>
+
+            ) : (
+                <StyledTableContainer>
+                    <Table>
+                        <StyledTableHead>
+                            <TableRow>
+                                <TableCell>
+                                    <SortLabelContainer>
+                                        Date
+                                        <ButtonHolderDiv>
+                                            <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleDateSortAsc} />
+                                            <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleDateSortDesc} />
+                                        </ButtonHolderDiv>
+                                    </SortLabelContainer>
+                                </TableCell>
+                                <TableCell>
+                                    <SortLabelContainer>Company
+                                        <ButtonHolderDiv>
+                                            <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleCompanyNameSortAsc} />
+                                            <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleCompanyNameSortDesc} />
+                                        </ButtonHolderDiv>
+                                    </SortLabelContainer>
+                                </TableCell>
+                                <TableCell>Description</TableCell>
+                                <TableCell>
+                                    <SortLabelContainer>
+                                        Contact
+                                        <ButtonHolderDiv>
+                                            <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleContactNameSortAsc} />
+                                            <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleContactNameSortDesc} />
+                                        </ButtonHolderDiv>
+                                    </SortLabelContainer>
+                                </TableCell>
+                                <TableCell>Job Link</TableCell>
+                                <TableCell>Website </TableCell>
+                                <TableCell>
+                                    <SortLabelContainer>
+                                        Interiew / no response
+                                        <ButtonHolderDiv>
+                                            <FontAwesomeIcon icon={faCaretUp} size="lg" onClick={handleSortByCompanyResponded} />
+                                            <FontAwesomeIcon icon={faCaretDown} size="lg" onClick={handleSortByMeetingLink} />
+                                        </ButtonHolderDiv>
+                                    </SortLabelContainer>
 
 
-                // Add other CSS styles as needed
-            }}
-        >
-
-            <Box
-                sx={{
-                    display: "flex",
-                    marginTop: "20px",
-                    paddingLeft: "1.2%",
-                    flexDirection: "row",
-                    gap: "15px",
-                    width: "100%",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginBottom: "5%",
-                    // Add other CSS styles as needed
 
 
-                        [theme.breakpoints.down('sm')]: {
-                    // padding: '10px',
-                    backgroundColor: "purple", // Example responsive style
-                        height: "5vh",
-                            marginTop: "15px",
-                },
-                }}
-            >
-                <Box
-                    display="flex"
-                    paddingLeft="20px"
-                    paddingRight="30px"
-                    marginBottom="-3%"
 
+                                </TableCell>
+                                <TableCell></TableCell>
+                            </TableRow>
+                        </StyledTableHead>
+                        <TableBody>
+                            {sortedAndRespondedJobs.map((job, index) => (
+                                <StyledTableRow
+                                    key={job.id}
+                                    response={jobResponses[job.id] || 'no response'}
+                                    companyRejected={job.companyrejected}
+                                    companyResponded={job.companyresponded}
+                                    meetingLink={job.meetingLink as string} // Explicit type assertion
+                                    isOlderThanSevenDays={(new Date().getTime() - new Date(job.dateapplied).getTime()) > SEVEN_DAYS_MS}
+                                >
+
+                                    <TableCell>{new Date(job.dateapplied).toISOString().split('T')[0]}</TableCell>
+                                    <StyledTableCell>{job.companyname}</StyledTableCell>
+                                    <TableCell>
+                                        <TextButton onClick={() => openDescriptionModal(job.description)}>Click to View</TextButton>
+                                    </TableCell>
+                                    <StyledTableCell>{job.primarycontact}</StyledTableCell>
+                                    <TableCell><a href={job.joblink} target="_blank" rel="noopener noreferrer">LINK</a></TableCell>
+                                    <TableCell><a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">LINK</a></TableCell>
+                                    <TableCell>
+
+                                        <div>
+
+                                            <FontAwesomeIcon
+                                                className="custom-icon hidden-icons schedule-icon custom-icon-lg"
+                                                icon={faCalendar}
+                                                style={{ cursor: 'pointer', marginLeft: '210px' }} // Added marginRight here
+                                                onClick={() => onButtonClick('accepted', String(job.id))}
+                                            />
+
+
+                                            <FontAwesomeIcon
+                                                icon={faBan}
+                                                className="custom-icon hidden-icons no-response-icon"
+                                                style={{ cursor: 'pointer', marginTop: '15px' }}
+                                                onClick={() => onButtonClick('declined', String(job.id))}
+                                            />
+
+                                            <FontAwesomeIcon
+                                                icon={faEdit}
+                                                className="custom-icon hidden-icons edit-icon"
+                                                style={{ cursor: 'pointer', marginTop: '15px' }}
+                                                onClick={() => onButtonClick('update', String(job.id))}
+                                            />
+
+
+
+
+
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+
+
+
+
+                                    </TableCell>
+                                </StyledTableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </StyledTableContainer>
+            )}
+
+            {isDescriptionModalOpen && (
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',  // semi-transparent background
+                        zIndex: 999,  // to ensure it's below the modal content
+                    }}
+                    onClick={closeDescriptionModal}
                 >
-                    <FontAwesomeIcon
-                        icon={faGithub}
-                        size="2x"
-                        onClick={() => copyToClipboard(selectedOption1)}
-                        style={{ cursor: 'pointer' }}
-                    />
-                </Box>
-                <Box
-                    display="flex"
-                    paddingLeft="20px"
-                    paddingRight="30px"
-                    marginBottom="-3%"
-
-                >
-                    <FontAwesomeIcon
-                        icon={faLinkedin}
-                        size="2x"
-                        onClick={() => copyToClipboard(selectedOption2)}
-                        style={{ cursor: 'pointer' }}
-                    />
-                </Box>
-
-                <Box
-                    display="flex"
-                    paddingLeft="20px"
-                    paddingRight="30px"
-                    marginBottom="-3%"
-
-                >
-                    <FontAwesomeIcon
-                        icon={faBriefcase}
-                        size="2x"
-                        onClick={() => copyToClipboard(selectedOption3)}
-                        style={{ cursor: 'pointer' }}
-                    />
-                </Box>
-            </Box>
-
-
-
-
-
-
-
-            <Box
-                sx={{
-
-                    justifyContent: "space-evenly", // Evenly distribute space around items
-
-
-
-                    backgroundColor: "#c7f3ff",
-
-                    // marginTop: "2%",
-                    width: "40vw",
-                    minWidth: "300px",
-                    height: "70vh",
-                    minHeight: "500px",
-                    maxHeight: "550px",
-                    borderRadius: "5%",
-                    display: "flex",
-                    alignItems: "center",
-                    // justifyContent: "space-around",
-                    margin: "auto",
-                    // flexDirection: "colum",
-
-                    gap: "20px", // Adjust the value as needed
-                    // marginBottom: "7%",
-                    // paddingTop: "3%",
-                    boxShadow: "0px 4px 8px -2px rgba(0, 0, 0, 0.2)", // Horizontal shadow, Vertical shadow, Blur radius, Spread radius, Color
-
-                    "& > *:not(.MuiTextField-root)": {
-                        backgroundColor: "#c7f3ff",
-                        width: "60vw",
-                    },
-
-                    [theme.breakpoints.down('sm')]: {
-                        // padding: '10px',
-                        backgroundColor: "purple", // Example responsive style
-                        height: "5vh",
-
-                    },
-                    // Add other CSS styles as needed
-                }}
-            >
-                <CustomFieldForm onSubmit={handleJobSubmit}>
-
-
-
-                    <FieldContainerDiv
-
+                    <div
+                        style={{
+                            position: 'fixed',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            backgroundColor: 'white',
+                            padding: '20px',
+                            zIndex: 1000,
+                            width: '80vw',
+                            maxHeight: '80vh',
+                            overflowY: 'auto',
+                        }}
+                        onClick={e => e.stopPropagation()} // stops the click event from reaching the outer div
                     >
-
-                        <StyledTextField         label="company name"
-                                                 value={companyname} onChange={handleCompanyNameChange} />
-                    </FieldContainerDiv>
-
-
-
-                    <FieldContainerDiv>
-                        <StyledTextField  label="description" value={description} onChange={handleDescriptionChange} />
-                    </FieldContainerDiv>
-
-
-                    <FieldContainerDiv>
-                        <StyledTextField   label="contact" value={primarycontact} onChange={handlePrimaryContact} />
-                    </FieldContainerDiv>
-                    <FieldContainerDiv>
-                        <StyledTextField   label="website" value={companywebsitelink} onChange={handleCompanyWebSiteLink} />
-                    </FieldContainerDiv>
-                    <FieldContainerDiv>
-                        <StyledTextField  label="job link" value={joblink} onChange={handleJobLink} />
-                    </FieldContainerDiv>
-                    <ButtonDiv>
-                        <SubmitButton  sx={{
-                            borderRadius: 10,
-
-                        }} variant="contained" type="submit">Submit</SubmitButton>
-                    </ButtonDiv>
-
-                </CustomFieldForm>
-
-            </Box>
-
-
-
-            <JobCardDiv style={Array.isArray(searchResult) && searchResult.length > 0 ? jobCardStyle : {}}>
-                {Array.isArray(searchResult) && searchResult.length > 0 && (
-                    <div>
-
-                        <h3>Matches Found:</h3>
-                        {searchResult.map((job: Job, index: number) => (
-                            <div key={index}>
-                                <p>Result {index + 1}:</p>
-                                <p>Company Name: {job.companyname}</p>
-                                <p>Primary Contact: {job.primarycontact}</p>
-                                <p>Job Link: {job.joblink}</p>
-                                {DateMutation(typeof job.dateapplied === 'string' ? job.dateapplied : job.dateapplied.toISOString())}
-                                <p>Company Responded: {job.companyresponded ? 'Yes' : 'No'}</p>
-                                <p>Company Rejected: {job.companyrejected ? 'Yes' : 'No'}</p>
-                            </div>
-                        ))}
+                        <p>{selectedDescription}</p>
                     </div>
-                )}
-            </JobCardDiv>
-
-
-
-
-
-            <FooterDiv/>
-        </Box>
+                </div>
+            )}
+        </>
     );
 };
-
-const jobCardStyle = {
-    backgroundColor: 'grey',
+//
 
 
-    // marginTop: "1%",
-    paddingTop: device.mobile ? '3%' : '1%', // 3% padding for mobile, 1% for others
-    boxShadow: '-4px 0 8px -2px rgba(0, 0, 0, 0.2), 4px 0 8px -2px rgba(0, 0, 0, 0.2), 0 4px 8px -2px rgba(0, 0, 0, 0.2)'
-};
-
-
-const JobCardDiv = styled.div`
-  height: 61%;
-  width: 20%;
-  min-width: 200px;
-  display: flex;
-  position: absolute;
-  margin-left: 75%;
-  margin-top: 15%;
-  border-radius: 10px; /* Adjust the value as needed for desired roundness */
-  justify-content: center;
-  align-items: center;
-  background-color: red;
-
-  @media ${deviceHome.mobile} {
-    position: relative; // Keeps the element in the normal document flow
-    width: 76%; // Sets the width to 80% of the parent element
-    height: 50%;
-    margin-left: auto; // Centers the element along the horizontal axis
-    margin-right: auto; // Centers the element along the horizontal axis
-    margin-top: 1em; // Adds space above the element
-    height: auto; // Lets the height adjust based on content
-    background-color: rgba(150,116,169,0.86); // Optional background color change for mobile
-    padding-top: 3%;
-  }
-
-
-
-`;
-
-
-const ButtonDiv = styled.div`
-  justify-content: center;
-  align-items: center;
-  background-color: yellow;
-  //margin-top: 5.5%;
-  //margin-top: 10%;
-  //margin-bottom: 1.5%;
-
-  @media ${deviceHome.mobile} {
-    background-color: rgba(150,116,169,0.86);
-  width: 36vw;   
-    display: flex;
-    
-    .button {
-      background-color; red;
-    }
-  }
-`;
-
-const StyledButton = styled(Button)`
-  // Default styles for the button
-  // ...
-
-  @media ${deviceHome.mobile} {
-    background-color: red; // Style for mobile
-    // Add other mobile-specific styles here
-  }
-`;
-
-
-const BaseStyledTextField = styled(TextField)`
-  & .MuiFilledInput-input {
-    height: 20px;
-  }
-`;
-const StyledTextField: React.FC<TextFieldProps> = (props) => (
-    <BaseStyledTextField
-
-        type="text"
-        id="outlined-basic"
-        size="small"
-        style={{ width: '100%' ,  marginBottom: '5%' , backgroundColor: 'white'}}
-        {...props}
-    />
-);
-
-const SubmitButton = styled(Button)`
-  height: 9vh;
-  width: 23vw;
-  display: flex;
-  padding-bottom: 70px;
-  //margin-bottom: 50px;
-  background-color: yellow;
-  
-  @media ${deviceHome.mobile} {
-    background-color: red;
-    width: 30vw;
-    height: 7vh;
-  }
-
-
-`;
-
-export const HomeWrapperDiv = styled.div`
-  position: relative; // Needed for absolute positioning of the pseudo-element
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  
-
-
-  @media ${deviceHome.mobile} {
-    //background-color: rgba(48,169,52,0.86);
-
-  }
-
-`;
-
-
-export const CustomFieldsDiv = styled.div`
-  display: flex;
-  margin-top: 20px;
-  padding-left: 1.2%;
-  flex-direction: row;
-  gap: 15px;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  
- 
-`;
-
-export const FieldRowDiv = styled.div`
-  display: flex;
-  padding-left: 20px;
-  padding-right: 30px;
-
-  @media ${deviceHome.mobile} {
-   //background-color: lightskyblue;
-    
-  }
-`;
-
-export const CustomFieldForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  justify-items: center;
-  align-items: center;
-  width: 100vw;
-  background-color: rebeccapurple;
+//
+//
+// const StyledTableRow = styled.tr`
+//   /* Your other CSS styles for table rows here */
+//   position: relative; /* Add this to maintain a stable layout */
+//
+//   /* Define styles for hidden icons container */
+//   .hidden-icons {
+//     display: none; /* Initially hide the icons container */
+//     //position: absolute; /* Position icons absolutely within the cell */
+//
+//   }
+//
+//   /* Style for each icon container */
+//   .icon-container {
+//     display: inline-block; /* Display each icon container inline-block */
+//     //margin-right: 10px; /* Increase margin-right for more space between icons */
+//     //margin-bottom: 10px; /* Add margin-bottom to create space below each icon */
+//   }
+//
+//   &:hover {
+//     /* Make icons container visible on table row hover */
+//     .hidden-icons {
+//       display: block; /* Change to 'block' to show the icons container */
+//     }
+//
+//     /* Add a green highlight on hover */
+//     background-color: lightgreen;
+//   }
+//
+//   /* Add these classes to your CSS stylesheet */
+//   .custom-icon {
+//     font-size: 20px; /* Adjust the font size as needed */
+//   }
+//
+//   .custom-icon-lg {
+//     font-size: 24px; /* Larger size */
+//   }
+//
+//   .custom-icon-sm {
+//     font-size: 16px; /* Smaller size */
+//   }
+//
+// `;
 
 
 
-    input {
-      display: flex;
-      //width: 20vw;
-      height: 40px;
-      //max-width: 200px;
-      //min-width: 150px;
-      background-color: lightsalmon;
-    }
-    
-    label {
-      display: flex;
-      margin-left: 5px;
-      background-color: orangered;
-    }
-
-  @media ${deviceHome.mobile} {
-    // Adjust styles for mobile view
-
-    // Example: Adjust input width and padding for mobile devices
-    input {
-      width: 100%; // Increase width for better visibility on mobile
-      height: 50px; // Increase height for better touch interaction
-    
-      padding: 5px; // Add some padding for better appearance
-      
-      //background-color: chartreuse;
-      padding-right: 10px;
-    }
-
-    // Example: Adjust label styling for mobile devices
-    label {
-      margin-left: 2px; // Reduce margin
-     
-      font-size: 14px; // Adjust font size for readability
-    }
-  }
-
-`;
-
-const RoundColorWrapperDiv = styled.div`
-  background-color: #c7f3ff;
-  width: 40vw;  /* Example size */
-  height: 70%;
-  border-radius: 5%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
-  margin-bottom: 7%;
-  padding-top: 3%;
-
-  /* Adding box shadow on left, right, and bottom sides */
-  box-shadow: 
-    -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */
-    4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
-    0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
-
-  /* Style for all children except MUI TextFields */
-  > *:not(.MuiTextField-root) {
-    background-color: #c7f3ff;
-    width: 50vw;
-  }
-
-  @media ${deviceHome.mobile} {
-    //background-color: purple;
-  }
-
-  /* Other styles as needed */
-`;
 
 
 
-const FieldContainerDiv = styled.div`
-    width: 60%; 
+const MobileJobCardDiv = styled.div`
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; 
-    background-color: purple;
-    
-  
+    background-color: #f7f7f7; // Light gray background
 `;
 
-export const FooterDiv =  styled.div`
-  
-  @media ${device.mobile} {
-    background-color: gold;
-  }
-`
+const MobileTitleDiv = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  margin-right: 50px;
+  background-color: purple;
+`;
 
-const VerticalLine = styled.div`
-  position: fixed; // or absolute, depending on your layout
-  left: 50%;
-  height: 100vh;
-  width: 1px; // or as thick as you want
-  background-color: #000; // or any color of your choice
-  z-index: 10; // adjust as needed
+const MobileJobTitleDiv = styled.div`
+    font-weight: bold;
+    margin-right: 10px;
+`;
+
+const MobileTableCellDiv = styled.div`
+    flex: 1;
+    text-align: right;
+  margin-right: 210px;
+`;
+
+const SortLabelContainer = styled.div`
+    display: flex;
+    align-items: center; // align vertically in the center
+`;
+
+const ButtonHolderDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 8px; // Adjusts the spacing between the Date text and the icons
+`;
+
+const StyledTableCell = styled(TableCell)`
+  max-width: 20ch;
+  white-space: pre-wrap;   // Allows content to wrap to the next line
+  word-wrap: break-word;   // Allows breaking between words
+  overflow-wrap: break-word; // In case a single word is longer than 25ch, it'll break
+`;
+
+const StyledTableHead = styled(TableHead)`
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 1;
+
+    @media ${deviceJobViewAll.mobile} {
+        & > * {
+          display: none;  // Hide for mobile
+
+        }
+    }
+`;
+
+const StyledTableContainer = styled(TableContainer)`
+    height: 93vh;  /* Adjust to your preference */
+    overflow-y: auto;
+`;
+
+const TextButton = styled.button`
+    background: none;
+    border: none;
+    color: inherit;  // Use the same color as the surrounding text
+    font: inherit;  // Use the same font and size as the surrounding text
+    cursor: pointer;  // Change mouse cursor to pointer on hover
+    padding: 0;
+    margin: 0;
+    text-decoration: underline;  // Optionally add underline to make it obvious it's clickable
+    outline: none;  // Remove focus border on click
+
+    &:hover, &:focus {
+        color: #007BFF;  // Change color on hover/focus. Pick any color that suits your design
+    }
+`;
+
+const SimpleSelect = styled.select`
+    padding: 5px 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    appearance: none;
+    outline: none;
+  width: 40vw;
+`;
+const SelectDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  justify-content: center;
 `;

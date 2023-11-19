@@ -33,7 +33,6 @@ export const Home: React.FC = () => {
     const [ interviewdate, setInterviewDate] = useState<Date>(new Date("2023-07-22"));
     const [companyresponded, setCompanyResponded] = useState<boolean>(false);
     const [companyrejected, setCompanyRejected] = useState<boolean>(false);
-    const [jobsoftdelete, setJobSoftDelete] = useState<boolean>(false);
     const [selectedOption1, setSelectedOption1] = useState(localStorage.getItem('selectedOption1') || 'github');
     const [selectedOption2, setSelectedOption2] = useState(localStorage.getItem('selectedOption2') || 'default');
     const [selectedOption3, setSelectedOption3] = useState(localStorage.getItem('selectedOption3') || 'portfolio');
@@ -63,7 +62,6 @@ export const Home: React.FC = () => {
         dateapplied: Date;
         companyresponded: boolean;
         companyrejected: boolean;
-        jobsoftdelete: boolean;
     }
 
 
@@ -126,7 +124,7 @@ export const Home: React.FC = () => {
                         },
                         body: JSON.stringify({ companyname, customfield, description, jobposter, primarycontact,
                             companywebsitelink, joblink , interviewnotes,  interviewernames, dateapplied,
-                            interviewdate, companyresponded, companyrejected, jobsoftdelete}),
+                            interviewdate, companyresponded, companyrejected}),
                     }
                 );
                 if (response.ok) {
@@ -145,7 +143,6 @@ export const Home: React.FC = () => {
                     setInterviewDate(new Date());
                     setCompanyResponded(false);
                     setCompanyRejected(false);
-                    setJobSoftDelete(false);
                     setCount(count + 1);
                     alert("Adding +1 to the counter.")
                 } else {

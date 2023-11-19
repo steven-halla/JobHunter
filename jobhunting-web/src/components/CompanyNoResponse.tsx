@@ -3,7 +3,7 @@ import {JobsContext} from "../services/jobcontext";
 import styled from 'styled-components';
 import {device, deviceCompanyNoResponse, deviceHome, noResponseJobs} from "../common/ScreenSizes";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCaretDown, faCaretUp} from "@fortawesome/free-solid-svg-icons";
+import {faCaretDown, faCaretUp, faGlasses} from "@fortawesome/free-solid-svg-icons";
 import { useSortAndSelect } from './useSortAndSelect'; // Make sure to import from the correct path
 import { SelectValue } from './useSortAndSelect';
 import {DateMutation} from "../common/DateMutation";
@@ -14,7 +14,7 @@ import {useTheme} from "@mui/material"; // Replace with the actual path
 //add more space between cards, look at linkedin toom there should be space from all sides
 
 export const CompanyNoResponse = () => {
-    const { jobs, updateJobResponded, dateApplied } = useContext(JobsContext);
+    const { jobs, updateJobResponded, updateJobRejected, dateApplied } = useContext(JobsContext);
     const [searchTerm, setSearchTerm] = useState('');
     // const [sortingCriteria, setSortingCriteria] = useState('date-asc'); // default sorting criteria
     const [sortingCriteria, setSortingCriteria] = useState("");
@@ -139,6 +139,17 @@ export const CompanyNoResponse = () => {
         }
     };
 
+    const handleRejectionChange = (jobId: number, checked: boolean) => {
+        if (checked) {
+            const isConfirmed = window.confirm("Confirm company rejected?");
+            if (isConfirmed) {
+                updateJobRejected(jobId, true);
+            }
+        } else {
+            updateJobRejected(jobId, false);
+        }
+    };
+
 
     useEffect(() => {
         const checkScreenSize = () => {
@@ -166,94 +177,126 @@ export const CompanyNoResponse = () => {
     return (
         <CompanyNoResponseDiv>
 
-                <StickySearchDiv>
-                    <SearchBar
-                        type="text"
-                        placeholder="Search"
-                        value={searchTerm}
-                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setSearchTerm(e.target.value)}
-                    />
-                    <RedPillParentDiv>
-                        <RedPillContainer>
-                            <button onClick={toggleDateSortDirection} style={{ all: 'unset' }}>
-                                {dateSortDirection === 'asc' ? 'Date Asc' : 'Date Desc'}
-                                <FontAwesomeIcon icon={dateSortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
-                            </button>
-                        </RedPillContainer>
+            <StickySearchDiv>
+                <SearchBar
+                    type="text"
+                    placeholder="Search"
+                    value={searchTerm}
+                    onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setSearchTerm(e.target.value)}
+                />
+                <RedPillParentDiv>
+                    <RedPillContainer>
+                        <button onClick={toggleDateSortDirection} style={{ all: 'unset' }}>
+                            {dateSortDirection === 'asc' ? 'Date Asc' : 'Date Desc'}
+                            <FontAwesomeIcon icon={dateSortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
+                        </button>
+                    </RedPillContainer>
 
-                        <RedPillContainer onClick={toggleContactSortDirection}>
-                            {contactSortDirection === 'asc' ? 'Contact Asc' : 'Contact Desc'}
-                            <FontAwesomeIcon icon={contactSortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
-                        </RedPillContainer>
-
-
-                        <RedPillContainer onClick={toggleCompanySortDirection}>
-                            {companySortDirection === 'asc' ? 'Company Asc' : 'Company Desc'}
-                            <FontAwesomeIcon icon={companySortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
-                        </RedPillContainer>
+                    <RedPillContainer onClick={toggleContactSortDirection}>
+                        {contactSortDirection === 'asc' ? 'Contact Asc' : 'Contact Desc'}
+                        <FontAwesomeIcon icon={contactSortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
+                    </RedPillContainer>
 
 
-
-                        <RedPillContainer onClick={toggleRejectedSortStatus}>
-                            {rejectedSortStatus === 'no' ? 'Rejected No' : 'Rejected Yes'}
-                            <FontAwesomeIcon icon={rejectedSortStatus === 'no' ? faCaretDown : faCaretUp} size="lg" />
-                        </RedPillContainer>
-                    </RedPillParentDiv>
+                    <RedPillContainer onClick={toggleCompanySortDirection}>
+                        {companySortDirection === 'asc' ? 'Company Asc' : 'Company Desc'}
+                        <FontAwesomeIcon icon={companySortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
+                    </RedPillContainer>
 
 
 
-                        <SelectDiv>
-                            <SimpleSelect value={sortingCriteria} onChange={handleSortingChange}>
-                                <option value="">Default Filter</option> {/* Default option */}
-
-                                <option value="date-asc">Date Ascending</option>
-                                <option value="date-desc">Date Descending</option>
-                                <option value="company-a-z">Company A-Z</option>
-                                <option value="company-z-a">Company Z-A</option>
-                                <option value="contact-a-z">Contact A-Z</option>
-                                <option value="contact-z-a">Contact Z-A</option>
-                                <option value="rejected-yes">Rejected Yes</option>
-                                <option value="rejected-no">Rejected No</option>
-                                {/* other options */}
-                            </SimpleSelect>
+                    <RedPillContainer onClick={toggleRejectedSortStatus}>
+                        {rejectedSortStatus === 'no' ? 'Rejected No' : 'Rejected Yes'}
+                        <FontAwesomeIcon icon={rejectedSortStatus === 'no' ? faCaretDown : faCaretUp} size="lg" />
+                    </RedPillContainer>
+                </RedPillParentDiv>
 
 
-                        </SelectDiv>
 
-                </StickySearchDiv>
+                <SelectDiv>
+                    <SimpleSelect value={sortingCriteria} onChange={handleSortingChange}>
+                        <option value="">Default Filter</option> {/* Default option */}
+
+                        <option value="date-asc">Date Ascending</option>
+                        <option value="date-desc">Date Descending</option>
+                        <option value="company-a-z">Company A-Z</option>
+                        <option value="company-z-a">Company Z-A</option>
+                        <option value="contact-a-z">Contact A-Z</option>
+                        <option value="contact-z-a">Contact Z-A</option>
+                        <option value="rejected-yes">Rejected Yes</option>
+                        <option value="rejected-no">Rejected No</option>
+                        {/* other options */}
+                    </SimpleSelect>
+
+
+                </SelectDiv>
+
+            </StickySearchDiv>
+
+
+
+
 
 
 
 
             {sortedAndRespondedJobs.map((job) => (
                 <CardDiv key={job.id}>
-                    <ColumnDiv>
-                        <DataItemDiv>{job.companyname}</DataItemDiv>
+                    <BusinessCardDiv>
+                        <DateDiv>
+                            {DateMutation(typeof job.dateapplied === 'string' ? job.dateapplied : job.dateapplied.toISOString())}
+
+                        </DateDiv>
+                        <NameDiv>
+                            <HDiv>
+                                <h2>
+                                    {job.companyname}
+                                </h2>
+                                <div className="hide">{job.companyname}</div>
+                            </HDiv>
+                            <div>
+                                <a href={job.joblink} target="_blank" rel="noreferrer">
+                                    <FontAwesomeIcon icon={faGlasses} />
+                                </a>
+                            </div>
+                        </NameDiv>
 
 
-                        {DateMutation(typeof job.dateapplied === 'string' ? job.dateapplied : job.dateapplied.toISOString())}
+                        <ContactContainerDiv>
+                            <ContactNameDiv>
+                                <DataItemDiv>{job.primarycontact}</DataItemDiv>
+
+                            </ContactNameDiv>
+                            <CheckBoxDiv>
+                                <DataItemDiv>
+                                    respond?
+                                    <CheckBoxInput
+                                        type="checkbox"
+                                        checked={job.companyresponded}
+                                        onChange={(event: { target: { checked: boolean; }; }) => handleCheckboxChange(job.id, event.target.checked)}
+                                    />
+                                </DataItemDiv>
+
+                                <DataItemDiv>
+                                    rejected?
+                                    <CheckBoxInput
+                                        type="checkbox"
+                                        checked={job.companyrejected}
+                                        onChange={(event: { target: { checked: boolean; }; }) => handleRejectionChange(job.id, event.target.checked)}
+
+                                    />
+                                </DataItemDiv>
+
+                            </CheckBoxDiv>
+
+                        </ContactContainerDiv>
 
 
-                        <DataItemDiv>
-                            <a href={job.joblink} target="_blank" rel="noreferrer">Link</a>
-                        </DataItemDiv>
-                        <DataItemDiv>{job.primarycontact}</DataItemDiv>
-                        <DataItemDiv>
-                            respond?
-                            <CheckBoxInput
-                                type="checkbox"
-                                checked={job.companyresponded}
-                                onChange={(event: { target: { checked: boolean; }; }) => handleCheckboxChange(job.id, event.target.checked)}
-                            />
-                        </DataItemDiv>
-                        <DataItemDiv>
-                            rejected?
-                            <CheckBoxInput
-                                type="checkbox"
-                                checked={job.companyrejected}
-                            />
-                        </DataItemDiv>
-                    </ColumnDiv>
+                    </BusinessCardDiv>
+
+
+
+
                 </CardDiv>
             ))}
 
@@ -263,6 +306,137 @@ export const CompanyNoResponse = () => {
     );
 };
 
+const CheckBoxDiv = styled.div`
+  height: 50%;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  align-items: center; /* Vertically center the content */
+
+  /* Direct child divs (assuming these are the containers for each checkbox) */
+  > div {
+    flex: 1; /* This makes each child div take equal space */
+    display: flex;
+    justify-content: center; /* Center the content of each child div */
+  }
+
+  /* First child div (for the first checkbox) */
+  > div:first-child {
+    justify-content: flex-start; /* Aligns content to the left */
+  }
+
+  /* Last child div (for the second checkbox) */
+  > div:last-child {
+    justify-content: flex-end; /* Aligns content to the right */
+  }
+`;
+
+
+const ContactNameDiv = styled.div`
+height: 50%;
+  width: 100%;
+justify-content: center;
+  align-items: center;
+
+`;
+
+const ContactContainerDiv = styled.div`
+  position: absolute;
+  bottom: 0;
+  height: 40%;
+  width: 100%;
+  /* Ensure it's horizontally centered */
+  left: 50%;
+  transform: translateX(-50%);
+`;
+
+const HDiv = styled.div`
+  
+  max-width: 80%;
+  overflow: hidden;
+  margin-right: 3%;
+  margin-left: 7%;
+`;
+
+const NameDiv = styled.div`
+  display: flex;
+  align-items: center;
+  height: 30%;
+  margin: 0 auto;
+  justify-content: center;
+  overflow: visible; /* Allow content to overflow */
+  text-overflow: ellipsis;
+  position: relative; /* Needed for absolute positioning of pseudo-element */
+
+  h2 {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Display text from left to right */
+    content: attr(data-content); /* Display the content of the data-content attribute */
+    overflow: hidden; /* Hide any overflowing content */
+    box-sizing: content-box; /* Ensure padding doesn't affect the width */
+    position: relative; /* Needed for z-index */
+    white-space: nowrap; /* Prevent text from wrapping */
+    max-width: 20ch; /* Set the maximum width to 20 characters (adjust as needed) */
+    
+
+    &:hover ~ .hide {
+      display: block; /* Show the .hide div when h2 is hovered */
+      z-index: 10;
+    }
+  }
+
+  svg:not(:root).svg-inline--fa,
+  svg:not(:host).svg-inline--fa {
+    color: white;
+    font-size: 24px;
+  }
+
+  .hide {
+    display: none; /* Initially hidden */
+    position: absolute;
+    top: -20px; /* Position 20 pixels above the company name */
+    left: 0; /* Align with the left edge of the h2 */
+    z-index: 10; /* Increase the z-index value to ensure it appears above other content */
+    background-color: grey;
+    margin-bottom: 20px; /* Add some margin to separate from h2 */
+    padding: 10px; /* Add padding for the character limit indicator */
+    pointer-events: none; /* Ignore pointer events on the .hide element */
+  }
+
+  .hide::before {
+    content: attr(data-text); /* Use the data-text attribute for the content */
+    display: block;
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+`;
+
+
+
+
+
+
+
+
+export const DateDiv = styled.div`
+    height: 20%;
+  width: 30%;
+`;
+export const BusinessCardDiv = styled.div`
+    background-color: chartreuse;
+  position: relative;
+    height: 25vh;
+  width: 50vw;
+  box-shadow:
+          -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */
+          4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
+          0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
+  @media ${noResponseJobs.mobile} {
+    width: 84%; /* Adjust width to 80% on mobile devices */
+  }
+`;
 const RedPillParentDiv = styled.div`
   display: flex;
   margin-left: 150px;
@@ -320,15 +494,9 @@ margin-left: 11%;
 
 
 
-const SearchDiv = styled.div`
-    display: flex;
-    align-items: center;
-  justify-content: center;
-  width: 100%;
-  
-`;
 
- const SimpleSelect = styled.select`
+
+const SimpleSelect = styled.select`
     padding: 5px 10px;
     font-size: 16px;
     border: 1px solid #ccc;
@@ -357,12 +525,6 @@ const CompanyNoResponseDiv = styled.div`
 
 
 
-// export const CardDiv = styled.div`
-//     display: flex;
-//     flex-direction: row;
-//     border: 1px solid #ccc;
-//     margin: 10px 0;
-// `;
 
 export const CardDiv = styled.div`
   display: flex;
@@ -374,38 +536,21 @@ export const CardDiv = styled.div`
   //background-color: rgba(138,169,142,0.86); /* Sets background color to red */
   padding: 10px; /* Adds some spacing inside the card */
   box-sizing: border-box; /* Ensures padding is included in width/height calculations */
-  
-`;
-
-
-export const ColumnDiv = styled.div`
-  display: flex;
-  flex-direction: column; /* Stack children vertically */
-  justify-content: center; /* Center children vertically */
-  padding: 10px;
-  white-space: nowrap;
-  word-break: break-all;
-  width: 50%;
-  overflow: hidden;
-//background-color: rgba(165,169,127,0.86);
-  background-color: chartreuse;
-  align-items: center;
-
-  box-shadow:
-          -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */
-          4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
-          0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
-
-  @media ${noResponseJobs.mobile} {
-    width: 80%; /* Adjust width to 80% on mobile devices */
-  }
 `;
 
 
 
-export const DataItemDiv = styled.div`
+
+
+
+const DataItemDiv = styled.div`
     /* You can add specific styles for data items here */
-`;
+   justify-content: center;
+   align-items: center;
+     display: flex;
+     margin: 0 auto;
+
+ `;
 
 const StickySearchDiv = styled.div`
   position: sticky;

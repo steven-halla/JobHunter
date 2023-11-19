@@ -576,6 +576,7 @@ const CardDiv = styled.div<CardProps>`
   flex-direction: column;
   align-items: center;
 
+
   // Icons styles
   .hidden-icons {
     display: none;
@@ -601,6 +602,10 @@ const CardDiv = styled.div<CardProps>`
   .custom-icon-sm {
     font-size: 16px;
   }
+
+  @media ${noResponseJobs.mobile} {
+    width: 80%; /* Adjust width to 80% on mobile devices */
+  }
 `;
 
 const SearchBar = styled.input`
@@ -624,9 +629,10 @@ const SearchBar = styled.input`
   @media ${noResponseJobs.mobile} {
     display: flex;
     align-items: flex-start;
-    width: 50px ;/* Adjust width to 80% on mobile devices */
     margin-right: auto;
     margin-left: 40px;
+    min-width: 150px;
+
 
   }
 
@@ -638,6 +644,8 @@ const SearchBar = styled.input`
 
   }
 `;
+
+
 const RedPillContainer = styled.div`
   display: inline-block;
   min-width: 140px;

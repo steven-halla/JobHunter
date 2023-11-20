@@ -134,7 +134,19 @@ const Profile = () => {
 
 
 
-                <NameCustomFieldBox>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        backgroundColor: 'purple',
+                        height: '300px',
+                        width: '55%',
+                        marginTop: '5%',
+                        flexDirection: 'column',
+                        '@media (max-width: 500px)': {
+                            width: '70%', // Adjusted width for screens of 500px or smaller
+                        },
+                    }}
+                >
                     <NameDiv>
                          <strong>Hello Their {user?.username}</strong>
                     </NameDiv>
@@ -174,7 +186,7 @@ const Profile = () => {
 
                     </IconFormDiv>
 
-                </NameCustomFieldBox>
+                </Box>
 
                 <LifeStoryDiv>
 
@@ -294,18 +306,16 @@ const SubmitButtonDiv = styled.div`
   background-color: orangered;
   height: 10%;
   width: 30%;
-  margin-top: 5%;
+  margin-top: 3%;
 `;
 
 const LifeStoryDiv = styled.div`
   display: flex;
-
-  background-color: green;
-  height: 50%;
-  width: 80%;
+  flex-direction: column;
+  //height: 40vh;
+  width: 100%;
   justify-content: center;
   align-items: center;
-  margin-top: 5%;
 `;
 
 const NameCustomFieldBox = styled(Box)(() => ({
@@ -426,17 +436,16 @@ const StyledTextareaAutosize = styled(TextareaAutosize)`
   border: 1px solid #ccc; // Example style
   padding: 8px; // Example style
   border-radius: 4px; // Example style
-  width: 100%; // Make it take up the full width of its container
-  box-sizing: border-box; // Ensure padding and borders are included in the width
-  resize: both; // Apply the resize style directly to the textarea
+  width: 670px;
+  margin-top: 5%;
 
-  // You can also add media queries for responsive design if needed
 
+  // You can also add media queries for responsive design
   @media ${deviceProfile.mobile} {
-    // Use max-width to limit the maximum width while allowing it to adapt
-    max-width: 400px;
-    margin-top: 45%;
+    // Styles for laptop and larger devices
+    width: 300px;
   }
+  
 `;
 
 

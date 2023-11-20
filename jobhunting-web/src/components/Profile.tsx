@@ -53,6 +53,7 @@ const Profile = () => {
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const { name, value } = e.target;
+
         if (name === 'customfield1') {
             setCustomField1(value);
         } else if (name === 'customfield2') {
@@ -66,6 +67,7 @@ const Profile = () => {
 
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        console.log("im submitted")
         e.preventDefault();
         console.log("Handled submit");
         try {
@@ -127,6 +129,17 @@ const Profile = () => {
         };
     }, []);
 
+
+    const formRef = useRef<HTMLFormElement>(null);
+
+    const handleSubmitButton = () => {
+        console.log("Submit button clicked");
+        if (formRef.current) {
+            formRef.current.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+        }
+    };
+
+
     return (
         <ProfileWrapperDiv>
             <InfoContainerDiv>
@@ -152,7 +165,7 @@ const Profile = () => {
                     </NameDiv>
 
 
-                    <IconFormDiv>
+                    <IconFormDiv >
 
 
                         <IconDiv>
@@ -177,10 +190,15 @@ const Profile = () => {
                         </IconDiv>
 
 
-                        <StyledForm onSubmit={handleSubmit}>
+                        <StyledForm ref={formRef} onSubmit={handleSubmit}>
                                         <StyledTextField name="customfield1" value={customfield1} onChange={handleChange} />
                             <StyledTextField name="customfield2" value={customfield2} onChange={handleChange} />
                             <StyledTextField name="customfield3" value={customfield3} onChange={handleChange} />
+
+
+
+
+
 
                         </StyledForm>
 
@@ -203,10 +221,8 @@ const Profile = () => {
                 </LifeStoryDiv>
 
                 <SubmitButtonDiv>
-                    <SubmitButton  sx={{
-                        borderRadius: 10,
-
-                    }} variant="contained" type="submit">Submit</SubmitButton>
+                    <SubmitButton onClick={handleSubmitButton} variant="contained">
+                        Submit</SubmitButton>
                 </SubmitButtonDiv>
 
             </InfoContainerDiv>

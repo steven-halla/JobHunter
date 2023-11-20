@@ -57,6 +57,8 @@ const Login: React.FC = () => {
       if (checkBtn.current.context._errors.length === 0) {
         AuthService.login(state.username, state.password).then(
             (userData) => {
+              console.log("Logged in user:", userData); // Log user object
+
               setUser(userData);
               navigate(`/profile/${userData.id}`);
               window.location.reload();

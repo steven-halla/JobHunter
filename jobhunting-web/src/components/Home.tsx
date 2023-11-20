@@ -72,6 +72,7 @@ export const Home: React.FC = () => {
 
     useEffect(() => {
         if (companyname) {
+
             handleSearch(companyname);
         } else {
             setSearchResult(null);

@@ -135,7 +135,7 @@ const Profile = () => {
 
                 <NameCustomFieldBox>
                     <NameDiv>
-                         <strong>{user?.username}</strong>
+                         <strong>Hello Their {user?.username}</strong>
                     </NameDiv>
 
 
@@ -147,7 +147,7 @@ const Profile = () => {
                             <FontAwesomeIcon
                                 icon={faGithub}
                                 size="2x"
-                                style={{ cursor: 'pointer' }}
+                                style={{ cursor: 'pointer', marginTop: '10%' }}
                             />
 
                             <FontAwesomeIcon
@@ -159,27 +159,33 @@ const Profile = () => {
                             <FontAwesomeIcon
                                 icon={faBriefcase}
                                 size="2x"
-                                style={{ cursor: 'pointer' }}
+                                style={{ cursor: 'pointer', marginBottom: "10%" }}
                             />
                         </IconDiv>
 
 
                         <StyledForm onSubmit={handleSubmit}>
+                                        <StyledTextField name="customfield1" value={customfield1} onChange={handleChange} />
+                            <StyledTextField name="customfield2" value={customfield2} onChange={handleChange} />
+                            <StyledTextField name="customfield3" value={customfield3} onChange={handleChange} />
 
                         </StyledForm>
 
                     </IconFormDiv>
 
-
-
-
-
-
-
-
                 </NameCustomFieldBox>
 
                 <LifeStoryDiv>
+
+                    <StyledTextareaAutosize
+                        name="lifestory"
+                        value={lifeStory}
+                        onChange={handleChange}
+                        placeholder="Enter your life story..."
+                        minRows={4} // Adjust the number of rows as needed
+                        maxRows={100} // Adjust the maximum number of rows as needed
+                    />
+
 
                 </LifeStoryDiv>
 
@@ -211,12 +217,7 @@ const Profile = () => {
             {/*            <TextareaAutosize  name="customfield3" value={customfield3} onChange={handleChange} />*/}
             {/*        </p>*/}
 
-            {/*        <StyledTextareaAutosize*/}
-            {/*            name="lifestory"*/}
-            {/*            value={lifeStory}*/}
-            {/*            onChange={handleChange}*/}
-            {/*            placeholder="Enter your life story..."*/}
-            {/*        />*/}
+
 
 
             {/*        <button type="submit">Update</button>*/}
@@ -247,7 +248,7 @@ height: 100%;
 `;
 
 const StyledTextField = styled(TextField)`
-  width: 80%; // Ensures it takes up the full width of its parent
+  width: 100%; // Ensures it takes up the full width of its parent
   box-sizing: border-box; // This ensures padding and borders are included in the width
 
   // Add other styles as needed
@@ -262,6 +263,8 @@ const NameDiv = styled.div`
   background-color: cadetblue;
   height: 20%;
   width: 100%;
+  justify-content: center;
+  align-items: center;
 `;
 
 const SubmitButtonDiv = styled.div`
@@ -278,13 +281,15 @@ const LifeStoryDiv = styled.div`
   background-color: green;
   height: 50%;
   width: 80%;
+  justify-content: center;
+  align-items: center;
 `;
 
 const NameCustomFieldBox = styled(Box)(() => ({
     display: 'flex',
  // Optional, if you want to center vertically as well
     backgroundColor: 'purple',
-    height: '50%',
+    height: "300px",
     width: '60%',
     marginTop: '5%',
     flexDirection: 'column',
@@ -295,7 +300,7 @@ const ProfileWrapperDiv = styled.div`
   justify-content: center; // Centers children horizontally
   align-items: center; // Optional, if you want to center vertically as well
   background-color: red;
-  height: 100vh;
+  height: 100%;
   width: 100vw;
 `;
 
@@ -359,8 +364,9 @@ const StyledForm = styled.form`
   background-color: yellow;
   height: 100%;
   width: 80%;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  flex-direction: column;
   
 `;
 const InputWithIcon = styled.div`
@@ -392,21 +398,25 @@ const InputWithIcon = styled.div`
 // `;
 //
 //
-// const StyledTextareaAutosize = styled(TextareaAutosize)`
-//     // Add more styles here
-//     border: 1px solid #ccc; // Example style
-//     padding: 8px; // Example style
-//     border-radius: 4px; // Example style
-//
-//
-//     // You can also add media queries for responsive design
-//   @media ${deviceProfile.mobile} {
-//     // Styles for laptop and larger devices
-//     width: 400px;
-//     margin-top: 45%;
-//
-//   }
-// `;
+const StyledTextareaAutosize = styled(TextareaAutosize)`
+  // Add more styles here
+  border: 1px solid #ccc; // Example style
+  padding: 8px; // Example style
+  border-radius: 4px; // Example style
+  width: 100%; // Make it take up the full width of its container
+  box-sizing: border-box; // Ensure padding and borders are included in the width
+
+  // You can also add media queries for responsive design if needed
+
+
+    // You can also add media queries for responsive design
+  @media ${deviceProfile.mobile} {
+    // Styles for laptop and larger devices
+    width: 400px;
+    margin-top: 45%;
+
+  }
+`;
 
 export default Profile;
 

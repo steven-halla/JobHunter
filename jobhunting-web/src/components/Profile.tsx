@@ -4,12 +4,13 @@ import { UserContext } from '../services/usercontext';
 import UserService from '../services/user.service';
 import styled from "styled-components";
 import TextareaAutosize from '@mui/material/TextareaAutosize';
-import {deviceCalendar, deviceProfile} from "../common/ScreenSizes";
+import {deviceCalendar, deviceHome, deviceProfile} from "../common/ScreenSizes";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGithub, faLinkedin} from "@fortawesome/free-brands-svg-icons";
 import {faBriefcase} from "@fortawesome/free-solid-svg-icons";
 import {TextField} from "@mui/material";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 
 
 const Profile = () => {
@@ -190,7 +191,10 @@ const Profile = () => {
                 </LifeStoryDiv>
 
                 <SubmitButtonDiv>
+                    <SubmitButton  sx={{
+                        borderRadius: 10,
 
+                    }} variant="contained" type="submit">Submit</SubmitButton>
                 </SubmitButtonDiv>
 
             </InfoContainerDiv>
@@ -228,6 +232,23 @@ const Profile = () => {
         </ProfileWrapperDiv>
     );
 };
+
+const SubmitButton = styled(Button)`
+  height: 9vh;
+  width: 23vw;
+  display: flex;
+  padding-bottom: 70px;
+  //margin-bottom: 50px;
+  //background-color: yellow;
+
+  @media ${deviceHome.mobile} {
+    //background-color: red;
+    width: 30vw;
+    height: 7vh;
+  }
+
+
+`;
 
 const IconFormDiv = styled.div`
 height: 100%;
@@ -273,6 +294,7 @@ const SubmitButtonDiv = styled.div`
   background-color: orangered;
   height: 10%;
   width: 30%;
+  margin-top: 5%;
 `;
 
 const LifeStoryDiv = styled.div`
@@ -283,6 +305,7 @@ const LifeStoryDiv = styled.div`
   width: 80%;
   justify-content: center;
   align-items: center;
+  margin-top: 5%;
 `;
 
 const NameCustomFieldBox = styled(Box)(() => ({
@@ -405,18 +428,19 @@ const StyledTextareaAutosize = styled(TextareaAutosize)`
   border-radius: 4px; // Example style
   width: 100%; // Make it take up the full width of its container
   box-sizing: border-box; // Ensure padding and borders are included in the width
+  resize: both; // Apply the resize style directly to the textarea
 
   // You can also add media queries for responsive design if needed
 
-
-    // You can also add media queries for responsive design
   @media ${deviceProfile.mobile} {
-    // Styles for laptop and larger devices
-    width: 400px;
+    // Use max-width to limit the maximum width while allowing it to adapt
+    max-width: 400px;
     margin-top: 45%;
-
   }
 `;
+
+
+
 
 export default Profile;
 

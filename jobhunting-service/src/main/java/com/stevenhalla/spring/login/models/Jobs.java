@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.sql.Time;
 import java.util.Date;
 
 @Entity
@@ -68,6 +69,12 @@ public class Jobs {
     @Column(name = "interviewdate")
     private Date interviewdate;
 
+    @Column(name = "interviewbegintime")
+    private Time interviewbegintime;
+
+    @Column(name = "interviewendtime")
+    private Time interviewendtime;
+
     @NotNull
     @Column(name = "companyresponded")
     private Boolean companyresponded;
@@ -112,6 +119,23 @@ public class Jobs {
         this.id = id;
     }
 
+
+
+    public Time getInterviewbegintime() {
+        return interviewbegintime;
+    }
+
+    public void setInterviewbegintime(Time interviewbegintime) {
+        this.interviewbegintime = interviewbegintime;
+    }
+
+    public Time getInterviewendtime() {
+        return interviewendtime;
+    }
+
+    public void setInterviewendtime(Time interviewendtime) {
+        this.interviewendtime = interviewendtime;
+    }
     public String getCompanyname() {
         return companyname;
     }

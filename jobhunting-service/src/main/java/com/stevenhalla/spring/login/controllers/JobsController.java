@@ -57,6 +57,9 @@ public class JobsController {
             if (jobUpdate.getInterviewnotes() != null) job.setInterviewnotes(jobUpdate.getInterviewnotes());
             if (jobUpdate.getInterviewernames() != null) job.setInterviewernames(jobUpdate.getInterviewernames());
             if (jobUpdate.getInterviewdate() != null) job.setInterviewdate(jobUpdate.getInterviewdate());
+
+            if (jobUpdate.getInterviewbegintime() != null) job.setInterviewbegintime(jobUpdate.getInterviewbegintime());
+            if (jobUpdate.getInterviewendtime() != null) job.setInterviewendtime(jobUpdate.getInterviewendtime());
             System.out.println("Received jobUpdate: " + jobUpdate); // Log the received payload
 
 

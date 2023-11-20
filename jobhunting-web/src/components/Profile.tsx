@@ -139,45 +139,43 @@ const Profile = () => {
                     </NameDiv>
 
 
-                    <StyledForm onSubmit={handleSubmit}>
+                    <IconFormDiv>
+
+
+                        <IconDiv>
 
                             <FontAwesomeIcon
                                 icon={faGithub}
                                 size="2x"
                                 style={{ cursor: 'pointer' }}
                             />
-                            <StyledTextField
-                                name="customfield1"
-                                value={customfield1}
-                                onChange={handleChange}
-                                // Add any other props you need
-                            />
-
-
 
                             <FontAwesomeIcon
                                 icon={faLinkedin}
                                 size="2x"
                                 style={{ cursor: 'pointer' }}
                             />
-                            <StyledTextField
-                                name="customfield2"
-                                value={customfield2}
-                                onChange={handleChange}
-                                // Add any other props you need
-                            />
+
                             <FontAwesomeIcon
                                 icon={faBriefcase}
                                 size="2x"
                                 style={{ cursor: 'pointer' }}
                             />
-                            <StyledTextField
-                                name="customfield3"
-                                value={customfield3}
-                                onChange={handleChange}
-                                // Add any other props you need
-                            />
-                    </StyledForm>
+                        </IconDiv>
+
+
+                        <StyledForm onSubmit={handleSubmit}>
+
+                        </StyledForm>
+
+                    </IconFormDiv>
+
+
+
+
+
+
+
 
                 </NameCustomFieldBox>
 
@@ -230,12 +228,31 @@ const Profile = () => {
     );
 };
 
+const IconFormDiv = styled.div`
+height: 100%;
+  width: 100%;
+  background-color: grey;
+  display: flex;
+  
+`;
+
+
+const IconDiv = styled.div`
+height: 100%;
+  width: 20%;
+  background-color: chocolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
 const StyledTextField = styled(TextField)`
   width: 80%; // Ensures it takes up the full width of its parent
   box-sizing: border-box; // This ensures padding and borders are included in the width
 
   // Add other styles as needed
 `;
+
 
 
 
@@ -265,8 +282,7 @@ const LifeStoryDiv = styled.div`
 
 const NameCustomFieldBox = styled(Box)(() => ({
     display: 'flex',
-    justifyContent: 'center', // Centers children horizontally
-    alignItems: 'center', // Optional, if you want to center vertically as well
+ // Optional, if you want to center vertically as well
     backgroundColor: 'purple',
     height: '50%',
     width: '60%',
@@ -338,19 +354,26 @@ const InfoContainerDiv = styled.div`
 //
 // `;
 //
- const StyledForm = styled.form`
+const StyledForm = styled.form`
   display: flex;
   background-color: yellow;
-  height: 80%;
-   width: 100%;
-   flex-direction: column;
-   justify-content: center;
-   align-items: center;
-
-  //height: 40vh;
-  //width: 100vw;
-
+  height: 100%;
+  width: 80%;
+  justify-content: center;
+  align-items: center;
+  
 `;
+const InputWithIcon = styled.div`
+  display: flex;
+  align-items: center; // Center the items vertically
+  margin-bottom: 10px; // Add some spacing between inputs
+
+  // Add styles for the icon
+  & > svg {
+    margin-right: 10px; // Add spacing between icon and input
+  }
+`;
+
 //
 // const InfoContainerDiv = styled.div`
 //   display: flex;

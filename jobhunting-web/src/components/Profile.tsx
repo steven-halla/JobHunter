@@ -5,6 +5,11 @@ import UserService from '../services/user.service';
 import styled from "styled-components";
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import {deviceCalendar, deviceProfile} from "../common/ScreenSizes";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faGithub, faLinkedin} from "@fortawesome/free-brands-svg-icons";
+import {faBriefcase} from "@fortawesome/free-solid-svg-icons";
+import {TextField} from "@mui/material";
+import Box from "@mui/material/Box";
 
 
 const Profile = () => {
@@ -124,118 +129,261 @@ const Profile = () => {
     return (
         <ProfileWrapperDiv>
             <InfoContainerDiv>
-                <UserNameDiv>
-                    User Name:   <strong>{user?.username}</strong>  <br/>
-                </UserNameDiv>
-                <StyledForm onSubmit={handleSubmit}>
-                    <p>
-                        <StyledStrong>Github:</StyledStrong>
-                        <TextareaAutosize name="customfield1" value={customfield1} onChange={handleChange} />
-                    </p>
-                    <p>
-                        <StyledStrong>Linkedin:</StyledStrong>
-                        <TextareaAutosize  name="customfield2" value={customfield2} onChange={handleChange} />
-                    </p>
-                    <p>
-                        <StyledStrong>Portfolio:</StyledStrong>
-                        <TextareaAutosize  name="customfield3" value={customfield3} onChange={handleChange} />
-                    </p>
-
-                    <StyledTextareaAutosize
-                        name="lifestory"
-                        value={lifeStory}
-                        onChange={handleChange}
-                        placeholder="Enter your life story..."
-                    />
 
 
-                    <button type="submit">Update</button>
-                </StyledForm>
+
+
+                <NameCustomFieldBox>
+                    <NameDiv>
+                         <strong>{user?.username}</strong>
+                    </NameDiv>
+
+
+                    <StyledForm onSubmit={handleSubmit}>
+
+                            <FontAwesomeIcon
+                                icon={faGithub}
+                                size="2x"
+                                style={{ cursor: 'pointer' }}
+                            />
+                            <StyledTextField
+                                name="customfield1"
+                                value={customfield1}
+                                onChange={handleChange}
+                                // Add any other props you need
+                            />
+
+
+
+                            <FontAwesomeIcon
+                                icon={faLinkedin}
+                                size="2x"
+                                style={{ cursor: 'pointer' }}
+                            />
+                            <StyledTextField
+                                name="customfield2"
+                                value={customfield2}
+                                onChange={handleChange}
+                                // Add any other props you need
+                            />
+                            <FontAwesomeIcon
+                                icon={faBriefcase}
+                                size="2x"
+                                style={{ cursor: 'pointer' }}
+                            />
+                            <StyledTextField
+                                name="customfield3"
+                                value={customfield3}
+                                onChange={handleChange}
+                                // Add any other props you need
+                            />
+                    </StyledForm>
+
+                </NameCustomFieldBox>
+
+                <LifeStoryDiv>
+
+                </LifeStoryDiv>
+
+                <SubmitButtonDiv>
+
+                </SubmitButtonDiv>
+
             </InfoContainerDiv>
+
+
+
+
+
+
+            {/*<InfoContainerDiv>*/}
+            {/*    <UserNameDiv>*/}
+            {/*    </UserNameDiv>*/}
+            {/*    <StyledForm onSubmit={handleSubmit}>*/}
+            {/*        <p>*/}
+            {/*            <StyledStrong>Github:</StyledStrong>*/}
+            {/*            <TextareaAutosize name="customfield1" value={customfield1} onChange={handleChange} />*/}
+            {/*        </p>*/}
+            {/*        <p>*/}
+            {/*            <StyledStrong>Linkedin:</StyledStrong>*/}
+            {/*            <TextareaAutosize  name="customfield2" value={customfield2} onChange={handleChange} />*/}
+            {/*        </p>*/}
+            {/*        <p>*/}
+            {/*            <StyledStrong>Portfolio:</StyledStrong>*/}
+            {/*            <TextareaAutosize  name="customfield3" value={customfield3} onChange={handleChange} />*/}
+            {/*        </p>*/}
+
+            {/*        <StyledTextareaAutosize*/}
+            {/*            name="lifestory"*/}
+            {/*            value={lifeStory}*/}
+            {/*            onChange={handleChange}*/}
+            {/*            placeholder="Enter your life story..."*/}
+            {/*        />*/}
+
+
+            {/*        <button type="submit">Update</button>*/}
+            {/*    </StyledForm>*/}
+            {/*</InfoContainerDiv>*/}
 
 
         </ProfileWrapperDiv>
     );
 };
 
-export const StyledStrong = styled.strong`
-  display: flex;
+const StyledTextField = styled(TextField)`
+  width: 80%; // Ensures it takes up the full width of its parent
+  box-sizing: border-box; // This ensures padding and borders are included in the width
 
-`;
-export const UserNameDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  //align-items: center;
-  //height: 20vh;
-  margin-right: 2%;
+  // Add other styles as needed
 `;
 
-export const ProfileWrapperDiv = styled.div`
+
+
+const NameDiv = styled.div`
   display: flex;
+
+  background-color: cadetblue;
+  height: 20%;
+  width: 100%;
+`;
+
+const SubmitButtonDiv = styled.div`
+  display: flex;
+
+  background-color: orangered;
+  height: 10%;
+  width: 30%;
+`;
+
+const LifeStoryDiv = styled.div`
+  display: flex;
+
+  background-color: green;
+  height: 50%;
+  width: 80%;
+`;
+
+const NameCustomFieldBox = styled(Box)(() => ({
+    display: 'flex',
+    justifyContent: 'center', // Centers children horizontally
+    alignItems: 'center', // Optional, if you want to center vertically as well
+    backgroundColor: 'purple',
+    height: '50%',
+    width: '60%',
+    marginTop: '5%',
+    flexDirection: 'column',
+}));
+
+const ProfileWrapperDiv = styled.div`
+  display: flex;
+  justify-content: center; // Centers children horizontally
+  align-items: center; // Optional, if you want to center vertically as well
+  background-color: red;
   height: 100vh;
   width: 100vw;
-  justify-content: center;
-  ////flex-direction: column;
-  //align-items: center;
-  //background-color: #586e75; /* A blue-gray hue, reminiscent of slate */
-  //background-color: #30475E; /* A deep, muted blue with a hint of gray */
-  background-color: #496D89; /* A lighter shade of the deep, muted blue with a hint of gray */
-
-`;
-
-export const StyledForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  //height: 40vh;
-  //width: 100vw;
-  justify-content: center;
-  align-items: center;
 `;
 
 const InfoContainerDiv = styled.div`
-  //display: flex; for some reason this breaks everything
-
-  //justify-content: center;
-  //align-items: center;
-  margin-top: 5%;
-  background-color: #c7f3ff;
-  width: 400px;
-  height: 50vh;
-  min-height: 325px;
-  max-height: 355px;
-
-  //margin-top: 15%;
-  padding-top:  1.5%;
-  margin-bottom: 5%;
- 
-
-  // Adding shadows to the bottom left and right
-  box-shadow:
-          10px 10px 15px -5px rgba(0, 0, 0, 0.3), // Shadow for the bottom right
-          -10px 10px 15px -5px rgba(0, 0, 0, 0.3); // Shadow for the bottom left
-
-  @media ${deviceProfile.mobile} {
-    // Styles for laptop and larger devices
-    width: 300px;
-  }
+  display: flex;
+  background-color: blue;
+  height: 100%; // You might want to adjust this depending on your layout needs
+  width: 80%; // Or any width you prefer
+  // Add other properties as needed
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;
 
-const StyledTextareaAutosize = styled(TextareaAutosize)`
-    // Add more styles here
-    border: 1px solid #ccc; // Example style
-    padding: 8px; // Example style
-    border-radius: 4px; // Example style
-    width: 700px;
-  margin-top: 13%;
-margin-bottom: 8%;
-  
 
-    // You can also add media queries for responsive design
-  @media ${deviceProfile.mobile} {
-    // Styles for laptop and larger devices
-    width: 400px;
-  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// export const StyledStrong = styled.strong`
+//   display: flex;
+//
+// `;
+// export const UserNameDiv = styled.div`
+//   display: flex;
+//   //align-items: center;
+//   //height: 20vh;
+//   margin-right: 2%;
+//   background-color: red;
+// `;
+//
+// export const ProfileWrapperDiv = styled.div`
+//   display: flex;
+//   height: 100vh;
+//   width: 100%;
+//   justify-content: center;
+//   align-items: center;
+//   display: flex;
+//
+//   ////flex-direction: column;
+//   //align-items: center;
+//   //background-color: #586e75; /* A blue-gray hue, reminiscent of slate */
+//   //background-color: #30475E; /* A deep, muted blue with a hint of gray */
+//   background-color: #496D89; /* A lighter shade of the deep, muted blue with a hint of gray */
+//
+// `;
+//
+ const StyledForm = styled.form`
+  display: flex;
+  background-color: yellow;
+  height: 80%;
+   width: 100%;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+
+  //height: 40vh;
+  //width: 100vw;
+
 `;
+//
+// const InfoContainerDiv = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   margin-top: 5%;
+//   background-color: #c7f3ff;
+//   padding: 20px; // Add some padding for spacing
+//   box-shadow: 10px 10px 15px -5px rgba(0, 0, 0, 0.3),
+//   -10px 10px 15px -5px rgba(0, 0, 0, 0.3);
+//
+//   @media ${deviceProfile.mobile} {
+//     width: 300px; // Adjust width for mobile
+//   }
+// `;
+//
+//
+// const StyledTextareaAutosize = styled(TextareaAutosize)`
+//     // Add more styles here
+//     border: 1px solid #ccc; // Example style
+//     padding: 8px; // Example style
+//     border-radius: 4px; // Example style
+//
+//
+//     // You can also add media queries for responsive design
+//   @media ${deviceProfile.mobile} {
+//     // Styles for laptop and larger devices
+//     width: 400px;
+//     margin-top: 45%;
+//
+//   }
+// `;
 
 export default Profile;
 

@@ -34,6 +34,12 @@ public class UserController {
         public String lifestory; // Change to lowercase 'lifestory'
     }
 
+    @GetMapping("/allusers")
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+
     @PatchMapping("/updateuser/{userid}")
     public User modifyUserCustomFields(@PathVariable Long userid, @RequestBody UserUpdateRequest request) {
         Optional<User> optionalUser = userRepository.findById(userid);
@@ -162,3 +168,4 @@ public class UserController {
         }
     }
 }
+

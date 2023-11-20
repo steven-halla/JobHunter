@@ -35,22 +35,18 @@ public class User {
     @Size(max = 120)
     private String password;
 
-    @NotBlank
     @Size(max = 333)
     private String customfield1;
 
-    @NotBlank
     @Size(max = 333)
     private String customfield2;
 
-    @NotBlank
     @Size(max = 333)
     private String customfield3;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Jobs> jobs = new ArrayList<>();
 
-    @NotBlank
     @Size(max = 5000)
     private String lifestory;
 

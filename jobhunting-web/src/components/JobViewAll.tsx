@@ -214,7 +214,7 @@ export const JobViewAll = () => {
         .sort((a, b) => {
 
 
-        switch (sortOrder) {
+        switch (sortingCriteria) {
 
             case 'select':
                 // Default sorting, for example by date applied in ascending order
@@ -303,31 +303,38 @@ export const JobViewAll = () => {
 
 
     const toggleDateSortDirection = () => {
-        const newSortOrder = dateSortDirection === 'asc' ? 'date-desc' : 'date-asc';
-        setDateSortDirection(dateSortDirection === 'asc' ? 'desc' : 'asc');
-        setSortOrder(newSortOrder);
+        setDateSortDirection(dateSortDirection === 'asc' ? 'dsc' : 'asc');
+        setSortingCriteria(dateSortDirection === 'asc' ? 'date-desc' : 'date-asc');
+        setContactSortDirection('dsc');
+        setCompanySortDirection('dsc');
+        setInterviewSortDirection('dsc');
     };
 
-
     const toggleCompanySortDirection = () => {
-        const companySortOrder = companySortDirection === 'asc' ? 'company-desc' : 'company-asc';
-        setCompanySortDirection(companySortOrder === 'company-asc' ? 'asc' : 'desc');
-        setSortOrder(companySortOrder);
+        setCompanySortDirection(companySortDirection === 'asc' ? 'dsc' : 'asc');
+        setSortingCriteria(companySortDirection === 'asc' ? 'company-desc' : 'company-asc');
+        setDateSortDirection('dsc');
+        setContactSortDirection('dsc');
+        setInterviewSortDirection('dsc');
     };
 
     const toggleContactSortDirection = () => {
-        const contactSortOrder = contactSortDirection === 'asc' ? 'contact-desc' : 'contact-asc';
-        setContactSortDirection(contactSortOrder === 'contact-asc' ? 'asc' : 'desc');
-        setSortOrder(contactSortOrder);
+        setContactSortDirection(contactSortDirection === 'asc' ? 'dsc' : 'asc');
+        setSortingCriteria(contactSortDirection === 'asc' ? 'contact-desc' : 'contact-asc');
+        setDateSortDirection('dsc');
+        setCompanySortDirection('dsc');
+        setInterviewSortDirection('dsc');
     };
 
     const toggleInterviewSortDirection = () => {
-        const interviewSortOrder = interviewSortDirection === 'asc' ? 'accepted' : 'no response';
-        setInterviewSortDirection(interviewSortOrder === 'no response' ? 'asc' : 'accepted');
-        setSortOrder(interviewSortOrder);
+        setInterviewSortDirection(interviewSortDirection === 'asc' ? 'dsc' : 'asc');
+        setSortingCriteria(interviewSortDirection === 'asc' ? 'accepted' : 'no response');
+        setDateSortDirection('dsc');
+        setContactSortDirection('dsc');
+        setCompanySortDirection('dsc');
     };
 
-    const handleSortingChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
+    const handleSortingChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSortingCriteria(e.target.value);
     };
 

@@ -233,7 +233,7 @@ export const Header = () => {
                                             // paddingBottom: graphIconState ? '0' : '3px', // Add padding to space out the underline
                                         }}                                         >
                                         <FontAwesomeIcon icon={clipboardIconState ?  faClipboard : faClipboardCheck} size="lg" />
-                                        <span>Older Jobs</span>
+                                        <span>All Jobs</span>
 
                                     </Link>
                             </IconWrapper>

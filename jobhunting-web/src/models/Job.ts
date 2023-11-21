@@ -5,6 +5,8 @@ export interface Interview {
     interviewnotes: string;
     interviewernames: string;
     interviewdate: Date | null;
+    interviewbegintime: Date ;
+    interviewendtime: Date;
 }
 
 
@@ -29,4 +31,6 @@ export interface Job {
     companyrejected: boolean;
     jobsoftdelete: boolean;
     interviews: Interview[];
+    interviewbegintime: Date;
+    interviewendtime: Date;
 }

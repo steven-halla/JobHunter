@@ -8,6 +8,7 @@ import {deviceCalendar, deviceHome} from "../common/ScreenSizes";
 import {useTheme} from "@mui/material";
 
 
+//RIGHT NOW ALL USERS HAVE ACCESS TO ALL INTERVIEWS!!!
 
 type InterviewData = {
     jobId: number;
@@ -36,7 +37,9 @@ export const AllInterviews = () => {
             interviewernames: typeof job.interviewernames === 'string' ? job.interviewernames : '',
             interviewnotes: typeof job.interviewnotes === 'string' ? job.interviewnotes : '',
             meetingLink: typeof job.meetingLink === 'string' ? job.meetingLink : '',
+
         }));
+        console.log("here are all the jobs" + jobs);
 
         setInterviewData(formattedData);
     }, [jobs]);

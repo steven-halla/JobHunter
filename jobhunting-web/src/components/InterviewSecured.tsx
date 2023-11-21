@@ -11,7 +11,7 @@ import TextField from '@mui/material/TextField';
 //also need to include ways to send notification
 //home page we can do an useEffect hook, setting global state
 export const InterviewSecured = () => {
-    const { meetingLink,setMeetingLink, interviewnotes, setInterviewNotes, interviewernames, setInterviewerNames, interviewdate, setInterviewDate, setJob, jobs, setJobs } = useContext(JobsContext);
+    const { meetingLink,setMeetingLink, interviewnotes, setInterviewNotes, interviewernames, setInterviewerNames, interviewdate, setInterviewDate, setJob, jobs, setJobs, interviewbegintime, setInterviewBeginTime, interviewendtime, setInterviewEndTime } = useContext(JobsContext);
     const { jobId } = useParams<{ jobId: string }>();
     const [currentJob, setCurrentJob] = useState<Job | undefined>(undefined);
     const [interviews, setInterviews] = useState<Interview[]>([]);
@@ -27,9 +27,22 @@ export const InterviewSecured = () => {
                 setInterviewNotes(selectedJob.interviewnotes || '');
                 setInterviewerNames(selectedJob.interviewernames || '');
                 setInterviewDate(selectedJob.interviewdate || null);
+                setInterviewBeginTime(selectedJob.interviewbegintime || null);
+                setInterviewEndTime(selectedJob.interviewendtime || null);
             }
         }
+        console.log(jobs)
     }, [jobs, jobId]);
+
+    function formatTimeForInput(date: Date): string {
+        if (!date || isNaN(date.getTime())) return '';
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        return `${hours}:${minutes}:${seconds}`;
+    }
+
+
 
     function formatDateForInput(date: Date) {
         const yyyy = date.getFullYear();
@@ -52,6 +65,8 @@ export const InterviewSecured = () => {
                     interviewnotes: interviewnotes,
                     interviewernames: interviewernames,
                     interviewdate: interviewdate,
+                    interviewendtime: interviewendtime,
+                    interviewbegintime: interviewbegintime,
                     companyresponded: true, // Setting company responded to true
                 }),
             });
@@ -69,6 +84,8 @@ export const InterviewSecured = () => {
                 setInterviewNotes(interviewnotes);
                 setInterviewerNames(interviewernames);
                 setInterviewDate(interviewdate);
+                setInterviewBeginTime(interviewbegintime);
+                setInterviewEndTime(interviewendtime)
             } else {
                 console.error('Failed to update job interview');
             }
@@ -78,49 +95,30 @@ export const InterviewSecured = () => {
     };
 
 
-    // const handleFormSubmit = async () => {
-    //     if (!currentJob) return;
-    //
-    //     console.log("Saving all interviews to the server:", interviews);
-    //
-    //     try {
-    //         const response = await fetch(`http://localhost:8080/api/jobs/update/${jobId}`, {
-    //             method: "PATCH",
-    //             headers: { "Content-Type": "application/json" },
-    //
-    //             body: JSON.stringify({
-    //                 meetingLink: meetingLink,
-    //                 interviewnotes: interviewnotes,
-    //                 interviewernames: interviewernames,
-    //                 interviewdate: interviewdate,
-    //             }),
-    //         });
-    //         if (response.ok) {
-    //             setJobs((prevJobs) =>
-    //                 prevJobs.map((j) =>
-    //                     j.id === currentJob.id ? { ...j, interviews } : j
-    //                 )
-    //             );
-    //             setCurrentJob((prev) =>
-    //                 prev ? { ...prev, interviews } : prev
-    //             );
-    //             setMeetingLink(meetingLink);
-    //             setInterviewNotes(interviewnotes);
-    //             setInterviewerNames(interviewernames);
-    //             setInterviewDate(interviewdate);
-    //         } else {
-    //             console.error('Failed to update job interview');
-    //         }
-    //     } catch (error) {
-    //         console.error('Failed to update job interview:', error);
-    //     }
-    // };
+
 
     function addOneDay(date: string | number | Date) {
         const adjustedDate = new Date(date);
         adjustedDate.setDate(adjustedDate.getDate() + 1); // Add 1 day
         return adjustedDate;
     }
+
+
+    function parseTimeStringToDate(timeString: string | undefined): Date {
+        if (typeof timeString !== 'string') {
+            // Handle the case where timeString is not a string
+            // For example, return the current date or a default date
+            return new Date();
+        }
+
+        const [hours, minutes, seconds] = timeString.split(':').map(Number);
+        const today = new Date();
+        today.setHours(hours, minutes, seconds);
+        return today;
+    }
+
+
+
 
     return (
         <InterviewSecuredWrapperDiv>
@@ -157,6 +155,30 @@ export const InterviewSecured = () => {
                                 setInterviewDate(selectedDate);
                             }}
                         />
+                    </label>
+                    <label>
+
+                        From
+                        <input
+                            type="time"
+                            value={interviewbegintime ? formatTimeForInput(parseTimeStringToDate(interviewbegintime)) : ''}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                const timeValue = e.target.value + ":00"; // Assuming input gives "HH:mm"
+                                setInterviewBeginTime(timeValue); // Storing as a string in "HH:mm:ss" format
+                            }}
+                        />
+
+
+                        To
+                        <input
+                            type="time"
+                            value={interviewendtime ? formatTimeForInput(parseTimeStringToDate(interviewendtime)) : ''}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                const timeValue = e.target.value + ":00"; // Assuming input gives "HH:mm"
+                                setInterviewEndTime(timeValue); // Storing as a string in "HH:mm:ss" format
+                            }}
+                        />
+
                     </label>
                     <label>
                         Interview Notes

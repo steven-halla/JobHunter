@@ -14,6 +14,12 @@ interface JobsContextState {
     setDateApplied: (date: Date) => void;
     updateJobRejected: (id: number, rejected: boolean) => void;  // Added this line
 
+
+    interviewbegintime: Date;
+    setInterviewBeginTime: (date: Date) => void;
+
+    interviewendtime: Date;
+    setInterviewEndTime: (date: Date) => void;
     meetingLink: string;
     setMeetingLink: React.Dispatch<React.SetStateAction<string>>;
     interviewnotes: string;
@@ -44,7 +50,15 @@ export const JobsContextProvider: FC<JobsContextProviderProps> = ({children}) =>
     // New state variables for the interview attributes
     const [interviewnotes, setInterviewNotes] = useState<string>('');
     const [interviewernames, setInterviewerNames] = useState<string>('');  // Fixed the name to match the interface
+
+
     const [interviewdate, setInterviewDate] = useState<Date | null>(null);
+
+    const [interviewbegintime, setInterviewBeginTime] = useState<Date>(new Date());
+    const [interviewendtime, setInterviewEndTime] = useState<Date>(new Date());
+
+
+
     const [meetingLink, setMeetingLink] = useState<string>('');  // Fixed the name to match the interface
 
 
@@ -192,19 +206,22 @@ export const JobsContextProvider: FC<JobsContextProviderProps> = ({children}) =>
                 jobs, setJobs,
                 olderJobs,
                 updateJobResponded,
-                updateJobRejected,  // Added this line
+                updateJobRejected,
                 updateJobInterview,
-                updateJobSoftDelete, // Add this line for soft delete functionality
+                updateJobSoftDelete,
 
+                interviewbegintime, setInterviewBeginTime,
+                interviewendtime, setInterviewEndTime,
                 dateApplied, setDateApplied,
-                meetingLink, setMeetingLink,  // Fixed the name to match the interface
+                meetingLink, setMeetingLink,
                 interviewnotes, setInterviewNotes,
-                interviewernames, setInterviewerNames,  // Fixed the name to match the interface
-                interviewdate, setInterviewDate,  // Fixed the name to match the interface
+                interviewernames, setInterviewerNames,
+                interviewdate, setInterviewDate,
             }}
         >
             {children}
         </JobsContext.Provider>
+
 
     );
 };

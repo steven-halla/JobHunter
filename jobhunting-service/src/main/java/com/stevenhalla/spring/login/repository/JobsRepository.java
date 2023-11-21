@@ -10,9 +10,12 @@ import java.util.List;
 @Repository
 public interface JobsRepository extends JpaRepository<Jobs, Long> {
 
-    List<Jobs> findByUserId(Long userId);
+    // Method to find jobs by user ID considering jobsoftdelete
+    @Query("SELECT j FROM Jobs j WHERE j.user.id = :userId AND (j.jobsoftdelete IS NULL OR j.jobsoftdelete = false)")
+    List<Jobs> findActiveJobsByUserId(Long userId);
 
-    // Adjusted query to include jobs where jobsoftdelete is false or null
+    // Existing method to find all active jobs
     @Query("SELECT j FROM Jobs j WHERE j.jobsoftdelete IS NULL OR j.jobsoftdelete = false")
     List<Jobs> findAllActiveJobs();
 }
+

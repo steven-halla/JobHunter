@@ -120,6 +120,8 @@ export const InterviewSecured = () => {
 
 
 
+    // @ts-ignore
+    // @ts-ignore
     return (
         <InterviewSecuredWrapperDiv>
             <TitleDiv>

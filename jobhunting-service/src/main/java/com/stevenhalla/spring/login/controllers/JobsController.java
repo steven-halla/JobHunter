@@ -19,6 +19,11 @@ public class JobsController {
     @Autowired
     private UserRepository userRepository;
 
+    @GetMapping("/user/{userId}")
+    public List<Jobs> getJobsByUserId(@PathVariable Long userId) {
+        return jobsRepository.findActiveJobsByUserId(userId);
+    }
+
     @GetMapping
     public List<Jobs> getAllJobs() {
         // Replace findAll() with findAllActiveJobs()

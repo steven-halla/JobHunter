@@ -1,6 +1,7 @@
-import React, {FC, useState, ReactNode, useEffect} from 'react';
+import React, {FC, useState, ReactNode, useEffect, useContext} from 'react';
 import {Interview, Job} from "../models/Job";
 import axios from "axios";
+import {UserContext} from "./usercontext";
 
 interface JobsContextState {
     job?: Job;
@@ -39,11 +40,16 @@ export const JobsContext = React.createContext<JobsContextState>({} as JobsConte
 
 interface JobsContextProviderProps {
     children: ReactNode;
+    userid: string; // Add a prop for userid
 }
+
 
 const TWO_DAYS_MS = 48 * 60 * 60 * 1000;
 
 export const JobsContextProvider: FC<JobsContextProviderProps> = ({children}) => {
+
+    const userContext = useContext(UserContext); // Access the user context
+
     const [job, setJob] = useState<Job>();
     const [dateApplied, setDateApplied] = useState<Date | undefined>();
 
@@ -75,18 +81,23 @@ export const JobsContextProvider: FC<JobsContextProviderProps> = ({children}) =>
     useEffect(() => {
         const fetchJobs = async () => {
             try {
-                const response = await axios.get<Job[]>("http://localhost:8080/api/jobs");
+                // Use userContext.user?.id from UserContext
+                const response = await axios.get<Job[]>(`http://localhost:8080/api/jobs/user/${userContext.user?.id}`);
 
                 if (response.data) {
                     setJobs(response.data);
+                    console.log('Fetched jobs data:', response.data);
                 }
             } catch (error) {
-                console.error("Error fetching data: " , error);
+                console.error('Error fetching data: ', error);
             }
         };
 
         fetchJobs();
-    }, []);
+    }, [userContext.user?.id]); // Use userContext.user?.id as the dependency
+
+
+
 
     useEffect(() => {
         localStorage.setItem('jobs', JSON.stringify(jobs));

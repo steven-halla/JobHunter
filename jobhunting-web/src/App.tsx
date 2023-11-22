@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, useContext} from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
@@ -16,7 +16,7 @@ import BoardAdmin from "./components/BoardAdmin";
 import EventBus from "./common/EventBus";
 
 import {User} from "./models/User";
-import {UserContextProvider} from "./services/usercontext";
+import {UserContext, UserContextProvider} from "./services/usercontext";
 import {Home} from "./components/Home";
 import {JobViewAll} from "./components/JobViewAll";
 import {CompanyNoResponse} from "./components/CompanyNoResponse";
@@ -29,16 +29,25 @@ import {UpdateJob} from "./components/UpdateJob";
 import {AllInterviews} from "./components/AllInterviews";
 // import {WeedList} from "./components/WeedList";
 
+
 // NOTE WE ARE GOING TO BE CHANGING TO A CRAFT BEER MODEL FOR THE PUBLIC
 
 //scan QR code so people can easily put weed on app
 
 const App = () => {
+// Assuming userId is obtained from some source and could be a number or undefined
+
+    const userId: number | undefined = undefined;
+    const userIdString: string = (userId as number | undefined)?.toString() || '';
 
 
-  return (
+
+
+
+
+    return (
       <UserContextProvider>
-        <JobsContextProvider>
+          <JobsContextProvider userid={userIdString}>
             <Header/>
 
             <div>

@@ -34,11 +34,15 @@ export const InterviewSecured = () => {
         console.log(jobs)
     }, [jobs, jobId]);
 
-    function formatTimeForInput(date: Date): string {
-        if (!date || isNaN(date.getTime())) return '';
+
+    function formatTimeForInput(date: Date | null): string {
+        if (!date || !(date instanceof Date) || isNaN(date.getTime())) return '';
+
+
         const hours = String(date.getHours()).padStart(2, '0');
         const minutes = String(date.getMinutes()).padStart(2, '0');
         const seconds = String(date.getSeconds()).padStart(2, '0');
+
         return `${hours}:${minutes}:${seconds}`;
     }
 
@@ -52,10 +56,20 @@ export const InterviewSecured = () => {
         return `${yyyy}-${mm}-${dd}`;
     }
 
+
     const handleFormSubmit = async () => {
         if (!currentJob) return;
 
         console.log("Saving all interviews to the server:", interviews);
+
+        // Format interviewbegintime and interviewendtime to "HH:mm:ss" format
+        const formattedBeginTime = interviewbegintime
+            ? `${String(interviewbegintime.getHours()).padStart(2, '0')}:${String(interviewbegintime.getMinutes()).padStart(2, '0')}:${String(interviewbegintime.getSeconds()).padStart(2, '0')}`
+            : '';
+
+        const formattedEndTime = interviewendtime
+            ? `${String(interviewendtime.getHours()).padStart(2, '0')}:${String(interviewendtime.getMinutes()).padStart(2, '0')}:${String(interviewendtime.getSeconds()).padStart(2, '0')}`
+            : '';
 
         try {
             const response = await fetch(`http://localhost:8080/api/jobs/update/${currentJob.id}`, {
@@ -66,34 +80,18 @@ export const InterviewSecured = () => {
                     interviewnotes: interviewnotes,
                     interviewernames: interviewernames,
                     interviewdate: interviewdate,
-                    interviewendtime: interviewendtime,
-                    interviewbegintime: interviewbegintime,
-                    companyresponded: true, // Setting company responded to true
+                    interviewbegintime: formattedBeginTime, // Use formatted time
+                    interviewendtime: formattedEndTime,     // Use formatted time
+                    companyresponded: true,
                 }),
             });
 
-            if (response.ok) {
-                setJobs((prevJobs) =>
-                    prevJobs.map((j) =>
-                        j.id === currentJob.id ? { ...j, interviews, companyresponded: true } : j
-                    )
-                );
-                setCurrentJob((prev) =>
-                    prev ? { ...prev, interviews, companyresponded: true } : prev
-                );
-                setMeetingLink(meetingLink);
-                setInterviewNotes(interviewnotes);
-                setInterviewerNames(interviewernames);
-                setInterviewDate(interviewdate);
-                setInterviewBeginTime(interviewbegintime);
-                setInterviewEndTime(interviewendtime)
-            } else {
-                console.error('Failed to update job interview');
-            }
+            // Rest of your code...
         } catch (error) {
             console.error('Failed to update job interview:', error);
         }
     };
+
 
 
 
@@ -104,19 +102,22 @@ export const InterviewSecured = () => {
         return adjustedDate;
     }
 
+    function parseTimeStringToDate(timeString: string): Date {
+        const date = new Date();
+        let [hours, minutes, seconds] = timeString.split(':').map(Number);
 
-    function parseTimeStringToDate(timeString: string | undefined): Date {
-        if (typeof timeString !== 'string') {
-            // Handle the case where timeString is not a string
-            // For example, return the current date or a default date
-            return new Date();
+        // If seconds are not provided, default to 0
+        seconds = isNaN(seconds) ? 0 : seconds;
+
+        if (!isNaN(hours) && !isNaN(minutes)) {
+            date.setHours(hours, minutes, seconds, 0); // Set hours, minutes, and seconds
+            return date;
+        } else {
+            return new Date(); // Return current date or a default date if parsing fails
         }
-
-        const [hours, minutes, seconds] = timeString.split(':').map(Number);
-        const today = new Date();
-        today.setHours(hours, minutes, seconds);
-        return today;
     }
+
+
 
 
 
@@ -159,40 +160,34 @@ export const InterviewSecured = () => {
                             }}
                         />
                     </label>
-                    <label>
-
-                        From
-                        <input
-                            type="time"
-                            value={interviewbegintime ? formatTimeForInput(interviewbegintime) : ''}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                const timeValue = e.target.value;
-                                // Convert the input string to a Date object
-                                const parsedTime = parseTimeStringToDate(timeValue);
-                                setInterviewBeginTime(parsedTime); // Store as a Date object
-                            }}
-                        />
 
 
+                    <input
+                        type="time"
+                        value={formatTimeForInput(interviewbegintime)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                            console.log("Selected begin time (string):", e.target.value);
+                            const timeValue = parseTimeStringToDate(e.target.value);
+                            console.log("Parsed begin time (Date object):", timeValue);
+                            setInterviewBeginTime(timeValue);
+                        }}
+                    />
+
+                    <input
+                        type="time"
+                        value={formatTimeForInput(interviewendtime || new Date())}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                            console.log("Selected end time (string):", e.target.value);
+                            const timeValue = parseTimeStringToDate(e.target.value);
+                            console.log("Parsed end time (Date object):", timeValue);
+                            setInterviewEndTime(timeValue);
+                        }}
+                    />
 
 
 
 
 
-
-                        To
-                        <input
-                            type="time"
-                            value={interviewendtime ? formatTimeForInput(interviewendtime) : ''}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                const timeValue = e.target.value;
-                                // Convert the input string to a Date object
-                                const parsedTime = parseTimeStringToDate(timeValue);
-                                setInterviewEndTime(parsedTime); // Store as a Date object
-                            }}
-                        />
-
-                    </label>
                     <label>
                         Interview Notes
                         <StyledTextField

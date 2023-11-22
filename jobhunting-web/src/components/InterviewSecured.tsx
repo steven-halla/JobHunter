@@ -44,6 +44,7 @@ export const InterviewSecured = () => {
 
 
 
+
     function formatDateForInput(date: Date) {
         const yyyy = date.getFullYear();
         const mm = String(date.getMonth() + 1).padStart(2, '0');
@@ -163,21 +164,31 @@ export const InterviewSecured = () => {
                         From
                         <input
                             type="time"
-                            value={interviewbegintime ? formatTimeForInput(parseTimeStringToDate(interviewbegintime)) : ''}
+                            value={interviewbegintime ? formatTimeForInput(interviewbegintime) : ''}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                const timeValue = e.target.value + ":00"; // Assuming input gives "HH:mm"
-                                setInterviewBeginTime(timeValue); // Storing as a string in "HH:mm:ss" format
+                                const timeValue = e.target.value;
+                                // Convert the input string to a Date object
+                                const parsedTime = parseTimeStringToDate(timeValue);
+                                setInterviewBeginTime(parsedTime); // Store as a Date object
                             }}
                         />
+
+
+
+
+
+
 
 
                         To
                         <input
                             type="time"
-                            value={interviewendtime ? formatTimeForInput(parseTimeStringToDate(interviewendtime)) : ''}
+                            value={interviewendtime ? formatTimeForInput(interviewendtime) : ''}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                const timeValue = e.target.value + ":00"; // Assuming input gives "HH:mm"
-                                setInterviewEndTime(timeValue); // Storing as a string in "HH:mm:ss" format
+                                const timeValue = e.target.value;
+                                // Convert the input string to a Date object
+                                const parsedTime = parseTimeStringToDate(timeValue);
+                                setInterviewEndTime(parsedTime); // Store as a Date object
                             }}
                         />
 

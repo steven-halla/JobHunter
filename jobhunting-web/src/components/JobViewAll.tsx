@@ -3,7 +3,14 @@ import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRo
 import { JobsContext } from "../services/jobcontext";
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faCaretUp, faCaretDown, faTimes, faTimesCircle, faBan} from "@fortawesome/free-solid-svg-icons";
+import {
+    faCaretUp,
+    faCaretDown,
+    faTimes,
+    faTimesCircle,
+    faBan,
+    faSkullCrossbones
+} from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import {deviceJobViewAll, noResponseJobs} from "../common/ScreenSizes";
 import {nothingHere} from "../common/ScreenSizes";
@@ -192,15 +199,17 @@ export const JobViewAll = () => {
     const twentyOneDaysAgoMs = currentDateMs - TWENTY_ONE_DAYS; // 2. Calculate the timestamp 21 days before current date
 
     const filteredAndRespondedJobs = jobs
-        .filter(job => !job.companyrejected)
+        .filter(job => !job.companyrejected) // Keeps jobs not rejected by the company
         .filter(job =>
-            job.companyresponded || // If company responded, don't filter out
-            new Date(job.dateapplied).getTime() >= twentyOneDaysAgoMs // If company didn't respond, it should be less than or equal to 21 days old to be included
+            job.companyresponded || // Keeps jobs where the company has responded
+            new Date(job.dateapplied).getTime() >= twentyOneDaysAgoMs // Keeps jobs applied within the last 21 days
         )
         .filter(job =>
-            (onlyShowResponded ? job.companyresponded : true) &&
-            job.companyname.toLowerCase().includes(filter.toLowerCase())
-        );
+            (onlyShowResponded ? job.companyresponded : true) && // Conditionally filters based on company response
+            job.companyname.toLowerCase().includes(filter.toLowerCase()) // Keeps jobs that match the search filter
+        )
+        .filter(job => !job.jobsoftdelete); // Excludes jobs where softDelete is true
+
 
 
 
@@ -452,8 +461,21 @@ export const JobViewAll = () => {
 
                                 />
 
+                                <FontAwesomeIcon
+                                    icon={faSkullCrossbones}
+                                    className="custom-icon hidden-icons soft-delete-icon"
+                                    style={{ cursor: 'pointer', marginTop: '15px', marginLeft: '655' }}
+                                    onClick={() => updateJobSoftDelete(job.id, true)}
+                                />
+
+
+
+
+
 
                             </CardDiv>
+
+
                         ))}
                     </CardBoxDiv>
 
@@ -500,6 +522,21 @@ export const JobViewAll = () => {
         </>
     );
 };
+
+
+
+
+
+const IconsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  // Add margin or padding as needed to position the icons correctly
+`;
+
+
+
 
 const RedPillParentDiv = styled.div`
   display: flex;
@@ -588,12 +625,17 @@ const CardDiv = styled.div<CardProps>`
   .hidden-icons {
     display: none;
     position: absolute;
+
+    top: 50%; // Center vertically within the card
+    left: 0%; // Shift to the right by 30% of the CardDiv's width
+    transform: translateY(-50%); // Adjust vertically to center
     // ... other icon styles
   }
 
   &:hover {
     .hidden-icons {
       display: block;
+      
     }
     min-height: 70px;
   }
@@ -608,6 +650,11 @@ const CardDiv = styled.div<CardProps>`
 
   .custom-icon-sm {
     font-size: 16px;
+  }
+
+  .soft-delete-icon {
+    font-size: 16px;
+    margin-top: 50px;
   }
 
   @media ${noResponseJobs.mobile} {

@@ -150,7 +150,6 @@ const Profile = () => {
                 <Box
                     sx={{
                         display: 'flex',
-                        backgroundColor: 'purple',
                         height: '300px',
                         width: '55%',
                         marginTop: '5%',
@@ -281,7 +280,6 @@ const SubmitButton = styled(Button)`
 const IconFormDiv = styled.div`
 height: 100%;
   width: 100%;
-  background-color: grey;
   display: flex;
   
 `;
@@ -290,7 +288,6 @@ height: 100%;
 const IconDiv = styled.div`
 height: 100%;
   width: 20%;
-  background-color: chocolate;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -299,7 +296,7 @@ height: 100%;
 const StyledTextField = styled(TextField)`
   width: 100%; // Ensures it takes up the full width of its parent
   box-sizing: border-box; // This ensures padding and borders are included in the width
-
+background-color: white;
   // Add other styles as needed
 `;
 
@@ -319,7 +316,6 @@ const NameDiv = styled.div`
 const SubmitButtonDiv = styled.div`
   display: flex;
 
-  background-color: orangered;
   height: 10%;
   width: 30%;
   margin-top: 3%;
@@ -348,7 +344,6 @@ const ProfileWrapperDiv = styled.div`
   display: flex;
   justify-content: center; // Centers children horizontally
   align-items: center; // Optional, if you want to center vertically as well
-  background-color: red;
   height: 100%;
   width: 100vw;
 `;
@@ -410,12 +405,12 @@ const InfoContainerDiv = styled.div`
 //
 const StyledForm = styled.form`
   display: flex;
-  background-color: yellow;
   height: 100%;
   width: 80%;
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
+  margin-right: 16%;
   
 `;
 const InputWithIcon = styled.div`

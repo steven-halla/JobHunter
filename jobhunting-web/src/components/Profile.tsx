@@ -350,7 +350,7 @@ const ProfileWrapperDiv = styled.div`
 
 const InfoContainerDiv = styled.div`
   display: flex;
-  background-color: blue;
+  background-color: lightskyblue;
   height: 100%; // You might want to adjust this depending on your layout needs
   width: 80%; // Or any width you prefer
   // Add other properties as needed

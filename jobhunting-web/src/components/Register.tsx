@@ -70,17 +70,17 @@ const Register: React.FC = () => {
     //     }
     // };
 
-    const vpassword = (value: string): string | undefined => {
-        if (value.length < 6 || value.length > 40) {
-            return "The password must be between 6 and 40 characters.";
-        }
-    };
-
-    const vusername = (value: string): string | undefined => {
-        if (value.length < 3 || value.length > 20) {
-            return "The username must be between 3 and 20 characters.";
-        }
-    };
+    // const vpassword = (value: string): string | undefined => {
+    //     if (value.length < 6 || value.length > 40) {
+    //         return "The password must be between 6 and 40 characters.";
+    //     }
+    // };
+    //
+    // const vusername = (value: string): string | undefined => {
+    //     if (value.length < 3 || value.length > 20) {
+    //         return "The username must be between 3 and 20 characters.";
+    //     }
+    // };
 
 
     const required = (value: string): string | undefined => {
@@ -89,10 +89,31 @@ const Register: React.FC = () => {
         }
     };
 
-    const validEmail = (value: string): string | undefined => {
+    // const validEmail = (value: string): string | undefined => {
+    //     if (!isEmail(value)) {
+    //         return "This is not a valid email.";
+    //     }
+    // };
+
+    const vpassword = (value: string): string | null => {
+        if (value.length < 6 || value.length > 40) {
+            return "The password must be between 6 and 40 characters.";
+        }
+        return null;
+    };
+
+    const vusername = (value: string): string | null => {
+        if (value.length < 3 || value.length > 20) {
+            return "The username must be between 3 and 20 characters.";
+        }
+        return null;
+    };
+
+    const validEmail = (value: string): string | null => {
         if (!isEmail(value)) {
             return "This is not a valid email.";
         }
+        return null;
     };
 
 
@@ -120,7 +141,7 @@ const Register: React.FC = () => {
 
     const { username, email, password, successful, message } = state;
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>, validator: (value: string) => string | undefined) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>, validator: (value: string) => string | null) => {
         const { name, value } = e.target;
         setState(prevState => ({
             ...prevState,
@@ -147,51 +168,149 @@ const Register: React.FC = () => {
         setState((prevState) => ({ ...prevState, password }));
     };
 
+
     const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        // Check for validation errors
-        if (!state.validation.username && !state.validation.email && !state.validation.password) {
-            // Set the loading state or any other state needed before registration
-            setState(prevState => ({ ...prevState, successful: false, message: "" }));
+        const usernameError = vusername(state.username);
+        const emailError = validEmail(state.email);
+        const passwordError = vpassword(state.password);
 
-            // Call AuthService.register or your registration API
-            AuthService.register(state.username, state.email, state.password).then(
-                response => {
-                    // Handle successful registration
-                    // Update the state to reflect the successful registration
-                    setState(prevState => ({
-                        ...prevState,
-                        successful: true,
-                        message: response.data.message // Assuming the response has a message
-                    }));
+        setState(prevState => ({
+            ...prevState,
+            message: "",
+            successful: false,
+            validation: {
+                username: usernameError,
+                email: emailError,
+                password: passwordError
+            }
+        }));
 
-                    // Redirect the user or perform other actions post-registration
-                    // e.g., navigate to a different page or show a success message
-                },
-                error => {
-                    // Handle errors in registration
-                    const resMessage =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
-
-                    // Update the state to reflect the error
-                    setState(prevState => ({
-                        ...prevState,
-                        successful: false,
-                        message: resMessage
-                    }));
-                }
-            );
-        } else {
-            // In case of validation errors, you might want to update the state
-            // to reflect that the submission was unsuccessful
-            setState(prevState => ({ ...prevState, successful: false }));
+        if (usernameError || emailError || passwordError) {
+            return;
         }
+
+        AuthService.register(state.username, state.email, state.password).then(
+            response => {
+                setState(prevState => ({
+                    ...prevState,
+                    successful: true,
+                    message: response.data.message
+                }));
+            },
+            error => {
+                const resMessage = (error.response && error.response.data && error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+
+                setState(prevState => ({
+                    ...prevState,
+                    successful: false,
+                    message: resMessage
+                }));
+            }
+        );
     };
+
+    // const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
+    //     e.preventDefault();
+    //
+    //     // Clear previous messages and perform validations
+    //     const usernameError = vusername(state.username);
+    //     const emailError = validEmail(state.email);
+    //     const passwordError = vpassword(state.password);
+    //
+    //     setState(prevState => ({
+    //         ...prevState,
+    //         message: "",
+    //         successful: false,
+    //         validation: {
+    //             username: usernameError,
+    //             email: emailError,
+    //             password: passwordError
+    //         }
+    //     }));
+    //
+    //     // Check for validation errors
+    //     if (usernameError || emailError || passwordError) {
+    //         // If there are validation errors, stop here and don't submit the form
+    //         return;
+    //     }
+    //
+    //     // No validation errors, proceed with registration API call
+    //     AuthService.register(state.username, state.email, state.password).then(
+    //         response => {
+    //             // Handle successful registration
+    //             setState(prevState => ({
+    //                 ...prevState,
+    //                 successful: true,
+    //                 message: response.data.message // Assuming the response contains a message
+    //             }));
+    //             // Additional actions on successful registration (like redirecting)
+    //         },
+    //         error => {
+    //             // Handle errors from the API
+    //             const resMessage = (error.response && error.response.data && error.response.data.message) ||
+    //                 error.message ||
+    //                 error.toString();
+    //
+    //             // Update the state to reflect the error
+    //             setState(prevState => ({
+    //                 ...prevState,
+    //                 successful: false,
+    //                 message: resMessage
+    //             }));
+    //         }
+    //     );
+    // };
+
+
+    // const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
+    //     e.preventDefault();
+    //
+    //     // Check for validation errors
+    //     if (!state.validation.username && !state.validation.email && !state.validation.password) {
+    //         // Set the loading state or any other state needed before registration
+    //         setState(prevState => ({ ...prevState, successful: false, message: "" }));
+    //
+    //         // Call AuthService.register or your registration API
+    //         AuthService.register(state.username, state.email, state.password).then(
+    //             response => {
+    //                 // Handle successful registration
+    //                 // Update the state to reflect the successful registration
+    //                 setState(prevState => ({
+    //                     ...prevState,
+    //                     successful: true,
+    //                     message: response.data.message // Assuming the response has a message
+    //                 }));
+    //
+    //                 // Redirect the user or perform other actions post-registration
+    //                 // e.g., navigate to a different page or show a success message
+    //             },
+    //             error => {
+    //                 // Handle errors in registration
+    //                 const resMessage =
+    //                     (error.response &&
+    //                         error.response.data &&
+    //                         error.response.data.message) ||
+    //                     error.message ||
+    //                     error.toString();
+    //
+    //                 // Update the state to reflect the error
+    //                 setState(prevState => ({
+    //                     ...prevState,
+    //                     successful: false,
+    //                     message: resMessage
+    //                 }));
+    //             }
+    //         );
+    //     } else {
+    //         // In case of validation errors, you might want to update the state
+    //         // to reflect that the submission was unsuccessful
+    //         setState(prevState => ({ ...prevState, successful: false }));
+    //     }
+    // };
 
 
     // const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {

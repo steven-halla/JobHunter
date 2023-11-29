@@ -17,49 +17,83 @@ interface RegisterState {
     password: string;
     successful: boolean;
     message: string;
+    validation: {
+        username: string | null;
+        email: string | null;
+        password: string | null;
+    };
 }
 
-const required = (value: string) => {
-    if (!value) {
-        return (
-            <div className="invalid-feedback d-block">This field is required!</div>
-        );
-    }
-};
 
-const validEmail = (value: string) => {
-    if (!isEmail(value)) {
-        return (
-            <div className="invalid-feedback d-block">
-                This is not a valid email.
-            </div>
-        );
-    }
-};
 
-const vusername = (value: string) => {
-    if (value.length < 3 || value.length > 20) {
-        return (
-            <div className="invalid-feedback d-block">
-                The username must be between 3 and 20 characters.
-            </div>
-        );
-    }
-};
+// const required = (value: string) => {
+//     if (!value) {
+//         return (
+//             <div className="invalid-feedback d-block">This field is required!</div>
+//         );
+//     }
+// };
 
-const vpassword = (value: string) => {
-    if (value.length < 6 || value.length > 40) {
-        return (
-            <div className="invalid-feedback d-block">
-                The password must be between 6 and 40 characters.
-            </div>
-        );
-    }
-};
+// const validEmail = (value: string) => {
+//     if (!isEmail(value)) {
+//         return (
+//             <div className="invalid-feedback d-block">
+//                 This is not a valid email.
+//             </div>
+//         );
+//     }
+// };
+
+
+
+// const vpassword = (value: string) => {
+//     if (value.length < 6 || value.length > 40) {
+//         return (
+//             <div className="invalid-feedback d-block">
+//                 The password must be between 6 and 40 characters.
+//             </div>
+//         );
+//     }
+// };
 
 const Register: React.FC = () => {
     const form = useRef<CustomForm | null>(null);
     const checkBtn = useRef<CustomCheckButton | null>(null);
+
+    // const vusername = (value: string) => {
+    //     if (value.length < 3 || value.length > 20) {
+    //         return (
+    //             <div className="invalid-feedback d-block">
+    //                 The username must be between 3 and 20 characters.
+    //             </div>
+    //         );
+    //     }
+    // };
+
+    const vpassword = (value: string): string | undefined => {
+        if (value.length < 6 || value.length > 40) {
+            return "The password must be between 6 and 40 characters.";
+        }
+    };
+
+    const vusername = (value: string): string | undefined => {
+        if (value.length < 3 || value.length > 20) {
+            return "The username must be between 3 and 20 characters.";
+        }
+    };
+
+
+    const required = (value: string): string | undefined => {
+        if (!value) {
+            return "This field is required!";
+        }
+    };
+
+    const validEmail = (value: string): string | undefined => {
+        if (!isEmail(value)) {
+            return "This is not a valid email.";
+        }
+    };
 
 
     const [state, setState] = useState<RegisterState>({
@@ -68,9 +102,35 @@ const Register: React.FC = () => {
         password: "",
         successful: false,
         message: "",
+        validation: {
+            username: null,
+            email: null,
+            password: null
+        }
     });
 
+
+    // const [state, setState] = useState<RegisterState>({
+    //     username: "",
+    //     email: "",
+    //     password: "",
+    //     successful: false,
+    //     message: "",
+    // });
+
     const { username, email, password, successful, message } = state;
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>, validator: (value: string) => string | undefined) => {
+        const { name, value } = e.target;
+        setState(prevState => ({
+            ...prevState,
+            [name]: value,
+            validation: {
+                ...prevState.validation,
+                [name]: validator(value)
+            }
+        }));
+    };
 
     const onChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
         const username = e.target.value;
@@ -90,42 +150,91 @@ const Register: React.FC = () => {
     const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        setState((prevState) => ({
-            ...prevState,
-            message: "",
-            successful: false,
-        }));
+        // Check for validation errors
+        if (!state.validation.username && !state.validation.email && !state.validation.password) {
+            // Set the loading state or any other state needed before registration
+            setState(prevState => ({ ...prevState, successful: false, message: "" }));
 
-        if (form.current && checkBtn.current) {
-            form.current.validateAll();
+            // Call AuthService.register or your registration API
+            AuthService.register(state.username, state.email, state.password).then(
+                response => {
+                    // Handle successful registration
+                    // Update the state to reflect the successful registration
+                    setState(prevState => ({
+                        ...prevState,
+                        successful: true,
+                        message: response.data.message // Assuming the response has a message
+                    }));
 
-            if (checkBtn.current.context._errors.length === 0) {
-                AuthService.register(username, email, password).then(
-                    (response) => {
-                        setState((prevState) => ({
-                            ...prevState,
-                            message: response.data.message,
-                            successful: true,
-                        }));
-                    },
-                    (error) => {
-                        const resMessage =
-                            (error.response &&
-                                error.response.data &&
-                                error.response.data.message) ||
-                            error.message ||
-                            error.toString();
+                    // Redirect the user or perform other actions post-registration
+                    // e.g., navigate to a different page or show a success message
+                },
+                error => {
+                    // Handle errors in registration
+                    const resMessage =
+                        (error.response &&
+                            error.response.data &&
+                            error.response.data.message) ||
+                        error.message ||
+                        error.toString();
 
-                        setState((prevState) => ({
-                            ...prevState,
-                            message: resMessage,
-                            successful: false,
-                        }));
-                    }
-                );
-            }
+                    // Update the state to reflect the error
+                    setState(prevState => ({
+                        ...prevState,
+                        successful: false,
+                        message: resMessage
+                    }));
+                }
+            );
+        } else {
+            // In case of validation errors, you might want to update the state
+            // to reflect that the submission was unsuccessful
+            setState(prevState => ({ ...prevState, successful: false }));
         }
     };
+
+
+    // const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
+    //     e.preventDefault();
+    //
+    //
+    //
+    //     setState((prevState) => ({
+    //         ...prevState,
+    //         message: "",
+    //         successful: false,
+    //     }));
+    //
+    //     if (form.current && checkBtn.current) {
+    //         form.current.validateAll();
+    //
+    //         if (checkBtn.current.context._errors.length === 0) {
+    //             AuthService.register(username, email, password).then(
+    //                 (response) => {
+    //                     setState((prevState) => ({
+    //                         ...prevState,
+    //                         message: response.data.message,
+    //                         successful: true,
+    //                     }));
+    //                 },
+    //                 (error) => {
+    //                     const resMessage =
+    //                         (error.response &&
+    //                             error.response.data &&
+    //                             error.response.data.message) ||
+    //                         error.message ||
+    //                         error.toString();
+    //
+    //                     setState((prevState) => ({
+    //                         ...prevState,
+    //                         message: resMessage,
+    //                         successful: false,
+    //                     }));
+    //                 }
+    //             );
+    //         }
+    //     }
+    // };
 
     return (
         <RegisterWrapperDiv >
@@ -140,10 +249,13 @@ const Register: React.FC = () => {
                                     name="username"
                                     label="Username"
                                     variant="outlined"
-                                    value={username}
-                                    onChange={onChangeUsername}
+                                    value={state.username}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e, vusername)}
                                     fullWidth
                                 />
+
+                                {state.validation.username && <div className="invalid-feedback d-block">{state.validation.username}</div>}
+
                             </div>
                             <div className="form-group">
                                 <TextField
@@ -152,10 +264,12 @@ const Register: React.FC = () => {
                                     name="email"
                                     label="Email"
                                     variant="outlined"
-                                    value={email}
-                                    onChange={onChangeEmail}
+                                    value={state.email}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e, validEmail)}
                                     fullWidth
                                 />
+                                {state.validation.email && <div className="invalid-feedback d-block">{state.validation.email}</div>}
+
                             </div>
                             <div className="form-group">
                                 <TextField
@@ -165,9 +279,11 @@ const Register: React.FC = () => {
                                     label="Password"
                                     variant="outlined"
                                     value={password}
-                                    onChange={onChangePassword}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e, vpassword)}
                                     fullWidth
                                 />
+                                {state.validation.password && <div className="invalid-feedback d-block">{state.validation.password}</div>}
+
                             </div>
 
                             <div className="form-group">

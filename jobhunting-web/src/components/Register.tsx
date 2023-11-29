@@ -302,24 +302,24 @@ const Register: React.FC = () => {
                 <Form onSubmit={handleRegister} ref={form}>
                     {!successful && (
                         <div>
-                            <div className="form-group">
-                                <TextField
-                                    type="text"
-                                    className="form-control"
-                                    name="username"
-                                    label="Username"
-                                    variant="outlined"
-                                    value={state.username}
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
-                                    onBlur={(e: React.FocusEvent<HTMLInputElement>) => handleBlur(e, vusername)}
-                                    fullWidth
-                                />
-                                {state.touched.username && state.validation.username && (
-                                    <div className="invalid-feedback d-block">{state.validation.username}</div>
-                                )}
+                                <div className="form-group">
+                                    <TextField
+                                        type="text"
+                                        className="form-control"
+                                        name="username"
+                                        label="Username"
+                                        variant="outlined"
+                                        value={state.username}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
+                                        onBlur={(e: React.FocusEvent<HTMLInputElement>) => handleBlur(e, vusername)}
+                                        fullWidth
+                                    />
+                                    {state.touched.username && state.validation.username && (
+                                        <div className="invalid-feedback d-block">{state.validation.username}</div>
+                                    )}
 
                             </div>
-                            <div className="form-group">
+
                                 <div className="form-group">
                                     <TextField
                                         type="text"
@@ -335,11 +335,9 @@ const Register: React.FC = () => {
                                     {state.touched.email && state.validation.email && (
                                         <div className="invalid-feedback d-block">{state.validation.email}</div>
                                     )}
-                                </div>
 
                             </div>
                             <div className="form-group">
-                                <div className="form-group">
                                     <TextField
                                         type="password"
                                         className="form-control"
@@ -354,7 +352,6 @@ const Register: React.FC = () => {
                                     {state.touched.password && state.validation.password && (
                                         <div className="invalid-feedback d-block">{state.validation.password}</div>
                                     )}
-                                </div>
 
                             </div>
 

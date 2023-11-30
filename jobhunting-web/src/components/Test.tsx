@@ -1,625 +1,461 @@
-import React, {useContext, useEffect, useState} from "react";
-import {JobsContext} from "../services/jobcontext";
-import styled from 'styled-components';
-import {device, deviceCompanyNoResponse, deviceHome, noResponseJobs} from "../common/ScreenSizes";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCaretDown, faCaretUp, faGlasses} from "@fortawesome/free-solid-svg-icons";
-import { useSortAndSelect } from './useSortAndSelect'; // Make sure to import from the correct path
-import { SelectValue } from './useSortAndSelect';
-import {DateMutation} from "../common/DateMutation";
-import {useTheme} from "@mui/material"; // Replace with the actual path
+import React, { useState, useRef } from "react";
+import Form from "react-validation/build/form";
+import Input from "react-validation/build/input";
 
-// shrink down vertically,
-//more shade on south partk of box
-//add more space between cards, look at linkedin toom there should be space from all sides
+import CheckButton from "react-validation/build/button";
+import isEmail from "validator/lib/isEmail";
+import {CustomCheckButton, CustomForm} from "../models/LoginHelper";
 
-export const Test = () => {
-    const { jobs, updateJobResponded, updateJobRejected, dateApplied } = useContext(JobsContext);
-    const [searchTerm, setSearchTerm] = useState('');
-    // const [sortingCriteria, setSortingCriteria] = useState('date-asc'); // default sorting criteria
-    const [sortingCriteria, setSortingCriteria] = useState("");
+import TextField from '@mui/material/TextField';
 
-    const [isMobile, setIsMobile] = useState(window.matchMedia(deviceCompanyNoResponse.mobile).matches);
-    const [isLaptop, setIsLaptop] = useState(window.matchMedia(deviceCompanyNoResponse.laptop).matches);
-    const [dateSortDirection, setDateSortDirection] = useState('dsc');
-    const [contactSortDirection, setContactSortDirection] = useState('dsc'); // New state for contact sorting
-    const [companySortDirection, setCompanySortDirection] = useState('dsc'); // New state for company sorting
-    const [rejectedSortStatus, setRejectedSortStatus] = useState('no'); // New state for rejected sorting
+import AuthService from "../services/auth.service";
+import styled from "styled-components";
+import {deviceRegister} from "../common/ScreenSizes";
 
-    // const {
-    //     sortOrder,
-    //     setSortOrder, // Ensure you have this in your destructured object
-    //     selectValue,
-    //     handleDateSortAsc,
-    //     handleDateSortDesc,
-    //     handleContactNameSortAsc,
-    //     handleContactNameSortDesc,
-    //     handleCompanyNameSortAsc,
-    //     handleCompanyNameSortDesc,
-    //     handleSelectChange,
-    // } = useSortAndSelect();
-
-
-
-    // Toggle functions updated to reset other sort states
-    const toggleDateSortDirection = () => {
-        setDateSortDirection(dateSortDirection === 'asc' ? 'dsc' : 'asc');
-        setSortingCriteria(dateSortDirection === 'asc' ? 'date-desc' : 'date-asc');
-        // Reset other sort buttons to their original state
-        setContactSortDirection('dsc');
-        setCompanySortDirection('dsc');
-        setRejectedSortStatus('yes');
+interface RegisterState {
+    username: string;
+    email: string;
+    password: string;
+    successful: boolean;
+    message: string;
+    validation: {
+        username: string | null;
+        email: string | null;
+        password: string | null;
     };
-
-    const toggleContactSortDirection = () => {
-        setContactSortDirection(contactSortDirection === 'asc' ? 'dsc' : 'asc');
-        setSortingCriteria(contactSortDirection === 'asc' ? 'contact-z-a' : 'contact-a-z');
-        // Reset other sort buttons to their original state
-        setDateSortDirection('dsc');
-        setCompanySortDirection('dsc');
-        setRejectedSortStatus('yes');
+    touched: {
+        username: boolean;
+        email: boolean;
+        password: boolean;
     };
-
-    const toggleCompanySortDirection = () => {
-        setCompanySortDirection(companySortDirection === 'asc' ? 'dsc' : 'asc');
-        setSortingCriteria(companySortDirection === 'asc' ? 'company-z-a' : 'company-a-z');
-        // Reset other sort buttons to their original state
-        setDateSortDirection('dsc');
-        setContactSortDirection('dsc');
-        setRejectedSortStatus('yes');
-    };
-
-    const toggleRejectedSortStatus = () => {
-        setRejectedSortStatus(rejectedSortStatus === 'no' ? 'yes' : 'no');
-        setSortingCriteria(rejectedSortStatus === 'no' ? 'rejected-yes' : 'rejected-no');
-        // Reset other sort buttons to their original state
-        setDateSortDirection('dsc');
-        setContactSortDirection('dsc');
-        setCompanySortDirection('dsc');
-    };
-
-    const handleSortingChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
-        setSortingCriteria(e.target.value);
-    };
-
-
-    useEffect(() => {
-        console.log("orky boys here to party" + jobs[0]?.dateapplied, typeof jobs[0]?.dateapplied);
-    }, [jobs]);
+}
 
 
 
+// const required = (value: string) => {
+//     if (!value) {
+//         return (
+//             <div className="invalid-feedback d-block">This field is required!</div>
+//         );
+//     }
+// };
+
+// const validEmail = (value: string) => {
+//     if (!isEmail(value)) {
+//         return (
+//             <div className="invalid-feedback d-block">
+//                 This is not a valid email.
+//             </div>
+//         );
+//     }
+// };
 
 
-    //this is for filter
-    const sortedAndRespondedJobs = jobs
-        .filter(job =>
-            !job.companyresponded &&
-            (searchTerm.length < 3 || job.companyname.toLowerCase().includes(searchTerm.toLowerCase().trim()) || job.primarycontact.toLowerCase().includes(searchTerm.toLowerCase().trim()))
-        )
-        .sort((a, b) => {
-            switch (sortingCriteria) {
-                case 'company-a-z':
-                    return a.companyname.toLowerCase().localeCompare(b.companyname.toLowerCase());
-                case 'company-z-a':
-                    return b.companyname.toLowerCase().localeCompare(a.companyname.toLowerCase());
-                case 'contact-a-z':
-                    return a.primarycontact.toLowerCase().localeCompare(b.primarycontact.toLowerCase());
-                case 'contact-z-a':
-                    return b.primarycontact.toLowerCase().localeCompare(a.primarycontact.toLowerCase());
-                case 'date-asc':
-                    return new Date(a.dateapplied).getTime() - new Date(b.dateapplied).getTime();
-                case 'date-desc':
-                    return new Date(b.dateapplied).getTime() - new Date(a.dateapplied).getTime();
-                case 'rejected-yes':
-                    return (b.companyrejected ? 1 : 0) - (a.companyrejected ? 1 : 0);
-                case 'rejected-no':
-                    return (a.companyrejected ? 1 : 0) - (b.companyrejected ? 1 : 0);
-                default:
-                    return 0;
-            }
-        });
 
-    // const handleRejectedSortYes = () => {
-    //     setSortOrder('rejected-yes');
+// const vpassword = (value: string) => {
+//     if (value.length < 6 || value.length > 40) {
+//         return (
+//             <div className="invalid-feedback d-block">
+//                 The password must be between 6 and 40 characters.
+//             </div>
+//         );
+//     }
+// };
+
+export const Test: React.FC = () => {
+    const form = useRef<CustomForm | null>(null);
+    const checkBtn = useRef<CustomCheckButton | null>(null);
+
+    // const vusername = (value: string) => {
+    //     if (value.length < 3 || value.length > 20) {
+    //         return (
+    //             <div className="invalid-feedback d-block">
+    //                 The username must be between 3 and 20 characters.
+    //             </div>
+    //         );
+    //     }
+    // };
+
+    // const vpassword = (value: string): string | undefined => {
+    //     if (value.length < 6 || value.length > 40) {
+    //         return "The password must be between 6 and 40 characters.";
+    //     }
     // };
     //
-    // const handleRejectedSortNo = () => {
-    //     setSortOrder('rejected-no');
+    // const vusername = (value: string): string | undefined => {
+    //     if (value.length < 3 || value.length > 20) {
+    //         return "The username must be between 3 and 20 characters.";
+    //     }
     // };
 
-    const handleCheckboxChange = (jobId: number, checked: boolean) => {
-        if (checked) {
-            const isConfirmed = window.confirm("Confirm company responded?");
-            if (isConfirmed) {
-                updateJobResponded(jobId, true);
-            }
-        } else {
-            updateJobResponded(jobId, false);
+
+    const required = (value: string): string | undefined => {
+        if (!value) {
+            return "This field is required!";
         }
     };
 
-    const handleRejectionChange = (jobId: number, checked: boolean) => {
-        if (checked) {
-            const isConfirmed = window.confirm("Confirm company rejected?");
-            if (isConfirmed) {
-                updateJobRejected(jobId, true);
-            }
-        } else {
-            updateJobRejected(jobId, false);
+    // const validEmail = (value: string): string | undefined => {
+    //     if (!isEmail(value)) {
+    //         return "This is not a valid email.";
+    //     }
+    // };
+
+    const vpassword = (value: string): string | null => {
+        if (value.length < 6 || value.length > 40) {
+            return "The password must be between 6 and 40 characters.";
         }
+        return null;
+    };
+
+    const vusername = (value: string): string | null => {
+        if (value.length < 3 || value.length > 20) {
+            return "The username must be between 3 and 20 characters.";
+        }
+        return null;
+    };
+
+    const validEmail = (value: string): string | null => {
+        if (!isEmail(value)) {
+            return "This is not a valid email.";
+        }
+        return null;
     };
 
 
-    useEffect(() => {
-        const checkScreenSize = () => {
-            setIsMobile(window.matchMedia(deviceCompanyNoResponse.mobile).matches);
-            setIsLaptop(window.matchMedia(deviceCompanyNoResponse.laptop).matches);
+    const [state, setState] = useState<RegisterState>({
+        username: "",
+        email: "",
+        password: "",
+        successful: false,
+        message: "",
+        validation: {
+            username: null,
+            email: null,
+            password: null
+        },
+        touched: {
+            username: false,
+            email: false,
+            password: false
+        }
+    });
+
+
+
+
+    // const [state, setState] = useState<RegisterState>({
+    //     username: "",
+    //     email: "",
+    //     password: "",
+    //     successful: false,
+    //     message: "",
+    // });
+
+    const { username, email, password, successful, message } = state;
+
+    // const handleChange = (e: React.ChangeEvent<HTMLInputElement>, validator: (value: string) => string | null) => {
+    //     const { name, value } = e.target;
+    //     setState(prevState => ({
+    //         ...prevState,
+    //         [name]: value,
+    //         validation: {
+    //             ...prevState.validation,
+    //             [name]: validator(value)
+    //         }
+    //     }));
+    // };
+    // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const { name, value } = e.target;
+    //     setState(prevState => ({
+    //         ...prevState,
+    //         [name]: value
+    //     }));
+    // };
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        let validationError: string | null = null;
+
+        // Define a type guard to ensure the key is a valid key of the touched object
+        const isTouchedKey = (key: any): key is keyof typeof state.touched => {
+            return key in state.touched;
         };
 
-        checkScreenSize();
-        window.addEventListener('resize', checkScreenSize);
+        if (isTouchedKey(name) && state.touched[name]) {
+            // Determine which validator to use based on the field name
+            switch (name) {
+                case 'username':
+                    validationError = vusername(value);
+                    break;
+                case 'email':
+                    validationError = validEmail(value);
+                    break;
+                case 'password':
+                    validationError = vpassword(value);
+                    break;
+                default:
+                    break;
+            }
+        }
 
-        return () => {
-            window.removeEventListener('resize', checkScreenSize);
-        };
-    }, []);
+        setState(prevState => ({
+            ...prevState,
+            [name]: value,
+            validation: {
+                ...prevState.validation,
+                [name]: validationError
+            }
+        }));
+    };
 
-    const theme = useTheme();
 
 
-    const handleDateAscSort = () => {
-        setSortingCriteria('date-asc');
-        // The sortedAndRespondedJobs will automatically recalculate and sort jobs by date in ascending order
+    const handleBlur = (e: React.FocusEvent<HTMLInputElement>, validator: (value: string) => string | null) => {
+        const { name, value } = e.target;
+        setState(prevState => ({
+            ...prevState,
+            touched: {
+                ...prevState.touched,
+                [name]: true
+            },
+            validation: {
+                ...prevState.validation,
+                [name]: validator(value)
+            }
+        }));
+    };
+
+
+
+    const onChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const username = e.target.value;
+        setState((prevState) => ({ ...prevState, username }));
+    };
+
+    const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const email = e.target.value;
+        setState((prevState) => ({ ...prevState, email }));
+    };
+
+    const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const password = e.target.value;
+        setState((prevState) => ({ ...prevState, password }));
+    };
+
+    const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        // Perform validation checks
+        const usernameError = vusername(state.username);
+        const emailError = validEmail(state.email);
+        const passwordError = vpassword(state.password);
+
+        // Update state with validation results and mark all fields as touched
+        setState(prevState => ({
+            ...prevState,
+            touched: {
+                username: true,
+                email: true,
+                password: true
+            },
+            validation: {
+                username: usernameError,
+                email: emailError,
+                password: passwordError
+            },
+            message: "",
+            successful: false
+        }));
+
+        // If there are any validation errors, stop the function here
+        if (usernameError || emailError || passwordError) {
+            return;
+        }
+
+        // If validations pass, proceed with the registration API call
+        AuthService.register(state.username, state.email, state.password).then(
+            response => {
+                // Handle successful registration
+                setState(prevState => ({
+                    ...prevState,
+                    successful: true,
+                    message: response.data.message // Handle response message accordingly
+                }));
+                // Additional actions upon successful registration can be added here
+            },
+            error => {
+                // Handle API errors
+                const resMessage = (error.response && error.response.data && error.response.data.message) ||
+                    error.message || error.toString();
+                setState(prevState => ({
+                    ...prevState,
+                    successful: false,
+                    message: resMessage
+                }));
+            }
+        );
     };
 
 
     return (
-        <CompanyNoResponseDiv>
-
-            <StickySearchDiv>
-                <SearchBar
-                    type="text"
-                    placeholder="Search"
-                    value={searchTerm}
-                    onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setSearchTerm(e.target.value)}
-                />
-                <RedPillParentDiv>
-                    <RedPillContainer>
-                        <button onClick={toggleDateSortDirection} style={{ all: 'unset' }}>
-                            {dateSortDirection === 'asc' ? 'Date Asc' : 'Date Desc'}
-                            <FontAwesomeIcon icon={dateSortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
-                        </button>
-                    </RedPillContainer>
-
-                    <RedPillContainer onClick={toggleContactSortDirection}>
-                        {contactSortDirection === 'asc' ? 'Contact Asc' : 'Contact Desc'}
-                        <FontAwesomeIcon icon={contactSortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
-                    </RedPillContainer>
+        <RegisterWrapperDiv >
+            <LeftBox>
 
 
-                    <RedPillContainer onClick={toggleCompanySortDirection}>
-                        {companySortDirection === 'asc' ? 'Company Asc' : 'Company Desc'}
-                        <FontAwesomeIcon icon={companySortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
-                    </RedPillContainer>
+            </LeftBox>
 
-
-
-                    <RedPillContainer onClick={toggleRejectedSortStatus}>
-                        {rejectedSortStatus === 'no' ? 'Rejected No' : 'Rejected Yes'}
-                        <FontAwesomeIcon icon={rejectedSortStatus === 'no' ? faCaretDown : faCaretUp} size="lg" />
-                    </RedPillContainer>
-                </RedPillParentDiv>
-
-
-
-                <SelectDiv>
-                    <SimpleSelect value={sortingCriteria} onChange={handleSortingChange}>
-                        <option value="">Default Filter</option> {/* Default option */}
-
-                        <option value="date-asc">Date Ascending</option>
-                        <option value="date-desc">Date Descending</option>
-                        <option value="company-a-z">Company A-Z</option>
-                        <option value="company-z-a">Company Z-A</option>
-                        <option value="contact-a-z">Contact A-Z</option>
-                        <option value="contact-z-a">Contact Z-A</option>
-                        <option value="rejected-yes">Rejected Yes</option>
-                        <option value="rejected-no">Rejected No</option>
-                        {/* other options */}
-                    </SimpleSelect>
-
-
-                </SelectDiv>
-
-            </StickySearchDiv>
-
-
-
-
-
-
-
-
-            {sortedAndRespondedJobs.map((job) => (
-                <CardDiv key={job.id}>
-                    <BusinessCardDiv>
-                        <DateDiv>
-                            {DateMutation(typeof job.dateapplied === 'string' ? job.dateapplied : job.dateapplied.toISOString())}
-
-                        </DateDiv>
-                        <NameDiv>
-                            <HDiv>
-                                <h2>
-                                   {job.companyname}
-                                </h2>
-                                <div className="hide">{job.companyname}</div>
-                            </HDiv>
+            <RightBox>
+                <div className="card card-container col-md-12 " style={{ minWidth: '200px' }}>
+                    <Form onSubmit={handleRegister} ref={form}>
+                        {!successful && (
                             <div>
-                                <a href={job.joblink} target="_blank" rel="noreferrer">
-                                    <FontAwesomeIcon icon={faGlasses} />
-                                </a>
+                                <div className="form-group">
+                                    <TextField
+                                        type="text"
+                                        className="form-control"
+                                        name="username"
+                                        label="Username"
+                                        variant="outlined"
+                                        value={state.username}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
+                                        onBlur={(e: React.FocusEvent<HTMLInputElement>) => handleBlur(e, vusername)}
+                                        fullWidth
+                                    />
+                                    {state.touched.username && state.validation.username && (
+                                        <MessageDiv className="invalid-feedback d-block">{state.validation.username}</MessageDiv>
+                                    )}
+
+
+                                </div>
+
+                                <div className="form-group">
+                                    <TextField
+
+                                        type="text"
+                                        className="form-control"
+                                        name="email"
+                                        label="Email"
+                                        variant="outlined"
+                                        value={state.email}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
+                                        onBlur={(e: React.FocusEvent<HTMLInputElement>) => handleBlur(e, validEmail)}
+                                        fullWidth
+                                    />
+                                    {state.touched.email && state.validation.email && (
+                                        <div className="invalid-feedback d-block">{state.validation.email}</div>
+                                    )}
+
+                                </div>
+                                <div className="form-group">
+                                    <TextField
+                                        type="password"
+                                        className="form-control"
+                                        name="password"
+                                        label="Password"
+                                        variant="outlined"
+                                        value={state.password}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
+                                        onBlur={(e: React.FocusEvent<HTMLInputElement>) => handleBlur(e, vpassword)}
+                                        fullWidth
+                                    />
+                                    {state.touched.password && state.validation.password && (
+                                        <div className="invalid-feedback d-block">{state.validation.password}</div>
+                                    )}
+
+                                </div>
+
+                                <div className="form-group">
+                                    <button className="btn btn-primary btn-block">Sign Up</button>
+                                </div>
                             </div>
-                        </NameDiv>
+                        )}
 
+                        {message && (
+                            <div className="form-group">
+                                <div
+                                    className={`alert ${
+                                        successful ? "alert-success" : "alert-danger"
+                                    }`}
+                                    role="alert"
+                                >
+                                    {message}
+                                </div>
+                            </div>
+                        )}
+                        <CheckButton style={{ display: "none" }} ref={checkBtn} />
+                    </Form>
+                </div>
+            </RightBox>
 
-                        <ContactContainerDiv>
-                            <ContactNameDiv>
-                                <DataItemDiv>{job.primarycontact}</DataItemDiv>
-
-                            </ContactNameDiv>
-                            <CheckBoxDiv>
-                                <DataItemDiv>
-                                    respond?
-                                    <CheckBoxInput
-                                        type="checkbox"
-                                        checked={job.companyresponded}
-                                        onChange={(event: { target: { checked: boolean; }; }) => handleCheckboxChange(job.id, event.target.checked)}
-                                    />
-                                </DataItemDiv>
-
-                                <DataItemDiv>
-                                    rejected?
-                                    <CheckBoxInput
-                                        type="checkbox"
-                                        checked={job.companyrejected}
-                                        onChange={(event: { target: { checked: boolean; }; }) => handleRejectionChange(job.id, event.target.checked)}
-
-                                    />
-                                </DataItemDiv>
-
-                            </CheckBoxDiv>
-
-                        </ContactContainerDiv>
-
-
-                    </BusinessCardDiv>
-
-
-
-
-                </CardDiv>
-            ))}
-
-
-        </CompanyNoResponseDiv>
-
+        </RegisterWrapperDiv>
     );
 };
 
-const CheckBoxDiv = styled.div`
-  height: 50%;
-  width: 100%;
-  padding: 10px;
-  display: flex;
-  align-items: center; /* Vertically center the content */
+const GreenBox = styled.div`
+  width: 33%;
+  height: 100%;
+  background-color: green;
+  position: absolute; // Set position to absolute
+  left: 50%; // Position halfway across the screen
+  transform: translateX(-50%); // Shift back by half its own width
+`;
 
-  /* Direct child divs (assuming these are the containers for each checkbox) */
-  > div {
-    flex: 1; /* This makes each child div take equal space */
-    display: flex;
-    justify-content: center; /* Center the content of each child div */
-  }
+const LeftBox = styled.div`
+  width: 70%;
+  height: 100%;
+  background-color: #ef46d9;
 
-  /* First child div (for the first checkbox) */
-  > div:first-child {
-    justify-content: flex-start; /* Aligns content to the left */
-  }
-
-  /* Last child div (for the second checkbox) */
-  > div:last-child {
-    justify-content: flex-end; /* Aligns content to the right */
+  @media ${deviceRegister.mobile} {
+    width: 50%; // Width is 50% on mobile devices
   }
 `;
 
 
-const ContactNameDiv = styled.div`
-height: 50%;
-  width: 100%;
-justify-content: center;
-  align-items: center;
-
-`;
-
-const ContactContainerDiv = styled.div`
+const RightBox = styled.div`
+  width: 30%;
+  height: 60%;
+  background-color: red;
   position: absolute;
-  bottom: 0;
-  height: 40%;
-  width: 100%;
-  /* Ensure it's horizontally centered */
   left: 50%;
   transform: translateX(-50%);
-`;
-
-const HDiv = styled.div`
-  
-  max-width: 80%;
-  overflow: hidden;
-  margin-right: 3%;
-  margin-left: 7%;
-`;
-
-const NameDiv = styled.div`
   display: flex;
-  align-items: center;
-  height: 30%;
-  margin: 0 auto;
-  justify-content: center;
-  overflow: visible; /* Allow content to overflow */
-  text-overflow: ellipsis;
-  position: relative; /* Needed for absolute positioning of pseudo-element */
-
-  h2 {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start; /* Display text from left to right */
-    content: attr(data-content); /* Display the content of the data-content attribute */
-    overflow: hidden; /* Hide any overflowing content */
-    box-sizing: content-box; /* Ensure padding doesn't affect the width */
-    position: relative; /* Needed for z-index */
-    white-space: nowrap; /* Prevent text from wrapping */
-    max-width: 20ch; /* Set the maximum width to 20 characters (adjust as needed) */
-    
-
-    &:hover ~ .hide {
-      display: block; /* Show the .hide div when h2 is hovered */
-      z-index: 10;
-    }
-  }
-
-  svg:not(:root).svg-inline--fa,
-  svg:not(:host).svg-inline--fa {
-    color: white;
-    font-size: 24px;
-  }
-
-  .hide {
-    display: none; /* Initially hidden */
-    position: absolute;
-    top: -20px; /* Position 20 pixels above the company name */
-    left: 0; /* Align with the left edge of the h2 */
-    z-index: 10; /* Increase the z-index value to ensure it appears above other content */
-    background-color: grey;
-    margin-bottom: 20px; /* Add some margin to separate from h2 */
-    padding: 10px; /* Add padding for the character limit indicator */
-    pointer-events: none; /* Ignore pointer events on the .hide element */
-  }
-
-  .hide::before {
-    content: attr(data-text); /* Use the data-text attribute for the content */
-    display: block;
-    white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-`;
-
-
-
-
-
-
-
-
-export const DateDiv = styled.div`
-    height: 20%;
-  width: 30%;
-`;
-export const BusinessCardDiv = styled.div`
-    background-color: chartreuse;
-  position: relative;
-    height: 25vh;
-  width: 50vw;
-  @media ${noResponseJobs.mobile} {
-    width: 80%; /* Adjust width to 80% on mobile devices */
-  }
-`;
-const RedPillParentDiv = styled.div`
-  display: flex;
-  margin-left: 150px;
-  
-
-  @media ${noResponseJobs.mobile} {
-    display: none; // Hide on larger screens
-
-    @media (max-width: 1150px) {
-    }
-  }
-`;
-
-
-const SearchBar = styled.input`
-  width: 30%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: white; /* Set the background color of SearchBar */
-  position: sticky; /* Make it sticky */
-  top: 0; /* Stick it to the top */
-  z-index: 1; /* Ensure it's above other elements */
-  overflow: hidden; /* Hide any overflow */
-
-  @media ${noResponseJobs.mobile} {
-   display: flex;
-    align-items: flex-start;
-    margin-left: 12%;
-    width: 150px; /* Adjust width to 80% on mobile devices */
-    margin-top: 10px;
-  }
-
-  @media ${noResponseJobs.laptop} {
-   min-width: 200px; /* Adjust width to 80% on mobile devices */
-    left: 5%;
-    transform: translateX(-10%); // Adjust to move the element back by 10% of its own width
-
-  }
-`;
-
-
-
-const CheckBoxInput = styled.input`
-margin-left: 11%;
-`;
-
-
-
-
-
-
-
-
-
-const SimpleSelect = styled.select`
-    padding: 5px 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    appearance: none;
-    outline: none;
-  width: 25vw;
-   margin-right: -4px;
-   
-`;
-
-
-
-const CompanyNoResponseDiv = styled.div`
-  display: flex;
-  //height: 100vh;
-  width: 100vw;
-  height: 100%;
-  
-  flex-direction: column;
-  //background-color: rgba(138,169,142,0.86); /* Sets background color to red */
-  background-color: rgba(138,169,142,0.86); /* Sets background color to red */
-
-
-`;
-
-
-
-
-export const CardDiv = styled.div`
-  display: flex;
-  justify-content: center; /* Centers ColumnDiv horizontally */
-  align-items: center; /* Centers ColumnDiv vertically */
-  height: 50%; /* Sets the height of the card to 50% of its container */
-  width: 100%; /* Full width */
-  margin: 0 auto; /* Centers the card itself horizontally if its container is wider */
-  //background-color: rgba(138,169,142,0.86); /* Sets background color to red */
-  padding: 10px; /* Adds some spacing inside the card */
-  box-sizing: border-box; /* Ensures padding is included in width/height calculations */
-`;
-
-
-
-
-
-
- const DataItemDiv = styled.div`
-    /* You can add specific styles for data items here */
-   justify-content: center;
-   align-items: center;
-     display: flex;
-     margin: 0 auto;
-
- `;
-
-const StickySearchDiv = styled.div`
-  position: sticky;
-  top: 8.5%;
-  z-index: 5;
-  display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding-right: 150px;
-  height: 10vh;
+
+  @media ${deviceRegister.mobile} {
+    width: 50%; // Width is 50% on mobile devices
+
+  }
+`;
+
+
+
+
+
+const RegisterWrapperDiv = styled.div`
+  display: flex;
   background-color: blue;
-  min-height: 50px;
+  height: 60vh;
+  margin-top: 8%;
+  justify-content: space-between; // Distribute space between elements
+  align-items: flex-start;
 
-
-  @media ${noResponseJobs.mobile} {
-    width: 100vw;
-    background-color: grey;
-    padding-right: 12%;
-
+  .form-group {
+    width: 100%; // Ensure form groups take full width
+    padding: 10px 0; // Vertical padding for each form group
+    box-sizing: border-box; // Ensures padding does not add to the width
   }
-  //
-  // @media ${noResponseJobs.laptop} {
-  //  
-  //   @media (max-width: 1150px) {
-  //     margin-left: 10%; // Apply 10% left margin for screens up to 1150px
-  //   }
-  // }
-
-
+  overflow: visible; /* Allow children to spill out of the parent container */
 
 `;
 
-const SelectDiv = styled.div`
-    display: flex;
+const MessageDiv = styled.div`
+margin-top: 40px;
+  white-space: nowrap; /* Prevent text from wrapping */
 
+  position: absolute; /* Position absolutely to spill out */
 
-  // @media ${noResponseJobs.mobile} {
-  //   display: block; // Show on mobile devices
-  // }
-
-  @media ${noResponseJobs.laptop} {
-    display: none; // Hide on larger screens
-  }
 `;
 
 
-const RedPillContainer = styled.div`
-  display: inline-block;
-  min-width: 140px;
-  height: 30px;
-  background-color: red;
-  border-radius: 15px;
-  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5);
-  margin-right: 1.5%;
-  
-  border: 2px solid black;
-  text-align: center; /* Center children horizontally */
-  //line-height: 30px; /* Center children vertically */
 
-  & > svg {
-    margin-left: 10px; /* Add margin to the left of the FontAwesomeIcon */
-  }
-
-  &:hover {
-    cursor: pointer;
-  }
-
-  @media ${noResponseJobs.mobile} {
-    display: none; // Hide on mobile devices
-  }
-
-  @media (max-width: 1150px) {
-    background-color: blue; // Background color for screens wider than 1150px
-  }
-`;

@@ -298,11 +298,13 @@ const Register: React.FC = () => {
 
     return (
         <RegisterWrapperDiv >
-            <div className="card card-container">
+
+
+            <div className="card card-container col-md-12 " style={{ minWidth: '200px' }}>
                 <Form onSubmit={handleRegister} ref={form}>
                     {!successful && (
                         <div>
-                                <div className="form-group">
+                                <div className="form-group" style={{bottom: 0}}>
                                     <TextField
                                         type="text"
                                         className="form-control"
@@ -315,10 +317,11 @@ const Register: React.FC = () => {
                                         fullWidth
                                     />
                                     {state.touched.username && state.validation.username && (
-                                        <div className="invalid-feedback d-block">{state.validation.username}</div>
+                                        <MessageDiv className="invalid-feedback d-block">{state.validation.username}</MessageDiv>
                                     )}
 
-                            </div>
+
+                                 </div>
 
                                 <div className="form-group">
                                     <TextField
@@ -333,7 +336,7 @@ const Register: React.FC = () => {
                                         fullWidth
                                     />
                                     {state.touched.email && state.validation.email && (
-                                        <div className="invalid-feedback d-block">{state.validation.email}</div>
+                                        <MessageDiv className="invalid-feedback d-block">{state.validation.email}</MessageDiv>
                                     )}
 
                             </div>
@@ -350,7 +353,7 @@ const Register: React.FC = () => {
                                         fullWidth
                                     />
                                     {state.touched.password && state.validation.password && (
-                                        <div className="invalid-feedback d-block">{state.validation.password}</div>
+                                        <MessageDiv className="invalid-feedback d-block">{state.validation.password}</MessageDiv>
                                     )}
 
                             </div>
@@ -380,11 +383,12 @@ const Register: React.FC = () => {
     );
 };
 
+
 const RegisterWrapperDiv = styled.div`
   display: flex;
   background-color: blue;
-  height: 60vh;
-  margin-top: 8%;
+  height: 100%;
+  margin-top: 3%;
   justify-content: space-between; // Distribute space between elements
   align-items: flex-start;
 
@@ -393,6 +397,17 @@ const RegisterWrapperDiv = styled.div`
     padding: 10px 0; // Vertical padding for each form group
     box-sizing: border-box; // Ensures padding does not add to the width
   }
+  overflow: visible; /* Allow children to spill out of the parent container */
+
 `;
+
+const MessageDiv = styled.div`
+margin-top: 25px;
+  white-space: normal; /* Prevent text from wrapping */
+
+
+`;
+
+
 
 export default Register;

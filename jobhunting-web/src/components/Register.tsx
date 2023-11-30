@@ -342,6 +342,11 @@ const Register: React.FC = () => {
     };
 
 
+    const handleCreateAccountClick = () => {
+        navigate('/'); // Use the path that you have defined for your register route
+    };
+
+
     return (
         <RegisterWrapperDiv >
 
@@ -430,6 +435,9 @@ const Register: React.FC = () => {
                     )}
                     <CheckButton style={{ display: "none" }} ref={checkBtn} />
                 </Form>
+                <Button variant="contained" color="primary" onClick={handleCreateAccountClick}>
+                    Back to Login
+                </Button>
             </div>
 
         </RegisterWrapperDiv>

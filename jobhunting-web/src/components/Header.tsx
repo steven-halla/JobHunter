@@ -306,7 +306,7 @@ export const Header = () => {
 
 
 
-                            <a href="/login" onClick={logOut} style={{ textDecoration: 'none' }}>
+                            <a href="/" onClick={logOut} style={{ textDecoration: 'none' }}>
                                 <FontAwesomeIcon icon={faSignOutAlt} size="lg" /> Logout
                             </a>
 

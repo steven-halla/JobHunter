@@ -68,7 +68,7 @@ const Login: React.FC = () => {
               console.log("Logged in user:", userData); // Log user object
 
               setUser(userData);
-              navigate(`/profile/${userData.id}`);
+              navigate(`/home/${userData.id}`);
               window.location.reload();
             },
             (error) => {

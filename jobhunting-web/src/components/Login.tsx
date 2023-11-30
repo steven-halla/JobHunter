@@ -9,6 +9,9 @@ import {CustomCheckButton, CustomForm} from "../models/LoginHelper";
 import styled from "styled-components";
 import {deviceLogin, deviceProfile} from "../common/ScreenSizes";
 import {TextField} from "@mui/material";
+import Button from '@mui/material/Button';
+
+
 
 interface LoginState {
   username: string;
@@ -26,6 +29,11 @@ const required = (value: string) => {
 };
 
 const Login: React.FC = () => {
+
+  const handleCreateAccountClick = () => {
+    navigate('/register'); // Use the path that you have defined for your register route
+  };
+
   const form = useRef<CustomForm | null>(null);
   const checkBtn = useRef<CustomCheckButton | null>(null);
   const { setUser } = useContext(UserContext);
@@ -151,7 +159,14 @@ const Login: React.FC = () => {
             )}
             <CheckButton style={{ display: "none" }} ref={checkBtn} />
           </Form>
+          <Button variant="contained" color="primary" onClick={handleCreateAccountClick}>
+            Create New Account
+          </Button>
+
+
+
         </div>
+
       </LoginWrapperDiv>
   );
 };

@@ -11,6 +11,15 @@ import TextField from '@mui/material/TextField';
 import AuthService from "../services/auth.service";
 import styled from "styled-components";
 
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
+
+import { useNavigate } from 'react-router-dom';
+
 interface RegisterState {
     username: string;
     email: string;
@@ -67,6 +76,9 @@ interface RegisterState {
 const Register: React.FC = () => {
     const form = useRef<CustomForm | null>(null);
     const checkBtn = useRef<CustomCheckButton | null>(null);
+
+    const navigate = useNavigate();
+
 
     // const vusername = (value: string) => {
     //     if (value.length < 3 || value.length > 20) {
@@ -310,6 +322,10 @@ const Register: React.FC = () => {
                     successful: true,
                     message: response.data.message // Handle response message accordingly
                 }));
+                alert("Congrats, account created!");
+
+                navigate('/'); // Replace '/login' with your login route path
+
                 // Additional actions upon successful registration can be added here
             },
             error => {
@@ -415,6 +431,7 @@ const Register: React.FC = () => {
                     <CheckButton style={{ display: "none" }} ref={checkBtn} />
                 </Form>
             </div>
+
         </RegisterWrapperDiv>
     );
 };

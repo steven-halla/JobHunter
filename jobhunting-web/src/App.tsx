@@ -11,6 +11,8 @@ import Profile from "./components/Profile";
 import BoardUser from "./components/BoardUser";
 import BoardModerator from "./components/BoardModerator";
 import BoardAdmin from "./components/BoardAdmin";
+import { useLocation } from "react-router-dom";
+
 
 // import AuthVerify from "./common/AuthVerify";
 import EventBus from "./common/EventBus";
@@ -35,6 +37,11 @@ import {AllInterviews} from "./components/AllInterviews";
 //scan QR code so people can easily put weed on app
 
 const App = () => {
+
+    const location = useLocation();
+    const isLoginPage = location.pathname === "/";
+    const isRegiesterPage = location.pathname === "/register";
+
 // Assuming userId is obtained from some source and could be a number or undefined
 
     const userId: number | undefined = undefined;
@@ -48,14 +55,15 @@ const App = () => {
     return (
       <UserContextProvider>
           <JobsContextProvider userid={userIdString}>
-            <Header/>
+              {!isLoginPage && !isRegiesterPage && <Header />}
 
             <div>
                 <Routes>
+                    <Route path="/" element={<Login />} />
+
                     <Route path={"/home/:id"} element={<Home />} />
                     <Route path={"/dategraphs"} element={<JobsAppliedDateGraph />} />
 
-                    <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/profile/:id" element={<Profile />} />
                     <Route path="/jobviewall" element={<JobViewAll />} />

@@ -41,6 +41,12 @@ export const Header = () => {
     const [landmarkIconState, setLandmarkIconState] = useState<boolean>(true);
     const [logoState, setLogoState] = useState<boolean>(true);
 
+    useEffect(() => {
+        console.log(logoState);
+        setLogoState(false);
+    }, []); // The empty array [] makes this effect run only once
+
+
     const toggleMenu = () => {
         setMenuOpen(!isMenuOpen);
     };

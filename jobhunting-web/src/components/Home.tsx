@@ -522,7 +522,7 @@ const ButtonDiv = styled.div`
     display: flex;
 
     .button {
-      background-color; red;
+      background-color: red;
     }
   }
 `;

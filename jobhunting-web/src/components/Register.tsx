@@ -224,34 +224,39 @@ const Register: React.FC = () => {
 
 
 
-    const handleBlur = (e: React.FocusEvent<HTMLInputElement>, validators: Record<string, (value: string) => string | null>) => {
+    const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
-        // Explicitly type validationErrors and touched
-        const validationErrors: Record<string, string | null> = {};
-        const touched: Record<string, boolean> = {};
-
-        // Trigger validation for all fields
-        for (const fieldName in validators) {
-            if (Object.prototype.hasOwnProperty.call(validators, fieldName)) {
-                // @ts-ignore
-                validationErrors[fieldName] = validators[fieldName](state[fieldName]);
-                touched[fieldName] = true;
-            }
+        // Determine the validation error for the current field
+        let validationError: string | null = null;
+        switch (name) {
+            case 'username':
+                validationError = vusername(value);
+                break;
+            case 'email':
+                validationError = validEmail(value);
+                break;
+            case 'password':
+                validationError = vpassword(value);
+                break;
+            default:
+                break;
         }
 
+        // Update validation and touched for the current field
         setState(prevState => ({
             ...prevState,
             touched: {
                 ...prevState.touched,
-                ...touched
+                [name]: true,
             },
             validation: {
                 ...prevState.validation,
-                ...validationErrors
+                [name]: validationError,
             }
         }));
     };
+
 
 
 

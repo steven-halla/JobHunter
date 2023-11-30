@@ -249,6 +249,16 @@ const Register: React.FC = () => {
         const emailError = validEmail(state.email);
         const passwordError = vpassword(state.password);
 
+        // Check for empty fields as well
+        const isUsernameEmpty = !state.username.trim();
+        const isEmailEmpty = !state.email.trim();
+        const isPasswordEmpty = !state.password.trim();
+
+        // Combine the results of empty checks and specific validations
+        const combinedUsernameError = isUsernameEmpty ? "This field is required" : usernameError;
+        const combinedEmailError = isEmailEmpty ? "This field is required" : emailError;
+        const combinedPasswordError = isPasswordEmpty ? "This field is required" : passwordError;
+
         // Update state with validation results and mark all fields as touched
         setState(prevState => ({
             ...prevState,
@@ -258,18 +268,19 @@ const Register: React.FC = () => {
                 password: true
             },
             validation: {
-                username: usernameError,
-                email: emailError,
-                password: passwordError
+                username: combinedUsernameError,
+                email: combinedEmailError,
+                password: combinedPasswordError
             },
             message: "",
             successful: false
         }));
 
         // If there are any validation errors, stop the function here
-        if (usernameError || emailError || passwordError) {
+        if (combinedUsernameError || combinedEmailError || combinedPasswordError) {
             return;
         }
+
 
         // If validations pass, proceed with the registration API call
         AuthService.register(state.username, state.email, state.password).then(

@@ -222,28 +222,33 @@ const Register: React.FC = () => {
         }));
     };
 
-
-
     const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
-        // Determine the validation error for the current field
         let validationError: string | null = null;
-        switch (name) {
-            case 'username':
-                validationError = vusername(value);
-                break;
-            case 'email':
-                validationError = validEmail(value);
-                break;
-            case 'password':
-                validationError = vpassword(value);
-                break;
-            default:
-                break;
+
+        // First, check if the field is required and empty
+        validationError = required(value);
+
+        // If the field is not empty, apply specific field validations
+        if (!validationError) {
+            switch (name) {
+                case 'username':
+                    validationError = vusername(value);
+                    break;
+                case 'email':
+                    validationError = validEmail(value);
+                    break;
+                case 'password':
+                    validationError = vpassword(value);
+                    break;
+                default:
+                    // Handle other fields or default case if needed
+                    break;
+            }
         }
 
-        // Update validation and touched for the current field
+        // Update the validation state for the specific field
         setState(prevState => ({
             ...prevState,
             touched: {
@@ -257,6 +262,39 @@ const Register: React.FC = () => {
         }));
     };
 
+
+    // const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    //     const { name, value } = e.target;
+    //
+    //     // Determine the validation error for the current field
+    //     let validationError: string | null = null;
+    //     switch (name) {
+    //         case 'username':
+    //             validationError = vusername(value);
+    //             break;
+    //         case 'email':
+    //             validationError = validEmail(value);
+    //             break;
+    //         case 'password':
+    //             validationError = vpassword(value);
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    //
+    //     // Update validation and touched for the current field
+    //     setState(prevState => ({
+    //         ...prevState,
+    //         touched: {
+    //             ...prevState.touched,
+    //             [name]: true,
+    //         },
+    //         validation: {
+    //             ...prevState.validation,
+    //             [name]: validationError,
+    //         }
+    //     }));
+    // };
 
 
 

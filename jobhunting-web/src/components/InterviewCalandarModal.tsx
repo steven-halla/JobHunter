@@ -34,7 +34,9 @@ const InterviewCalendarModalWrapperDiv = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 10; // To ensure it's above all other content
-  
+  background-color: #3D4849;
+
+
 `;
 
 const ModalContent = styled.div`

@@ -160,6 +160,8 @@ export const JobsAppliedDateGraphDiv = styled.div`
   justify-content: center; 
   align-items: center;
   flex-direction: column;
+  background-color: #3D4849;
+
 `;
 
 export const GraphContainer = styled.div`
@@ -169,6 +171,8 @@ export const GraphContainer = styled.div`
   align-items: center;
   justify-content: center;
   flex-wrap: wrap; // Allows items to wrap when space is limited
+  background-color: #3D4849;
+
 `;
 
 

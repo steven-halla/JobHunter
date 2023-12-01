@@ -144,6 +144,11 @@ const StyledCalendar = styled(Calendar)`
   width: 75%;
   height: 50%;
   max-height: 425px;
+  background-color: #C0C0C0;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10%;
+
   //min-width: 600px;
   //min-height: 600px;
   .react-calendar__tile {
@@ -174,7 +179,8 @@ const CalendarContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%; // This makes sure the container takes the full height of the viewport
+  background-color: #3D4849;
+  height: 100vh;
 
 `;
 

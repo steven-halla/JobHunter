@@ -192,9 +192,14 @@ export const Header = () => {
         <HeaderDiv>
             <nav>
                 <LogoDiv>
-                    <h3>
+                    <h3
+
+                    >
+
+
                         <LogoLink to={`/home/${currentUser?.id}`} onClick={closeMenu}
                                   style={{
+                                      // backgroundColor: "white",
                                       display: "flex",
                                       flexDirection: "column",
                                       // textDecoration: graphIconState ? 'none' : 'underline',
@@ -215,13 +220,17 @@ export const Header = () => {
                                     to="/dategraphs" // Use the "to" prop of Link to specify the URL
                                     onClick={handleJobGraphsClick} // Call your function
                                     style={{
+                                        color: "#3D4849",
                                         display: "flex",
                                         flexDirection: "column",
                                         // textDecoration: graphIconState ? 'none' : 'underline',
                                         borderBottom: graphIconState ? 'none' : '3px solid', // Thicker underline
                                         // paddingBottom: graphIconState ? '0' : '3px', // Add padding to space out the underline
                                     }}                              >
-                                    <FontAwesomeIcon icon={graphIconState ? faChartLine : faChartArea} size="lg" />
+                                    <FontAwesomeIcon
+                                        style={{ color: '3D4849' }} // Set the icon color to light blue
+
+                                        icon={graphIconState ? faChartLine : faChartArea} size="lg" />
                                     <span>Job Graphs</span>
                                 </Link>
                             </IconWrapper>
@@ -232,13 +241,18 @@ export const Header = () => {
                                         to="/companynoresponse"
                                         onClick={handleJobClipboardClick}
                                         style={{
+                                            color: "#3D4849",
+
                                             display: "flex",
                                             flexDirection: "column",
                                             // textDecoration: graphIconState ? 'none' : 'underline',
                                             borderBottom: clipboardIconState ? 'none' : '3px solid', // Thicker underline
                                             // paddingBottom: graphIconState ? '0' : '3px', // Add padding to space out the underline
                                         }}                                         >
-                                        <FontAwesomeIcon icon={clipboardIconState ?  faClipboard : faClipboardCheck} size="lg" />
+                                        <FontAwesomeIcon
+                                            style={{ color: '3D4849' }} // Set the icon color to light blue
+
+                                            icon={clipboardIconState ?  faClipboard : faClipboardCheck} size="lg" />
                                         <span>All Jobs</span>
 
                                     </Link>
@@ -249,6 +263,8 @@ export const Header = () => {
                                     to="/jobviewall"
                                     onClick={handleJobBuildingClick}
                                     style={{
+                                        color: "#3D4849",
+
                                         display: "flex",
                                         flexDirection: "column",
                                         // textDecoration: graphIconState ? 'none' : 'underline',
@@ -256,7 +272,10 @@ export const Header = () => {
                                         // paddingBottom: graphIconState ? '0' : '3px', // Add padding to space out the underline
                                     }}
                                 >
-                                    <FontAwesomeIcon icon={buildingIconState ?  faBuilding : faBuildingFlag} size="lg"
+                                    <FontAwesomeIcon
+                                        style={{ color: '3D4849' }} // Set the icon color to light blue
+
+                                        icon={buildingIconState ?  faBuilding : faBuildingFlag} size="lg"
                                                      transform={buildingIconState ? undefined : { flipX: true }}
                                     />
                                     <span>Recent Jobs</span>
@@ -270,6 +289,8 @@ export const Header = () => {
                                     to="/allinterviews"
                                     onClick={handleJobCalendarClick}
                                     style={{
+                                        color: "#3D4849",
+
                                         display: "flex",
                                         flexDirection: "column",
                                         // textDecoration: graphIconState ? 'none' : 'underline',
@@ -277,7 +298,10 @@ export const Header = () => {
                                         // paddingBottom: graphIconState ? '0' : '3px', // Add padding to space out the underline
                                     }}
                                 >
-                                    <FontAwesomeIcon icon={calendarIconState ?  faCalendarDays : faCalendarCheck} size="lg"
+                                    <FontAwesomeIcon
+                                        style={{ color: '3D4849' }} // Set the icon color to light blue
+
+                                        icon={calendarIconState ?  faCalendarDays : faCalendarCheck} size="lg"
                                     />
                                     <span>Interviews</span>
 
@@ -290,6 +314,8 @@ export const Header = () => {
                                     to={`/profile/${currentUser.id}`}
                                     onClick={handleJobLandmarkClick}
                                     style={{
+                                        color: "#3D4849",
+
                                         display: "flex",
                                         flexDirection: "column",
                                         // textDecoration: graphIconState ? 'none' : 'underline',
@@ -297,7 +323,10 @@ export const Header = () => {
                                         // paddingBottom: graphIconState ? '0' : '3px', // Add padding to space out the underline
                                     }}
                                 >
-                                    <FontAwesomeIcon icon={landmarkIconState ?  faLandmark : faLandmarkFlag} size="lg"
+                                    <FontAwesomeIcon
+                                        style={{ color: '#3D4849' }}
+
+                                        icon={landmarkIconState ?  faLandmark : faLandmarkFlag} size="lg"
                                     />
                                     <span>Profile</span>
 
@@ -312,8 +341,11 @@ export const Header = () => {
 
 
 
-                            <a href="/" onClick={logOut} style={{ textDecoration: 'none' }}>
-                                <FontAwesomeIcon icon={faSignOutAlt} size="lg" /> Logout
+                            <a href="/" onClick={logOut} style={{ textDecoration: 'none' , color: "#3D4849"}}>
+                                <FontAwesomeIcon
+                                    style={{ color: '#3D4849' }} // Set the icon color to light blue
+
+                                    icon={faSignOutAlt} size="lg" /> Logout
                             </a>
 
 
@@ -368,8 +400,8 @@ export const HeaderDiv = styled.div`
   display: flex;
   //background-color: #adc1ff;
   //background: linear-gradient(#FD2D00, #DF007C); // Updated gradient background
-  background: linear-gradient(#33D6DA, #8EFAF1); // Gradient with lighter colors (20% lighter approximations)
-
+  //background: linear-gradient(#33D6DA, #8EFAF1); // Gradient with lighter colors (20% lighter approximations)
+background-color: #C0C0C0;
   width: 100vw;
   height: 8.5vh;
   align-items: center;
@@ -436,6 +468,10 @@ export const IconWrapper = styled.div`
   text-align: center;
   gap: 5px;
   flex-direction: column;
+  
+  text {
+    color: #3D4849;
+  }
 
   a {
     display: flex;
@@ -448,9 +484,7 @@ export const IconWrapper = styled.div`
       text-decoration: none; // Removes underline on hover
 
       // Change color of SVG and text on hover
-      svg, span {
-        color: #0056b3; // Adjust the color as needed
-      }
+    
     }
 
     //svg:hover {
@@ -482,6 +516,11 @@ const LogoLink = styled(Link)`
   font-family: 'Papyrus, sans-serif';
   //margin-bottom: 8%;
   padding-bottom: 4%;
+  color: #3D4849;
+  
+  .text{
+    background-color: #3D4849;
+  }
 `;
 
 export const LogoDiv = styled.div`

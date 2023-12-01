@@ -319,7 +319,7 @@ export const Home: React.FC = () => {
                         icon={faGithub}
                         size="2x"
                         onClick={() => copyToClipboard(selectedOption1)}
-                        style={{ cursor: 'pointer' ,color: 'lightblue' }}
+                        style={{ cursor: 'pointer' ,color: 'white' }}
                     />
                 </Box>
                 <Box
@@ -333,7 +333,7 @@ export const Home: React.FC = () => {
                         icon={faLinkedin}
                         size="2x"
                         onClick={() => copyToClipboard(selectedOption2)}
-                        style={{ cursor: 'pointer'  ,color: 'lightblue'}}
+                        style={{ cursor: 'pointer'  ,color: 'white'}}
                     />
                 </Box>
 
@@ -348,7 +348,7 @@ export const Home: React.FC = () => {
                         icon={faBriefcase}
                         size="2x"
                         onClick={() => copyToClipboard(selectedOption3)}
-                        style={{ cursor: 'pointer'  ,color: 'lightblue'}}
+                        style={{ cursor: 'pointer'  ,color: 'white'}}
                     />
                 </Box>
             </Box>

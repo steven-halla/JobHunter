@@ -20,6 +20,10 @@ import Button from '@mui/material/Button';
 
 import { useNavigate } from 'react-router-dom';
 
+
+
+
+
 interface RegisterState {
     username: string;
     email: string;
@@ -224,10 +228,13 @@ const Register: React.FC = () => {
 
     const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
+        console.log("Blur blockage")
+
 
         let validationError: string | null = null;
 
         // First, check if the field is required and empty
+        // @ts-ignore
         validationError = required(value);
 
         // If the field is not empty, apply specific field validations
@@ -316,45 +323,45 @@ const Register: React.FC = () => {
     };
 
     const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
+        console.log("Hi")
         e.preventDefault();
 
-        // Perform validation checks
-        const usernameError = vusername(state.username);
-        const emailError = validEmail(state.email);
-        const passwordError = vpassword(state.password);
 
-        // Check for empty fields as well
-        const isUsernameEmpty = !state.username.trim();
-        const isEmailEmpty = !state.email.trim();
-        const isPasswordEmpty = !state.password.trim();
 
-        // Combine the results of empty checks and specific validations
-        const combinedUsernameError = isUsernameEmpty ? "This field is required" : usernameError;
-        const combinedEmailError = isEmailEmpty ? "This field is required" : emailError;
-        const combinedPasswordError = isPasswordEmpty ? "This field is required" : passwordError;
+        // Perform validation checks for all fields
+        const usernameError = required(state.username) || vusername(state.username);
+        const emailError = required(state.email) || validEmail(state.email);
+        const passwordError = required(state.password) || vpassword(state.password);
 
-        // Update state with validation results and mark all fields as touched
+        console.log("Validation Results:", {
+            usernameError: usernameError,
+            emailError: emailError,
+            passwordError: passwordError
+        });
+
+        // Update state with validation results
         setState(prevState => ({
             ...prevState,
+            validation: {
+                username: usernameError,
+                email: emailError,
+                password: passwordError
+            },
             touched: {
                 username: true,
                 email: true,
                 password: true
             },
-            validation: {
-                username: combinedUsernameError,
-                email: combinedEmailError,
-                password: combinedPasswordError
-            },
-            message: "",
-            successful: false
+            // Other state updates if needed
         }));
 
-        // If there are any validation errors, stop the function here
-        if (combinedUsernameError || combinedEmailError || combinedPasswordError) {
+        // Check for any validation errors
+        if (usernameError || emailError || passwordError) {
+            // There are validation errors, do not proceed with form submission
             return;
         }
 
+        // If there are any validation errors, stop the function here
 
         // If validations pass, proceed with the registration API call
         AuthService.register(state.username, state.email, state.password).then(
@@ -366,9 +373,7 @@ const Register: React.FC = () => {
                     message: response.data.message // Handle response message accordingly
                 }));
                 alert("Congrats, account created!");
-
                 navigate('/'); // Replace '/login' with your login route path
-
                 // Additional actions upon successful registration can be added here
             },
             error => {
@@ -383,6 +388,79 @@ const Register: React.FC = () => {
             }
         );
     };
+
+
+    // const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
+    //     e.preventDefault();
+    //
+    //     // Perform validation checks
+    //     const usernameError = vusername(state.username);
+    //     const emailError = validEmail(state.email);
+    //     const passwordError = vpassword(state.password);
+    //
+    //     console.log("Validation Errors:", { usernameError, emailError, passwordError });
+    //
+    //
+    //     // Check for empty fields as well
+    //     const isUsernameEmpty = !state.username.trim();
+    //     const isEmailEmpty = !state.email.trim();
+    //     const isPasswordEmpty = !state.password.trim();
+    //
+    //     // Combine the results of empty checks and specific validations
+    //     const combinedUsernameError = isUsernameEmpty ? "This field is required" : usernameError;
+    //     const combinedEmailError = isEmailEmpty ? "This field is required" : emailError;
+    //     const combinedPasswordError = isPasswordEmpty ? "This field is required" : passwordError;
+    //
+    //     // Update state with validation results and mark all fields as touched
+    //     setState(prevState => ({
+    //         ...prevState,
+    //         touched: {
+    //             username: true,
+    //             email: true,
+    //             password: true
+    //         },
+    //         validation: {
+    //             username: combinedUsernameError,
+    //             email: combinedEmailError,
+    //             password: combinedPasswordError
+    //         },
+    //         message: "",
+    //         successful: false
+    //     }));
+    //
+    //     // If there are any validation errors, stop the function here
+    //     if (combinedUsernameError || combinedEmailError || combinedPasswordError) {
+    //         return;
+    //     }
+    //
+    //
+    //     // If validations pass, proceed with the registration API call
+    //     AuthService.register(state.username, state.email, state.password).then(
+    //         response => {
+    //             // Handle successful registration
+    //             setState(prevState => ({
+    //                 ...prevState,
+    //                 successful: true,
+    //                 message: response.data.message // Handle response message accordingly
+    //             }));
+    //             alert("Congrats, account created!");
+    //
+    //             navigate('/'); // Replace '/login' with your login route path
+    //
+    //             // Additional actions upon successful registration can be added here
+    //         },
+    //         error => {
+    //             // Handle API errors
+    //             const resMessage = (error.response && error.response.data && error.response.data.message) ||
+    //                 error.message || error.toString();
+    //             setState(prevState => ({
+    //                 ...prevState,
+    //                 successful: false,
+    //                 message: resMessage
+    //             }));
+    //         }
+    //     );
+    // };
 
 
     const handleCreateAccountClick = () => {

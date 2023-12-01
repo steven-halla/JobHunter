@@ -366,7 +366,10 @@ export const Header = () => {
 
 export const HeaderDiv = styled.div`
   display: flex;
-  background-color: #adc1ff;
+  //background-color: #adc1ff;
+  //background: linear-gradient(#FD2D00, #DF007C); // Updated gradient background
+  background: linear-gradient(#33D6DA, #8EFAF1); // Gradient with lighter colors (20% lighter approximations)
+
   width: 100vw;
   height: 8.5vh;
   align-items: center;

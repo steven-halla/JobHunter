@@ -275,9 +275,10 @@ export const Home: React.FC = () => {
             sx={{
                 position: "relative",
                 width: "100%",
-                height: "100%",
+                height: "100vh",
                 display: "flex",
                 flexDirection: "column",
+                backgroundColor: "#3D4849",
 
 
                 // Add other CSS styles as needed
@@ -295,6 +296,8 @@ export const Home: React.FC = () => {
                     alignItems: "center",
                     justifyContent: "center",
                     marginBottom: "5%",
+                    backgroundColor: "#3D4849",
+
                     // Add other CSS styles as needed
 
 
@@ -316,7 +319,7 @@ export const Home: React.FC = () => {
                         icon={faGithub}
                         size="2x"
                         onClick={() => copyToClipboard(selectedOption1)}
-                        style={{ cursor: 'pointer' }}
+                        style={{ cursor: 'pointer' ,color: 'lightblue' }}
                     />
                 </Box>
                 <Box
@@ -330,7 +333,7 @@ export const Home: React.FC = () => {
                         icon={faLinkedin}
                         size="2x"
                         onClick={() => copyToClipboard(selectedOption2)}
-                        style={{ cursor: 'pointer' }}
+                        style={{ cursor: 'pointer'  ,color: 'lightblue'}}
                     />
                 </Box>
 
@@ -345,7 +348,7 @@ export const Home: React.FC = () => {
                         icon={faBriefcase}
                         size="2x"
                         onClick={() => copyToClipboard(selectedOption3)}
-                        style={{ cursor: 'pointer' }}
+                        style={{ cursor: 'pointer'  ,color: 'lightblue'}}
                     />
                 </Box>
             </Box>
@@ -361,9 +364,11 @@ export const Home: React.FC = () => {
 
                     justifyContent: "space-evenly", // Evenly distribute space around items
 
+                    // marginBottom: "30%",
 
+                    // backgroundColor: "#c7f3ff",
+                    background: "linear-gradient(#00C5C8, #70E7D1)",
 
-                    backgroundColor: "#c7f3ff",
 
                     // marginTop: "2%",
                     width: "40vw",
@@ -376,6 +381,7 @@ export const Home: React.FC = () => {
                     alignItems: "center",
                     // justifyContent: "space-around",
                     margin: "auto",
+                    marginBottom: "10%",
                     // flexDirection: "colum",
 
                     gap: "20px", // Adjust the value as needed
@@ -384,7 +390,9 @@ export const Home: React.FC = () => {
                     boxShadow: "0px 4px 8px -2px rgba(0, 0, 0, 0.2)", // Horizontal shadow, Vertical shadow, Blur radius, Spread radius, Color
 
                     "& > *:not(.MuiTextField-root)": {
-                        backgroundColor: "#c7f3ff",
+                        // backgroundColor: "#c7f3ff",
+                        background: "linear-gradient(#00C5C8, #70E7D1)",
+
                         width: "60vw",
                     },
 
@@ -425,10 +433,26 @@ export const Home: React.FC = () => {
                         <StyledTextField  label="job link" value={joblink} onChange={handleJobLink} />
                     </FieldContainerDiv>
                     <ButtonDiv>
-                        <SubmitButton  sx={{
-                            borderRadius: 10,
+                        <SubmitButton
+                            sx={{
+                                borderRadius: 10,
+                                background: 'linear-gradient(to right, #00C9FF, #00B4D8)', // Neon blue gradient
+                                color: 'white', // Text color
+                                border: '1px solid #007BFF', // Adding a border for contrast
+                                '&:hover': {
+                                    background: 'linear-gradient(to left, #00C9FF, #00B4D8)', // Change gradient direction on hover for effect
+                                    boxShadow: '0 0 10px #00C9FF', // Optional: Adding a glow effect on hover
+                                },
+                                textTransform: 'none', // Optional: Prevents uppercase text transformation common in MUI Buttons
+                                fontWeight: 'bold', // Optional: Makes the text bold
+                            }}
+                            variant="contained"
+                            type="submit"
+                        >
+                            Submit
+                        </SubmitButton>
 
-                        }} variant="contained" type="submit">Submit</SubmitButton>
+
                     </ButtonDiv>
 
                 </CustomFieldForm>
@@ -461,7 +485,7 @@ export const Home: React.FC = () => {
 
 
 
-            <FooterDiv/>
+            {/*<FooterDiv/>*/}
         </Box>
     );
 };
@@ -503,18 +527,13 @@ const JobCardDiv = styled.div`
     padding-top: 3%;
   }
 
-
-
 `;
 
 
 const ButtonDiv = styled.div`
   justify-content: center;
   align-items: center;
-  //background-color: yellow;
-  //margin-top: 5.5%;
-  //margin-top: 10%;
-  //margin-bottom: 1.5%;
+
 
   @media ${deviceHome.mobile} {
     //background-color: rgba(150,116,169,0.86);
@@ -527,15 +546,7 @@ const ButtonDiv = styled.div`
   }
 `;
 
-const StyledButton = styled(Button)`
-  // Default styles for the button
-  // ...
 
-  @media ${deviceHome.mobile} {
-    //background-color: red; // Style for mobile
-    // Add other mobile-specific styles here
-  }
-`;
 
 
 
@@ -562,7 +573,6 @@ const SubmitButton = styled(Button)`
   padding-bottom: 70px;
   //margin-bottom: 50px;
   //background-color: yellow;
-
   @media ${deviceHome.mobile} {
     //background-color: red;
     width: 30vw;
@@ -572,47 +582,8 @@ const SubmitButton = styled(Button)`
 
 `;
 
-export const HomeWrapperDiv = styled.div`
-  position: relative; // Needed for absolute positioning of the pseudo-element
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 
 
-
-  @media ${deviceHome.mobile} {
-    //background-color: rgba(48,169,52,0.86);
-
-  }
-
-`;
-
-
-export const CustomFieldsDiv = styled.div`
-  display: flex;
-  margin-top: 20px;
-  padding-left: 1.2%;
-  flex-direction: row;
-  gap: 15px;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-
-
-`;
-
-export const FieldRowDiv = styled.div`
-  display: flex;
-  padding-left: 20px;
-  padding-right: 30px;
-
-  @media ${deviceHome.mobile} {
-    //background-color: lightskyblue;
-
-  }
-`;
 
 export const CustomFieldForm = styled.form`
   display: flex;
@@ -620,7 +591,7 @@ export const CustomFieldForm = styled.form`
   justify-items: center;
   align-items: center;
   width: 100vw;
-  //background-color: rebeccapurple;
+
 
 
 
@@ -663,55 +634,15 @@ export const CustomFieldForm = styled.form`
 
 `;
 
-const RoundColorWrapperDiv = styled.div`
-  background-color: #c7f3ff;
-  width: 40vw;  /* Example size */
-  height: 70%;
-  border-radius: 5%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
-  margin-bottom: 7%;
-  padding-top: 3%;
-
-  /* Adding box shadow on left, right, and bottom sides */
-  box-shadow:
-          -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */
-          4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
-          0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
-
-  /* Style for all children except MUI TextFields */
-  > *:not(.MuiTextField-root) {
-    background-color: #c7f3ff;
-    width: 50vw;
-  }
-
-  @media ${deviceHome.mobile} {
-    //background-color: purple;
-  }
-
-  /* Other styles as needed */
-`;
-
-
 
 const FieldContainerDiv = styled.div`
   width: 60%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  //background-color: purple;
-
-
 `;
 
-export const FooterDiv =  styled.div`
-  
-  @media ${device.mobile} {
-    //background-color: gold;
-  }
-`
+
 
 const VerticalLine = styled.div`
   position: fixed; // or absolute, depending on your layout

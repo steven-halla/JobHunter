@@ -10,3 +10,6 @@ export const Colors = styled.div`
           4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
           0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
 `;
+
+
+// #121212 use this as an eample of dark mode

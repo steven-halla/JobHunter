@@ -129,7 +129,7 @@ export const JobsAppliedDateGraph: React.FC = () => {
                     </NumberOfJobsAppliedDiv>
                 )}
                 <BarGraphDiv>
-                    <ResponsiveContainer width="100%" height={400} >
+                    <ResponsiveContainer width="100%" height={400}>
                         <BarChart
                             data={dataForBarChart}
                             margin={{
@@ -140,14 +140,15 @@ export const JobsAppliedDateGraph: React.FC = () => {
                             }}
                         >
                             <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="name" />
-                            <YAxis />
-                            <Tooltip />
+                            <XAxis dataKey="name" tick={{ fill: 'black' }} />
+                            <YAxis tick={{ fill: 'black' }} />
+                            <Tooltip labelStyle={{ color: 'black' }} />
                             <Legend />
-                            <Bar dataKey="Jobs" fill="#8884d8" />
+                            <Bar dataKey="Jobs" fill="black" />
                         </BarChart>
                     </ResponsiveContainer>
                 </BarGraphDiv>
+
             </GraphContainer>
         </JobsAppliedDateGraphDiv>
     );
@@ -185,11 +186,13 @@ export const NumberOfJobsAppliedDiv = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-color: #c7f3ff;
+  //background-color: #c7f3ff;
   padding-top: 1%;
   box-shadow: -4px 0 8px -2px rgba(0, 0, 0, 0.2), 4px 0 8px -2px rgba(0, 0, 0, 0.2), 0 4px 8px -2px rgba(0, 0, 0, 0.2);
   border: 1px solid #d1e8ff;
-  background-image: linear-gradient(to bottom right, #c7f3ff, #a1d8f0);
+  background-color: #C0C0C0;
+
+  //background-image: linear-gradient(to bottom right, #c7f3ff, #a1d8f0);
   overflow: auto; // Manage overflow content
   margin-right: 4.5%;
 `;

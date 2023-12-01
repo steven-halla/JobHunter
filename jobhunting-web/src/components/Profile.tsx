@@ -142,9 +142,12 @@ const Profile = () => {
 
     return (
         <ProfileWrapperDiv>
+
             <InfoContainerDiv>
 
-
+                <NameDiv>
+                    <strong>Hello Their {user?.username}</strong>
+                </NameDiv>
 
 
                 <Box
@@ -159,9 +162,7 @@ const Profile = () => {
                         },
                     }}
                 >
-                    <NameDiv>
-                         <strong>Hello Their {user?.username}</strong>
-                    </NameDiv>
+
 
 
                     <IconFormDiv >
@@ -220,9 +221,24 @@ const Profile = () => {
                 </LifeStoryDiv>
 
                 <SubmitButtonDiv>
-                    <SubmitButton onClick={handleSubmitButton} variant="contained">
+                    <SubmitButton
+                        sx={{
+                            borderRadius: 10,
+                            background: 'linear-gradient(to right, #00C9FF, #00B4D8)', // Neon blue gradient
+                            color: 'white', // Text color
+                            border: '1px solid #007BFF', // Adding a border for contrast
+                            '&:hover': {
+                                background: 'linear-gradient(to left, #00C9FF, #00B4D8)', // Change gradient direction on hover for effect
+                                boxShadow: '0 0 10px #00C9FF', // Optional: Adding a glow effect on hover
+                            },
+                            textTransform: 'none', // Optional: Prevents uppercase text transformation common in MUI Buttons
+                            fontWeight: 'bold', // Optional: Makes the text bold
+                        }}
+                    onClick={handleSubmitButton} variant="contained">
                         Submit</SubmitButton>
                 </SubmitButtonDiv>
+
+                <Footer/>
 
             </InfoContainerDiv>
 
@@ -231,34 +247,20 @@ const Profile = () => {
 
 
 
-            {/*<InfoContainerDiv>*/}
-            {/*    <UserNameDiv>*/}
-            {/*    </UserNameDiv>*/}
-            {/*    <StyledForm onSubmit={handleSubmit}>*/}
-            {/*        <p>*/}
-            {/*            <StyledStrong>Github:</StyledStrong>*/}
-            {/*            <TextareaAutosize name="customfield1" value={customfield1} onChange={handleChange} />*/}
-            {/*        </p>*/}
-            {/*        <p>*/}
-            {/*            <StyledStrong>Linkedin:</StyledStrong>*/}
-            {/*            <TextareaAutosize  name="customfield2" value={customfield2} onChange={handleChange} />*/}
-            {/*        </p>*/}
-            {/*        <p>*/}
-            {/*            <StyledStrong>Portfolio:</StyledStrong>*/}
-            {/*            <TextareaAutosize  name="customfield3" value={customfield3} onChange={handleChange} />*/}
-            {/*        </p>*/}
 
-
-
-
-            {/*        <button type="submit">Update</button>*/}
-            {/*    </StyledForm>*/}
-            {/*</InfoContainerDiv>*/}
 
 
         </ProfileWrapperDiv>
     );
 };
+
+const Footer = styled.div`
+height: 50px;
+  width: 100%;
+  background-color: #3D4849;
+
+`;
+
 
 const SubmitButton = styled(Button)`
   height: 9vh;
@@ -306,11 +308,15 @@ background-color: white;
 const NameDiv = styled.div`
   display: flex;
 
-  background-color: cadetblue;
+  background-color: #3D4849;
   height: 20%;
   width: 100%;
   justify-content: center;
   align-items: center;
+  margin-top: 3%;  
+  strong {
+    color: black;
+  }
 `;
 
 const SubmitButtonDiv = styled.div`
@@ -346,11 +352,12 @@ const ProfileWrapperDiv = styled.div`
   align-items: center; // Optional, if you want to center vertically as well
   height: 100%;
   width: 100vw;
+  background-color: #3D4849;
+
 `;
 
 const InfoContainerDiv = styled.div`
   display: flex;
-  background-color: lightskyblue;
   height: 100%; // You might want to adjust this depending on your layout needs
   width: 80%; // Or any width you prefer
   // Add other properties as needed

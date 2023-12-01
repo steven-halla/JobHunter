@@ -367,7 +367,7 @@ export const Home: React.FC = () => {
                     // marginBottom: "30%",
 
                     // backgroundColor: "#c7f3ff",
-                    background: "linear-gradient(#00C5C8, #70E7D1)",
+                    background: "#C0C0C0",
 
 
                     // marginTop: "2%",
@@ -391,7 +391,7 @@ export const Home: React.FC = () => {
 
                     "& > *:not(.MuiTextField-root)": {
                         // backgroundColor: "#c7f3ff",
-                        background: "linear-gradient(#00C5C8, #70E7D1)",
+                        background: "#C0C0C0",
 
                         width: "60vw",
                     },

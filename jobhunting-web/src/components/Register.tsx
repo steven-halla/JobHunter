@@ -472,7 +472,7 @@ const Register: React.FC = () => {
         <RegisterWrapperDiv >
 
 
-            <div className="card card-container col-md-12 " style={{ minWidth: '200px' }}>
+            <div className="card card-container col-md-12 " style={{ minWidth: '200px' , marginTop: "14%"}}>
                 <Form onSubmit={handleRegister} ref={form}>
                     {!successful && (
                         <div>
@@ -481,7 +481,7 @@ const Register: React.FC = () => {
                                         type="text"
                                         className="form-control"
                                         name="username"
-                                        label="Username"
+                                        placeholder="Username"
                                         variant="outlined"
                                         value={state.username}
                                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
@@ -502,7 +502,7 @@ const Register: React.FC = () => {
                                         type="text"
                                         className="form-control"
                                         name="email"
-                                        label="Email"
+                                        placeholder="Email"
                                         variant="outlined"
                                         value={state.email}
                                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
@@ -521,7 +521,7 @@ const Register: React.FC = () => {
                                         type="password"
                                         className="form-control"
                                         name="password"
-                                        label="Password"
+                                        placeholder="Password"
                                         variant="outlined"
                                         value={state.password}
                                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
@@ -568,9 +568,8 @@ const Register: React.FC = () => {
 
 const RegisterWrapperDiv = styled.div`
   display: flex;
-  background-color: blue;
-  height: 100%;
-  margin-top: 3%;
+  background-color: #3D4849;
+  height: 100vh;
   justify-content: space-between; // Distribute space between elements
   align-items: flex-start;
 

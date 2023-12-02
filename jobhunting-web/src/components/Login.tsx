@@ -173,10 +173,12 @@ const Login: React.FC = () => {
 
 const LoginWrapperDiv = styled.div`
   display: flex;
-  height: 50vh;
-  margin-top: 8%;
+  height: 100vh;
+  //margin-top: 8%;
   justify-content: center; // Distribute space between elements
   align-items: center;
+  background-color: #3D4849;
+
 
 
   .form-group {

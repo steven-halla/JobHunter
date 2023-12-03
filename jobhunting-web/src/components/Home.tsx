@@ -12,7 +12,7 @@ import { faBriefcase } from '@fortawesome/free-solid-svg-icons';
 import Button from '@mui/material/Button';
 import {InputLabel, TextFieldProps, useTheme} from '@mui/material';
 import TextField from '@mui/material/TextField';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {Job} from "../models/Job";
 import {DateMutation} from "../common/DateMutation";
 import Box from "@mui/material/Box";
@@ -39,7 +39,8 @@ export const Home: React.FC = () => {
     const [selectedOption3, setSelectedOption3] = useState(localStorage.getItem('selectedOption3') || 'portfolio');
     const currentUser: User | null = AuthService.getCurrentUser();
     const { user } = useContext(UserContext);
-    const [id] = useState(null); // or some initial value
+    const { id } = useParams<{ id: string }>();
+
     const [count, setCount] = useState<number>(() => {
         const storedCount = localStorage.getItem('count');
         const storedDate = localStorage.getItem('date');
@@ -70,7 +71,10 @@ export const Home: React.FC = () => {
 
 
 
+
     useEffect(() => {
+        console.log("am I being user id?" + id)
+
         if (companyname) {
 
             handleSearch(companyname);
@@ -94,11 +98,17 @@ export const Home: React.FC = () => {
         localStorage.setItem('selectedOption3', selectedOption3);
     }, [selectedOption1, selectedOption2, selectedOption3]);
 
-    useEffect(() => {
-        if(id) {
-            console.log("am I being called?")
 
-            UserService.getUserById(id) // ensure to pass an id here
+    const navigate = useNavigate(); // Add this line to get the navigate function
+
+    useEffect(() => {
+        if (id) {
+            console.log("am I being called?")
+            console.log("am I being user id?" + id)
+
+            const userId = parseInt(id, 10); // Parse id as an integer
+
+            UserService.getUserById(userId)
                 .then((user: User) => {
                     console.log(`User ${user.id}`);
                     console.log(` - Username: ${user.username}`);
@@ -106,12 +116,19 @@ export const Home: React.FC = () => {
                     console.log(` - CustomField1: ${user.customfield1}`);
                     console.log(` - CustomField2: ${user.customfield2}`);
                     console.log(` - CustomField3: ${user.customfield3}`);
+
+                    if (currentUser?.id !== user.id) {
+                        alert("You are not authorized to be here")
+                        console.log("User ID mismatch. Logging out.");
+                        AuthService.logout(); // You should implement your logout logic here
+                        navigate("/"); // Redirect to the login page or any desired page after logout
+                    }
                 })
                 .catch((error: any) => {
                     console.error("Error fetching user: ", error);
                 });
         }
-    }, [id]);
+    }, [id, currentUser, navigate]);
 
     const handleJobSubmit = async (e: FormEvent) => {
         console.log("I'm the handle submit button on the home page");

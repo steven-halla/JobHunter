@@ -26,7 +26,11 @@ const Profile = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        console.log("am I being user id?" + id)
+
         if (user && user.id && id !== user.id.toString()) {
+            alert("You are not authorized to be here")
+
             // Redirect to an unauthorized page or handle unauthorized access
             AuthService.logout();
 

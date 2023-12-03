@@ -49,45 +49,61 @@ const App = () => {
 
 
     function isAuthenticated() {
-        // Implement your authentication logic here
-        // Example: Check if the user is logged in or has a valid token
+        // Check if the current page is the login or register page
+        if (isLoginPage || isRegiesterPage) {
+            // Do not perform the authentication check
+            return true;
+        }
+
+        // Perform the authentication check for other pages
         const user = AuthService.getCurrentUser();
-        return user !== null;
+
+        if (user === null) {
+            // Show an alert
+            alert("You need to login. Redirecting you to the login page in 5 seconds.");
+
+            // Wait for 5 seconds before redirecting
+            setTimeout(() => {
+                window.location.href = "/";
+            }, 5000); // 5000 milliseconds = 5 seconds
+
+            return false;
+        }
+
+        return true;
     }
 
 
 
+
     return (
-      <UserContextProvider>
-          <JobsContextProvider userid={userIdString}>
-              {!isLoginPage && !isRegiesterPage && <Header />}
-              <div>
-                  <Routes>
-                      <Route path="/" element={<Login />} />
-                      <Route path="/register" element={<Register />} />
-                      {isAuthenticated() ? (
-                          <React.Fragment>
-                              <Route path="/home/:id" element={<Home />} />
-                              <Route path="/profile/:id" element={<Profile />} />
-                              <Route path="/user" element={<BoardUser />} />
-                              <Route path="/mod" element={<BoardModerator />} />
-                              <Route path="/admin" element={<BoardAdmin />} />
-                              <Route path="/dategraphs" element={<JobsAppliedDateGraph />} /> {/* Add your route */}
-                          </React.Fragment>
-                      ) : null
+        <UserContextProvider>
+            <JobsContextProvider userid={userIdString}>
+                {!isLoginPage && !isRegiesterPage && <Header />}
+                <div>
+                    <Routes>
+                        <Route path="/" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                        {isAuthenticated() && (
+                            <React.Fragment>
+                                <Route path="/home/:id" element={<Home />} />
+                                <Route path="/profile/:id" element={<Profile />} />
+                                <Route path="/jobviewall" element={<JobViewAll />} />
+                                <Route path="/companynoresponse" element={<CompanyNoResponse />} />
+                                <Route path="/interviewsecured/:jobId" element={<InterviewSecured />} />
+                                <Route path="/allinterviews" element={<AllInterviews />} />
+                                <Route path="/test" element={<Test />} />
+                                <Route path="/updatejob/:jobId" element={<UpdateJob />} />
+                                <Route path={"/dategraphs"} element={<JobsAppliedDateGraph />} />
 
+                            </React.Fragment>
+                        )}
+                    </Routes>
+                </div>
+            </JobsContextProvider>
+        </UserContextProvider>
+    );
 
-                      }
-                  </Routes>
-              </div>
-
-        {/*still need to put this  nav bar in its own component and out of the APP.tsx*/}
-
-        </JobsContextProvider>
-
-      </UserContextProvider>
-
-  );
 };
 
 export default App;

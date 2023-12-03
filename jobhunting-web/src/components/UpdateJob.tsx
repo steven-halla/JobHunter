@@ -10,6 +10,8 @@ import styled from "styled-components";
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
+import {red} from "@mui/material/colors";
+import {deviceHome} from "../common/ScreenSizes";
 
 //need to make snackbar not stay for so long
 
@@ -92,6 +94,10 @@ export const UpdateJob = () => {
 
     // };
 
+    /* styles.css (or your CSS file) */
+
+
+
     return(
         <TestWrapperBox>
             <FormBox>
@@ -102,8 +108,15 @@ export const UpdateJob = () => {
                         variant="outlined"
                         value={formData.companyname || ''}
                         onChange={handleChange}
+                        InputProps={{
+                            style: {
+                                fontSize: '1.1rem', // Set text size to 1.1rem
+                                fontFamily: 'Arial, sans-serif', // Set the "Arial" font
+                            },
+                        }}
                         style={{ width: '80%' }}
                     />
+
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}> {/* Adjusted margin */}
@@ -114,6 +127,12 @@ export const UpdateJob = () => {
                         value={formData.description || ''}
                         onChange={handleChange}
                         style={{ width: '80%' }}
+                        InputProps={{
+                            style: {
+                                fontSize: '1.1rem', // Set text size to 1.1rem
+                                fontFamily: 'Arial, sans-serif', // Set the "Arial" font
+                            },
+                        }}
                     />
                 </div>
 
@@ -125,6 +144,12 @@ export const UpdateJob = () => {
                         value={formData.primarycontact || ''}
                         onChange={handleChange}
                         style={{ width: '80%' }}
+                        InputProps={{
+                            style: {
+                                fontSize: '1.1rem', // Set text size to 1.1rem
+                                fontFamily: 'Arial, sans-serif', // Set the "Arial" font
+                            },
+                        }}
                     />
                 </div>
 
@@ -136,6 +161,12 @@ export const UpdateJob = () => {
                         value={formData.companywebsitelink || ''}
                         onChange={handleChange}
                         style={{ width: '80%' }}
+                        InputProps={{
+                            style: {
+                                fontSize: '1.1rem', // Set text size to 1.1rem
+                                fontFamily: 'Arial, sans-serif', // Set the "Arial" font
+                            },
+                        }}
                     />
                 </div>
 
@@ -147,21 +178,36 @@ export const UpdateJob = () => {
                         value={formData.joblink || ''}
                         onChange={handleChange}
                         style={{ width: '80%' }}
+                        InputProps={{
+                            style: {
+                                fontSize: '1.1rem', // Set text size to 1.1rem
+                                fontFamily: 'Arial, sans-serif', // Set the "Arial" font
+                            },
+                        }}
                     />
                 </div>
 
 
 
-
-                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleSubmit}
-                    >
-                        Submit
-                    </Button>
-                </div>
+                <SubmitButtonDiv>
+                    <SubmitButton
+                        sx={{
+                            borderRadius: 10,
+                            background: 'linear-gradient(to right, #00C9FF, #00B4D8)', // Neon blue gradient
+                            color: 'white', // Text color
+                            border: '1px solid #007BFF', // Adding a border for contrast
+                            '&:hover': {
+                                background: 'linear-gradient(to left, #00C9FF, #00B4D8)', // Change gradient direction on hover for effect
+                                boxShadow: '0 0 10px #00C9FF', // Optional: Adding a glow effect on hover
+                            },
+                            fontSize: '1.6rem',
+                            fontWeight: 'bold',
+                            fontFamily: "'Times New Roman', serif",
+                            textTransform: 'none', // Optional: Prevents uppercase text transformation common in MUI Buttons
+                        }}
+                        onClick={handleSubmit} variant="contained">
+                        Submit</SubmitButton>
+                </SubmitButtonDiv>
                 <Snackbar
                     style={{
                         position: 'fixed',
@@ -192,10 +238,45 @@ export const UpdateJob = () => {
 };
 
 
+const SubmitButtonDiv = styled.div`
+  display: flex;
+
+  height: 10%;
+  //width: 70%;
+  margin-top: 9%;
+  justify-content: center;
+  align-items: center;
+`;
+
+const LifeStoryDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  //height: 40vh;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
+const SubmitButton = styled(Button)`
+  height: 9vh;
+  width: 23vw;
+  display: flex;
+  padding-bottom: 70px;
+  //margin-bottom: 50px;
+  //background-color: yellow;
+
+  @media ${deviceHome.mobile} {
+    //background-color: red;
+    width: 30vw;
+    height: 7vh;
+  }
+
+
+`;
 
 
 const TestWrapperBox = styled(Box)`
-  background-color: lightsalmon;
+  background-color: #3D4849;
   height: 100vh;
   width: 100vw;
   justify-content: center;
@@ -205,10 +286,10 @@ const TestWrapperBox = styled(Box)`
 `;
 
 const FormBox = styled(Box)`
-  height: 60vh;
+  height: 67vh;
   width: 30vw;
 
-  background-color: #c7f3ff;
+  background-color: #C0C0C0;
 
   /* Adding box shadow on left, right, and bottom sides */
   box-shadow:

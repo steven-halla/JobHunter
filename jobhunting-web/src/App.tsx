@@ -96,6 +96,12 @@ const App = () => {
                                 <Route path="/updatejob/:jobId" element={<UpdateJob />} />
                                 <Route path={"/dategraphs"} element={<JobsAppliedDateGraph />} />
 
+
+
+                                <Route path="/user" element={<BoardUser />} />
+                                <Route path="/mod" element={<BoardModerator />} />
+                                <Route path="/admin" element={<BoardAdmin />} />
+
                             </React.Fragment>
                         )}
                     </Routes>

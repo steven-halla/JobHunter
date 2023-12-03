@@ -429,25 +429,49 @@ export const Home: React.FC = () => {
 
                     >
 
-                        <StyledTextField         label="company name"
-                                                 value={companyname} onChange={handleCompanyNameChange} />
+                        <StyledTextField
+                            type="text"
+                            variant="outlined"
+                            placeholder="company name" // Using placeholder instead of label
+                            value={companyname}
+                            onChange={handleCompanyNameChange}
+                        />
+
                     </FieldContainerDiv>
 
 
 
                     <FieldContainerDiv>
-                        <StyledTextField  label="description" value={description} onChange={handleDescriptionChange} />
+                        <StyledTextField                              type="text"
+                                                                      variant="outlined"
+                                                                      placeholder="description"
+                                                                      value={description}
+                                                                      onChange={handleDescriptionChange} />
                     </FieldContainerDiv>
 
 
                     <FieldContainerDiv>
-                        <StyledTextField   label="contact" value={primarycontact} onChange={handlePrimaryContact} />
+                        <StyledTextField
+                            type="text"
+                            variant="outlined"
+                            placeholder="contact"
+                            value={primarycontact}
+                            onChange={handlePrimaryContact} />
                     </FieldContainerDiv>
                     <FieldContainerDiv>
-                        <StyledTextField   label="website" value={companywebsitelink} onChange={handleCompanyWebSiteLink} />
+                        <StyledTextField
+                            type="text"
+                            variant="outlined"
+                            placeholder="company website link"
+                            value={companywebsitelink} onChange={handleCompanyWebSiteLink} />
                     </FieldContainerDiv>
                     <FieldContainerDiv>
-                        <StyledTextField  label="job link" value={joblink} onChange={handleJobLink} />
+                        <StyledTextField
+                            type="text"
+                            variant="outlined"
+                            placeholder="job link"
+
+                            value={joblink} onChange={handleJobLink} />
                     </FieldContainerDiv>
                     <ButtonDiv>
                         <SubmitButton
@@ -570,18 +594,38 @@ const ButtonDiv = styled.div`
 const BaseStyledTextField = styled(TextField)`
   & .MuiFilledInput-input {
     height: 20px;
-  }
-`;
-const StyledTextField: React.FC<TextFieldProps> = (props) => (
-    <BaseStyledTextField
+    
 
-        type="text"
-        id="outlined-basic"
-        size="small"
-        style={{ width: '100%' ,  marginBottom: '5%' , backgroundColor: 'white'}}
-        {...props}
-    />
-);
+  }
+  & .MuiInputBase-input { // Target the input base for styling
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1.2rem;
+  }
+
+  & .MuiInputBase-input::placeholder { // Target the placeholder with increased specificity
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.3rem;
+  }
+
+
+ 
+`;
+
+const StyledTextField: React.FC<TextFieldProps> = (props) => {
+    // Ensure the label is a string, default to an empty string if not
+    const placeholder = typeof props.label === 'string' ? props.label : '';
+
+    return (
+        <BaseStyledTextField
+            variant="outlined"
+            type="text"
+            size="small"
+            style={{ width: '100%', marginBottom: '5%', backgroundColor: 'white' }}
+            {...props}
+        />
+    );
+};
+
 
 const SubmitButton = styled(Button)`
   height: 9vh;

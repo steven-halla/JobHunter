@@ -48,7 +48,12 @@ const App = () => {
     const userIdString: string = (userId as number | undefined)?.toString() || '';
 
 
-
+    function isAuthenticated() {
+        // Implement your authentication logic here
+        // Example: Check if the user is logged in or has a valid token
+        const user = AuthService.getCurrentUser();
+        return user !== null;
+    }
 
 
 
@@ -56,33 +61,22 @@ const App = () => {
       <UserContextProvider>
           <JobsContextProvider userid={userIdString}>
               {!isLoginPage && !isRegiesterPage && <Header />}
-
-            <div>
-                <Routes>
-                    <Route path="/" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-
-                    <Route path={"/home/:id"} element={<Home />} />
-                    <Route path={"/dategraphs"} element={<JobsAppliedDateGraph />} />
-
-
-                    <Route path="/profile/:id" element={<Profile />} />
-                    <Route path="/jobviewall" element={<JobViewAll />} />
-                    <Route path="/companynoresponse" element={<CompanyNoResponse />} />
-                    <Route path="/interviewsecured/:jobId" element={<InterviewSecured />} />
-                    <Route path="/allinterviews" element={<AllInterviews />} />
-                    <Route path="/test" element={<Test />} />
-                    <Route path="/updatejob/:jobId" element={<UpdateJob />} />
-
-
-
-                    <Route path="/user" element={<BoardUser />} />
-                    <Route path="/mod" element={<BoardModerator />} />
-                    <Route path="/admin" element={<BoardAdmin />} />
-
-
-                </Routes>
-            </div>
+              <div>
+                  <Routes>
+                      <Route path="/" element={<Login />} />
+                      <Route path="/register" element={<Register />} />
+                      {isAuthenticated() ? (
+                          <React.Fragment>
+                              <Route path="/home/:id" element={<Home />} />
+                              <Route path="/profile/:id" element={<Profile />} />
+                              <Route path="/user" element={<BoardUser />} />
+                              <Route path="/mod" element={<BoardModerator />} />
+                              <Route path="/admin" element={<BoardAdmin />} />
+                              <Route path="/dategraphs" element={<JobsAppliedDateGraph />} /> {/* Add your route */}
+                          </React.Fragment>
+                      ) : null}
+                  </Routes>
+              </div>
 
         {/*still need to put this  nav bar in its own component and out of the APP.tsx*/}
 

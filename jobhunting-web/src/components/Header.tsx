@@ -149,6 +149,14 @@ export const Header = () => {
         setLandmarkIconState(true);
     };
 
+    const logOut = () => {
+        AuthService.logout();
+        setShowModeratorBoard(false);
+        setShowAdminBoard(false);
+        setCurrentUser(null);
+    };
+
+
 
     useEffect(() => {
         const user = AuthService.getCurrentUser();
@@ -181,12 +189,7 @@ export const Header = () => {
     }, [handleClickOutside]);
 
 
-    const logOut = () => {
-        AuthService.logout();
-        setShowModeratorBoard(false);
-        setShowAdminBoard(false);
-        setCurrentUser(null);
-    };
+
 
     return (
         <HeaderDiv>
@@ -341,12 +344,7 @@ export const Header = () => {
 
 
 
-                            <a href="/" onClick={logOut} style={{ textDecoration: 'none' , color: "#3D4849"}}>
-                                <FontAwesomeIcon
-                                    style={{ color: '#3D4849' }} // Set the icon color to light blue
 
-                                    icon={faSignOutAlt} size="lg" /> Logout
-                            </a>
 
 
                             {/*<UserDisplay onClick={toggleMenu}>*/}
@@ -503,11 +501,15 @@ export const IconWrapper = styled.div`
   }
 
   span {
-    font-size: 0.8rem;
+    font-size: 1.1rem;
   }
 
   @media ${noResponseJobs.mobile} {
     margin-bottom: 3%;
+
+    span {
+      font-size: 0.9rem;
+    }
   }
 `;
 

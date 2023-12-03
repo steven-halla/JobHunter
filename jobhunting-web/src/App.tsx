@@ -60,11 +60,12 @@ const App = () => {
             <div>
                 <Routes>
                     <Route path="/" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
 
                     <Route path={"/home/:id"} element={<Home />} />
                     <Route path={"/dategraphs"} element={<JobsAppliedDateGraph />} />
 
-                    <Route path="/register" element={<Register />} />
+
                     <Route path="/profile/:id" element={<Profile />} />
                     <Route path="/jobviewall" element={<JobViewAll />} />
                     <Route path="/companynoresponse" element={<CompanyNoResponse />} />

@@ -1,5 +1,5 @@
 import React, {useContext, useState, useEffect, useRef} from 'react';
-import { useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import { UserContext } from '../services/usercontext';
 import UserService from '../services/user.service';
 import styled from "styled-components";
@@ -7,10 +7,13 @@ import TextareaAutosize from '@mui/material/TextareaAutosize';
 import {deviceCalendar, deviceHome, deviceProfile} from "../common/ScreenSizes";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGithub, faLinkedin} from "@fortawesome/free-brands-svg-icons";
-import {faBriefcase} from "@fortawesome/free-solid-svg-icons";
+import {faBriefcase, faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
 import {TextField} from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import AuthService from "../services/auth.service";
+import {User} from "../models/User";
+// import { jwtDecode, InvalidTokenError } from 'jwt-decode';
 
 
 const Profile = () => {
@@ -19,7 +22,22 @@ const Profile = () => {
     const [loading, setLoading] = useState(true);
     const isMountedRef = useRef(true);
 
+
+    const navigate = useNavigate();
+
     useEffect(() => {
+        if (user && user.id && id !== user.id.toString()) {
+            // Redirect to an unauthorized page or handle unauthorized access
+            AuthService.logout();
+
+            navigate('/');
+        }
+    }, [id, user, navigate]);
+
+
+    useEffect(() => {
+        console.log("your id is" + id);
+
         const userId = Number(id);
         if (!isNaN(userId)) {
             setLoading(true);
@@ -140,13 +158,34 @@ const Profile = () => {
     };
 
 
+    const [showModeratorBoard, setShowModeratorBoard] = useState(false);
+    const [showAdminBoard, setShowAdminBoard] = useState(false);
+    const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+    const logOut = () => {
+        AuthService.logout();
+        setShowModeratorBoard(false);
+        setShowAdminBoard(false);
+        setCurrentUser(null);
+    };
+
+
     return (
         <ProfileWrapperDiv>
+
+
 
             <InfoContainerDiv>
 
                 <NameDiv>
                     <strong>Hello Their {user?.username}</strong>
+                    <a href="/" onClick={logOut} style={{ textDecoration: 'none' , color: "white", marginLeft: "3%"}}>
+                        <FontAwesomeIcon
+                            style={{ color: "white" }} // Set the icon color to light blue
+
+                            icon={faSignOutAlt} size="lg" /> Logout
+                    </a>
+
                 </NameDiv>
 
 
@@ -238,6 +277,8 @@ const Profile = () => {
                         Submit</SubmitButton>
                 </SubmitButtonDiv>
 
+
+
                 <Footer/>
 
             </InfoContainerDiv>
@@ -307,8 +348,10 @@ background-color: white;
 
 const NameDiv = styled.div`
   display: flex;
+  
 
-  background-color: #3D4849;
+  //background-color: #3D4849;
+  //background-color: blue;
   height: 20%;
   width: 100%;
   justify-content: center;

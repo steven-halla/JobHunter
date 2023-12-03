@@ -477,21 +477,23 @@ export const Home: React.FC = () => {
                         <SubmitButton
                             sx={{
                                 borderRadius: 10,
-                                background: 'linear-gradient(to right, #00C9FF, #00B4D8)', // Neon blue gradient
-                                color: 'white', // Text color
-                                border: '1px solid #007BFF', // Adding a border for contrast
+                                background: 'linear-gradient(to right, #00C9FF, #00B4D8)',
+                                border: '1px solid #007BFF',
                                 '&:hover': {
-                                    background: 'linear-gradient(to left, #00C9FF, #00B4D8)', // Change gradient direction on hover for effect
-                                    boxShadow: '0 0 10px #00C9FF', // Optional: Adding a glow effect on hover
+                                    background: 'linear-gradient(to left, #00C9FF, #00B4D8)',
+                                    boxShadow: '0 0 10px #00C9FF',
                                 },
-                                textTransform: 'none', // Optional: Prevents uppercase text transformation common in MUI Buttons
-                                fontWeight: 'bold', // Optional: Makes the text bold
+                                textTransform: 'none',
+                                fontSize: '1.6rem',
+                                fontWeight: 'bold',
+                                fontFamily: "'Times New Roman', serif", // Corrected fontFamily format
                             }}
                             variant="contained"
                             type="submit"
                         >
                             Submit
                         </SubmitButton>
+
 
 
                     </ButtonDiv>
@@ -628,6 +630,7 @@ const StyledTextField: React.FC<TextFieldProps> = (props) => {
 
 
 const SubmitButton = styled(Button)`
+color: green;
   height: 9vh;
   width: 23vw;
   display: flex;

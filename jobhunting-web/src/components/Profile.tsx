@@ -274,8 +274,10 @@ const Profile = () => {
                                 background: 'linear-gradient(to left, #00C9FF, #00B4D8)', // Change gradient direction on hover for effect
                                 boxShadow: '0 0 10px #00C9FF', // Optional: Adding a glow effect on hover
                             },
+                            fontSize: '1.6rem',
+                            fontWeight: 'bold',
+                            fontFamily: "'Times New Roman', serif",
                             textTransform: 'none', // Optional: Prevents uppercase text transformation common in MUI Buttons
-                            fontWeight: 'bold', // Optional: Makes the text bold
                         }}
                     onClick={handleSubmitButton} variant="contained">
                         Submit</SubmitButton>
@@ -345,6 +347,10 @@ const StyledTextField = styled(TextField)`
   box-sizing: border-box; // This ensures padding and borders are included in the width
 background-color: white;
   // Add other styles as needed
+  & .MuiInputBase-input { // Target the placeholder with increased specificity
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.13rem;
+  }
 `;
 
 
@@ -363,6 +369,8 @@ const NameDiv = styled.div`
   margin-top: 3%;  
   strong {
     color: black;
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.4rem;
   }
 `;
 
@@ -503,6 +511,9 @@ const StyledTextareaAutosize = styled(TextareaAutosize)`
   border-radius: 4px; // Example style
   width: 670px;
   margin-top: 5%;
+  font-family: 'Open Sans', sans-serif;
+font-size: 1.2rem;
+  
 
 
   // You can also add media queries for responsive design

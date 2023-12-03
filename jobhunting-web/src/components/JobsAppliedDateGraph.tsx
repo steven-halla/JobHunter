@@ -156,7 +156,7 @@ export const JobsAppliedDateGraph: React.FC = () => {
 
 export const JobsAppliedDateGraphDiv = styled.div`
   display: flex;
-  height: 100%;
+  height: 100vh;
   width: 100vw;
   justify-content: center; 
   align-items: center;
@@ -179,9 +179,8 @@ export const GraphContainer = styled.div`
 
 export const NumberOfJobsAppliedDiv = styled.div`
   display: flex;
-  height: 25vh;
-  min-height: 200px; // Set a minimum height
-  width: 20vw;
+  min-height: 100px; // Set a minimum height
+  width: 24vw;
   min-width: 200px; // Set a minimum width
   justify-content: center;
   align-items: center;
@@ -191,6 +190,9 @@ export const NumberOfJobsAppliedDiv = styled.div`
   box-shadow: -4px 0 8px -2px rgba(0, 0, 0, 0.2), 4px 0 8px -2px rgba(0, 0, 0, 0.2), 0 4px 8px -2px rgba(0, 0, 0, 0.2);
   border: 1px solid #d1e8ff;
   background-color: #C0C0C0;
+  font-family: Arial, sans-serif;
+  font-size: 1.1rem;
+
 
   //background-image: linear-gradient(to bottom right, #c7f3ff, #a1d8f0);
   overflow: auto; // Manage overflow content

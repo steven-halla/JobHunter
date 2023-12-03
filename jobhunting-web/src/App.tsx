@@ -74,7 +74,10 @@ const App = () => {
                               <Route path="/admin" element={<BoardAdmin />} />
                               <Route path="/dategraphs" element={<JobsAppliedDateGraph />} /> {/* Add your route */}
                           </React.Fragment>
-                      ) : null}
+                      ) : null
+
+
+                      }
                   </Routes>
               </div>
 

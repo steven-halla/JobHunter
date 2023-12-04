@@ -2,10 +2,11 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { JobsContext } from '../services/jobcontext';
 import styled from "styled-components";
-import { device } from "../common/ScreenSizes";
+import {device, deviceHome} from "../common/ScreenSizes";
 import {Interview, Job} from "../models/Job";
 import TextField from '@mui/material/TextField';
 import {TextFieldProps} from "@mui/material";
+import Button from "@mui/material/Button";
 
 
 //need to include time along with interview date!!!
@@ -159,21 +160,27 @@ export const InterviewSecured = () => {
                         value={meetingLink}
                         onChange={(e) => setMeetingLink(e.target.value)}
                     />
-                    <label>
-                        Interview Date
-                        <input
-                            type="date"
-                            value={interviewdate ? formatDateForInput(addOneDay(new Date(interviewdate))) : ''}
-                            onChange={(e) => {
-                                const selectedDate = e.target.value ? new Date(e.target.value) : null;
-                                setInterviewDate(selectedDate);
-                            }}
-                        />
-                    </label>
 
 
-                    <input
+                    <StyledTextField
+                        type="date"
+                        variant="outlined"
+                        placeholder="Interview date" // Using placeholder instead of label
+                        value={interviewdate ? formatDateForInput(addOneDay(new Date(interviewdate))) : ''}
+                        onChange={(e) => {
+                            const selectedDate = e.target.value ? new Date(e.target.value) : null;
+                            setInterviewDate(selectedDate);
+                        }}
+                    />
+
+
+
+
+
+                    <StyledTextField
                         type="time"
+                        variant="outlined"
+                        placeholder="Start Time" // Using placeholder instead of label
                         value={formatTimeForInput(interviewbegintime)}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                             console.log("Selected begin time (string):", e.target.value);
@@ -183,8 +190,12 @@ export const InterviewSecured = () => {
                         }}
                     />
 
-                    <input
+
+
+                    <StyledTextField
                         type="time"
+                        variant="outlined"
+                        placeholder="End Time" // Using placeholder instead of label
                         value={formatTimeForInput(interviewendtime || new Date())}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                             console.log("Selected end time (string):", e.target.value);
@@ -195,26 +206,40 @@ export const InterviewSecured = () => {
                     />
 
 
-
-
-
-                    <label>
-                        Interview Notes
                         <StyledTextField
+                            placeholder="An Interveiwer may always ask 'tell us more about yourself'" // Using placeholder instead of label
+
                             multiline
                             rows={4}
                             variant="outlined"
                             fullWidth
-                            placeholder="Interview Notes"
                             value={interviewnotes}
                             onChange={(e: { target: { value: React.SetStateAction<string>; }; }) =>
                                 setInterviewNotes(e.target.value)}
                         />
-                    </label>
+
+                    <SubmitButton
+                        sx={{
+                            borderRadius: 10,
+                            background: 'linear-gradient(to right, #00C9FF, #00B4D8)',
+                            border: '1px solid #007BFF',
+                            '&:hover': {
+                                background: 'linear-gradient(to left, #00C9FF, #00B4D8)',
+                                boxShadow: '0 0 10px #00C9FF',
+                            },
+                            textTransform: 'none',
+                            fontSize: '1.6rem',
+                            fontWeight: 'bold',
+                            fontFamily: "'Times New Roman', serif", // Corrected fontFamily format
+                        }}
+                        variant="contained"
+                        type="submit"
+                    >
+                        Submit
+                    </SubmitButton>
                 </InterviewInfoDiv>
-                <SaveAllButtonDiv>
-                    <button type="submit">Save Interview Details</button>
-                </SaveAllButtonDiv>
+
+
             </form>
             <Footer />
             </MyBox>
@@ -223,30 +248,65 @@ export const InterviewSecured = () => {
     );
 };
 
-const MyBox = styled.div`
+const SubmitButton = styled(Button)`
+color: green;
+  height: 9vh;
+  width: 23vw;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  background-color: red;
-  height: 80%;
-  width: 90%;
+  padding-bottom: 70px;
+  //margin-bottom: 50px;
+  //background-color: yellow;
+  @media ${deviceHome.mobile} {
+    //background-color: red;
+    width: 30vw;
+    height: 7vh;
+  }
 
 
 `;
 
 
+const MyBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: grey;
+  width: 30%;
+  //height: 100%;
+  box-shadow: -4px 0 8px -2px rgba(0, 0, 0, 0.2),
+  4px 0 8px -2px rgba(0, 0, 0, 0.2),
+  0 4px 8px -2px rgba(0, 0, 0, 0.2);
+  border-radius: 10px; /* Adjust this value to get the desired roundness */
+  padding-bottom: 20px; /* Adjust this value as needed */
+  padding-top: 15px; /* Adjust this value as needed */
+  margin-bottom: 4%;
+
+h1 {
+
+  padding-bottom: 20px; /* Adjust this value as needed */
+
+  
+}
+` ;
+
+
+
+
+
 
 
 const BaseStyledTextField = styled(TextField)`
+
   & .MuiFilledInput-input {
     height: 20px;
-    
+
 
   }
   & .MuiInputBase-input { // Target the input base for styling
     font-family: 'Helvetica Neue', Arial, sans-serif;
     font-size: 1.2rem;
+    
   }
 
   & .MuiInputBase-input::placeholder { // Target the placeholder with increased specificity
@@ -267,7 +327,7 @@ const StyledTextField: React.FC<TextFieldProps> = (props) => {
             variant="outlined"
             type="text"
             size="small"
-            style={{ width: '100%', marginBottom: '5%', backgroundColor: 'white' }}
+            style={{ width: '80%', marginBottom: '4%', backgroundColor: 'white' }}
             {...props}
         />
     );
@@ -279,6 +339,8 @@ const InterviewSecuredWrapperDiv = styled.div`
   justify-content: center;
   align-items: center;
   display: flex;
+  
+  
 
   @media ${device.mobile} {
     height: 100vh;
@@ -330,7 +392,7 @@ const SaveAllButtonDiv = styled.div`
   }
 
   @media ${device.laptop} {
-    margin-top: 30px;
+    margin-top: 10px;
     height: 40px;
     width: 100%;       
     align-self: center;
@@ -341,6 +403,7 @@ const SaveAllButtonDiv = styled.div`
 const InterviewInfoDiv = styled.div`
   //display: flex;
   //flex-direction: column;
+  
   
   label {
     //margin-bottom: 10px;

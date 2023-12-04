@@ -314,6 +314,16 @@ const BaseStyledTextField = styled(TextField)`
     font-size: 1.3rem;
   }
 
+  & input[type='date']::-webkit-calendar-picker-indicator {
+    position: absolute;
+    right: 10px; // Adjust as needed
+  }
+
+  & input[type='time']::-webkit-calendar-picker-indicator {
+    position: absolute;
+    right: 10px;  // Adjust as needed
+  }
+
 
  
 `;

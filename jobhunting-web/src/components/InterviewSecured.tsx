@@ -5,13 +5,19 @@ import styled from "styled-components";
 import { device } from "../common/ScreenSizes";
 import {Interview, Job} from "../models/Job";
 import TextField from '@mui/material/TextField';
+import {TextFieldProps} from "@mui/material";
 
 
 //need to include time along with interview date!!!
 //also need to include ways to send notification
 //home page we can do an useEffect hook, setting global state
 export const InterviewSecured = () => {
-    const { meetingLink,setMeetingLink, interviewnotes, setInterviewNotes, interviewernames, setInterviewerNames, interviewdate, setInterviewDate, setJob, jobs, setJobs, interviewbegintime, setInterviewBeginTime, interviewendtime, setInterviewEndTime } = useContext(JobsContext);
+    const { meetingLink,setMeetingLink,
+        interviewnotes, setInterviewNotes, interviewernames,
+        setInterviewerNames, interviewdate,
+        setInterviewDate, setJob, jobs, setJobs,
+        interviewbegintime, setInterviewBeginTime, interviewendtime,
+        setInterviewEndTime } = useContext(JobsContext);
     const { jobId } = useParams<{ jobId: string }>();
     const [currentJob, setCurrentJob] = useState<Job | undefined>(undefined);
     const [interviews, setInterviews] = useState<Interview[]>([]);
@@ -64,11 +70,13 @@ export const InterviewSecured = () => {
 
         // Format interviewbegintime and interviewendtime to "HH:mm:ss" format
         const formattedBeginTime = interviewbegintime
-            ? `${String(interviewbegintime.getHours()).padStart(2, '0')}:${String(interviewbegintime.getMinutes()).padStart(2, '0')}:${String(interviewbegintime.getSeconds()).padStart(2, '0')}`
+            ? `${String(interviewbegintime.getHours()).padStart(2, '0')}:${String(interviewbegintime.getMinutes()).
+            padStart(2, '0')}:${String(interviewbegintime.getSeconds()).padStart(2, '0')}`
             : '';
 
         const formattedEndTime = interviewendtime
-            ? `${String(interviewendtime.getHours()).padStart(2, '0')}:${String(interviewendtime.getMinutes()).padStart(2, '0')}:${String(interviewendtime.getSeconds()).padStart(2, '0')}`
+            ? `${String(interviewendtime.getHours()).padStart(2, '0')}:${String(interviewendtime.getMinutes()).
+            padStart(2, '0')}:${String(interviewendtime.getSeconds()).padStart(2, '0')}`
             : '';
 
         try {
@@ -131,15 +139,17 @@ export const InterviewSecured = () => {
             </TitleDiv>
             <form onSubmit={handleFormSubmit}>
                 <InterviewInfoDiv>
-                    <label>
-                        Interviewer Names
-                        <input
-                            type="text"
-                            placeholder="Interviewer Names"
-                            value={interviewernames}
-                            onChange={(e) => setInterviewerNames(e.target.value)}
-                        />
-                    </label>
+
+
+
+                    <StyledTextField
+                        type="text"
+                        variant="outlined"
+                        placeholder="Interviers" // Using placeholder instead of label
+                        value={interviewernames}
+                        onChange={(e) => setInterviewerNames(e.target.value)}
+                    />
+
                     <label>
                         Meeting Link
                         <input
@@ -197,7 +207,8 @@ export const InterviewSecured = () => {
                             fullWidth
                             placeholder="Interview Notes"
                             value={interviewnotes}
-                            onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setInterviewNotes(e.target.value)}
+                            onChange={(e: { target: { value: React.SetStateAction<string>; }; }) =>
+                                setInterviewNotes(e.target.value)}
                         />
                     </label>
                 </InterviewInfoDiv>
@@ -210,15 +221,47 @@ export const InterviewSecured = () => {
     );
 };
 
-const StyledTextField = styled(TextField)`
-  @media ${device.laptop} {
-    && {
-      width: 140%;
-    }
+
+
+const BaseStyledTextField = styled(TextField)`
+  & .MuiFilledInput-input {
+    height: 20px;
+    
+
   }
+  & .MuiInputBase-input { // Target the input base for styling
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1.2rem;
+  }
+
+  & .MuiInputBase-input::placeholder { // Target the placeholder with increased specificity
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.3rem;
+  }
+
+
+ 
 `;
 
+const StyledTextField: React.FC<TextFieldProps> = (props) => {
+    // Ensure the label is a string, default to an empty string if not
+    const placeholder = typeof props.label === 'string' ? props.label : '';
+
+    return (
+        <BaseStyledTextField
+            variant="outlined"
+            type="text"
+            size="small"
+            style={{ width: '100%', marginBottom: '5%', backgroundColor: 'white' }}
+            {...props}
+        />
+    );
+};
+
+
 const InterviewSecuredWrapperDiv = styled.div`
+  background-color: #3D4849;
+
   @media ${device.mobile} {
     height: 100vh;
     width: 100vw;
@@ -276,19 +319,19 @@ const SaveAllButtonDiv = styled.div`
 `;
 
 const InterviewInfoDiv = styled.div`
-  display: flex;
-  flex-direction: column;
+  //display: flex;
+  //flex-direction: column;
   
   label {
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    width: 100%;
+    //margin-bottom: 10px;
+    //display: flex;
+    //flex-direction: column;
+    //align-items: start;
+    //width: 100%;
   }
 
   input, textarea {
-    margin-top: 5px;
+    //margin-top: 5px;
   }
 
  @media ${device.mobile} {

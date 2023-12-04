@@ -134,31 +134,31 @@ export const InterviewSecured = () => {
     // @ts-ignore
     return (
         <InterviewSecuredWrapperDiv>
-            <TitleDiv>
-                <h1>Company: {currentJob?.companyname}</h1>
-            </TitleDiv>
+
+            <MyBox>
+
+
+            {/*<TitleDiv>*/}
+                <h1>{currentJob?.companyname}</h1>
+            {/*</TitleDiv>*/}
             <form onSubmit={handleFormSubmit}>
                 <InterviewInfoDiv>
-
+                    <StyledTextField
+                        type="text"
+                        variant="outlined"
+                        placeholder="Interviewers" // Using placeholder instead of label
+                        value={interviewernames}
+                        onChange={(e) => setInterviewerNames(e.target.value)}
+                    />
 
 
                     <StyledTextField
                         type="text"
                         variant="outlined"
-                        placeholder="Interviers" // Using placeholder instead of label
-                        value={interviewernames}
-                        onChange={(e) => setInterviewerNames(e.target.value)}
+                        placeholder="Meeting Link" // Using placeholder instead of label
+                        value={meetingLink}
+                        onChange={(e) => setMeetingLink(e.target.value)}
                     />
-
-                    <label>
-                        Meeting Link
-                        <input
-                            type="text"
-                            placeholder="Meeting Link"
-                            value={meetingLink}
-                            onChange={(e) => setMeetingLink(e.target.value)}
-                        />
-                    </label>
                     <label>
                         Interview Date
                         <input
@@ -217,9 +217,24 @@ export const InterviewSecured = () => {
                 </SaveAllButtonDiv>
             </form>
             <Footer />
+            </MyBox>
+
         </InterviewSecuredWrapperDiv>
     );
 };
+
+const MyBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: red;
+  height: 80%;
+  width: 90%;
+
+
+`;
+
 
 
 
@@ -261,6 +276,9 @@ const StyledTextField: React.FC<TextFieldProps> = (props) => {
 
 const InterviewSecuredWrapperDiv = styled.div`
   background-color: #3D4849;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 
   @media ${device.mobile} {
     height: 100vh;
@@ -269,8 +287,8 @@ const InterviewSecuredWrapperDiv = styled.div`
 
   @media ${device.laptop} {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    //flex-direction: column;
+    //justify-content: center;
     align-items: center;
     height: 100vh;
     width: 100vw;
@@ -279,6 +297,9 @@ const InterviewSecuredWrapperDiv = styled.div`
 
 const TitleDiv = styled.div`
   display: flex;
+  background-color: #C0C0C0;
+  width: 50%;
+
 
   @media ${device.mobile} {
     height: 10vh;
@@ -295,7 +316,6 @@ const TitleDiv = styled.div`
     position: absolute;
     top: 70px;
     left: 0; 
-    width: 100%;
   }
 `;
 

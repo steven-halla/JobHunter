@@ -428,16 +428,20 @@ export const Test = () => {
                     </TopBox>
 
                     <MiddleBox>
-                        <BlueBox>
-                            <p>
-                                Company name + link
-                            </p>
-                        </BlueBox>
 
-                        <PurpleBox>
-                            <FontAwesomeIcon icon={faGlasses} />
+                        <VioletBox>
+                            <BlueBox>
+                                <p>
+                                    Company name + link
+                                </p>
+                            </BlueBox>
 
-                        </PurpleBox>
+                            <PurpleBox>
+                                <FontAwesomeIcon icon={faGlasses} />
+
+                            </PurpleBox>
+                        </VioletBox>
+
                     </MiddleBox>
                     <BottomBox>
 
@@ -485,8 +489,19 @@ export const Test = () => {
     );
 };
 
-const CheckBoxInput = styled.input`
-margin-left: 11%;
+const VioletBox = styled.div`
+  height: 90%;
+  width: 100%;
+  background-color: violet;
+  margin-top: 1%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+
+  p {
+    color: black;
+  }
 `;
 
 
@@ -630,7 +645,6 @@ const MiddleBox = styled.div`
 
 const BlueBox = styled.div`
   height: 20%;
-  width: 40%;
   background-color: blue;
   padding-left: 30px;
   padding-top: 10px;
@@ -649,7 +663,7 @@ const PurpleBox = styled.div`
   padding-left: 10px;
   padding-top: 10px;
   margin-top: 8%;
-  margin-left: 20px; // Add a small margin to separate from BlueBox
+  margin-left: 2%;
 
   svg {
     color: white;
@@ -924,3 +938,8 @@ const SimpleSelect = styled.select`
    margin-right: -4px;
    
 `;
+
+const CheckBoxInput = styled.input`
+margin-left: 11%;
+`;
+

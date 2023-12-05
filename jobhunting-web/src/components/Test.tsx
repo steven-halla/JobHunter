@@ -417,6 +417,12 @@ export const Test = () => {
                             <p>
                                 Jan 1st 1919
                             </p>
+
+                            <FontAwesomeIcon
+                                icon={faCalendar}
+                                style={{  color: "black" }} // Added marginRight here
+
+                            />
                         </YellowBox>
 
                         <GreenBox>
@@ -472,6 +478,11 @@ export const Test = () => {
 
 
                         </TurquoiseBox>
+
+
+                        <FontAwesomeIcon
+                            icon={faSkullCrossbones}
+                        />
 
 
 
@@ -588,10 +599,17 @@ const BottomBox = styled.div`
   height: 43%;
   width: 100%;
   background-color: cadetblue;
-display: flex;
+  display: flex;
   flex-direction: column;
+  position: relative; /* Add this line to create a positioning context for absolute positioning */
 
+  svg {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
 `;
+
 
 const RedBox = styled.div`
   height: 50%;
@@ -607,11 +625,13 @@ const RedBox = styled.div`
 
 
 const YellowBox = styled.div`
-  height: 40%;
+  height: 80%;
   width: 25%;
   background-color: yellow;
   margin-left: 3%;
   margin-top: 1%;
+  display: flex;
+justify-content: space-between;  
   
 
   p {

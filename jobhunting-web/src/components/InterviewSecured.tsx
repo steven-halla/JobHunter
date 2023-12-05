@@ -196,7 +196,7 @@ export const InterviewSecured = () => {
                         type="time"
                         variant="outlined"
                         placeholder="End Time" // Using placeholder instead of label
-                        value={formatTimeForInput(interviewendtime || new Date())}
+                        value={formatTimeForInput(interviewendtime)}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                             console.log("Selected end time (string):", e.target.value);
                             const timeValue = parseTimeStringToDate(e.target.value);

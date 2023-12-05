@@ -22,50 +22,39 @@ public class Jobs {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     @Column(name = "companyname")
     private String companyname;
 
-    @NotBlank
     @Column(name = "description")
     private String description;
 
-    @NotBlank
     @Column(name = "jobposter")
     private String jobposter;
 
-    @NotBlank
     @Column(name = "primarycontact")
     private String primarycontact;
 
-    @NotBlank
     @Column(name = "companywebsitelink")
     private String companywebsitelink;
 
-    @NotBlank
     @Column(name = "joblink")
     private String joblink;
 
     @Column(name = "meetingLink")
     private String meetingLink;
 
-    @NotBlank
     @Column(name = "interviewnotes")
     private String interviewnotes;
 
-    @NotBlank
     @Column(name = "customfield")
     private String customfield;
 
-    @NotBlank
     @Column(name = "interviewernames")
     private String interviewernames;
 
-    @NotNull
     @Column(name = "dateapplied")
     private Date dateapplied;
 
-    @NotNull
     @Column(name = "interviewdate")
     private Date interviewdate;
 
@@ -75,15 +64,12 @@ public class Jobs {
     @Column(name = "interviewendtime")
     private Time interviewendtime;
 
-    @NotNull
     @Column(name = "companyresponded")
     private Boolean companyresponded;
 
-    @NotNull
     @Column(name = "companyrejected")
     private Boolean companyrejected;
 
-    @NotNull
     @Column(name = "jobsoftdelete")
     @JsonProperty("jobsoftdelete")  // This line specifies the JSON field name
     private Boolean jobsoftdelete;

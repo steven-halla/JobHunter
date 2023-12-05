@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import {Routes, Route, Link, useNavigate} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
@@ -46,6 +46,20 @@ const App = () => {
 
     const userId: number | undefined = undefined;
     const userIdString: string = (userId as number | undefined)?.toString() || '';
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const user = AuthService.getCurrentUser();
+
+        // If the user is already logged in and is on login or register page,
+        // redirect them to the home page with their user ID if it's necessary.
+        if (user && (location.pathname === "/" || location.pathname === "/register")) {
+            const userId = user.id; // Assuming the user object has an 'id' field.
+            // Replace "/home/:id" with "/home" if the user ID is not required in the route.
+            navigate(`/home/${userId}`);
+        }
+    }, [navigate, location.pathname]);
 
 
     function isAuthenticated() {

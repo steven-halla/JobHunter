@@ -352,6 +352,7 @@ export const Test = () => {
 
     return (
         <TestWrapper>
+
                     <StickySearchDiv>
                         <SearchBar
                             type="text"
@@ -412,18 +413,42 @@ export const Test = () => {
 
                     </StickySearchDiv>
                 <RedBox>
+                    {/*<VerticalLine></VerticalLine>*/}
                     <TopBox>
                         <YellowBox>
                             <p>
                                 Jan 1st 1919
                             </p>
 
+
+
+
+                        </YellowBox>
+                        <IconBox>
                             <FontAwesomeIcon
                                 icon={faCalendar}
                                 style={{  color: "black" }} // Added marginRight here
+                                size="lg" // Example size - adjust as needed
 
                             />
-                        </YellowBox>
+
+                            {/*<FontAwesomeIcon*/}
+                            {/*    icon={faSkullCrossbones}*/}
+                            {/*    style={{  color: "black" }} // Added marginRight here*/}
+
+                            {/*/>*/}
+
+                            <FontAwesomeIcon
+                                icon={faEdit}
+                                style={{  color: "black" }} // Added marginRight here
+                                size="lg" // Example size - adjust as needed
+
+
+                            />
+
+
+
+                        </IconBox>
 
                         <GreenBox>
                             <p>
@@ -438,12 +463,14 @@ export const Test = () => {
                         <VioletBox>
                             <BlueBox>
                                 <p>
-                                    Company name + link
+                                    Orky Inc
                                 </p>
                             </BlueBox>
 
                             <PurpleBox>
-                                <FontAwesomeIcon icon={faGlasses} />
+                                <FontAwesomeIcon icon={faGlasses}
+                                                 size="lg" // Example size - adjust as needed
+                                />
 
                             </PurpleBox>
                         </VioletBox>
@@ -455,7 +482,7 @@ export const Test = () => {
 
                             <SkyBlueBox>
                                 <p>
-                                    Name of contact
+                                    Goregutz Noobstompa
                                 </p>
                             </SkyBlueBox>
 
@@ -480,9 +507,6 @@ export const Test = () => {
                         </TurquoiseBox>
 
 
-                        <FontAwesomeIcon
-                            icon={faSkullCrossbones}
-                        />
 
 
 
@@ -500,10 +524,28 @@ export const Test = () => {
     );
 };
 
+const IconBox = styled.div`
+  height: 90%;
+  width: 100%;
+  //background-color: violet;
+  margin-top: 2.2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  
+
+  p {
+    color: black;
+  }
+`;
+
+
 const VioletBox = styled.div`
   height: 90%;
   width: 100%;
-  background-color: violet;
+  //background-color: violet;
   margin-top: 1%;
   display: flex;
   justify-content: center;
@@ -519,16 +561,16 @@ const VioletBox = styled.div`
 const GoldBox = styled.div`
   height: 50%;
   width: 100%;
-  background-color: gold;
+  //background-color: gold;
   display: flex;
   flex-direction: row;
   margin-top: 5%;
 `;
 const TurquoiseBox = styled.div`
   height: 80%;
-  width: 55%;
-  background-color: turquoise;
-  margin-left: 22%;
+  width: 60%;
+  //background-color: turquoise;
+  //margin-left: 22%;
   margin-top: 1%;
   
   
@@ -541,8 +583,8 @@ const TurquoiseBox = styled.div`
 const PinkBox = styled.div`
   height: 100%;
   width: 50%;
-  background-color: pink;
-  margin-left: 3%;
+  //background-color: pink;
+  margin-left: 1%;
   margin-top: 1%;
   
 
@@ -556,8 +598,9 @@ const GreyBox = styled.div`
   height: 100%;
   width: 50%;
   background-color: grey;
-  margin-left: 3%;
+  margin-left: 7%;
   margin-top: 1%;
+  padding-left: 60px;
   
 
   p {
@@ -570,8 +613,8 @@ const GreyBox = styled.div`
 const SkyBlueBox = styled.div`
   height: 30%;
   width: 80%;
-  background-color: skyblue;
-  margin-left: 3%;
+  //background-color: skyblue;
+  margin-left: 9.5%;
   margin-top: 1%;
   display: flex;
   justify-content: center;
@@ -587,7 +630,7 @@ const SkyBlueBox = styled.div`
 const TopBox = styled.div`
   height: 15%;
   width: 100%;
-  background-color: goldenrod;
+  //background-color: goldenrod;
   display: flex;
   justify-content: space-between; // Added this line
 `;
@@ -598,10 +641,11 @@ const TopBox = styled.div`
 const BottomBox = styled.div`
   height: 43%;
   width: 100%;
-  background-color: cadetblue;
+  //background-color: cadetblue;
   display: flex;
-  flex-direction: column;
-  position: relative; /* Add this line to create a positioning context for absolute positioning */
+  justify-content: center;
+  //flex-direction: column;
+  //position: relative; /* Add this line to create a positioning context for absolute positioning */
 
   svg {
     position: absolute;
@@ -612,9 +656,9 @@ const BottomBox = styled.div`
 
 
 const RedBox = styled.div`
-  height: 50%;
+  height: 30%;
   width: 50%;
-  background-color: red;
+  background-color: grey;
   margin-left: 25%;
   display: flex;
   flex-direction: column;
@@ -627,9 +671,9 @@ const RedBox = styled.div`
 const YellowBox = styled.div`
   height: 80%;
   width: 25%;
-  background-color: yellow;
+  //background-color: yellow;
   margin-left: 3%;
-  margin-top: 1%;
+  margin-top: 2.5%;
   display: flex;
 justify-content: space-between;  
   
@@ -644,12 +688,15 @@ justify-content: space-between;
 
 
 const GreenBox = styled.div`
-  height: 60%;
+  height: 100%;
   width: 20%;
-  background-color: green;
-  padding-left: 10px;
-  padding-top: 10px;
-
+  //background-color: green;
+  padding-left: 15px;
+  margin-right: 2.5%;
+  padding-top: 40px;
+justify-content: space-between;
+  align-items: center;
+  display: flex;
   p {
     color: white;
   }
@@ -657,7 +704,7 @@ const GreenBox = styled.div`
 const MiddleBox = styled.div`
   height: 41%;
   width: 100%;
-  background-color: chocolate;
+  //background-color: chocolate;
   display: flex; // Enable flex layout
   align-items: center; // Align children vertically in the center
   justify-content: center;
@@ -665,26 +712,37 @@ const MiddleBox = styled.div`
 
 const BlueBox = styled.div`
   height: 20%;
-  background-color: blue;
-  padding-left: 30px;
+  //background-color: blue;
+  //padding-left: 30px;
   padding-top: 10px;
   margin-top: 8%;
-  // Removed margin-left: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ margin-left: 15%;
+
 
   a {
     color: white;
+
   }
+  
+  p {
+    font-family: "Helvetica Neue", helvetica, arial, sans-serif;
+
+  }
+  
 `;
 
 const PurpleBox = styled.div`
   height: 20%;
-  width: 10%;
-  background-color: purple;
-  padding-left: 10px;
-  padding-top: 10px;
-  margin-top: 8%;
+  width: 15%;
+  //background-color: purple;
+  padding-left: 2px;
+  padding-top: 1px;
+  margin-top: 7.9%;
   margin-left: 2%;
-
+  display: flex;
   svg {
     color: white;
   }
@@ -736,7 +794,12 @@ const RedPillParentDiv = styled.div`
 const TestWrapper = styled.div`
     height: 93vh;
   overflow-y: auto;
-  background-color: lightskyblue;
+  //background-color: lightskyblue;
+  
+  p {
+    font-family: "Helvetica Neue", helvetica, arial, sans-serif;
+
+  }
 `;
 
 
@@ -963,3 +1026,12 @@ const CheckBoxInput = styled.input`
 margin-left: 11%;
 `;
 
+
+const VerticalLine = styled.div`
+  position: fixed; // or absolute, depending on your layout
+  left: 50%;
+  height: 100vh;
+  width: 1px; // or as thick as you want
+  background-color: #000; // or any color of your choice
+  z-index: 10; // adjust as needed
+`;

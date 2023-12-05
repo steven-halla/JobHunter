@@ -9,7 +9,7 @@ import {
     faTimes,
     faTimesCircle,
     faBan,
-    faSkullCrossbones
+    faSkullCrossbones, faGlasses
 } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import {deviceJobViewAll, noResponseJobs} from "../common/ScreenSizes";
@@ -412,126 +412,195 @@ export const Test = () => {
 
                     </StickySearchDiv>
                 <RedBox>
-                    <GreenBox>
-                    <p>
-                        Jan 1st 1999
-                    </p>
-                    </GreenBox>
+                    <TopBox>
+                        <YellowBox>
+                            <p>
+                                Jan 1st 1919
+                            </p>
+                        </YellowBox>
+
+                        <GreenBox>
+                            <p>
+                                Description
+                            </p>
+                        </GreenBox>
+
+                    </TopBox>
+
+                    <MiddleBox>
+                        <BlueBox>
+                            <p>
+                                Company name + link
+                            </p>
+                        </BlueBox>
+
+                        <PurpleBox>
+                            <FontAwesomeIcon icon={faGlasses} />
+
+                        </PurpleBox>
+                    </MiddleBox>
+                    <BottomBox>
+
+                        <TurquoiseBox>
+
+                            <SkyBlueBox>
+                                <p>
+                                    Name of contact
+                                </p>
+                            </SkyBlueBox>
+
+                            <GoldBox>
+                                <GreyBox>
+                                    Responded?
+                                    <CheckBoxInput
+                                        type="checkbox"
+                                    />
+                                </GreyBox>
+
+                                <PinkBox>
+                                    Rejected?
+                                    <CheckBoxInput
+                                        type="checkbox"
+                                    />
+                                </PinkBox>
+                            </GoldBox>
+
+
+
+                        </TurquoiseBox>
+
+
+
+
+                    </BottomBox>
+
+
+
+
+
                 </RedBox>
 
-            {/*        <CardBoxDiv>*/}
-            {/*            {sortedAndRespondedJobs.map((job, index) => (*/}
-            {/*                <CardDiv*/}
-            {/*                    key={index}*/}
-            {/*                    companyRejected={job.companyrejected}*/}
-            {/*                    companyResponded={job.companyresponded}*/}
-            {/*                    meetingLink={job.meetingLink}*/}
-            {/*                    isOlderThanSevenDays={(new Date().getTime() - new Date(job.dateapplied).getTime()) > SEVEN_DAYS_MS}*/}
-            {/*                >*/}
-            {/*                    <h5><a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">{job.companyname}</a></h5>*/}
-            {/*                    <h5>{job.primarycontact}</h5>*/}
-            {/*                    <TextButton onClick={() => openDescriptionModal(job.description)}>Click to View</TextButton>*/}
-            {/*                    <h5>{new Date(job.dateapplied).toISOString().split('T')[0]}</h5>*/}
-            {/*                    <h5><a href={job.joblink} target="_blank" rel="noopener noreferrer">Job Link</a></h5>*/}
 
-            {/*                    <FontAwesomeIcon*/}
-            {/*                        className="custom-icon hidden-icons schedule-icon custom-icon-lg"*/}
-            {/*                        icon={faCalendar}*/}
-            {/*                        style={{ cursor: 'pointer', marginLeft: '170' }} // Added marginRight here*/}
-            {/*                        onClick={() => onButtonClick('accepted', String(job.id))}*/}
-            {/*                    />*/}
-
-            {/*                    <FontAwesomeIcon*/}
-            {/*                        icon={faBan}*/}
-            {/*                        className="custom-icon hidden-icons no-response-icon"*/}
-            {/*                        style={{ cursor: 'pointer', marginTop: '15px',marginLeft: '400' }}*/}
-            {/*                        onClick={() => onButtonClick('declined', String(job.id))}*/}
-
-            {/*                    />*/}
-
-            {/*                    <FontAwesomeIcon*/}
-            {/*                        icon={faEdit}*/}
-            {/*                        className="custom-icon hidden-icons edit-icon"*/}
-            {/*                        style={{ cursor: 'pointer', marginTop: '15px', marginLeft: '555' }}*/}
-            {/*                        onClick={() => onButtonClick('update', String(job.id))}*/}
-
-            {/*                    />*/}
-
-            {/*                    <FontAwesomeIcon*/}
-            {/*                        icon={faSkullCrossbones}*/}
-            {/*                        className="custom-icon hidden-icons soft-delete-icon"*/}
-            {/*                        style={{ cursor: 'pointer', marginTop: '15px', marginLeft: '655' }}*/}
-            {/*                        onClick={() => updateJobSoftDelete(job.id, true)}*/}
-            {/*                    />*/}
-
-
-
-
-
-
-            {/*                </CardDiv>*/}
-
-
-            {/*            ))}*/}
-            {/*        </CardBoxDiv>*/}
-
-
-
-
-            {/*{isDescriptionModalOpen && (*/}
-            {/*    <div*/}
-            {/*        style={{*/}
-            {/*            position: 'fixed',*/}
-            {/*            top: 0,*/}
-            {/*            left: 0,*/}
-            {/*            width: '100%',*/}
-            {/*            height: '100%',*/}
-            {/*            backgroundColor: 'rgba(0, 0, 0, 0.5)',  // semi-transparent background*/}
-            {/*            zIndex: 999,  // to ensure it's below the modal content*/}
-            {/*        }}*/}
-            {/*        onClick={closeDescriptionModal}*/}
-            {/*    >*/}
-            {/*        <div*/}
-            {/*            style={{*/}
-            {/*                position: 'fixed',*/}
-            {/*                top: '50%',*/}
-            {/*                left: '50%',*/}
-            {/*                transform: 'translate(-50%, -50%)',*/}
-            {/*                backgroundColor: 'white',*/}
-            {/*                padding: '20px',*/}
-            {/*                zIndex: 1000,*/}
-            {/*                width: '80vw',*/}
-            {/*                maxHeight: '80vh',*/}
-            {/*                overflowY: 'auto',*/}
-            {/*            }}*/}
-            {/*            onClick={e => e.stopPropagation()} // stops the click event from reaching the outer div*/}
-            {/*        >*/}
-            {/*            <p>{selectedDescription}</p>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*)}*/}
         </TestWrapper>
     );
 };
 
+const CheckBoxInput = styled.input`
+margin-left: 11%;
+`;
+
+
+const GoldBox = styled.div`
+  height: 50%;
+  width: 100%;
+  background-color: gold;
+  display: flex;
+  flex-direction: row;
+  margin-top: 5%;
+`;
+const TurquoiseBox = styled.div`
+  height: 80%;
+  width: 55%;
+  background-color: turquoise;
+  margin-left: 22%;
+  margin-top: 1%;
+  
+  
+
+  p {
+    color: black;
+  }
+`;
+
+const PinkBox = styled.div`
+  height: 100%;
+  width: 50%;
+  background-color: pink;
+  margin-left: 3%;
+  margin-top: 1%;
+  
+
+  p {
+    color: black;
+  }
+`;
+
+
+const GreyBox = styled.div`
+  height: 100%;
+  width: 50%;
+  background-color: grey;
+  margin-left: 3%;
+  margin-top: 1%;
+  
+
+  p {
+    color: black;
+  }
+`;
+
+
+
+const SkyBlueBox = styled.div`
+  height: 30%;
+  width: 80%;
+  background-color: skyblue;
+  margin-left: 3%;
+  margin-top: 1%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+
+  p {
+    color: black;
+  }
+`;
+
+
+const TopBox = styled.div`
+  height: 15%;
+  width: 100%;
+  background-color: goldenrod;
+  display: flex;
+  justify-content: space-between; // Added this line
+`;
+
+
+
+
+const BottomBox = styled.div`
+  height: 43%;
+  width: 100%;
+  background-color: cadetblue;
+display: flex;
+  flex-direction: column;
+
+`;
+
 const RedBox = styled.div`
-  height: 33%;
+  height: 50%;
   width: 50%;
   background-color: red;
   margin-left: 25%;
-  display: flex; // Use flexbox for internal positioning
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; // Changed from center to stretch
 `;
 
-const GreenBox = styled.div`
-  height: 20%;
-  width: 20%;
-  background-color: green;
-  margin-left: 0; // Align to the far left
-  padding-left: 10px;
-  padding-top: 10px;
+
+
+
+const YellowBox = styled.div`
+  height: 40%;
+  width: 25%;
+  background-color: yellow;
+  margin-left: 3%;
+  margin-top: 1%;
   
+
   p {
-    color: white;
+    color: black;
   }
 `;
 
@@ -539,13 +608,71 @@ const GreenBox = styled.div`
 
 
 
-const IconsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: start;
-  // Add margin or padding as needed to position the icons correctly
+const GreenBox = styled.div`
+  height: 60%;
+  width: 20%;
+  background-color: green;
+  padding-left: 10px;
+  padding-top: 10px;
+
+  p {
+    color: white;
+  }
 `;
+const MiddleBox = styled.div`
+  height: 41%;
+  width: 100%;
+  background-color: chocolate;
+  display: flex; // Enable flex layout
+  align-items: center; // Align children vertically in the center
+  justify-content: center;
+`;
+
+const BlueBox = styled.div`
+  height: 20%;
+  width: 40%;
+  background-color: blue;
+  padding-left: 30px;
+  padding-top: 10px;
+  margin-top: 8%;
+  // Removed margin-left: 30%;
+
+  a {
+    color: white;
+  }
+`;
+
+const PurpleBox = styled.div`
+  height: 20%;
+  width: 10%;
+  background-color: purple;
+  padding-left: 10px;
+  padding-top: 10px;
+  margin-top: 8%;
+  margin-left: 20px; // Add a small margin to separate from BlueBox
+
+  svg {
+    color: white;
+  }
+`;
+
+
+// const BrownBox = styled.div`
+//   height: 20%;
+//   width: 15%;
+//   background-color: brown;
+//   margin-left: auto; // Adjust to push the box to the far right
+//   padding-left: 10px;
+//   padding-top: 10px;
+//
+//   p {
+//     color: white;
+//   }
+// `;
+//
+
+
+
 
 
 

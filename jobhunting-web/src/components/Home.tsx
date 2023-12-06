@@ -13,12 +13,15 @@ import Button from '@mui/material/Button';
 import {InputLabel, TextFieldProps, useTheme} from '@mui/material';
 import TextField from '@mui/material/TextField';
 import {useNavigate, useParams} from "react-router-dom";
-import {Job} from "../models/Job";
 import {DateMutation} from "../common/DateMutation";
 import Box from "@mui/material/Box";
+import {JobCarousel} from "./JobCarousel";
+import {Job} from "../models/Job";
 
 
 export const Home: React.FC = () => {
+    const [searchResult, setSearchResult] = useState<Job[] | null>(null);
+
 
     //useContext might be a better idea for V2
     const [companyname, setCompanyName] = useState<string>("");
@@ -53,20 +56,20 @@ export const Home: React.FC = () => {
         }
     });
 
-    const [searchResult, setSearchResult] = useState<Job[] | null>(null);
+    // const [searchResult, setSearchResult] = useState<Job[] | null>(null);
 
 
 
 
-    interface Job {
-        companyname: string;
-        primarycontact: string;
-        joblink: string;
-        dateapplied: Date;
-        companyresponded: boolean;
-        companyrejected: boolean;
-        jobsoftdelete: boolean;
-    }
+    // interface Job {
+    //     companyname: string;
+    //     primarycontact: string;
+    //     joblink: string;
+    //     dateapplied: Date;
+    //     companyresponded: boolean;
+    //     companyrejected: boolean;
+    //     jobsoftdelete: boolean;
+    // }
 
 
 
@@ -347,25 +350,13 @@ export const Home: React.FC = () => {
         try {
             const response = await fetch(`http://localhost:8080/api/jobs`, {
                 headers: {
-                    'Authorization': `Bearer YOUR_AUTH_TOKEN`, // Replace with your actual token if needed
+                    'Authorization': `Bearer YOUR_AUTH_TOKEN`, // Replace with your actual token
                     'Content-Type': 'application/json'
                 }
             });
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-
-            // Define the type for the company
-            interface Job {
-                companyname: string;
-                primarycontact: string;
-                joblink: string;
-                dateapplied: Date;
-                companyresponded: boolean;
-                companyrejected: boolean;
-                jobsoftdelete: boolean;
-            }
-
             const companies: Job[] = await response.json();
             console.log("API Response: ", companies); // Debugging - to understand the structure of the response
 
@@ -373,7 +364,7 @@ export const Home: React.FC = () => {
             console.log("Typed Company Name: ", companyName);
 
             // Check if any company name exactly matches the typed companyName
-            const matchingJobs: Job[] = companies.filter((job: Job) => job.companyname === companyName);
+            const matchingJobs = companies.filter((job: Job) => job.companyname === companyName);
 
             // Logging the result of the search
             if (matchingJobs.length > 0) {
@@ -387,6 +378,7 @@ export const Home: React.FC = () => {
             console.error("Error during search: ", error);
         }
     };
+
 
 
 
@@ -424,6 +416,11 @@ export const Home: React.FC = () => {
         }
         return null;
     };
+
+    useEffect(() => {
+        console.log('searchResult:', searchResult);
+    }, [searchResult]);
+
 
 
 
@@ -657,26 +654,10 @@ export const Home: React.FC = () => {
             </Box>
 
 
+        <JobCardDiv>
+            <JobCarousel searchResult={searchResult} />
 
-            <JobCardDiv style={Array.isArray(searchResult) && searchResult.length > 0 ? jobCardStyle : {}}>
-                {Array.isArray(searchResult) && searchResult.length > 0 && (
-                    <div>
-
-                        <h3>Matches Found:</h3>
-                        {searchResult.map((job: Job, index: number) => (
-                            <div key={index}>
-                                <p>Result {index + 1}:</p>
-                                <p>Company Name: {job.companyname}</p>
-                                <p>Primary Contact: {job.primarycontact}</p>
-                                <p>Job Link: {job.joblink}</p>
-                                {DateMutation(typeof job.dateapplied === 'string' ? job.dateapplied : job.dateapplied.toISOString())}
-                                <p>Company Responded: {job.companyresponded ? 'Yes' : 'No'}</p>
-                                <p>Company Rejected: {job.companyrejected ? 'Yes' : 'No'}</p>
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </JobCardDiv>
+        </JobCardDiv>
 
 
 
@@ -702,7 +683,7 @@ const JobCardDiv = styled.div`
   height: 59%;
   width: 20%;
   min-width: 200px;
-  display: flex;
+  //display: flex;
   position: absolute;
   margin-left: 75%;
   margin-top: 15%;
@@ -710,6 +691,7 @@ const JobCardDiv = styled.div`
   border-radius: 10px; /* Adjust the value as needed for desired roundness */
   justify-content: center;
   align-items: center;
+  background-color: lightgray;
   
 
   @media ${deviceHome.mobile} {

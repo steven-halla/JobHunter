@@ -6,11 +6,11 @@ import {Job} from "../models/Job";
 import {JobsContext} from "../services/jobcontext";
 
 interface JobCarouselProps {
-    searchResult: Job[];
+    searchResult: Job[] | null; // Accepts Job[] or null
 }
+export const JobCarousel: React.FC<JobCarouselProps> = ({ searchResult }) => {
 
 
-export const JobCarousel: React.FC = () => {
     const { jobs } = useContext(JobsContext); // Access jobs from context
 
     const settings = {
@@ -21,11 +21,16 @@ export const JobCarousel: React.FC = () => {
         slidesToScroll: 1
     };
 
+    // if (searchResult === null) {
+    //     return <div>No jobs found.</div>;
+    // }
+
+
     return (
         <div>
-            {Array.isArray(jobs) && jobs.length > 0 && (
+            {Array.isArray(searchResult) && searchResult.length > 0 && (
                 <Slider {...settings}>
-                    {jobs.map((job, index) => (
+                    {searchResult.map((job, index) => (
                         <div key={index}>
                             <h3>Result {index + 1}:</h3>
                             <p>Company Name: {job.companyname}</p>
@@ -41,3 +46,5 @@ export const JobCarousel: React.FC = () => {
         </div>
     );
 };
+
+

@@ -137,43 +137,100 @@ export const Home: React.FC = () => {
         setCompanyNameError(error);
 
         let isValid = true;
+        const trimmedCompanyName = companyname.trim();
 
         // Validate company name
-        if (!companyname.trim()) {
-            setCompanyNameError("Minimum 1 character");
+        if (!trimmedCompanyName) {
+            setCompanyNameError("Minimum 1 character required");
+            isValid = false;
+        } else if (trimmedCompanyName.length > 55) {
+            setCompanyNameError("Company name cannot exceed 55 characters");
             isValid = false;
         } else {
             setCompanyNameError("");
         }
 
-        // Validate description
-        if (description.trim().length < 3) {
-            setCompanyDescriptionError("Minimum 3 characters such as N/A");
+
+
+
+
+        let updatedDescription = description.trim() || "N/A";
+        if (!updatedDescription) {
+            setDescription("N/A"); // Set to "N/A" if blank
+        } else if (updatedDescription.length > 255) {
+            setCompanyDescriptionError("Description cannot exceed 255 characters");
             isValid = false;
         } else {
+            setDescription(updatedDescription);
             setCompanyDescriptionError("");
         }
 
-        if (primarycontact.trim().length < 3) {
-            setCompanyContactError("Minimum 3 characters such as N/A");
+        let updatedPrimaryContact = primarycontact.trim() || "N/A";
+        if (updatedPrimaryContact.length > 55) {
+            setCompanyContactError("Primary contact cannot exceed 55 characters");
             isValid = false;
         } else {
-            setCompanyContactError("");
+            setPrimaryContact(updatedPrimaryContact); // Assuming you have a state setter for primarycontact
+            setCompanyContactError(null);
         }
 
-        if (companywebsitelink.trim().length < 3) {
-            setCompanyWebSiteLinkError("Minimum 3 characters such as N/A");
+
+        let updatedCompanyWebsiteLink = companywebsitelink.trim() || "N/A";
+        if (updatedCompanyWebsiteLink.length > 1000) {
+            setCompanyWebSiteLinkError("Company website link cannot exceed 1000 characters");
             isValid = false;
         } else {
-            setCompanyWebSiteLinkError("");
+            setCompanyWebSiteLink(updatedCompanyWebsiteLink);
+            setCompanyWebSiteLinkError(null);
         }
 
-        if (joblink.trim().length < 3) {
-            setCompanyJobLink("Minimum 3 characters such as N/A");
+        // Process job link
+        let updatedJobLink = joblink.trim() || "N/A";
+        if (updatedJobLink.length > 1000) {
+            setCompanyJobLinkError("Job link cannot exceed 1000 characters");
             isValid = false;
         } else {
-            setCompanyJobLink("");
+            setJobLink(updatedJobLink);
+            setCompanyJobLinkError(null);
         }
+
+
+
+
+        // Update state with new values
+        setDescription(updatedDescription);
+        setPrimaryContact(updatedPrimaryContact);
+        setCompanyWebSiteLink(updatedCompanyWebsiteLink);
+        setJobLink(updatedJobLink);
+
+        // Validate description
+        // if (description.trim().length < 3) {
+        //     setCompanyDescriptionError("Minimum 3 characters such as N/A");
+        //     isValid = false;
+        // } else {
+        //     setCompanyDescriptionError("");
+        // }
+        //
+        // if (primarycontact.trim().length < 3) {
+        //     setCompanyContactError("Minimum 3 characters such as N/A");
+        //     isValid = false;
+        // } else {
+        //     setCompanyContactError("");
+        // }
+        //
+        // if (companywebsitelink.trim().length < 3) {
+        //     setCompanyWebSiteLinkError("Minimum 3 characters such as N/A");
+        //     isValid = false;
+        // } else {
+        //     setCompanyWebSiteLinkError("");
+        // }
+        //
+        // if (joblink.trim().length < 3) {
+        //     setCompanyJobLink("Minimum 3 characters such as N/A");
+        //     isValid = false;
+        // } else {
+        //     setCompanyJobLink("");
+        // }
 
         // Check if any validations failed
         if (!isValid) {
@@ -261,7 +318,7 @@ export const Home: React.FC = () => {
 
     const handleJobLink = (e: ChangeEvent<HTMLInputElement>) => {
         setJobLink(e.target.value);
-        if (companyJobLink) setCompanyJobLink("");
+        if (companyJobLinkError) setCompanyJobLinkError("");
 
     }
 
@@ -356,7 +413,7 @@ export const Home: React.FC = () => {
     const [companyDescriptionError, setCompanyDescriptionError] = useState<string | null>(null);
     const [companyContactError, setCompanyContactError] = useState<string | null>(null);
     const [companyWebSiteLinkError, setCompanyWebSiteLinkError] = useState<string | null>(null);
-    const [companyJobLink, setCompanyJobLink] = useState<string | null>(null);
+    const [companyJobLinkError, setCompanyJobLinkError] = useState<string | null>(null);
 
 // ... your existing state and functions ...
 
@@ -566,7 +623,7 @@ export const Home: React.FC = () => {
 
                             value={joblink} onChange={handleJobLink} />
 
-                        {companyJobLink && <div style={{ color: 'red' }}>{companyJobLink}</div>}
+                        {companyJobLinkError && <div style={{ color: 'red' }}>{companyJobLinkError}</div>}
 
                     </FieldContainerDiv>
                     <ButtonDiv>

@@ -193,6 +193,7 @@ export const Header = () => {
 
     return (
         <HeaderDiv>
+
             <nav>
                 <LogoDiv>
                     <h3
@@ -356,13 +357,7 @@ export const Header = () => {
 
 
 
-                ) : (
-                    <>
-                        <h2>you need to login</h2>
-                        <li><Link to={"/"}>Login</Link></li>
-                        {/*<li><Link to={"/register"}>Sign Up</Link></li>*/}
-                    </>
-                )}
+                ) : null}
             </nav>
 
             {isMenuOpen && currentUser && (

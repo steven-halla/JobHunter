@@ -74,12 +74,12 @@ const App = () => {
 
         if (user === null) {
             // Show an alert
-            alert("You need to login. Redirecting you to the login page in 5 seconds.");
+            alert("You need to login. Redirecting you to the login page in 2 seconds.");
 
             // Wait for 5 seconds before redirecting
             setTimeout(() => {
                 window.location.href = "/";
-            }, 5000); // 5000 milliseconds = 5 seconds
+            }, 10); // 5000 milliseconds = 5 seconds
 
             return false;
         }

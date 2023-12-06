@@ -133,6 +133,62 @@ export const Home: React.FC = () => {
     const handleJobSubmit = async (e: FormEvent) => {
         console.log("I'm the handle submit button on the home page");
         e.preventDefault();
+        const error = validateCompanyName(companyname);
+        setCompanyNameError(error);
+
+        let isValid = true;
+
+        // Validate company name
+        if (!companyname.trim()) {
+            setCompanyNameError("Minimum 1 character");
+            isValid = false;
+        } else {
+            setCompanyNameError("");
+        }
+
+        // Validate description
+        if (description.trim().length < 3) {
+            setCompanyDescriptionError("Minimum 3 characters such as N/A");
+            isValid = false;
+        } else {
+            setCompanyDescriptionError("");
+        }
+
+        if (primarycontact.trim().length < 3) {
+            setCompanyContactError("Minimum 3 characters such as N/A");
+            isValid = false;
+        } else {
+            setCompanyContactError("");
+        }
+
+        if (companywebsitelink.trim().length < 3) {
+            setCompanyWebSiteLinkError("Minimum 3 characters such as N/A");
+            isValid = false;
+        } else {
+            setCompanyWebSiteLinkError("");
+        }
+
+        if (joblink.trim().length < 3) {
+            setCompanyJobLink("Minimum 3 characters such as N/A");
+            isValid = false;
+        } else {
+            setCompanyJobLink("");
+        }
+
+        // Check if any validations failed
+        if (!isValid) {
+            return; // Stop form submission if there are validation errors
+        }
+
+        // Clear error message if the validation passes
+        setCompanyNameError("");
+
+        // if (error) {
+        //     // If there's an error, stop the function
+        //     return;
+        // }
+
+
         try {
             if (currentUser) {
                 const response = await fetch(
@@ -179,23 +235,36 @@ export const Home: React.FC = () => {
 
     const handleCompanyNameChange = (e: ChangeEvent<HTMLInputElement>) => {
         setCompanyName(e.target.value);
+        if (companyNameError) setCompanyNameError("");
     };
 
     const handleDescriptionChange = (e: ChangeEvent<HTMLInputElement>) => {
         setDescription(e.target.value);
+        if (companyDescriptionError) setCompanyDescriptionError("");
+
     };
 
     const handlePrimaryContact = (e: ChangeEvent<HTMLInputElement>) => {
         setPrimaryContact(e.target.value);
+        if (companyContactError) setCompanyContactError("");
+
     }
 
     const handleCompanyWebSiteLink = (e: ChangeEvent<HTMLInputElement>) => {
         setCompanyWebSiteLink(e.target.value);
+        if (companyWebSiteLinkError) setCompanyWebSiteLinkError("");
+
     }
+
+
+
 
     const handleJobLink = (e: ChangeEvent<HTMLInputElement>) => {
         setJobLink(e.target.value);
+        if (companyJobLink) setCompanyJobLink("");
+
     }
+
     const copyToClipboard = async (selectedOption: string) => {
         const textToCopy = () => {
             switch(selectedOption) {
@@ -281,6 +350,22 @@ export const Home: React.FC = () => {
     }, []);
 
     const theme = useTheme();
+
+
+    const [companyNameError, setCompanyNameError] = useState<string | null>(null);
+    const [companyDescriptionError, setCompanyDescriptionError] = useState<string | null>(null);
+    const [companyContactError, setCompanyContactError] = useState<string | null>(null);
+    const [companyWebSiteLinkError, setCompanyWebSiteLinkError] = useState<string | null>(null);
+    const [companyJobLink, setCompanyJobLink] = useState<string | null>(null);
+
+// ... your existing state and functions ...
+
+    const validateCompanyName = (name: string): string | null => {
+        if (name.trim().length < 1) {
+            return "Company name must be at least 1 letter long.";
+        }
+        return null;
+    };
 
 
 
@@ -437,6 +522,8 @@ export const Home: React.FC = () => {
                             onChange={handleCompanyNameChange}
                         />
 
+                        {companyNameError && <div style={{ color: 'red' }}>{companyNameError}</div>}
+
                     </FieldContainerDiv>
 
 
@@ -447,6 +534,8 @@ export const Home: React.FC = () => {
                                                                       placeholder="description"
                                                                       value={description}
                                                                       onChange={handleDescriptionChange} />
+                        {companyDescriptionError && <div style={{ color: 'red' }}>{companyDescriptionError}</div>}
+
                     </FieldContainerDiv>
 
 
@@ -457,6 +546,8 @@ export const Home: React.FC = () => {
                             placeholder="contact"
                             value={primarycontact}
                             onChange={handlePrimaryContact} />
+                        {companyContactError && <div style={{ color: 'red' }}>{companyContactError}</div>}
+
                     </FieldContainerDiv>
                     <FieldContainerDiv>
                         <StyledTextField
@@ -464,6 +555,8 @@ export const Home: React.FC = () => {
                             variant="outlined"
                             placeholder="company website link"
                             value={companywebsitelink} onChange={handleCompanyWebSiteLink} />
+                        {companyWebSiteLinkError && <div style={{ color: 'red' }}>{companyWebSiteLinkError}</div>}
+
                     </FieldContainerDiv>
                     <FieldContainerDiv>
                         <StyledTextField
@@ -472,6 +565,9 @@ export const Home: React.FC = () => {
                             placeholder="job link"
 
                             value={joblink} onChange={handleJobLink} />
+
+                        {companyJobLink && <div style={{ color: 'red' }}>{companyJobLink}</div>}
+
                     </FieldContainerDiv>
                     <ButtonDiv>
                         <SubmitButton

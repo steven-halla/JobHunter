@@ -446,6 +446,7 @@ export const Test: React.FC = () => {
                     flexDirection: "row",
                     justifyContent: "center",
                     position: "relative",
+                    minHeight: "30px",
 
                 }}
             >
@@ -461,6 +462,8 @@ export const Test: React.FC = () => {
                         justifyContent: "center", // Corrected property name
                         alignItems: "center",
                         position: "relative",
+                        minHeight: "30px",
+
 
                     }}
                 >
@@ -483,6 +486,8 @@ export const Test: React.FC = () => {
                         justifyContent: "center", // Corrected property name
                         alignItems: "center",
                         position: "relative",
+                        minHeight: "30px",
+
 
 
                     }}
@@ -497,6 +502,10 @@ export const Test: React.FC = () => {
 
                 </Box>
 
+
+
+
+
                 <Box
                     sx={{
                         backgroundColor: "purple",
@@ -507,6 +516,8 @@ export const Test: React.FC = () => {
                         justifyContent: "center", // Corrected property name
                         alignItems: "center",
                         position: "relative",
+                        minHeight: "30px",
+
                     }}
                 >
                     <VerticalLine2></VerticalLine2>
@@ -540,25 +551,66 @@ export const Test: React.FC = () => {
                         height: "90vh",
                         width: "95vw",
                         display: "flex",
-                        flexDirection: "row",
                         justifyContent: "center", // Center horizontally
                         alignItems: "center", // Center vertically
                         position: "relative",
+
+                        flexDirection: {
+                            xs: "column", // On extra small screens (mobile), set flexDirection to column
+                            md: "row" // On medium screens and above (601px and more), set flexDirection to row
+                        },
 
                     }}
                 >
 
                     <Box
                         sx={{
-                            backgroundColor: "purple",
+                            backgroundColor: "orange",
                             height: "70vh",
                             width: "44vw",
                             position: 'relative', // Important for absolute positioning of children
-                            marginLeft: "28.8%",
+                            // marginLeft: "28.8%",
+                            minHeight: "300px",
+                            minWidth: "300px",
+                            // marginLeft: {
+                            //     xs: "0",
+                            //     md: "28.5",
+                            // },
+                            marginLeft: {
+                                xs: "0",       // 0 for extra-small devices
+                                md: "28.5%",   // 28.5% margin for medium devices and above
+                                lg: "28.5%",   // 28.5% margin for large devices and above
+                            },
+
 
                         }}
                     >
                         {/*<VerticalLine2></VerticalLine2>*/}
+
+
+
+
+                        <CustomFieldForm onSubmit={handleJobSubmit}>
+
+
+                            <FieldContainerDiv>
+                                {/*<VerticalLine2></VerticalLine2>*/}
+
+                                <StyledTextField
+                                    type="text"
+                                    variant="outlined"
+                                    placeholder="company name" // Using placeholder instead of label
+                                    value={companyname}
+                                    onChange={handleCompanyNameChange}
+                                />
+
+                                {companyNameError && <div style={{ color: 'red' }}>{companyNameError}</div>}
+
+                            </FieldContainerDiv>
+
+                       </CustomFieldForm>
+
+
                     </Box>
 
                     <Box
@@ -603,3 +655,100 @@ const VerticalLine2 = styled.div`
   background-color: #000; // or any color of your choice
   z-index: 10; // adjust as needed
 `;
+
+
+export const CustomFieldForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  width: 100%;
+  
+  
+  input {
+    display: flex;
+    //width: 20vw;
+    height: 40px;
+    //max-width: 200px;
+    //min-width: 150px;
+    //background-color: lightsalmon;
+  }
+
+  label {
+    display: flex;
+    margin-left: 5px;
+    //background-color: orangered;
+  }
+
+  @media ${deviceHome.mobile} {
+    // Adjust styles for mobile view
+
+    // Example: Adjust input width and padding for mobile devices
+    input {
+      width: 100%; // Increase width for better visibility on mobile
+      height: 50px; // Increase height for better touch interaction
+
+      padding: 5px; // Add some padding for better appearance
+
+      //background-color: chartreuse;
+      padding-right: 10px;
+    }
+
+    // Example: Adjust label styling for mobile devices
+    label {
+      margin-left: 2px; // Reduce margin
+
+      font-size: 14px; // Adjust font size for readability
+    }
+  }
+
+`;
+
+
+
+const FieldContainerDiv = styled.div`
+  width: 60%;
+  padding-top: 3%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-shadow:
+          -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */
+          4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
+          0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
+`;
+
+const BaseStyledTextField = styled(TextField)`
+  & .MuiFilledInput-input {
+    height: 20px;
+    
+
+  }
+  & .MuiInputBase-input { // Target the input base for styling
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1.2rem;
+  }
+
+  & .MuiInputBase-input::placeholder { // Target the placeholder with increased specificity
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.3rem;
+  }
+
+
+ 
+`;
+
+const StyledTextField: React.FC<TextFieldProps> = (props) => {
+    // Ensure the label is a string, default to an empty string if not
+    const placeholder = typeof props.label === 'string' ? props.label : '';
+
+    return (
+        <BaseStyledTextField
+            variant="outlined"
+            type="text"
+            size="small"
+            style={{ width: '100%', marginBottom: '5%', backgroundColor: 'white' }}
+            {...props}
+        />
+    );
+};

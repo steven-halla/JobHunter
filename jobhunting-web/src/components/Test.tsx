@@ -726,17 +726,35 @@ export const Test: React.FC = () => {
                                 xs: "20%",
                                 md: "70%",
                             },
-                            width: "30vw",
+                            // width: "30vw",
+                            width: {
+                                xs: "44vw",
+                                md: "30vw",
+                            },
                             position: "relative",
                             // minHeight: "540px",
                             minHeight: {
                                 xs: "200px",
                                 md: "540px",
                             },
+                            minWidth: "300px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+
+
 
 
                         }}
                     >
+
+                        {
+                            Array.isArray(searchResult) && searchResult.length > 0 && (
+                                <JobCardDiv style={Array.isArray(searchResult) && searchResult.length > 0 ? jobCardStyle : {}}>
+                                    <JobCarousel searchResult={searchResult} />
+                                </JobCardDiv>
+                            )
+                        }
 
                     </Box>
                     {/* Content of the brown box */}
@@ -751,6 +769,68 @@ export const Test: React.FC = () => {
     );
 };
 
+const jobCardStyle = {
+    backgroundColor: 'grey',
+    justifyContent: "center",
+    alignItems: "center",
+
+
+    // marginTop: "1%",
+    // paddingTop: device.mobile ? '3%' : '0.1%', // 3% padding for mobile, 1% for others
+    boxShadow: '-4px 0 8px -2px rgba(0, 0, 0, 0.2), 4px 0 8px -2px rgba(0, 0, 0, 0.2), 0 4px 8px -2px rgba(0, 0, 0, 0.2)'
+};
+
+const JobCardDiv = styled.div`
+  height: 50%;
+  width: 20%;
+  min-width: 250px;
+  //display: flex;
+  //margin-top: 20%;
+
+  padding-bottom: 2%;
+  border-radius: 10px; /* Adjust the value as needed for desired roundness */
+  justify-content: center;
+  align-items: center;
+  background-color: lightgray;
+
+  box-shadow:
+          -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */
+          4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
+          0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
+
+  .slick-prev,
+  .slick-next {
+    top: 10%; // Vertically center the arrows within the container
+    transform: translateY(-30%);
+    z-index: 1; // Ensure the arrows are above the carousel content
+  }
+
+  .slick-prev {
+    left: 10px; // Adjust the distance from the left edge
+  }
+
+  .slick-next {
+    right: 10px; // Adjust the distance from the right edge
+  }
+  
+
+  @media ${deviceHome.mobile} {
+    position: relative; // Keeps the element in the normal document flow
+    width: 100%; // Sets the width to 80% of the parent element
+    height: 50%;
+
+    margin-top: 1%;
+    padding-bottom: 0%;
+
+
+
+
+    //background-color: rgba(150,116,169,0.86); // Optional background color change for mobile
+
+
+  }
+
+`;
 
 
 const Footer = styled.div`

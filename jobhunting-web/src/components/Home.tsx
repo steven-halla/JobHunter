@@ -654,10 +654,14 @@ export const Home: React.FC = () => {
             </Box>
 
 
-        <JobCardDiv>
-            <JobCarousel searchResult={searchResult} />
+            {
+                Array.isArray(searchResult) && searchResult.length > 0 && (
+                    <JobCardDiv style={Array.isArray(searchResult) && searchResult.length > 0 ? jobCardStyle : {}}>
+                        <JobCarousel searchResult={searchResult} />
+                    </JobCardDiv>
+                )
+            }
 
-        </JobCardDiv>
 
 
 
@@ -680,18 +684,33 @@ alignItems: "center",
 
 
 const JobCardDiv = styled.div`
-  height: 59%;
+  height: 50%;
   width: 20%;
   min-width: 200px;
   //display: flex;
   position: absolute;
   margin-left: 75%;
-  margin-top: 15%;
+  margin-top: 10%;
   padding-bottom: 2%;
   border-radius: 10px; /* Adjust the value as needed for desired roundness */
   justify-content: center;
   align-items: center;
   background-color: lightgray;
+
+  .slick-prev,
+  .slick-next {
+    top: 10%; // Vertically center the arrows within the container
+    transform: translateY(-30%);
+    z-index: 1; // Ensure the arrows are above the carousel content
+  }
+
+  .slick-prev {
+    left: 10px; // Adjust the distance from the left edge
+  }
+
+  .slick-next {
+    right: 10px; // Adjust the distance from the right edge
+  }
   
 
   @media ${deviceHome.mobile} {

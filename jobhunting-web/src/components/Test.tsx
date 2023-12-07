@@ -433,8 +433,9 @@ export const Test: React.FC = () => {
         <Box
             sx={{
                 backgroundColor: "red",
-                height: "100vh",
+                height: "100%",
                 width: "100vw",
+
             }}
         >
             <Box
@@ -447,6 +448,18 @@ export const Test: React.FC = () => {
                     justifyContent: "center",
                     position: "relative",
                     minHeight: "30px",
+
+                    marginBottom: {
+                        md: "0",
+                        xs: "1%"
+                    },
+                    // marginBottom: "10%",
+
+                    // marginBottom: {
+                    //     xs: "23%",  // Margin bottom for extra-small devices
+                    //     md: "0",   // No margin bottom for medium devices and above
+                    //
+                    // }
 
                 }}
             >
@@ -536,7 +549,7 @@ export const Test: React.FC = () => {
                     display: "flex", // Enable flexbox
                     justifyContent: "center", // Center horizontally
                     alignItems: "center", // Center vertically
-                    height: "90vh", // Remaining height after the blue box
+                    height: "90%", // Remaining height after the blue box
                     width: "100vw",
                     position: "relative",
 
@@ -548,12 +561,18 @@ export const Test: React.FC = () => {
                 <Box
                     sx={{
                         backgroundColor: "brown",
-                        height: "90vh",
+                        // height: "90%",
+                        height: {
+                            xs: "100%",
+                            md: "90%",
+                        },
                         width: "95vw",
                         display: "flex",
                         justifyContent: "center", // Center horizontally
                         alignItems: "center", // Center vertically
                         position: "relative",
+                        // overflow: "auto",          // Add scrollbars if content overflows
+
 
                         flexDirection: {
                             xs: "column", // On extra small screens (mobile), set flexDirection to column
@@ -566,11 +585,20 @@ export const Test: React.FC = () => {
                     <Box
                         sx={{
                             backgroundColor: "orange",
-                            height: "70vh",
+                            // height: "70vh",
+                            height: {
+                                xs: "500px",
+                                md: "70%",
+                            },
                             width: "44vw",
                             position: 'relative', // Important for absolute positioning of children
                             // marginLeft: "28.8%",
-                            minHeight: "300px",
+                            // minHeight: "540px",
+                            minHeight: {
+                                xs: "500px",
+                                sm: "470px",
+                                md: "540px",
+                            },
                             minWidth: "300px",
                             // marginLeft: {
                             //     xs: "0",
@@ -580,6 +608,10 @@ export const Test: React.FC = () => {
                                 xs: "0",       // 0 for extra-small devices
                                 md: "28.5%",   // 28.5% margin for medium devices and above
                                 lg: "28.5%",   // 28.5% margin for large devices and above
+                            },
+                            marginTop: {
+                                md: "0",
+                                xs: "5%"
                             },
 
 
@@ -608,6 +640,80 @@ export const Test: React.FC = () => {
 
                             </FieldContainerDiv>
 
+
+                            <FieldContainerDiv>
+                                <StyledTextField
+                                  type="text"
+                                  variant="outlined"
+                                  placeholder="description"
+                                  value={description}
+                                  onChange={handleDescriptionChange} />
+                                {companyDescriptionError && <div style={{ color: 'red' }}>{companyDescriptionError}</div>}
+
+                            </FieldContainerDiv>
+
+
+                            <FieldContainerDiv>
+                                <StyledTextField
+                                    type="text"
+                                    variant="outlined"
+                                    placeholder="contact"
+                                    value={primarycontact}
+                                    onChange={handlePrimaryContact} />
+                                {companyContactError && <div style={{ color: 'red' }}>{companyContactError}</div>}
+
+                            </FieldContainerDiv>
+
+                            <FieldContainerDiv>
+                                <StyledTextField
+                                    type="text"
+                                    variant="outlined"
+                                    placeholder="company website link"
+                                    value={companywebsitelink} onChange={handleCompanyWebSiteLink} />
+                                {companyWebSiteLinkError && <div style={{ color: 'red' }}>{companyWebSiteLinkError}</div>}
+
+                            </FieldContainerDiv>
+
+                            <FieldContainerDiv>
+                                <StyledTextField
+                                    type="text"
+                                    variant="outlined"
+                                    placeholder="job link"
+
+                                    value={joblink} onChange={handleJobLink} />
+
+                                {companyJobLinkError && <div style={{ color: 'red' }}>{companyJobLinkError}</div>}
+
+                            </FieldContainerDiv>
+
+                            <ButtonDiv>
+                                <SubmitButton
+                                    sx={{
+                                        borderRadius: 10,
+                                        background: 'linear-gradient(to right, #00C9FF, #00B4D8)',
+                                        border: '1px solid #007BFF',
+                                        '&:hover': {
+                                            background: 'linear-gradient(to left, #00C9FF, #00B4D8)',
+                                            boxShadow: '0 0 10px #00C9FF',
+                                        },
+                                        textTransform: 'none',
+                                        fontSize: '1.6rem',
+                                        fontWeight: 'bold',
+                                        fontFamily: "'Times New Roman', serif", // Corrected fontFamily format
+                                    }}
+                                    variant="contained"
+                                    type="submit"
+                                >
+                                    Submit
+                                </SubmitButton>
+
+
+
+                            </ButtonDiv>
+
+
+
+
                        </CustomFieldForm>
 
 
@@ -616,9 +722,18 @@ export const Test: React.FC = () => {
                     <Box
                         sx={{
                             backgroundColor: "yellow",
-                            height: "70vh",
+                            height: {
+                                xs: "20%",
+                                md: "70%",
+                            },
                             width: "30vw",
                             position: "relative",
+                            // minHeight: "540px",
+                            minHeight: {
+                                xs: "200px",
+                                md: "540px",
+                            },
+
 
                         }}
                     >
@@ -629,13 +744,19 @@ export const Test: React.FC = () => {
                 {/*<VerticalLine></VerticalLine>*/}
 
             </Box>
-
+                <Footer></Footer>
         </Box>
+
 
     );
 };
 
 
+
+const Footer = styled.div`
+  height: 20vh;
+  background-color: red;
+`;
 
 const VerticalLine = styled.div`
   position: fixed; // or absolute, depending on your layout
@@ -716,26 +837,38 @@ const FieldContainerDiv = styled.div`
           -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */
           4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
           0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
+
+  @media ${deviceHome.mobile} { // Apply for mobile screens
+    width: 80%;
+
+  }
 `;
+
+
+
+
 
 const BaseStyledTextField = styled(TextField)`
   & .MuiFilledInput-input {
     height: 20px;
-    
 
+  
+    
   }
   & .MuiInputBase-input { // Target the input base for styling
     font-family: 'Helvetica Neue', Arial, sans-serif;
     font-size: 1.2rem;
+   
+
+    
   }
 
   & .MuiInputBase-input::placeholder { // Target the placeholder with increased specificity
     font-family: 'Roboto', sans-serif;
     font-size: 1.3rem;
+
+  
   }
-
-
- 
 `;
 
 const StyledTextField: React.FC<TextFieldProps> = (props) => {
@@ -752,3 +885,38 @@ const StyledTextField: React.FC<TextFieldProps> = (props) => {
         />
     );
 };
+
+
+const ButtonDiv = styled.div`
+  justify-content: center;
+  align-items: center;
+
+
+  @media ${deviceHome.mobile} {
+    //background-color: rgba(150,116,169,0.86);
+    width: 36vw;
+    display: flex;
+
+    .button {
+      background-color: red;
+    }
+  }
+`;
+
+
+const SubmitButton = styled(Button)`
+color: green;
+  height: 9vh;
+  width: 23vw;
+  display: flex;
+  padding-bottom: 70px;
+  //margin-bottom: 50px;
+  //background-color: yellow;
+  @media ${deviceHome.mobile} {
+    //background-color: red;
+    width: 30vw;
+    height: 7vh;
+  }
+
+
+`;

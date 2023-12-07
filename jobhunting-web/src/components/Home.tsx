@@ -611,6 +611,8 @@ export const Home: React.FC = () => {
                         {companyContactError && <div style={{ color: 'red' }}>{companyContactError}</div>}
 
                     </FieldContainerDiv>
+
+
                     <FieldContainerDiv>
                         <StyledTextField
                             type="text"
@@ -620,6 +622,8 @@ export const Home: React.FC = () => {
                         {companyWebSiteLinkError && <div style={{ color: 'red' }}>{companyWebSiteLinkError}</div>}
 
                     </FieldContainerDiv>
+
+
                     <FieldContainerDiv>
                         <StyledTextField
                             type="text"
@@ -631,6 +635,7 @@ export const Home: React.FC = () => {
                         {companyJobLinkError && <div style={{ color: 'red' }}>{companyJobLinkError}</div>}
 
                     </FieldContainerDiv>
+
                     <ButtonDiv>
                         <SubmitButton
                             sx={{

@@ -697,6 +697,11 @@ const JobCardDiv = styled.div`
   align-items: center;
   background-color: lightgray;
 
+  box-shadow:
+          -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */
+          4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
+          0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
+
   .slick-prev,
   .slick-next {
     top: 10%; // Vertically center the arrows within the container
@@ -810,6 +815,8 @@ export const CustomFieldForm = styled.form`
   justify-items: center;
   align-items: center;
   width: 100vw;
+  
+  
 
 
 
@@ -859,6 +866,10 @@ const FieldContainerDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  box-shadow:
+          -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */
+          4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
+          0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
 `;
 
 

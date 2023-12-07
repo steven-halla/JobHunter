@@ -37,10 +37,11 @@ export const JobCarousel: React.FC<JobCarouselProps> = ({ searchResult }) => {
                             <h3>Result {index + 1}:</h3>
                             <p>Company Name: {job.companyname}</p>
                             <p>Primary Contact: {job.primarycontact}</p>
-                            <p>Job Link: {job.joblink}</p>
                             {/* Implement or adjust DateMutation as needed */}
                             <p>Company Responded: {job.companyresponded ? 'Yes' : 'No'}</p>
                             <p>Company Rejected: {job.companyrejected ? 'Yes' : 'No'}</p>
+                            <a href={job.joblink} style={{ margin: '0', textAlign: 'center',marginLeft: "38%",paddingBottom: "13%", color: 'blue' }}>Job Link</a>
+
                         </CarouselDiv>
                     ))}
                 </Slider>
@@ -59,9 +60,10 @@ const CarouselDiv = styled.div`
 
   /* Add padding or margin as needed for spacing */
 
-  h3, p {
+  h3, a, p {
     margin: 0; /* Reset margin to zero */
     text-align: center; /* Center text horizontally */
     padding-bottom: 30px;
+    color: white;
   }
 `;

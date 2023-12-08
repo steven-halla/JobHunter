@@ -9,7 +9,7 @@ import {
     faTimes,
     faTimesCircle,
     faBan,
-    faSkullCrossbones, faGlasses
+    faSkullCrossbones, faGlasses, faCalendarPlus, faUser
 } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import {deviceJobViewAll, noResponseJobs} from "../common/ScreenSizes";
@@ -368,14 +368,60 @@ export const Test = () => {
                 {/*<VerticalLine></VerticalLine>*/}
                 <TopBox>
                     <YellowBox>
+                        <FontAwesomeIcon icon={faCalendarPlus} />
+
                         <p>
+
                             Jan 1st 1919
                         </p>
 
 
 
-
                     </YellowBox>
+
+                    <BlueBox>
+                        <h2>
+                            Orky Inc
+                        </h2>
+                    </BlueBox>
+
+                    <SkyBlueBox>
+                        <FontAwesomeIcon icon={faUser} />
+
+                        <p>
+                            Goregutz Noobstompa
+                        </p>
+                    </SkyBlueBox>
+                    <VioletBox>
+
+
+
+                    </VioletBox>
+
+
+
+                    <GreenBox>
+                        <p>
+                            Notes:
+                        </p>
+                    </GreenBox>
+
+                </TopBox>
+
+                <MiddleBox>
+
+
+
+                </MiddleBox>
+                <BottomBox>
+
+                    <PurpleBox>
+                        <FontAwesomeIcon icon={faGlasses}
+                                         size="lg" // Example size - adjust as needed
+                        />
+
+                    </PurpleBox>
+
                     <IconBox>
                         <FontAwesomeIcon
                             icon={faCalendar}
@@ -402,41 +448,9 @@ export const Test = () => {
 
                     </IconBox>
 
-                    <GreenBox>
-                        <p>
-                            Description
-                        </p>
-                    </GreenBox>
-
-                </TopBox>
-
-                <MiddleBox>
-
-                    <VioletBox>
-                        <BlueBox>
-                            <p>
-                                Orky Inc
-                            </p>
-                        </BlueBox>
-
-                        <PurpleBox>
-                            <FontAwesomeIcon icon={faGlasses}
-                                             size="lg" // Example size - adjust as needed
-                            />
-
-                        </PurpleBox>
-                    </VioletBox>
-
-                </MiddleBox>
-                <BottomBox>
-
                     <TurquoiseBox>
 
-                        <SkyBlueBox>
-                            <p>
-                                Goregutz Noobstompa
-                            </p>
-                        </SkyBlueBox>
+
 
                         <GoldBox>
                             <GreyBox>
@@ -551,21 +565,24 @@ const GreyBox = styled.div`
 const SkyBlueBox = styled.div`
   height: 30%;
   width: 80%;
-  margin-left: 9.5%;
-  margin-top: 1%;
+  margin-top: 3%;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  margin-left: 2%;
+
 
   p {
     color: black;
+    font-style: italic;
+    margin-left: 2%;
+
+
   }
 `;
 
 
 const TopBox = styled.div`
   height: 100%;
-  width: 33%;
+  width: 39%;
   display: flex;
   justify-content: space-between;
   background-color: green;
@@ -574,7 +591,7 @@ const TopBox = styled.div`
 
 const MiddleBox = styled.div`
   height: 100%;
-  width: 33%;
+  width: 20%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -585,7 +602,7 @@ const MiddleBox = styled.div`
 
 const BottomBox = styled.div`
   height: 100%;
-  width: 34%;
+  width: 41%;
   display: flex;
   justify-content: center;
   background-color: purple;
@@ -612,15 +629,14 @@ const RedBox = styled.div`
 
 
 const YellowBox = styled.div`
-  height: 80%;
-  width: 25%;
-  margin-left: 3%;
-  margin-top: 2.5%;
-  display: flex;
-  justify-content: space-between;
 
+display: flex;
+  flex-direction: row;
+  margin-left: 3%;
+  margin-top: 3%;
   p {
     color: black;
+    margin-left: 2%;
   }
 `;
 
@@ -642,12 +658,8 @@ const GreenBox = styled.div`
 
 const BlueBox = styled.div`
   height: 20%;
-  padding-top: 10px;
-  margin-top: 8%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 15%;
+  margin-left: 2% ;
+
 
   a {
     color: white;

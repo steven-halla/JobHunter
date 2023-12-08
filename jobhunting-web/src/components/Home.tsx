@@ -477,9 +477,12 @@ export const Home: React.FC = () => {
                         position: "relative",
                         minHeight: "30px",
                         marginRight: {
-                            md: "2.2",
-                            xs: "15%"
+                            xs: "15%",
+                            sm: "5%",
+
                         },
+
+
 
 
 
@@ -510,8 +513,9 @@ export const Home: React.FC = () => {
                         paddingRight: "0.5%",
 
                         marginRight: {
-                            md: "2.2",
-                            xs: "15%"
+                            xs: "15%",
+                            sm: "5%",
+
                         },
 
 

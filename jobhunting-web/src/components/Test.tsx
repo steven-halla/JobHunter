@@ -392,17 +392,18 @@ export const Test = () => {
                             Goregutz Noobstompa
                         </p>
                     </SkyBlueBox>
-                    <VioletBox>
+                    {/*<VioletBox>*/}
 
 
 
-                    </VioletBox>
+                    {/*</VioletBox>*/}
 
 
 
                     <GreenBox>
-                        <p>
-                            Notes:
+                        <p title="  I am a bunch of notes that doesn't have much of an impact o,,dfsafn things how are you doing with me today i love you
+">
+                            Notes: I am a bunch of notes that doesn't have much of an impact o,,dfsafn things how are you doing with me today i love you
                         </p>
                     </GreenBox>
 
@@ -587,7 +588,9 @@ const TopBox = styled.div`
   justify-content: space-between;
   background-color: green;
   flex-direction: column;
+  overflow: hidden; // or 'auto' if you want scrollbars
 `;
+
 
 const MiddleBox = styled.div`
   height: 100%;
@@ -642,18 +645,26 @@ display: flex;
 
 
 const GreenBox = styled.div`
-  height: 100%;
-  width: 20%;
+  height: 100%; // Adjust if needed to fit the parent container
+  width: 100%;
   padding-left: 15px;
-  margin-right: 2.5%;
-  padding-top: 40px;
-  justify-content: space-between;
-  align-items: center;
+  padding-top: 10px;
+  background-color: red;
   display: flex;
+
   p {
     color: white;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; // Limit to two lines
+    overflow: hidden;
+    word-wrap: break-word;
+    max-height: calc(2 * 1.4em); // Adjust '1.2em' based on your font-size and line-height
   }
 `;
+
+
+
 
 
 const BlueBox = styled.div`

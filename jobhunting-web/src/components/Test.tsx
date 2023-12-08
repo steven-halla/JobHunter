@@ -767,14 +767,14 @@ const BottomBox = styled.div`
 
 
 const RedBox = styled.div`
-  height: 10%;
+  height: 30vh;
   width: 50%;
-  //min-width: 350px;
-  min-height: 10px;
+  min-width: 370px;
+  min-height: 208px;
   background-color: darkgray;
   display: flex;
   flex-direction: row;
-  margin-top: 1%;
+  margin-top: 2%;
   //overflow-y: auto;
 
   align-items: stretch;
@@ -900,8 +900,8 @@ const RedPillParentDiv = styled.div`
 
 
 const TestWrapper = styled.div`
-  //height: 100%;
-  //overflow-y: auto;
+  height: 100%;
+  overflow-y: auto;
   display: flex;
 justify-content: center;
   align-items: center;
@@ -1074,8 +1074,8 @@ const RedPillContainer = styled.div`
 
 const StickySearchDiv = styled.div`
   position: sticky;
-  top: 8.5%;
-  z-index: 6;
+  top: 0%;
+  z-index: 5;
   display: flex;
   flex-direction: row;
   justify-content: center;

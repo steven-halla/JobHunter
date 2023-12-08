@@ -489,14 +489,17 @@ export const Test = () => {
                                 icon={faEdit}
                                 style={{  color: "black" }} // Added marginRight here
                                 size="lg" // Example size - adjust as needed
+                                onClick={() => onButtonClick('update', String(job.id))}
+
                             />
                         </GoldBox>
 
                         <GoldBox>
                             <p>Job Link</p>
-                            <FontAwesomeIcon icon={faGlobe}
-                                             style={{  color: "black" }} // Added marginRight here
-                                             size="lg"  />
+                            <a href={job.joblink} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                                <FontAwesomeIcon icon={faGlobe} style={{ color: "black" }} size="lg" />
+                            </a>
+
                         </GoldBox>
 
 

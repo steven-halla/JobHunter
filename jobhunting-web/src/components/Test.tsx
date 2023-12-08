@@ -27,11 +27,12 @@ import {DateMutation} from "../common/DateMutation";
 export const Test = () => {
     const [searchTerm, setSearchTerm] = useState('');
 
-    const { jobs, updateJobSoftDelete,updateJobResponded, updateJobRejected, meetingLink} = useContext(JobsContext);
+    const { jobs, updateJobSoftDelete, updateJobRejected, meetingLink} = useContext(JobsContext);
     const [filter] = useState('');
     const [onlyShowResponded] = useState(false);
 
     const [sortingCriteria, setSortingCriteria] = useState(""); // default sorting criteria
+
 
     const [sortOrder, setSortOrder] = useState<
         'select' |
@@ -66,11 +67,15 @@ export const Test = () => {
 
     >('select');
 
+
+    // const [jobResponses, setJobResponses] = useState<Record<string, JobResponse>>({});
     const history = useNavigate();
     const navigate = useNavigate();
 
+
     const [isDescriptionModalOpen, setDescriptionModalOpen] = useState(false);
     const [selectedDescription, setSelectedDescription] = useState('');
+
 
     const [open, setOpen] = useState(false);
     const [jobDeclined, setJobDeclined] = useState(false);
@@ -85,14 +90,19 @@ export const Test = () => {
     const [interviewSortDirection, setInterviewSortDirection] = useState('dsc'); // New state for company sorting
     const [rejectedSortStatus, setRejectedSortStatus] = useState('no'); // New state for rejected sorting
 
+
+
     useEffect(() => {
+        // You can add additional logic here if needed
         setSortOrder(selectValue);
         console.log("hi")
+        //this is only ran when selectValue changes, this is powerful and important to remember
     }, [selectValue]);
 
     useEffect(() => {
         localStorage.setItem("jobResponses", JSON.stringify(jobResponses));
     }, [jobResponses]);
+
 
     type JobResponse = 'accepted' | 'declined' | 'no response' | 'delete' | 'update' | 'olderThanSevenDays' ;
 
@@ -121,16 +131,22 @@ export const Test = () => {
             console.log("Preparing for interview");
         }
         else if (response === 'update') {
-            navigate(`/updatejob/${jobId}`);  // navigate to the update job page with the jobId
+            navigate(`/updatejob/${jobId}`);  // <-- navigate to the update job page with the jobId
+
         }
 
         else if (response === 'no response') {
             setJobResponses(jobResponses)
+
         }
 
         else if (response === 'delete') {
+            // targetJob.companyrejected = true;
+            // targetJob.jobsoftdelete = true;
+// Assuming jobId is the ID of the job you want to soft delete
             updateJobSoftDelete(Number(jobId), true);
             console.log("the state of soft delete is " + targetJob.jobsoftdelete)
+
         }
 
         else if (response === 'declined') {
@@ -157,7 +173,10 @@ export const Test = () => {
         }
     };
 
+
+
     const updateJobOnServer = async (jobId: string, data: { companyrejected: boolean; companyresponded?: boolean }) => {
+        // Make a PATCH request to your server to update the job with jobId
         try {
             const response = await fetch(`http://localhost:8080/api/jobs/update/${jobId}`, {
                 method: 'PATCH',
@@ -168,50 +187,102 @@ export const Test = () => {
             if (!response.ok) {
                 throw new Error("Failed to update job.");
             }
+            // Optionally, update your local state if the server responds with updated data.
+            // const updatedJob = await response.json();
         } catch (error) {
             console.error("Error updating job:", error);
         }
     };
 
-    const currentDateMs = new Date().getTime();
-    const TWENTY_ONE_DAYS = 21 * 24 * 60 * 60 * 1000;
-    const twentyOneDaysAgoMs = currentDateMs - TWENTY_ONE_DAYS;
+
+    const currentDateMs = new Date().getTime(); // 1. Get current date in milliseconds
+    const TWENTY_ONE_DAYS = 21 * 24 * 60 * 60 * 1000; // Equivalent of 21 days in milliseconds
+    const twentyOneDaysAgoMs = currentDateMs - TWENTY_ONE_DAYS; // 2. Calculate the timestamp 21 days before current date
 
     const filteredAndRespondedJobs = jobs
-        .filter(job => !job.companyrejected)
+        .filter(job => !job.companyrejected) // Keeps jobs not rejected by the company
         .filter(job =>
-            job.companyresponded ||
-            new Date(job.dateapplied).getTime() >= twentyOneDaysAgoMs
+            job.companyresponded || // Keeps jobs where the company has responded
+            new Date(job.dateapplied).getTime() >= twentyOneDaysAgoMs // Keeps jobs applied within the last 21 days
         )
         .filter(job =>
-            (onlyShowResponded ? job.companyresponded : true) &&
-            job.companyname.toLowerCase().includes(filter.toLowerCase())
+            (onlyShowResponded ? job.companyresponded : true) && // Conditionally filters based on company response
+            job.companyname.toLowerCase().includes(filter.toLowerCase()) // Keeps jobs that match the search filter
         )
-        .filter(job => !job.jobsoftdelete);
+        .filter(job => !job.jobsoftdelete); // Excludes jobs where softDelete is true
 
-    const sortedAndRespondedJobs = jobs
+
+
+
+    const sortedAndRespondedJobs = [...filteredAndRespondedJobs]
         .filter(job =>
             !job.companyresponded &&
             (searchTerm.length < 3 || job.companyname.toLowerCase().includes(searchTerm.toLowerCase().trim()) || job.primarycontact.toLowerCase().includes(searchTerm.toLowerCase().trim()))
         )
+
+
         .sort((a, b) => {
+
+
             switch (sortingCriteria) {
+
+                case 'select':
+                    // Default sorting, for example by date applied in ascending order
+                    return new Date(a.dateapplied).getTime() - new Date(b.dateapplied).getTime();
+
                 case 'company-a-z':
                     return a.companyname.toLowerCase().localeCompare(b.companyname.toLowerCase());
                 case 'company-z-a':
+                    return b.companyname.toLowerCase().localeCompare(a.companyname.toLowerCase());
+                case 'company-asc':
+                    return a.companyname.toLowerCase().localeCompare(b.companyname.toLowerCase());
+                case 'company-desc':
                     return b.companyname.toLowerCase().localeCompare(a.companyname.toLowerCase());
                 case 'contact-a-z':
                     return a.primarycontact.toLowerCase().localeCompare(b.primarycontact.toLowerCase());
                 case 'contact-z-a':
                     return b.primarycontact.toLowerCase().localeCompare(a.primarycontact.toLowerCase());
+                case 'contact-asc':
+                    return a.primarycontact.toLowerCase().localeCompare(b.primarycontact.toLowerCase());
+                case 'contact-desc':
+                    return b.primarycontact.toLowerCase().localeCompare(a.primarycontact.toLowerCase());
                 case 'date-asc':
                     return new Date(a.dateapplied).getTime() - new Date(b.dateapplied).getTime();
                 case 'date-desc':
                     return new Date(b.dateapplied).getTime() - new Date(a.dateapplied).getTime();
-                case 'rejected-yes':
-                    return (b.companyrejected ? 1 : 0) - (a.companyrejected ? 1 : 0);
-                case 'rejected-no':
-                    return (a.companyrejected ? 1 : 0) - (b.companyrejected ? 1 : 0);
+                case 'accepted':
+                    console.log("you have been accepted")
+                    return (jobResponses[b.id] === 'accepted' ? 1 : 0) - (jobResponses[a.id] === 'accepted' ? 1 : 0);
+                case 'declined':
+                    return (jobResponses[b.id] === 'declined' ? 1 : 0) - (jobResponses[a.id] === 'declined' ? 1 : 0);
+                case 'no response':
+                    console.log("Job A ID:", a.id, "Response:", jobResponses[a.id]);
+                    console.log("Job B ID:", b.id, "Response:", jobResponses[b.id]);
+                    // return (jobResponses[b.id] === 'no response' ? 1 : 0) - (jobResponses[a.id] === 'no response' ? 1 : 0);
+                    const responseA = jobResponses[a.id] || 'no response'; // default to 'no response' if undefined
+                    const responseB = jobResponses[b.id] || 'no response'; // default to 'no response' if undefined
+                    return (responseB === 'no response' ? 1 : 0) - (responseA === 'no response' ? 1 : 0);
+
+                case 'delete':
+                    return (jobResponses[b.id] === 'delete' ? 1 : 0) - (jobResponses[a.id] === 'delete' ? 1 : 0);
+                case 'olderThanSevenDays':
+                    // Assuming 'dateapplied' holds the application date
+                    const aDateDiff = new Date().getTime() - new Date(a.dateapplied).getTime();
+                    const bDateDiff = new Date().getTime() - new Date(b.dateapplied).getTime();
+                    const aOlderThan7Days = aDateDiff > 7 * 24 * 60 * 60 * 1000 ? 1 : 0;
+                    const bOlderThan7Days = bDateDiff > 7 * 24 * 60 * 60 * 1000 ? 1 : 0;
+                    return bOlderThan7Days - aOlderThan7Days;
+
+                case 'companyResponded':
+                    return (b.companyresponded === false ? 1 : 0) - (a.companyresponded === false ? 1 : 0);
+
+
+                case 'update':
+                    return (jobResponses[b.id] === 'update' ? 1 : 0) - (jobResponses[a.id] === 'update' ? 1 : 0);
+
+                case 'meetingLink':
+                    console.log("I have a meeting link for you bud bud")
+                    return (b.meetingLink ? 1 : 0) - (a.meetingLink ? 1 : 0);
                 default:
                     return 0;
             }
@@ -236,6 +307,10 @@ export const Test = () => {
             window.removeEventListener('resize', checkScreenSize);
         };
     }, []);
+
+
+
+
 
     const toggleDateSortDirection = () => {
         setDateSortDirection(dateSortDirection === 'asc' ? 'dsc' : 'asc');
@@ -272,18 +347,6 @@ export const Test = () => {
     const handleSortingChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSortingCriteria(e.target.value);
     };
-
-    const handleSwitchChange = (jobId: number, checked: boolean): void => {
-        if (checked) {
-            const isConfirmed = window.confirm("Confirm company responded?");
-            if (isConfirmed) {
-                updateJobResponded(jobId, true);
-            }
-        } else {
-            updateJobResponded(jobId, false);
-        }
-    };
-
     const [isChecked, setIsChecked] = useState(false); // Initialize state
 
     const handleChange = () => {
@@ -704,13 +767,16 @@ const BottomBox = styled.div`
 
 
 const RedBox = styled.div`
-  height: 30%;
+  height: 10%;
   width: 50%;
+  //min-width: 350px;
+  min-height: 10px;
   background-color: darkgray;
-  margin-left: 25%;
   display: flex;
   flex-direction: row;
-  margin-top: 3%;
+  margin-top: 1%;
+  //overflow-y: auto;
+
   align-items: stretch;
   border-radius: 5px; /* Rounds the corners. Adjust the value as needed */
 
@@ -834,8 +900,12 @@ const RedPillParentDiv = styled.div`
 
 
 const TestWrapper = styled.div`
-  height: 93vh;
-  overflow-y: auto;
+  //height: 100%;
+  //overflow-y: auto;
+  display: flex;
+justify-content: center;
+  align-items: center;
+  flex-direction: column;
 
   p {
     font-family: "Helvetica Neue", helvetica, arial, sans-serif;
@@ -1004,8 +1074,8 @@ const RedPillContainer = styled.div`
 
 const StickySearchDiv = styled.div`
   position: sticky;
-  top: 0%;
-  z-index: 5;
+  top: 8.5%;
+  z-index: 6;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -1013,6 +1083,8 @@ const StickySearchDiv = styled.div`
   padding-right: 180px;
   height: 10vh;
   background-color: blue;
+  width: 100%;
+  margin-bottom: 1%;
 
   @media ${noResponseJobs.mobile} {
     width: 100vw;

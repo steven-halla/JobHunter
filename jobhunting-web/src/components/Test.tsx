@@ -9,7 +9,7 @@ import {
     faTimes,
     faTimesCircle,
     faBan,
-    faSkullCrossbones, faGlasses, faCalendarPlus, faUser
+    faSkullCrossbones, faGlasses, faCalendarPlus, faUser, faGlobe
 } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import {deviceJobViewAll, noResponseJobs} from "../common/ScreenSizes";
@@ -20,12 +20,13 @@ import { SelectValue } from './useSortAndSelect'; // Replace with the actual pat
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import {Slider} from "@mui/material";
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
+import Switch from '@mui/material/Switch';
 
 
 export const Test = () => {
     const [searchTerm, setSearchTerm] = useState('');
 
-    const { jobs, updateJobSoftDelete, updateJobRejected, meetingLink} = useContext(JobsContext);
+    const { jobs, updateJobSoftDelete,updateJobResponded, updateJobRejected, meetingLink} = useContext(JobsContext);
     const [filter] = useState('');
     const [onlyShowResponded] = useState(false);
 
@@ -298,6 +299,45 @@ export const Test = () => {
         setSortingCriteria(e.target.value);
     };
 
+    const handleSwitchChange = (jobId: number, checked: boolean): void => {
+        if (checked) {
+            const isConfirmed = window.confirm("Confirm company responded?");
+            if (isConfirmed) {
+                updateJobResponded(jobId, true);
+            }
+        } else {
+            updateJobResponded(jobId, false);
+        }
+    };
+
+    const [isChecked, setIsChecked] = useState(false); // Initialize state
+
+    const handleChange = () => {
+        setIsChecked(!isChecked); // Toggle the state
+    };
+
+
+    interface LabeledSwitchProps {
+        labelOn: string;
+        labelOff: string;
+        isChecked: boolean;
+        onChange: () => void; // Update this type according to the actual onChange function
+    }
+
+
+
+    const LabeledSwitch: React.FC<LabeledSwitchProps> = ({ labelOn, labelOff, isChecked, onChange }) => {
+        return (
+            <div>
+                <label>
+                    {isChecked ? labelOn : labelOff}
+                    <Switch checked={isChecked} onChange={onChange} />
+                </label>
+            </div>
+        );
+    };
+
+
 
     return (
         <TestWrapper>
@@ -414,64 +454,88 @@ export const Test = () => {
 
 
                 </MiddleBox>
+
+
+
+
                 <BottomBox>
 
                     <PurpleBox>
-                        <FontAwesomeIcon icon={faGlasses}
-                                         size="lg" // Example size - adjust as needed
+                        {/*<FontAwesomeIcon icon={faGlasses}*/}
+                        {/*                 size="lg" // Example size - adjust as needed*/}
+                        {/*/>*/}
+                        <LabeledSwitch
+                            labelOn="Responded"
+                            labelOff="No Response"
+                            isChecked={isChecked} // Pass the state
+                            onChange={handleChange} // Pass the handler
                         />
+
+                        <LabeledSwitch
+                            labelOn="Rejectd"
+                            labelOff="No Rejection"
+                            isChecked={isChecked} // Pass the state
+                            onChange={handleChange} // Pass the handler
+                        />
+
 
                     </PurpleBox>
 
                     <IconBox>
-                        <FontAwesomeIcon
-                            icon={faCalendar}
-                            style={{  color: "black" }} // Added marginRight here
-                            size="lg" // Example size - adjust as needed
 
-                        />
+                        <GoldBox>
+                            <p>Schedule Interview</p>
+                            <FontAwesomeIcon
+                                icon={faCalendar}
+                                style={{  color: "black" }} // Added marginRight here
+                                size="lg" // Example size - adjust as needed
+                            />
+                        </GoldBox>
 
-                        {/*<FontAwesomeIcon*/}
-                        {/*    icon={faSkullCrossbones}*/}
-                        {/*    style={{  color: "black" }} // Added marginRight here*/}
+                        <GoldBox>
+                            <p>Edit</p>
+                            <FontAwesomeIcon
+                                icon={faEdit}
+                                style={{  color: "black" }} // Added marginRight here
+                                size="lg" // Example size - adjust as needed
+                            />
+                        </GoldBox>
 
-                        {/*/>*/}
+                        <GoldBox>
+                            <p>Job Link</p>
+                            <FontAwesomeIcon icon={faGlobe}
+                                             style={{  color: "black" }} // Added marginRight here
+                                             size="lg"  />
+                        </GoldBox>
 
-                        <FontAwesomeIcon
-                            icon={faEdit}
-                            style={{  color: "black" }} // Added marginRight here
-                            size="lg" // Example size - adjust as needed
-
-
-                        />
 
 
 
                     </IconBox>
 
-                    <TurquoiseBox>
+                    {/*<TurquoiseBox>*/}
 
 
 
-                        <GoldBox>
-                            <GreyBox>
-                                Responded?
-                                <CheckBoxInput
-                                    type="checkbox"
-                                />
-                            </GreyBox>
+                    {/*    <GoldBox>*/}
+                    {/*        <GreyBox>*/}
+                    {/*            Responded?*/}
+                    {/*            <CheckBoxInput*/}
+                    {/*                type="checkbox"*/}
+                    {/*            />*/}
+                    {/*        </GreyBox>*/}
 
-                            <PinkBox>
-                                Rejected?
-                                <CheckBoxInput
-                                    type="checkbox"
-                                />
-                            </PinkBox>
-                        </GoldBox>
+                    {/*        <PinkBox>*/}
+                    {/*            Rejected?*/}
+                    {/*            <CheckBoxInput*/}
+                    {/*                type="checkbox"*/}
+                    {/*            />*/}
+                    {/*        </PinkBox>*/}
+                    {/*    </GoldBox>*/}
 
 
 
-                    </TurquoiseBox>
+                    {/*</TurquoiseBox>*/}
 
 
 
@@ -491,17 +555,22 @@ export const Test = () => {
 };
 
 const IconBox = styled.div`
-  height: 90%;
+  height: 50%;
   width: 100%;
-  margin-top: 2.2%;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
+  //align-items: flex-end;
+  padding-right: 5%;
+  flex-direction: column;
+  margin-left: 2%;
+
 
   p {
     color: black;
+  }
+  
+  svg {
+    align-items: flex-end;
+
   }
 `;
 
@@ -521,16 +590,34 @@ const VioletBox = styled.div`
 
 
 const GoldBox = styled.div`
-  height: 50%;
+  height: 33%;
   width: 100%;
   display: flex;
   flex-direction: row;
-  margin-top: 5%;
+  justify-content: flex-end; /* Aligns children to the far right */
+  align-items: center;
+  background-color: gold;
+  border: 1px solid red;
+
+  p {
+    padding-top: 7%;
+    margin-right: 15px; /* Adds right margin to <p> tag for spacing */
+  }
+
+  svg {
+    /* 'justify-content: flex-end;' is not needed here as it's for flex containers */
+  }
 `;
+
+
+
+/* ... rest of your styles ... */
+
 const TurquoiseBox = styled.div`
   height: 80%;
   width: 60%;
   margin-top: 1%;
+  background-color: lightgray;
 
   p {
     color: black;
@@ -568,7 +655,7 @@ const SkyBlueBox = styled.div`
   width: 80%;
   margin-top: 3%;
   display: flex;
-  margin-left: 2%;
+  margin-left: 3%;
 
 
   p {
@@ -578,12 +665,16 @@ const SkyBlueBox = styled.div`
 
 
   }
+  
+  svg {
+    padding-top: 1%;
+  }
 `;
 
 
 const TopBox = styled.div`
   height: 100%;
-  width: 39%;
+  width: 49%;
   display: flex;
   justify-content: space-between;
   background-color: green;
@@ -594,7 +685,7 @@ const TopBox = styled.div`
 
 const MiddleBox = styled.div`
   height: 100%;
-  width: 20%;
+  width: 10%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -607,16 +698,9 @@ const BottomBox = styled.div`
   height: 100%;
   width: 41%;
   display: flex;
-  justify-content: center;
   background-color: purple;
   flex-direction: column;
-
-
-  svg {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-  }
+  
 `;
 
 
@@ -640,6 +724,10 @@ display: flex;
   p {
     color: black;
     margin-left: 2%;
+  }
+  
+  svg {
+    padding-top: 1%;
   }
 `;
 
@@ -669,7 +757,7 @@ const GreenBox = styled.div`
 
 const BlueBox = styled.div`
   height: 20%;
-  margin-left: 2% ;
+  margin-left: 3% ;
 
 
   a {
@@ -682,13 +770,13 @@ const BlueBox = styled.div`
 `;
 
 const PurpleBox = styled.div`
-  height: 20%;
-  width: 15%;
-  padding-left: 2px;
-  padding-top: 1px;
-  margin-top: 7.9%;
-  margin-left: 2%;
+  height: 50%;
+  width: 100%;
+  
   display: flex;
+  background-color: #FF6EC7;
+  flex-direction: column;
+  align-items: flex-end;
   svg {
     color: white;
   }

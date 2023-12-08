@@ -325,17 +325,23 @@ export const Test = () => {
     }
 
 
-
     const LabeledSwitch: React.FC<LabeledSwitchProps> = ({ labelOn, labelOff, isChecked, onChange }) => {
+        const labelStyle = {
+            fontSize: '20px', // Set the font size to 16px
+            fontFamily: 'Roboto, sans-serif', // Set the font family to Roboto with a generic sans-serif fallback
+
+        };
+
         return (
             <div>
-                <label>
+                <label style={labelStyle}>
                     {isChecked ? labelOn : labelOff}
                     <Switch checked={isChecked} onChange={onChange} />
                 </label>
             </div>
         );
     };
+
 
 
 
@@ -561,7 +567,7 @@ const IconBox = styled.div`
   //align-items: flex-end;
   padding-right: 5%;
   flex-direction: column;
-  margin-left: 2%;
+  margin-left: 0.5%;
 
 
   p {
@@ -596,9 +602,11 @@ const GoldBox = styled.div`
   flex-direction: row;
   justify-content: flex-end; /* Aligns children to the far right */
   align-items: center;
-  background-color: gold;
-  border: 1px solid red;
+  //background-color: gold;
+  //border: 1px solid red;
+  font-family: Arial, sans-serif; // Set the font family to Arial with a generic sans-serif fallback
 
+  font-size: 18px;
   p {
     padding-top: 7%;
     margin-right: 15px; /* Adds right margin to <p> tag for spacing */
@@ -675,9 +683,11 @@ const SkyBlueBox = styled.div`
 const TopBox = styled.div`
   height: 100%;
   width: 49%;
+  
+  
   display: flex;
   justify-content: space-between;
-  background-color: green;
+  //background-color: green;
   flex-direction: column;
   overflow: hidden; // or 'auto' if you want scrollbars
 `;
@@ -689,7 +699,7 @@ const MiddleBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: deeppink;
+  //background-color: deeppink;
   flex-direction: column;
 
 `;
@@ -698,7 +708,7 @@ const BottomBox = styled.div`
   height: 100%;
   width: 41%;
   display: flex;
-  background-color: purple;
+  //background-color: purple;
   flex-direction: column;
   
 `;
@@ -707,11 +717,19 @@ const BottomBox = styled.div`
 const RedBox = styled.div`
   height: 30%;
   width: 50%;
-  background-color: red;
+  background-color: darkgray;
   margin-left: 25%;
   display: flex;
   flex-direction: row;
+  margin-top: 3%;
   align-items: stretch;
+  border-radius: 5px; /* Rounds the corners. Adjust the value as needed */
+
+
+  box-shadow:
+          -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */
+          4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
+          0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
 `;
 
 
@@ -735,13 +753,15 @@ display: flex;
 const GreenBox = styled.div`
   height: 100%; // Adjust if needed to fit the parent container
   width: 100%;
-  padding-left: 15px;
+  padding-left: 10px;
   padding-top: 10px;
-  background-color: red;
+  //background-color: red;
   display: flex;
 
   p {
-    color: white;
+    color: #2f2c2a ;
+    font-family: Arial, sans-serif; /* Arial font, with a generic sans-serif as a fallback */
+    font-size: 16px;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2; // Limit to two lines
@@ -774,7 +794,7 @@ const PurpleBox = styled.div`
   width: 100%;
   
   display: flex;
-  background-color: #FF6EC7;
+  //background-color: #FF6EC7;
   flex-direction: column;
   align-items: flex-end;
   svg {
@@ -960,7 +980,7 @@ const RedPillContainer = styled.div`
   }
 
   @media (max-width: 1150px) {
-    background-color: blue;
+    //background-color: blue;
   }
 `;
 

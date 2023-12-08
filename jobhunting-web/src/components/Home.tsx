@@ -1,3 +1,5 @@
+
+
 import React, {useState, ChangeEvent, FormEvent, useContext, useEffect} from "react";
 import { User } from "../models/User";
 import AuthService from "../services/auth.service";
@@ -430,47 +432,60 @@ export const Home: React.FC = () => {
     return (
         <Box
             sx={{
-                position: "relative",
-                width: "100%",
-                height: "100vh",
-                display: "flex",
-                flexDirection: "column",
-                backgroundColor: "#3D4849",
+                backgroundColor: "red",
+                height: "100%",
+                width: "100vw",
 
-
-                // Add other CSS styles as needed
             }}
         >
-
             <Box
                 sx={{
+                    backgroundColor: "blue",
+                    height: "10vh",
+                    width: "100vw",
                     display: "flex",
-                    marginTop: "20px",
-                    paddingLeft: "1.2%",
-                    flexDirection: "row",
-                    gap: "15px",
-                    width: "100%",
-                    alignItems: "center",
+                    // flexDirection: "row",
                     justifyContent: "center",
-                    marginBottom: "5%",
-                    backgroundColor: "#3D4849",
-
-                    // Add other CSS styles as needed
-
-
-                    [theme.breakpoints.down('sm')]: {
-                        // padding: '10px',
-                        height: "5vh",
-
+                    position: "relative",
+                    minHeight: "30px",
+                    // justifyContent: "space-around", // Even space around items
+                    marginBottom: {
+                        md: "0",
+                        xs: "1%"
                     },
+                    // marginBottom: "10%",
+
+                    // marginBottom: {
+                    //     xs: "23%",  // Margin bottom for extra-small devices
+                    //     md: "0",   // No margin bottom for medium devices and above
+                    //
+                    // }
+
                 }}
             >
-                <Box
-                    display="flex"
-                    paddingLeft="20px"
-                    paddingRight="30px"
-                    marginBottom="-3%"
+                <VerticalLine2></VerticalLine2>
 
+
+                <Box
+                    sx={{
+                        backgroundColor: "purple",
+                        height: "8vh",
+                        width: "5vw",
+                        display: "flex",
+                        justifyContent: "center", // Corrected property name
+                        alignItems: "center",
+                        position: "relative",
+                        minHeight: "30px",
+                        marginRight: {
+                            md: "2.2",
+                            xs: "15%"
+                        },
+
+
+
+
+
+                    }}
                 >
                     <FontAwesomeIcon
                         icon={faGithub}
@@ -478,231 +493,315 @@ export const Home: React.FC = () => {
                         onClick={() => copyToClipboard(selectedOption1)}
                         style={{ cursor: 'pointer' ,color: 'white' }}
                     />
-                </Box>
-                <Box
-                    display="flex"
-                    paddingLeft="20px"
-                    paddingRight="30px"
-                    marginBottom="-3%"
 
-                >
-                    <FontAwesomeIcon
-                        icon={faLinkedin}
-                        size="2x"
-                        onClick={() => copyToClipboard(selectedOption2)}
-                        style={{ cursor: 'pointer'  ,color: 'white'}}
-                    />
+                    <VerticalLine2></VerticalLine2>
                 </Box>
 
                 <Box
-                    display="flex"
-                    paddingLeft="20px"
-                    paddingRight="30px"
-                    marginBottom="-3%"
+                    sx={{
+                        backgroundColor: "purple",
+                        height: "8vh",
+                        width: "5vw",
+                        display: "flex",
+                        justifyContent: "center", // Corrected property name
+                        alignItems: "center",
+                        position: "relative",
+                        minHeight: "30px",
+                        paddingRight: "0.5%",
 
+                        marginRight: {
+                            md: "2.2",
+                            xs: "15%"
+                        },
+
+
+
+
+
+                    }}
                 >
+                    <VerticalLine2></VerticalLine2>
                     <FontAwesomeIcon
-                        icon={faBriefcase}
+                        icon={faGithub}
                         size="2x"
-                        onClick={() => copyToClipboard(selectedOption3)}
-                        style={{ cursor: 'pointer'  ,color: 'white'}}
+                        onClick={() => copyToClipboard(selectedOption1)}
+                        style={{ cursor: 'pointer' ,color: 'white' }}
                     />
+
+                </Box>
+
+
+
+
+
+                <Box
+                    sx={{
+                        backgroundColor: "purple",
+                        height: "8vh",
+                        width: "5vw",
+
+                        display: "flex",
+                        justifyContent: "center", // Corrected property name
+                        alignItems: "center",
+                        position: "relative",
+                        minHeight: "30px",
+
+                    }}
+                >
+                    <VerticalLine2></VerticalLine2>
+                    <FontAwesomeIcon
+                        icon={faGithub}
+                        size="2x"
+                        onClick={() => copyToClipboard(selectedOption1)}
+                        style={{ cursor: 'pointer' ,color: 'white' }}
+                    />
+
                 </Box>
             </Box>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             <Box
                 sx={{
+                    display: "flex", // Enable flexbox
+                    justifyContent: "center", // Center horizontally
+                    alignItems: "center", // Center vertically
+                    height: "90%", // Remaining height after the blue box
+                    width: "100vw",
+                    position: "relative",
 
-                    justifyContent: "space-evenly", // Evenly distribute space around items
-
-                    // marginBottom: "30%",
-
-                    // backgroundColor: "#c7f3ff",
-                    background: "#C0C0C0",
-
-
-                    // marginTop: "2%",
-                    width: "40vw",
-                    minWidth: "300px",
-                    height: "70vh",
-                    minHeight: "500px",
-                    maxHeight: "550px",
-                    borderRadius: "5%",
-                    display: "flex",
-                    alignItems: "center",
-                    // justifyContent: "space-around",
-                    margin: "auto",
-                    marginBottom: "10%",
-                    // flexDirection: "colum",
-
-                    gap: "20px", // Adjust the value as needed
-                    // marginBottom: "7%",
-                    // paddingTop: "3%",
-                    boxShadow: "0px 4px 8px -2px rgba(0, 0, 0, 0.2)", // Horizontal shadow, Vertical shadow, Blur radius, Spread radius, Color
-
-                    "& > *:not(.MuiTextField-root)": {
-                        // backgroundColor: "#c7f3ff",
-                        background: "#C0C0C0",
-
-                        width: "60vw",
-                    },
-
-                    [theme.breakpoints.down('sm')]: {
-                        // padding: '10px',
-                        height: "5vh",
-
-                    },
-                    // Add other CSS styles as needed
                 }}
             >
-                <CustomFieldForm onSubmit={handleJobSubmit}>
 
 
 
-                    <FieldContainerDiv
+                <Box
+                    sx={{
+                        backgroundColor: "brown",
+                        // height: "90%",
+                        height: {
+                            xs: "100%",
+                            md: "90%",
+                        },
+                        width: "95vw",
+                        display: "flex",
+                        justifyContent: "center", // Center horizontally
+                        alignItems: "center", // Center vertically
+                        position: "relative",
+                        // overflow: "auto",          // Add scrollbars if content overflows
 
+
+                        flexDirection: {
+                            xs: "column", // On extra small screens (mobile), set flexDirection to column
+                            md: "row" // On medium screens and above (601px and more), set flexDirection to row
+                        },
+
+                    }}
+                >
+
+                    <Box
+                        sx={{
+                            backgroundColor: "orange",
+                            // height: "70vh",
+                            height: {
+                                xs: "500px",
+                                md: "70%",
+                            },
+                            width: "44vw",
+                            position: 'relative', // Important for absolute positioning of children
+                            // marginLeft: "28.8%",
+                            // minHeight: "540px",
+                            minHeight: {
+                                xs: "500px",
+                                sm: "470px",
+                                md: "540px",
+                            },
+                            minWidth: "300px",
+                            // marginLeft: {
+                            //     xs: "0",
+                            //     md: "28.5",
+                            // },
+                            marginLeft: {
+                                xs: "0",       // 0 for extra-small devices
+                                md: "28.5%",   // 28.5% margin for medium devices and above
+                                lg: "28.5%",   // 28.5% margin for large devices and above
+                            },
+                            marginTop: {
+                                md: "0",
+                                xs: "5%"
+                            },
+
+
+                        }}
+                    >
+                        <VerticalLine2></VerticalLine2>
+
+
+
+
+                        <CustomFieldForm onSubmit={handleJobSubmit}>
+
+
+                            <FieldContainerDiv>
+                                {/*<VerticalLine2></VerticalLine2>*/}
+
+                                <StyledTextField
+                                    type="text"
+                                    variant="outlined"
+                                    placeholder="company name" // Using placeholder instead of label
+                                    value={companyname}
+                                    onChange={handleCompanyNameChange}
+                                />
+
+                                {companyNameError && <div style={{ color: 'red' }}>{companyNameError}</div>}
+
+                            </FieldContainerDiv>
+
+
+                            <FieldContainerDiv>
+                                <StyledTextField
+                                    type="text"
+                                    variant="outlined"
+                                    placeholder="description"
+                                    value={description}
+                                    onChange={handleDescriptionChange} />
+                                {companyDescriptionError && <div style={{ color: 'red' }}>{companyDescriptionError}</div>}
+
+                            </FieldContainerDiv>
+
+
+                            <FieldContainerDiv>
+                                <StyledTextField
+                                    type="text"
+                                    variant="outlined"
+                                    placeholder="contact"
+                                    value={primarycontact}
+                                    onChange={handlePrimaryContact} />
+                                {companyContactError && <div style={{ color: 'red' }}>{companyContactError}</div>}
+
+                            </FieldContainerDiv>
+
+                            <FieldContainerDiv>
+                                <StyledTextField
+                                    type="text"
+                                    variant="outlined"
+                                    placeholder="company website link"
+                                    value={companywebsitelink} onChange={handleCompanyWebSiteLink} />
+                                {companyWebSiteLinkError && <div style={{ color: 'red' }}>{companyWebSiteLinkError}</div>}
+
+                            </FieldContainerDiv>
+
+                            <FieldContainerDiv>
+                                <StyledTextField
+                                    type="text"
+                                    variant="outlined"
+                                    placeholder="job link"
+
+                                    value={joblink} onChange={handleJobLink} />
+
+                                {companyJobLinkError && <div style={{ color: 'red' }}>{companyJobLinkError}</div>}
+
+                            </FieldContainerDiv>
+
+                            <ButtonDiv>
+                                <SubmitButton
+                                    sx={{
+                                        borderRadius: 10,
+                                        background: 'linear-gradient(to right, #00C9FF, #00B4D8)',
+                                        border: '1px solid #007BFF',
+                                        '&:hover': {
+                                            background: 'linear-gradient(to left, #00C9FF, #00B4D8)',
+                                            boxShadow: '0 0 10px #00C9FF',
+                                        },
+                                        textTransform: 'none',
+                                        fontSize: '1.6rem',
+                                        fontWeight: 'bold',
+                                        fontFamily: "'Times New Roman', serif", // Corrected fontFamily format
+                                    }}
+                                    variant="contained"
+                                    type="submit"
+                                >
+                                    Submit
+                                </SubmitButton>
+
+
+
+                            </ButtonDiv>
+
+
+
+
+                        </CustomFieldForm>
+
+
+                    </Box>
+
+                    <Box
+                        sx={{
+                            backgroundColor: "yellow",
+                            height: {
+                                xs: "20%",
+                                md: "70%",
+                            },
+                            // width: "30vw",
+                            width: {
+                                xs: "44vw",
+                                md: "30vw",
+                            },
+                            position: "relative",
+                            // minHeight: "540px",
+                            minHeight: {
+                                xs: "200px",
+                                md: "540px",
+                            },
+                            minWidth: "300px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+
+
+
+
+                        }}
                     >
 
-                        <StyledTextField
-                            type="text"
-                            variant="outlined"
-                            placeholder="company name" // Using placeholder instead of label
-                            value={companyname}
-                            onChange={handleCompanyNameChange}
-                        />
+                        {
+                            Array.isArray(searchResult) && searchResult.length > 0 && (
+                                <JobCardDiv style={Array.isArray(searchResult) && searchResult.length > 0 ? jobCardStyle : {}}>
+                                    <JobCarousel searchResult={searchResult} />
+                                </JobCardDiv>
+                            )
+                        }
 
-                        {companyNameError && <div style={{ color: 'red' }}>{companyNameError}</div>}
-
-                    </FieldContainerDiv>
-
-
-
-                    <FieldContainerDiv>
-                        <StyledTextField                              type="text"
-                                                                      variant="outlined"
-                                                                      placeholder="description"
-                                                                      value={description}
-                                                                      onChange={handleDescriptionChange} />
-                        {companyDescriptionError && <div style={{ color: 'red' }}>{companyDescriptionError}</div>}
-
-                    </FieldContainerDiv>
-
-
-                    <FieldContainerDiv>
-                        <StyledTextField
-                            type="text"
-                            variant="outlined"
-                            placeholder="contact"
-                            value={primarycontact}
-                            onChange={handlePrimaryContact} />
-                        {companyContactError && <div style={{ color: 'red' }}>{companyContactError}</div>}
-
-                    </FieldContainerDiv>
-
-
-                    <FieldContainerDiv>
-                        <StyledTextField
-                            type="text"
-                            variant="outlined"
-                            placeholder="company website link"
-                            value={companywebsitelink} onChange={handleCompanyWebSiteLink} />
-                        {companyWebSiteLinkError && <div style={{ color: 'red' }}>{companyWebSiteLinkError}</div>}
-
-                    </FieldContainerDiv>
-
-
-                    <FieldContainerDiv>
-                        <StyledTextField
-                            type="text"
-                            variant="outlined"
-                            placeholder="job link"
-
-                            value={joblink} onChange={handleJobLink} />
-
-                        {companyJobLinkError && <div style={{ color: 'red' }}>{companyJobLinkError}</div>}
-
-                    </FieldContainerDiv>
-
-                    <ButtonDiv>
-                        <SubmitButton
-                            sx={{
-                                borderRadius: 10,
-                                background: 'linear-gradient(to right, #00C9FF, #00B4D8)',
-                                border: '1px solid #007BFF',
-                                '&:hover': {
-                                    background: 'linear-gradient(to left, #00C9FF, #00B4D8)',
-                                    boxShadow: '0 0 10px #00C9FF',
-                                },
-                                textTransform: 'none',
-                                fontSize: '1.6rem',
-                                fontWeight: 'bold',
-                                fontFamily: "'Times New Roman', serif", // Corrected fontFamily format
-                            }}
-                            variant="contained"
-                            type="submit"
-                        >
-                            Submit
-                        </SubmitButton>
-
-
-
-                    </ButtonDiv>
-
-                </CustomFieldForm>
+                    </Box>
+                    {/* Content of the brown box */}
+                </Box>
+                {/*<VerticalLine></VerticalLine>*/}
 
             </Box>
-
-
-            {
-                Array.isArray(searchResult) && searchResult.length > 0 && (
-                    <JobCardDiv style={Array.isArray(searchResult) && searchResult.length > 0 ? jobCardStyle : {}}>
-                        <JobCarousel searchResult={searchResult} />
-                    </JobCardDiv>
-                )
-            }
-
-
-
-
-
-
-            {/*<FooterDiv/>*/}
+            <Footer></Footer>
         </Box>
+
+
     );
 };
 
 const jobCardStyle = {
     backgroundColor: 'grey',
     justifyContent: "center",
-alignItems: "center",
+    alignItems: "center",
+
 
     // marginTop: "1%",
-    paddingTop: device.mobile ? '3%' : '0.1%', // 3% padding for mobile, 1% for others
+    // paddingTop: device.mobile ? '3%' : '0.1%', // 3% padding for mobile, 1% for others
     boxShadow: '-4px 0 8px -2px rgba(0, 0, 0, 0.2), 4px 0 8px -2px rgba(0, 0, 0, 0.2), 0 4px 8px -2px rgba(0, 0, 0, 0.2)'
 };
-
 
 const JobCardDiv = styled.div`
   height: 50%;
   width: 20%;
-  min-width: 200px;
+  min-width: 250px;
   //display: flex;
-  position: absolute;
-  margin-left: 75%;
-  margin-top: 10%;
+  //margin-top: 20%;
+
   padding-bottom: 2%;
   border-radius: 10px; /* Adjust the value as needed for desired roundness */
   justify-content: center;
@@ -732,93 +831,46 @@ const JobCardDiv = styled.div`
 
   @media ${deviceHome.mobile} {
     position: relative; // Keeps the element in the normal document flow
-    width: 76%; // Sets the width to 80% of the parent element
+    width: 100%; // Sets the width to 80% of the parent element
     height: 50%;
-    margin-left: auto; // Centers the element along the horizontal axis
-    margin-right: auto; // Centers the element along the horizontal axis
-    margin-top: 1em; // Adds space above the element
-    height: auto; // Lets the height adjust based on content
+
+    margin-top: 1%;
+    padding-bottom: 0%;
+
+
+
+
     //background-color: rgba(150,116,169,0.86); // Optional background color change for mobile
-    padding-top: 3%;
+
+
   }
 
 `;
 
 
-const ButtonDiv = styled.div`
-  justify-content: center;
-  align-items: center;
-
-
-  @media ${deviceHome.mobile} {
-    //background-color: rgba(150,116,169,0.86);
-    width: 36vw;
-    display: flex;
-
-    .button {
-      background-color: red;
-    }
-  }
+const Footer = styled.div`
+  height: 20vh;
+  background-color: red;
 `;
 
-
-
-
-
-const BaseStyledTextField = styled(TextField)`
-  & .MuiFilledInput-input {
-    height: 20px;
-    
-
-  }
-  & .MuiInputBase-input { // Target the input base for styling
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 1.2rem;
-  }
-
-  & .MuiInputBase-input::placeholder { // Target the placeholder with increased specificity
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.3rem;
-  }
-
-
- 
+const VerticalLine = styled.div`
+  position: fixed; // or absolute, depending on your layout
+  left: 50%;
+  height: 100vh;
+  width: 10px; // or as thick as you want
+  background-color: #000; // or any color of your choice
+  z-index: 10; // adjust as needed
 `;
 
-const StyledTextField: React.FC<TextFieldProps> = (props) => {
-    // Ensure the label is a string, default to an empty string if not
-    const placeholder = typeof props.label === 'string' ? props.label : '';
-
-    return (
-        <BaseStyledTextField
-            variant="outlined"
-            type="text"
-            size="small"
-            style={{ width: '100%', marginBottom: '5%', backgroundColor: 'white' }}
-            {...props}
-        />
-    );
-};
-
-
-const SubmitButton = styled(Button)`
-color: green;
-  height: 9vh;
-  width: 23vw;
-  display: flex;
-  padding-bottom: 70px;
-  //margin-bottom: 50px;
-  //background-color: yellow;
-  @media ${deviceHome.mobile} {
-    //background-color: red;
-    width: 30vw;
-    height: 7vh;
-  }
-
-
+const VerticalLine2 = styled.div`
+  position: absolute; // Positioned relative to its nearest positioned ancestor
+  left: 50%;
+  top: 0; // Align to the top of the container
+  height: 100%; // Full height of the container
+  width: 2px; // or as thick as you want
+  background-color: #000; // or any color of your choice
+  z-index: 10; // adjust as needed
 `;
-
-
 
 
 export const CustomFieldForm = styled.form`
@@ -826,13 +878,9 @@ export const CustomFieldForm = styled.form`
   flex-direction: column;
   justify-items: center;
   align-items: center;
-  width: 100vw;
+  width: 100%;
   
   
-
-
-
-
   input {
     display: flex;
     //width: 20vw;
@@ -873,8 +921,10 @@ export const CustomFieldForm = styled.form`
 `;
 
 
+
 const FieldContainerDiv = styled.div`
   width: 60%;
+  padding-top: 3%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -882,15 +932,86 @@ const FieldContainerDiv = styled.div`
           -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */
           4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
           0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
+
+  @media ${deviceHome.mobile} { // Apply for mobile screens
+    width: 80%;
+
+  }
 `;
 
 
 
-const VerticalLine = styled.div`
-  position: fixed; // or absolute, depending on your layout
-  left: 50%;
-  height: 100vh;
-  width: 1px; // or as thick as you want
-  background-color: #000; // or any color of your choice
-  z-index: 10; // adjust as needed
+
+
+const BaseStyledTextField = styled(TextField)`
+  & .MuiFilledInput-input {
+    height: 20px;
+
+  
+    
+  }
+  & .MuiInputBase-input { // Target the input base for styling
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1.2rem;
+   
+
+    
+  }
+
+  & .MuiInputBase-input::placeholder { // Target the placeholder with increased specificity
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.3rem;
+
+  
+  }
+`;
+
+const StyledTextField: React.FC<TextFieldProps> = (props) => {
+    // Ensure the label is a string, default to an empty string if not
+    const placeholder = typeof props.label === 'string' ? props.label : '';
+
+    return (
+        <BaseStyledTextField
+            variant="outlined"
+            type="text"
+            size="small"
+            style={{ width: '100%', marginBottom: '5%', backgroundColor: 'white' }}
+            {...props}
+        />
+    );
+};
+
+
+const ButtonDiv = styled.div`
+  justify-content: center;
+  align-items: center;
+
+
+  @media ${deviceHome.mobile} {
+    //background-color: rgba(150,116,169,0.86);
+    width: 36vw;
+    display: flex;
+
+    .button {
+      background-color: red;
+    }
+  }
+`;
+
+
+const SubmitButton = styled(Button)`
+color: green;
+  height: 9vh;
+  width: 23vw;
+  display: flex;
+  padding-bottom: 70px;
+  //margin-bottom: 50px;
+  //background-color: yellow;
+  @media ${deviceHome.mobile} {
+    //background-color: red;
+    width: 30vw;
+    height: 7vh;
+  }
+
+
 `;

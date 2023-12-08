@@ -21,6 +21,7 @@ import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import {Slider} from "@mui/material";
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 import Switch from '@mui/material/Switch';
+import {DateMutation} from "../common/DateMutation";
 
 
 export const Test = () => {
@@ -188,61 +189,34 @@ export const Test = () => {
         )
         .filter(job => !job.jobsoftdelete);
 
-    const sortedAndRespondedJobs = [...filteredAndRespondedJobs]
+    const sortedAndRespondedJobs = jobs
         .filter(job =>
             !job.companyresponded &&
             (searchTerm.length < 3 || job.companyname.toLowerCase().includes(searchTerm.toLowerCase().trim()) || job.primarycontact.toLowerCase().includes(searchTerm.toLowerCase().trim()))
         )
         .sort((a, b) => {
             switch (sortingCriteria) {
-                case 'select':
-                    return new Date(a.dateapplied).getTime() - new Date(b.dateapplied).getTime();
                 case 'company-a-z':
                     return a.companyname.toLowerCase().localeCompare(b.companyname.toLowerCase());
                 case 'company-z-a':
-                    return b.companyname.toLowerCase().localeCompare(a.companyname.toLowerCase());
-                case 'company-asc':
-                    return a.companyname.toLowerCase().localeCompare(b.companyname.toLowerCase());
-                case 'company-desc':
                     return b.companyname.toLowerCase().localeCompare(a.companyname.toLowerCase());
                 case 'contact-a-z':
                     return a.primarycontact.toLowerCase().localeCompare(b.primarycontact.toLowerCase());
                 case 'contact-z-a':
                     return b.primarycontact.toLowerCase().localeCompare(a.primarycontact.toLowerCase());
-                case 'contact-asc':
-                    return a.primarycontact.toLowerCase().localeCompare(b.primarycontact.toLowerCase());
-                case 'contact-desc':
-                    return b.primarycontact.toLowerCase().localeCompare(a.primarycontact.toLowerCase());
                 case 'date-asc':
                     return new Date(a.dateapplied).getTime() - new Date(b.dateapplied).getTime();
                 case 'date-desc':
                     return new Date(b.dateapplied).getTime() - new Date(a.dateapplied).getTime();
-                case 'accepted':
-                    return (jobResponses[b.id] === 'accepted' ? 1 : 0) - (jobResponses[a.id] === 'accepted' ? 1 : 0);
-                case 'declined':
-                    return (jobResponses[b.id] === 'declined' ? 1 : 0) - (jobResponses[a.id] === 'declined' ? 1 : 0);
-                case 'no response':
-                    const responseA = jobResponses[a.id] || 'no response';
-                    const responseB = jobResponses[b.id] || 'no response';
-                    return (responseB === 'no response' ? 1 : 0) - (responseA === 'no response' ? 1 : 0);
-                case 'delete':
-                    return (jobResponses[b.id] === 'delete' ? 1 : 0) - (jobResponses[a.id] === 'delete' ? 1 : 0);
-                case 'olderThanSevenDays':
-                    const aDateDiff = new Date().getTime() - new Date(a.dateapplied).getTime();
-                    const bDateDiff = new Date().getTime() - new Date(b.dateapplied).getTime();
-                    const aOlderThan7Days = aDateDiff > 7 * 24 * 60 * 60 * 1000 ? 1 : 0;
-                    const bOlderThan7Days = bDateDiff > 7 * 24 * 60 * 60 * 1000 ? 1 : 0;
-                    return bOlderThan7Days - aOlderThan7Days;
-                case 'companyResponded':
-                    return (b.companyresponded === false ? 1 : 0) - (a.companyresponded === false ? 1 : 0);
-                case 'update':
-                    return (jobResponses[b.id] === 'update' ? 1 : 0) - (jobResponses[a.id] === 'update' ? 1 : 0);
-                case 'meetingLink':
-                    return (b.meetingLink ? 1 : 0) - (a.meetingLink ? 1 : 0);
+                case 'rejected-yes':
+                    return (b.companyrejected ? 1 : 0) - (a.companyrejected ? 1 : 0);
+                case 'rejected-no':
+                    return (a.companyrejected ? 1 : 0) - (b.companyrejected ? 1 : 0);
                 default:
                     return 0;
             }
         });
+
 
     const [isMobileNothing, setIsMobileNothing] = useState(window.matchMedia(nothingHere.mobile).matches);
 
@@ -407,7 +381,12 @@ export const Test = () => {
                 </SelectDiv>
 
             </StickySearchDiv>
-            <RedBox>
+
+
+
+            {sortedAndRespondedJobs.map((job) => (
+
+                <RedBox>
 
 
 
@@ -418,7 +397,8 @@ export const Test = () => {
 
                         <p>
 
-                            Jan 1st 1919
+                            {/*Jan 1st 1919*/}
+                            {DateMutation(typeof job.dateapplied === 'string' ? job.dateapplied : job.dateapplied.toISOString())}
                         </p>
 
 
@@ -426,8 +406,10 @@ export const Test = () => {
                     </YellowBox>
 
                     <BlueBox>
-                        <h2>
-                            Orky Inc
+                        <h2 title={job.companyname}>
+                            {/*Orky Inc*/}
+                            {job.companyname}
+
                         </h2>
                     </BlueBox>
 
@@ -449,7 +431,7 @@ export const Test = () => {
                     <GreenBox>
                         <p title="  I am a bunch of notes that doesn't have much of an impact o,,dfsafn things how are you doing with me today i love you
 ">
-                            Notes: I am a bunch of notes that doesn't have much of an impact o,,dfsafn things how are you doing with me today i love you
+                            Notes: I am a bunch of notes that doesn't have much of an impact on things though I kinda wis I did
                         </p>
                     </GreenBox>
 
@@ -554,6 +536,7 @@ export const Test = () => {
 
 
             </RedBox>
+            ))}
 
 
         </TestWrapper>
@@ -771,21 +754,49 @@ const GreenBox = styled.div`
   }
 `;
 
-
-
+//
+// const GreenBox = styled.div`
+//   height: 100%; // Adjust if needed to fit the parent container
+//   width: 100%;
+//   padding-left: 10px;
+//   padding-top: 10px;
+//   //background-color: red;
+//   display: flex;
+//
+//   p {
+//     color: #2f2c2a ;
+//     font-family: Arial, sans-serif; /* Arial font, with a generic sans-serif as a fallback */
+//     font-size: 16px;
+//     display: -webkit-box;
+//     -webkit-box-orient: vertical;
+//     -webkit-line-clamp: 2; // Limit to two lines
+//     overflow: hidden;
+//     word-wrap: break-word;
+//     max-height: calc(2 * 1.4em); // Adjust '1.2em' based on your font-size and line-height
+//   }
+// `;
 
 
 const BlueBox = styled.div`
-  height: 20%;
-  margin-left: 3% ;
-
+  height: 70%;
+  min-height: 35px;
+  margin-left: 3%;
+  background-color: grey;
+  overflow: hidden; // This line is added to prevent overflow
+  //width: 100%;
 
   a {
     color: white;
   }
 
-  p {
+  h2 {
     font-family: "Helvetica Neue", helvetica, arial, sans-serif;
+    color: blue;
+    display: inline-block; // Makes the element's width as wide as its content
+    white-space: nowrap;       // Prevents the text from wrapping to the next line
+    overflow: hidden;          // Hides overflowed text
+    text-overflow: ellipsis;
+    max-width: 100%;
   }
 `;
 

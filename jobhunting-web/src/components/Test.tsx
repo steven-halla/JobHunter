@@ -319,6 +319,8 @@ export const Test = () => {
 
 
 
+
+
     return (
         <TestWrapper>
 
@@ -417,7 +419,7 @@ export const Test = () => {
                         <FontAwesomeIcon icon={faUser} />
 
                         <p>
-                            Goregutz Noobstompa
+                            {job.primarycontact}
                         </p>
                     </SkyBlueBox>
                     {/*<VioletBox>*/}
@@ -430,8 +432,7 @@ export const Test = () => {
 
                     <GreenBox>
                         <p title="  I am a bunch of notes that doesn't have much of an impact o,,dfsafn things how are you doing with me today i love you
-">
-                            Notes: I am a bunch of notes that doesn't have much of an impact on things though I kinda wis I did
+">                              {job.description}
                         </p>
                     </GreenBox>
 
@@ -477,6 +478,8 @@ export const Test = () => {
                                 icon={faCalendar}
                                 style={{  color: "black" }} // Added marginRight here
                                 size="lg" // Example size - adjust as needed
+                                onClick={() => onButtonClick('accepted', String(job.id))}
+
                             />
                         </GoldBox>
 

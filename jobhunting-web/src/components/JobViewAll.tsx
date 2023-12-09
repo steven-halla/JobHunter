@@ -601,7 +601,7 @@ export const JobViewAll = () => {
 
                             <LabeledSwitch
                                 labelOn="Responded"
-                                labelOff="No Response"
+                                labelOff="Pending"
                                 isChecked={job.companyresponded}
                                 onChange={(event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
                                     handleRespondedChange(job.id, checked);
@@ -611,7 +611,7 @@ export const JobViewAll = () => {
 
                             <LabeledSwitch
                                 labelOn="Rejected"
-                                labelOff="Not Rejected"
+                                labelOff="Pending"
                                 isChecked={job.companyrejected} // Pass the state
                                 onChange={(event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
                                     handleRejectedChange(job.id, checked);
@@ -624,7 +624,7 @@ export const JobViewAll = () => {
                         <IconBox>
 
                             <GoldBox>
-                                <p>Schedule Interview</p>
+                                <p>Appoint</p>
                                 <FontAwesomeIcon
                                     icon={faCalendar}
                                     size="lg"

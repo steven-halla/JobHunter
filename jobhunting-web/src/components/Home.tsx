@@ -173,8 +173,8 @@ export const Home: React.FC = () => {
         }
 
         let updatedPrimaryContact = primarycontact.trim() || "N/A";
-        if (updatedPrimaryContact.length > 55) {
-            setCompanyContactError("Primary contact cannot exceed 55 characters");
+        if (updatedPrimaryContact.length > 30) {
+            setCompanyContactError("Primary contact cannot exceed 30 characters");
             isValid = false;
         } else {
             setPrimaryContact(updatedPrimaryContact); // Assuming you have a state setter for primarycontact

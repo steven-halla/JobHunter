@@ -6,6 +6,7 @@ import {Job} from "../models/Job";
 import {JobsContext} from "../services/jobcontext";
 import styled from "styled-components";
 import {deviceHome} from "../common/ScreenSizes";
+import {colors} from "../common/CommonStyles";
 
 interface JobCarouselProps {
     searchResult: Job[] | null; // Accepts Job[] or null
@@ -64,6 +65,8 @@ const CarouselDiv = styled.div`
     margin: 0; /* Reset margin to zero */
     text-align: center; /* Center text horizontally */
     padding-bottom: 30px;
-    color: white;
+    //color: white;
+    color: ${colors.TextWhiteColor};
+
   }
 `;

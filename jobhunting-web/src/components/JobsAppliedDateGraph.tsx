@@ -5,6 +5,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import styled from "styled-components";
 import {device, deviceHome} from "../common/ScreenSizes";
 import {useTheme} from "@mui/material";
+import {colors, fonts} from "../common/CommonStyles";
 
 export const JobsAppliedDateGraph: React.FC = () => {
     const { jobs } = useContext(JobsContext);
@@ -161,7 +162,9 @@ export const JobsAppliedDateGraphDiv = styled.div`
   justify-content: center; 
   align-items: center;
   flex-direction: column;
-  background-color: #3D4849;
+  //background-color: #3D4849;
+  background-color: ${colors.AppBackGroundColor};
+
 
 `;
 
@@ -172,7 +175,7 @@ export const GraphContainer = styled.div`
   align-items: center;
   justify-content: center;
   flex-wrap: wrap; // Allows items to wrap when space is limited
-  background-color: #3D4849;
+  background-color: ${colors.AppBackGroundColor};
 
 `;
 
@@ -189,9 +192,16 @@ export const NumberOfJobsAppliedDiv = styled.div`
   padding-top: 1%;
   box-shadow: -4px 0 8px -2px rgba(0, 0, 0, 0.2), 4px 0 8px -2px rgba(0, 0, 0, 0.2), 0 4px 8px -2px rgba(0, 0, 0, 0.2);
   border: 1px solid #d1e8ff;
-  background-color: #C0C0C0;
-  font-family: Arial, sans-serif;
-  font-size: 1.1rem;
+  //background-color: #C0C0C0;
+  background-color: ${colors.HeaderBackGroundColor};
+
+  //font-family: Arial, sans-serif;
+  //font-size: 1.1rem;
+  color: ${colors.TextBlackColor};
+  font-size: ${fonts.HeaderIconTextREM};
+  font-family:  ${fonts.InputFontFamily};
+
+  border-radius: 5px; // Rounded corners
 
 
   //background-image: linear-gradient(to bottom right, #c7f3ff, #a1d8f0);
@@ -234,11 +244,4 @@ export const MonthPickerDiv = styled.div`
 
 
 
-const VerticalLine = styled.div`
-  position: fixed; // or absolute, depending on your layout
-  left: 50%;
-  height: 100vh;
-  width: 1px; // or as thick as you want
-  background-color: #000; // or any color of your choice
-  z-index: 10; // adjust as needed
-`;
+

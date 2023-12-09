@@ -7,6 +7,7 @@ import {Interview, Job} from "../models/Job";
 import TextField from '@mui/material/TextField';
 import {TextFieldProps} from "@mui/material";
 import Button from "@mui/material/Button";
+import {colors, fonts} from "../common/CommonStyles";
 
 
 //need to include time along with interview date!!!
@@ -250,7 +251,7 @@ export const InterviewSecured = () => {
 };
 
 const SubmitButton = styled(Button)`
-color: green;
+//color: green;
   height: 9vh;
   width: 23vw;
   display: flex;
@@ -272,7 +273,9 @@ const MyBox = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-color: grey;
+  //background-color: grey;grey
+  background-color: ${colors.FormContainer};
+
   width: 30%;
   //height: 100%;
   box-shadow: -4px 0 8px -2px rgba(0, 0, 0, 0.2),
@@ -305,14 +308,23 @@ const BaseStyledTextField = styled(TextField)`
 
   }
   & .MuiInputBase-input { // Target the input base for styling
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 1.2rem;
+    //font-family: 'Helvetica Neue', Arial, sans-serif;
+    //font-family: 'Helvetica Neue', Arial, sans-serif;
+    //font-size: 1.2rem;
+    font-size: ${fonts.InputFontREM};
+    font-family: ${fonts.InputFontFamily};
+
+    //color: red;
     
   }
 
   & .MuiInputBase-input::placeholder { // Target the placeholder with increased specificity
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.3rem;
+    //font-family: 'Roboto', sans-serif;
+    font-size: ${fonts.InputFontREM};
+    font-family: ${fonts.InputPlaceHolderFontFamily};
+
+    //font-size: 1.2rem;
+    //color: red;
   }
 
   & input[type='date']::-webkit-calendar-picker-indicator {
@@ -346,7 +358,9 @@ const StyledTextField: React.FC<TextFieldProps> = (props) => {
 
 
 const InterviewSecuredWrapperDiv = styled.div`
-  background-color: #3D4849;
+  //background-color: #3D4849;
+  background-color: ${colors.AppBackGroundColor};
+
   justify-content: center;
   align-items: center;
   display: flex;
@@ -365,49 +379,6 @@ const InterviewSecuredWrapperDiv = styled.div`
     align-items: center;
     height: 100vh;
     width: 100vw;
-  }
-`;
-
-const TitleDiv = styled.div`
-  display: flex;
-  background-color: #C0C0C0;
-  width: 50%;
-
-
-  @media ${device.mobile} {
-    height: 10vh;
-    width: 100vw;
-    justify-content: center;
-    align-items: center;
-  }
-
-  @media ${device.laptop} {
-    height: 10vh;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 5%;
-    position: absolute;
-    top: 70px;
-    left: 0; 
-  }
-`;
-
-const SaveAllButtonDiv = styled.div`
-  display: flex;
-
-  @media ${device.mobile} {
-    height: 10vh;
-    width: 100vw;
-    justify-content: center;
-    align-items: center;
-  }
-
-  @media ${device.laptop} {
-    margin-top: 10px;
-    height: 40px;
-    width: 100%;       
-    align-self: center;
-    justify-content: center;
   }
 `;
 

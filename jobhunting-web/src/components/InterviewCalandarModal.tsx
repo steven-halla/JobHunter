@@ -29,18 +29,19 @@ const InterviewCalendarModalWrapperDiv = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  //background-color: rgba(0, 0, 0, 0.5);
+  //background-color: red;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 10; // To ensure it's above all other content
-  background-color: #3D4849;
+  //background-color: #3D4849;
 
 
 `;
 
 const ModalContent = styled.div`
-  background-color: white;
+  //background-color: red;
   padding: 20px;
   border-radius: 5px;
   width: 50%; // Adjust as needed

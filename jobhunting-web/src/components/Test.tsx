@@ -359,10 +359,16 @@ export const Test = () => {
     const handleSortingChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSortingCriteria(e.target.value);
     };
-    const [isChecked, setIsChecked] = useState(false); // Initialize state
+    const [isRejectedChecked, setIsRejectedChecked] = useState(false); // Initialize state
+    const [isRespondedChecked, setIsRespondedChecked] = useState(false); // Initialize state
 
-    const handleChange = () => {
-        setIsChecked(!isChecked); // Toggle the state
+
+    const handleRespondedChange = () => {
+        setIsRespondedChecked(!isRespondedChecked); // Toggle the state
+    };
+
+    const handleRejectedChange = () => {
+        setIsRejectedChecked(!isRejectedChecked); // Toggle the state
     };
 
 
@@ -534,15 +540,15 @@ export const Test = () => {
                         <LabeledSwitch
                             labelOn="Responded"
                             labelOff="No Response"
-                            isChecked={isChecked} // Pass the state
-                            onChange={handleChange} // Pass the handler
+                            isChecked={isRespondedChecked} // Pass the state
+                            onChange={handleRespondedChange} // Pass the handler
                         />
 
                         <LabeledSwitch
-                            labelOn="Rejectd"
+                            labelOn="Rejected"
                             labelOff="No Rejection"
-                            isChecked={isChecked} // Pass the state
-                            onChange={handleChange} // Pass the handler
+                            isChecked={isRejectedChecked} // Pass the state
+                            onChange={handleRejectedChange} // Pass the handler
                         />
 
 

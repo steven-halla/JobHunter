@@ -215,8 +215,10 @@ export const JobViewAll = () => {
 
     const sortedAndRespondedJobs = [...filteredAndRespondedJobs]
         .filter(job =>
-            !job.companyresponded &&
-            (searchTerm.length < 3 || job.companyname.toLowerCase().includes(searchTerm.toLowerCase().trim()) || job.primarycontact.toLowerCase().includes(searchTerm.toLowerCase().trim()))
+            job.companyresponded || // If company has responded, include the job
+            (!job.companyresponded &&
+                (searchTerm.length < 3 || job.companyname.toLowerCase().includes(searchTerm.toLowerCase().trim()) || job.primarycontact.toLowerCase().includes(searchTerm.toLowerCase().trim()))
+            )
         )
 
 

@@ -28,7 +28,7 @@ export const Test = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [showAllJobs, setShowAllJobs] = useState(false);
 
-    const { jobs, updateJobSoftDelete, updateJobRejected, meetingLink} = useContext(JobsContext);
+    const { jobs, updateJobSoftDelete,updateJobResponded, updateJobInterview, updateJobRejected, meetingLink} = useContext(JobsContext);
     const [filter] = useState('');
     const [onlyShowResponded] = useState(false);
 
@@ -212,24 +212,35 @@ export const Test = () => {
     //     )
     //     .filter(job => !job.jobsoftdelete); // Excludes jobs where softDelete is true
     const filteredJobs = showAllJobs ? jobs : jobs
-        .filter(job => !job.companyrejected) // Keeps jobs not rejected by the company
-        .filter(job =>
-            job.companyresponded || // Keeps jobs where the company has responded
-            new Date(job.dateapplied).getTime() >= twentyOneDaysAgoMs // Keeps jobs applied within the last 21 days
-        )
-        .filter(job =>
-            (onlyShowResponded ? job.companyresponded : true) && // Conditionally filters based on company response
-            job.companyname.toLowerCase().includes(filter.toLowerCase()) // Keeps jobs that match the search filter
-        )
-        .filter(job => !job.jobsoftdelete); // Excludes jobs where softDelete is true
+        .filter(job => {
+            console.log("After company rejected filter:", job);
+            return !job.companyrejected;
+        }) // Keeps jobs not rejected by the company
+        .filter(job => {
+            // console.log("After company responded or date applied filter:", job);
+            return job.companyresponded || new Date(job.dateapplied).getTime() >= twentyOneDaysAgoMs;
+        }) // Keeps jobs where the company has responded or applied within the last 21 days
+        .filter(job => {
+            const result = (onlyShowResponded ? job.companyresponded : true) && job.companyname.toLowerCase().includes(filter.toLowerCase());
+            // console.log("After onlyShowResponded and company name filter:", job, "Result:", result);
+            return result;
+        }) // Conditionally filters based on company response and matches search filter
+        .filter(job => {
+            // console.log("After soft delete filter:", job);
+            return !job.jobsoftdelete;
+        }); // Excludes jobs where softDelete is true
+
+
 
 
 
 
     const sortedAndRespondedJobs = [...filteredJobs]
         .filter(job =>
-            !job.companyresponded &&
-            (searchTerm.length < 3 || job.companyname.toLowerCase().includes(searchTerm.toLowerCase().trim()) || job.primarycontact.toLowerCase().includes(searchTerm.toLowerCase().trim()))
+            job.companyresponded || // If company has responded, include the job
+            (!job.companyresponded &&
+                (searchTerm.length < 3 || job.companyname.toLowerCase().includes(searchTerm.toLowerCase().trim()) || job.primarycontact.toLowerCase().includes(searchTerm.toLowerCase().trim()))
+            )
         )
 
 
@@ -360,43 +371,56 @@ export const Test = () => {
         setSortingCriteria(e.target.value);
     };
     const [isRejectedChecked, setIsRejectedChecked] = useState(false); // Initialize state
-    const [isRespondedChecked, setIsRespondedChecked] = useState(false); // Initialize state
+    // const [isRespondedChecked, setIsRespondedChecked] = useState(false); // Initialize state
+    // const [respondedStatus, setRespondedStatus] = useState({}); // Object to track each job's responded status
+    const [respondedStatus, setRespondedStatus] = useState<RespondedStatusType>({});
 
-
-    const handleRespondedChange = () => {
-        setIsRespondedChecked(!isRespondedChecked); // Toggle the state
+    type RespondedStatusType = {
+        [jobId: number]: boolean;
     };
 
-    const handleRejectedChange = () => {
-        setIsRejectedChecked(!isRejectedChecked); // Toggle the state
+
+
+    const handleRespondedChange = async (jobId: number, checked: boolean) => {
+        if (checked) {
+            const isConfirmed = window.confirm("Confirm company responded?");
+            if (isConfirmed) {
+                await updateJobResponded(jobId, true);
+            }
+        } else {
+            // Call updateJobResponded with false or handle it differently if needed
+            await updateJobResponded(jobId, false);
+        }
     };
+
 
 
     interface LabeledSwitchProps {
         labelOn: string;
         labelOff: string;
         isChecked: boolean;
-        onChange: () => void; // Update this type according to the actual onChange function
+        // onChange: (checked: boolean, event: MouseEvent) => void;
+        onChange: (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => void;
+
     }
 
-
-    const LabeledSwitch: React.FC<LabeledSwitchProps> = ({ labelOn, labelOff, isChecked, onChange }) => {
-        const labelStyle = {
-            fontSize: '20px', // Set the font size to 16px
-            fontFamily: 'Roboto, sans-serif', // Set the font family to Roboto with a generic sans-serif fallback
-
-        };
-
+    const LabeledSwitch: React.FC<LabeledSwitchProps> = ({
+                                                             labelOn,
+                                                             labelOff,
+                                                             isChecked,
+                                                             onChange,
+                                                         }) => {
         return (
-            <div>
-                <label style={labelStyle}>
+            <div className="labeled-switch">
+                <label>
                     {isChecked ? labelOn : labelOff}
-                    <Switch checked={isChecked} onChange={onChange} />
-                </label>
+                    <Switch
+                        checked={isChecked}
+                        onChange={(e) => onChange(e, e.target.checked)}
+                    />                </label>
             </div>
         );
     };
-
 
 
 
@@ -431,7 +455,7 @@ export const Test = () => {
 
                     <RedPillContainer>
                         <button onClick={() => setShowAllJobs(prev => !prev)} style={{ all: 'unset' }}>
-                            {showAllJobs ? "Apply Filters" : "Show All Jobs"}
+                            {showAllJobs ? "Relevant Jobs" : "Show All Jobs"}
                             <FontAwesomeIcon icon={showAllJobs ? faCaretDown : faCaretUp} size="lg" />
                         </button>
                     </RedPillContainer>
@@ -456,8 +480,8 @@ export const Test = () => {
                         <option value="date-desc">Date Descending</option>
                         <option value="company-a-z">Company A-Z</option>
                         <option value="company-z-a">Company Z-A</option>
-                        <option value="contact-a-z">Contact A-Z</option>
-                        <option value="contact-z-a">Contact Z-A</option>
+                        {/*<option value="contact-a-z">Contact A-Z</option>*/}
+                        {/*<option value="contact-z-a">Contact Z-A</option>*/}
                         <option value="rejected-yes">Rejected Yes</option>
                         <option value="rejected-no">Rejected No</option>
                         {/* other options */}
@@ -537,19 +561,23 @@ export const Test = () => {
                         {/*<FontAwesomeIcon icon={faGlasses}*/}
                         {/*                 size="lg" // Example size - adjust as needed*/}
                         {/*/>*/}
+
                         <LabeledSwitch
                             labelOn="Responded"
                             labelOff="No Response"
-                            isChecked={isRespondedChecked} // Pass the state
-                            onChange={handleRespondedChange} // Pass the handler
+                            isChecked={job.companyresponded}
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
+                                handleRespondedChange(job.id, checked);
+                            }}
                         />
 
-                        <LabeledSwitch
-                            labelOn="Rejected"
-                            labelOff="No Rejection"
-                            isChecked={isRejectedChecked} // Pass the state
-                            onChange={handleRejectedChange} // Pass the handler
-                        />
+
+                        {/*<LabeledSwitch*/}
+                        {/*    labelOn="Rejected"*/}
+                        {/*    labelOff="No Rejection"*/}
+                        {/*    isChecked={isRejectedChecked} // Pass the state*/}
+                        {/*    onChange={handleRejectedChange} // Pass the handler*/}
+                        {/*/>*/}
 
 
                     </PurpleBox>

@@ -194,14 +194,10 @@ const Profile = () => {
                         <FontAwesomeIcon
                             style={{
                                 color: colors.TextWhiteColor,
-                        }} // Set the icon color to light blue
-
+                        }}
                             icon={faSignOutAlt} size="lg" /> Logout
                     </a>
-
                 </NameDiv>
-
-
                 <Box
                     sx={{
                         display: 'flex',
@@ -214,30 +210,22 @@ const Profile = () => {
                         },
                     }}
                 >
-
-
-
                     <IconFormDiv >
-
-
                         <IconDiv>
-
                             <FontAwesomeIcon
                                 icon={faGithub}
                                 size="2x"
-                                style={{ cursor: 'pointer', marginTop: '10%' }}
+                                style={{ marginTop: '10%' }}
                             />
-
                             <FontAwesomeIcon
                                 icon={faLinkedin}
                                 size="2x"
-                                style={{ cursor: 'pointer' }}
                             />
 
                             <FontAwesomeIcon
                                 icon={faBriefcase}
                                 size="2x"
-                                style={{ cursor: 'pointer', marginBottom: "10%" }}
+                                style={{  marginBottom: "10%" }}
                             />
                         </IconDiv>
 
@@ -246,11 +234,6 @@ const Profile = () => {
                                         <StyledTextField name="customfield1" value={customfield1} onChange={handleChange} />
                             <StyledTextField name="customfield2" value={customfield2} onChange={handleChange} />
                             <StyledTextField name="customfield3" value={customfield3} onChange={handleChange} />
-
-
-
-
-
 
                         </StyledForm>
 
@@ -453,35 +436,7 @@ const StyledForm = styled.form`
   margin-right: 16%;
   
 `;
-const InputWithIcon = styled.div`
-  display: flex;
-  align-items: center; // Center the items vertically
-  margin-bottom: 10px; // Add some spacing between inputs
 
-  // Add styles for the icon
-  & > svg {
-    margin-right: 10px; // Add spacing between icon and input
-  }
-`;
-
-//
-// const InfoContainerDiv = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   margin-top: 5%;
-//   background-color: #c7f3ff;
-//   padding: 20px; // Add some padding for spacing
-//   box-shadow: 10px 10px 15px -5px rgba(0, 0, 0, 0.3),
-//   -10px 10px 15px -5px rgba(0, 0, 0, 0.3);
-//
-//   @media ${deviceProfile.mobile} {
-//     width: 300px; // Adjust width for mobile
-//   }
-// `;
-//
-//
 const StyledTextareaAutosize = styled(TextareaAutosize)`
   // Add more styles here
   border: 1px solid #ccc; // Example style
@@ -490,11 +445,9 @@ const StyledTextareaAutosize = styled(TextareaAutosize)`
   width: 670px;
   margin-top: 5%;
   font-family: 'Open Sans', sans-serif;
-font-size: 1.2rem;
+  font-size: 1.2rem;
   
-
-
-  // You can also add media queries for responsive design
+  
   @media ${deviceProfile.mobile} {
     // Styles for laptop and larger devices
     width: 300px;

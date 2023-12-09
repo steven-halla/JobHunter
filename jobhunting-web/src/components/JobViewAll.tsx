@@ -635,7 +635,7 @@ export const JobViewAll = () => {
                                         transform: 'scale(1)',
                                         transition: 'transform 0.2s',
                                     }}
-                                    onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.25)'}
+                                    onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.15)'}
                                     onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                                 />
 
@@ -651,7 +651,7 @@ export const JobViewAll = () => {
                                         transform: 'scale(1)',
                                         transition: 'transform 0.2s',
                                     }}
-                                                     onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.25)'}
+                                                     onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.15)'}
                                                      onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                                     />
                                 </a>
@@ -670,7 +670,7 @@ export const JobViewAll = () => {
                                         transform: 'scale(1)',
                                         transition: 'transform 0.2s',
                                     }}
-                                    onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.25)'}
+                                    onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.15)'}
                                     onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                                 />
 

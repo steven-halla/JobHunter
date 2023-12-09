@@ -200,6 +200,8 @@ export const Header = () => {
                         <IconContainer>
                             <IconWrapper>
                                     <Link
+                                        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.10)'}
+                                        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                                         to={`/home/${currentUser?.id}`}
                                         onClick={handleJobClipboardClick}
                                         style={{
@@ -213,9 +215,15 @@ export const Header = () => {
                                         }}                                         >
                                         <FontAwesomeIcon
                                             style={{
+                                                cursor: 'pointer',
+                                                transform: 'scale(1)',
+                                                transition: 'transform 0.2s',
                                                 color: colors.IconColor,
                                         }} // Set the icon color to light blue
-                                            icon={clipboardIconState ?  faClipboard : faClipboardCheck} size="lg" />
+                                            icon={clipboardIconState ?  faClipboard : faClipboardCheck} size="lg"
+                                            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.10)'}
+                                            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                                        />
                                         <span>Create Jobs</span>
 
                                     </Link>
@@ -225,7 +233,10 @@ export const Header = () => {
                                 <Link
                                     to="/dategraphs" // Use the "to" prop of Link to specify the URL
                                     onClick={handleJobGraphsClick} // Call your function
+                                    onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.10)'}
+                                    onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                                     style={{
+
                                         color: colors.IconColor,
                                         display: "flex",
                                         flexDirection: "column",
@@ -235,8 +246,13 @@ export const Header = () => {
                                     }}                              >
                                     <FontAwesomeIcon
                                         style={{
+                                            cursor: 'pointer',
+                                            transform: 'scale(1)',
+                                            transition: 'transform 0.2s',
                                             color: colors.IconColor,
                                     }} // Set the icon color to light blue
+                                        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.10)'}
+                                        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
 
                                         icon={graphIconState ? faChartLine : faChartArea} size="lg" />
                                     <span>Job Graphs</span>
@@ -257,13 +273,19 @@ export const Header = () => {
                                         borderBottom: buildingIconState ? 'none' : '3px solid', // Thicker underline
                                         // paddingBottom: graphIconState ? '0' : '3px', // Add padding to space out the underline
                                     }}
+                                    onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.10)'}
+                                    onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                                 >
                                     <FontAwesomeIcon
                                         style={{
-
+                                            cursor: 'pointer',
+                                            transform: 'scale(1)',
+                                            transition: 'transform 0.2s',
                                             color: colors.IconColor,
 
                                     }} // Set the icon color to light blue
+                                        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.10)'}
+                                        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
 
                                         icon={buildingIconState ?  faBuilding : faBuildingFlag} size="lg"
                                                      transform={buildingIconState ? undefined : { flipX: true }}
@@ -287,11 +309,18 @@ export const Header = () => {
                                         borderBottom: calendarIconState ? 'none' : '3px solid', // Thicker underline
                                         // paddingBottom: graphIconState ? '0' : '3px', // Add padding to space out the underline
                                     }}
+                                    onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.10)'}
+                                    onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                                 >
                                     <FontAwesomeIcon
                                         style={{
+                                            cursor: 'pointer',
+                                            transform: 'scale(1)',
+                                            transition: 'transform 0.2s',
                                             color: colors.IconColor,
                                     }} // Set the icon color to light blue
+                                        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.10)'}
+                                        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
 
                                         icon={calendarIconState ?  faCalendarDays : faCalendarCheck} size="lg"
                                     />
@@ -314,11 +343,18 @@ export const Header = () => {
                                         borderBottom: landmarkIconState ? 'none' : '3px solid', // Thicker underline
                                         // paddingBottom: graphIconState ? '0' : '3px', // Add padding to space out the underline
                                     }}
+                                    onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.10)'}
+                                    onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                                 >
                                     <FontAwesomeIcon
                                         style={{
+                                            cursor: 'pointer',
+                                            transform: 'scale(1)',
+                                            transition: 'transform 0.2s',
                                             color: colors.IconColor,
                                     }}
+                                        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.10)'}
+                                        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
 
                                         icon={landmarkIconState ?  faLandmark : faLandmarkFlag} size="lg"
                                     />

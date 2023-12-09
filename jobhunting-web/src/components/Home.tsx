@@ -432,7 +432,7 @@ export const Home: React.FC = () => {
     return (
         <Box
             sx={{
-                backgroundColor: "red",
+                // backgroundColor: "red",
                 height: "100%",
                 width: "100vw",
 
@@ -440,7 +440,7 @@ export const Home: React.FC = () => {
         >
             <Box
                 sx={{
-                    backgroundColor: "blue",
+                    // backgroundColor: "blue",
                     height: "10vh",
                     width: "100vw",
                     display: "flex",
@@ -854,7 +854,7 @@ const JobCardDiv = styled.div`
 
 const Footer = styled.div`
   height: 20vh;
-  background-color: red;
+  //background-color: red;
 `;
 
 const VerticalLine = styled.div`
@@ -997,14 +997,14 @@ const ButtonDiv = styled.div`
     display: flex;
 
     .button {
-      background-color: red;
+      //background-color: red;
     }
   }
 `;
 
 
 const SubmitButton = styled(Button)`
-color: green;
+//color: green;
   height: 9vh;
   width: 23vw;
   display: flex;

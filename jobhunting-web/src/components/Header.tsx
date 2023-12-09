@@ -15,6 +15,7 @@ import {
     faClipboard, faClipboardCheck, faLandmark, faLandmarkFlag, faSignOutAlt
 } from "@fortawesome/free-solid-svg-icons";
 import {noResponseJobs} from "../common/ScreenSizes";
+import {colors, fonts} from "../common/CommonStyles";
 
 
 interface DropdownMenuProps {
@@ -195,38 +196,14 @@ export const Header = () => {
         <HeaderDiv>
 
             <nav>
-                {/*<LogoDiv>*/}
-                {/*    <h3*/}
-
-                {/*    >*/}
-
-
-                {/*        <LogoLink to={`/home/${currentUser?.id}`} onClick={closeMenu}*/}
-                {/*                  style={{*/}
-                {/*                      // backgroundColor: "white",*/}
-                {/*                      display: "flex",*/}
-                {/*                      flexDirection: "column",*/}
-                {/*                      // textDecoration: graphIconState ? 'none' : 'underline',*/}
-                {/*                      borderBottom: logoState ? 'none' : '3px solid', // Thicker underline*/}
-                {/*                      // paddingBottom: graphIconState ? '0' : '3px', // Add padding to space out the underline*/}
-                {/*                  }}    >*/}
-                {/*            JH*/}
-                {/*        </LogoLink>*/}
-                {/*    </h3>*/}
-                {/*</LogoDiv>*/}
-
                 {currentUser ? (
                         <IconContainer>
-
-
-
-
                             <IconWrapper>
                                     <Link
                                         to={`/home/${currentUser?.id}`}
                                         onClick={handleJobClipboardClick}
                                         style={{
-                                            color: "#3D4849",
+                                            color: colors.IconColor,
 
                                             display: "flex",
                                             flexDirection: "column",
@@ -235,8 +212,9 @@ export const Header = () => {
                                             // paddingBottom: graphIconState ? '0' : '3px', // Add padding to space out the underline
                                         }}                                         >
                                         <FontAwesomeIcon
-                                            style={{ color: '3D4849' }} // Set the icon color to light blue
-
+                                            style={{
+                                                color: colors.IconColor,
+                                        }} // Set the icon color to light blue
                                             icon={clipboardIconState ?  faClipboard : faClipboardCheck} size="lg" />
                                         <span>Create Jobs</span>
 
@@ -248,7 +226,7 @@ export const Header = () => {
                                     to="/dategraphs" // Use the "to" prop of Link to specify the URL
                                     onClick={handleJobGraphsClick} // Call your function
                                     style={{
-                                        color: "#3D4849",
+                                        color: colors.IconColor,
                                         display: "flex",
                                         flexDirection: "column",
                                         // textDecoration: graphIconState ? 'none' : 'underline',
@@ -256,7 +234,9 @@ export const Header = () => {
                                         // paddingBottom: graphIconState ? '0' : '3px', // Add padding to space out the underline
                                     }}                              >
                                     <FontAwesomeIcon
-                                        style={{ color: '3D4849' }} // Set the icon color to light blue
+                                        style={{
+                                            color: colors.IconColor,
+                                    }} // Set the icon color to light blue
 
                                         icon={graphIconState ? faChartLine : faChartArea} size="lg" />
                                     <span>Job Graphs</span>
@@ -269,7 +249,7 @@ export const Header = () => {
                                     to="/jobviewall"
                                     onClick={handleJobBuildingClick}
                                     style={{
-                                        color: "#3D4849",
+                                        color: colors.IconColor,
 
                                         display: "flex",
                                         flexDirection: "column",
@@ -279,7 +259,11 @@ export const Header = () => {
                                     }}
                                 >
                                     <FontAwesomeIcon
-                                        style={{ color: '3D4849' }} // Set the icon color to light blue
+                                        style={{
+
+                                            color: colors.IconColor,
+
+                                    }} // Set the icon color to light blue
 
                                         icon={buildingIconState ?  faBuilding : faBuildingFlag} size="lg"
                                                      transform={buildingIconState ? undefined : { flipX: true }}
@@ -295,7 +279,7 @@ export const Header = () => {
                                     to="/allinterviews"
                                     onClick={handleJobCalendarClick}
                                     style={{
-                                        color: "#3D4849",
+                                        color: colors.IconColor,
 
                                         display: "flex",
                                         flexDirection: "column",
@@ -305,7 +289,9 @@ export const Header = () => {
                                     }}
                                 >
                                     <FontAwesomeIcon
-                                        style={{ color: '3D4849' }} // Set the icon color to light blue
+                                        style={{
+                                            color: colors.IconColor,
+                                    }} // Set the icon color to light blue
 
                                         icon={calendarIconState ?  faCalendarDays : faCalendarCheck} size="lg"
                                     />
@@ -330,7 +316,9 @@ export const Header = () => {
                                     }}
                                 >
                                     <FontAwesomeIcon
-                                        style={{ color: '#3D4849' }}
+                                        style={{
+                                            color: colors.IconColor,
+                                    }}
 
                                         icon={landmarkIconState ?  faLandmark : faLandmarkFlag} size="lg"
                                     />
@@ -397,7 +385,7 @@ export const HeaderDiv = styled.div`
   //background-color: #adc1ff;
   //background: linear-gradient(#FD2D00, #DF007C); // Updated gradient background
   //background: linear-gradient(#33D6DA, #8EFAF1); // Gradient with lighter colors (20% lighter approximations)
-background-color: #C0C0C0;
+  background-color: ${colors.HeaderBackGroundColor};
   width: 100vw;
   height: 8.5vh;
   align-items: center;
@@ -436,16 +424,7 @@ export const DropdownMenu = styled.div<DropdownMenuProps>`
   z-index: 2;
 `;
 
-export const UserDisplay = styled.div`
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  position: relative;
-  span {
-    font-weight: bold;
-  }
-`;
+
 
 export const IconContainer = styled.div`
   display: flex;
@@ -465,9 +444,9 @@ export const IconWrapper = styled.div`
   gap: 5px;
   flex-direction: column;
   
-  text {
-    color: #3D4849;
-  }
+  //text {
+  //  color: #3D4849;
+  //}
 
   a {
     display: flex;
@@ -478,70 +457,30 @@ export const IconWrapper = styled.div`
 
     &:hover {
       text-decoration: none; // Removes underline on hover
-
-      // Change color of SVG and text on hover
-    
+      
     }
-
-    //svg:hover {
-    //  color: #0056b3; // Example darker shade, adjust the color as needed
-    //}
-    //
-    //span:hover {
-    //  color: #0056b3; // Example darker shade, adjust the color as needed
-    //
-    //}
-    
   }
 
-  svg {
-    color: #007bff;
-  }
+  //svg {
+  //  color: red;
+  //}
 
   span {
-    font-size: 1.1rem;
+    font-size: ${fonts.HeaderIconTextREM};
+
   }
 
   @media ${noResponseJobs.mobile} {
     margin-bottom: 3%;
 
     span {
-      font-size: 0.9rem;
+      font-size: ${fonts.MobileHeaderIconTextREM};
+
     }
   }
 `;
 
 
-const LogoLink = styled(Link)`
-  font-family: 'Papyrus, sans-serif';
-  //margin-bottom: 8%;
-  padding-bottom: 4%;
-  color: #3D4849;
-  
-  .text{
-    background-color: #3D4849;
-  }
-`;
 
-export const LogoDiv = styled.div`
-  display: flex;
-  height: 5vh;
-  width: 3vw;
-  justify-content: center;
-  margin-bottom: 0.7%;
 
-  a {
-    // Apply your base styles to LogoLink here if needed
 
-    // Apply hover styles
-    &:hover {
-      text-decoration: none; // Removes underline on hover
-      color: #0056b3; // Change color on hover
-    }
-  }
-
-  @media ${noResponseJobs.mobile} {
-    margin-bottom: 3%;
-  }
-
-`;

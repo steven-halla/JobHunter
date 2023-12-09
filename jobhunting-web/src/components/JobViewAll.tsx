@@ -22,6 +22,7 @@ import {Slider} from "@mui/material";
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 import Switch from '@mui/material/Switch';
 import {DateMutation} from "../common/DateMutation";
+import {colors, fonts} from "../common/CommonStyles";
 
 
 export const JobViewAll = () => {
@@ -535,11 +536,15 @@ export const JobViewAll = () => {
 
 
                         <BlueBox>
-                            <h2 title={job.companyname}>
-                                {/*Orky Inc*/}
-                                {job.companyname}
+                            <a href={job.companywebsitelink} target="_blank" rel="noopener noreferrer">
 
-                            </h2>
+                                <h2 title={job.companyname}>
+                                    {/*Orky Inc*/}
+                                    {job.companyname}
+
+                                </h2>
+                            </a>
+
                         </BlueBox>
 
                         <SkyBlueBox>
@@ -945,17 +950,19 @@ const BlueBox = styled.div`
   //width: 100%;
 
   a {
-    color: white;
+    color: ${colors.TextBlackColor};
   }
 
   h2 {
-    font-family: "Helvetica Neue", helvetica, arial, sans-serif;
-    color: blue;
-    display: inline-block; // Makes the element's width as wide as its content
+   display: inline-block; // Makes the element's width as wide as its content
     white-space: nowrap;       // Prevents the text from wrapping to the next line
     overflow: hidden;          // Hides overflowed text
     text-overflow: ellipsis;
     max-width: 100%;
+ 
+    //font-size: ${fonts.InputFontREM};
+    font-family: ${fonts.InputPlaceHolderFontFamily};
+
   }
 `;
 

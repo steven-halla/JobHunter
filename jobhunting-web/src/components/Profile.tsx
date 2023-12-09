@@ -251,6 +251,8 @@ const Profile = () => {
                 <SubmitButtonDiv>
                     <SubmitButton
                         sx={{
+                            width: { xs: '100%'}, // 100% width on xs and sm breakpoints, auto on larger screens
+
                             borderRadius: 10,
                             background: colors.ButtonColor,
 
@@ -353,6 +355,10 @@ const SubmitButtonDiv = styled.div`
   height: 10%;
   width: 30%;
   margin-top: 3%;
+  @media ${deviceProfile.mobile} {
+    width: 80%;
+  }
+  
 `;
 
 const LifeStoryDiv = styled.div`

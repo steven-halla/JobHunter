@@ -103,7 +103,7 @@ const App = () => {
                                 <Route path="/home/:id" element={<Home />} />
                                 <Route path="/profile/:id" element={<Profile />} />
                                 <Route path="/jobviewall" element={<JobViewAll />} />
-                                <Route path="/companynoresponse" element={<CompanyNoResponse />} />
+                                {/*<Route path="/companynoresponse" element={<CompanyNoResponse />} />*/}
                                 <Route path="/interviewsecured/:jobId" element={<InterviewSecured />} />
                                 <Route path="/allinterviews" element={<AllInterviews />} />
                                 <Route path="/test" element={<Test />} />

@@ -195,29 +195,53 @@ export const Header = () => {
         <HeaderDiv>
 
             <nav>
-                <LogoDiv>
-                    <h3
+                {/*<LogoDiv>*/}
+                {/*    <h3*/}
 
-                    >
+                {/*    >*/}
 
 
-                        <LogoLink to={`/home/${currentUser?.id}`} onClick={closeMenu}
-                                  style={{
-                                      // backgroundColor: "white",
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      // textDecoration: graphIconState ? 'none' : 'underline',
-                                      borderBottom: logoState ? 'none' : '3px solid', // Thicker underline
-                                      // paddingBottom: graphIconState ? '0' : '3px', // Add padding to space out the underline
-                                  }}    >
-                            JH
-                        </LogoLink>
-                    </h3>
-                </LogoDiv>
+                {/*        <LogoLink to={`/home/${currentUser?.id}`} onClick={closeMenu}*/}
+                {/*                  style={{*/}
+                {/*                      // backgroundColor: "white",*/}
+                {/*                      display: "flex",*/}
+                {/*                      flexDirection: "column",*/}
+                {/*                      // textDecoration: graphIconState ? 'none' : 'underline',*/}
+                {/*                      borderBottom: logoState ? 'none' : '3px solid', // Thicker underline*/}
+                {/*                      // paddingBottom: graphIconState ? '0' : '3px', // Add padding to space out the underline*/}
+                {/*                  }}    >*/}
+                {/*            JH*/}
+                {/*        </LogoLink>*/}
+                {/*    </h3>*/}
+                {/*</LogoDiv>*/}
 
                 {currentUser ? (
                         <IconContainer>
 
+
+
+
+                            <IconWrapper>
+                                    <Link
+                                        to={`/home/${currentUser?.id}`}
+                                        onClick={handleJobClipboardClick}
+                                        style={{
+                                            color: "#3D4849",
+
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            // textDecoration: graphIconState ? 'none' : 'underline',
+                                            borderBottom: clipboardIconState ? 'none' : '3px solid', // Thicker underline
+                                            // paddingBottom: graphIconState ? '0' : '3px', // Add padding to space out the underline
+                                        }}                                         >
+                                        <FontAwesomeIcon
+                                            style={{ color: '3D4849' }} // Set the icon color to light blue
+
+                                            icon={clipboardIconState ?  faClipboard : faClipboardCheck} size="lg" />
+                                        <span>Create Jobs</span>
+
+                                    </Link>
+                            </IconWrapper>
 
                             <IconWrapper>
                                 <Link
@@ -241,28 +265,6 @@ export const Header = () => {
 
 
                             <IconWrapper>
-                                    <Link
-                                        to="/companynoresponse"
-                                        onClick={handleJobClipboardClick}
-                                        style={{
-                                            color: "#3D4849",
-
-                                            display: "flex",
-                                            flexDirection: "column",
-                                            // textDecoration: graphIconState ? 'none' : 'underline',
-                                            borderBottom: clipboardIconState ? 'none' : '3px solid', // Thicker underline
-                                            // paddingBottom: graphIconState ? '0' : '3px', // Add padding to space out the underline
-                                        }}                                         >
-                                        <FontAwesomeIcon
-                                            style={{ color: '3D4849' }} // Set the icon color to light blue
-
-                                            icon={clipboardIconState ?  faClipboard : faClipboardCheck} size="lg" />
-                                        <span>All Jobs</span>
-
-                                    </Link>
-                            </IconWrapper>
-
-                            <IconWrapper>
                                 <Link
                                     to="/jobviewall"
                                     onClick={handleJobBuildingClick}
@@ -282,7 +284,7 @@ export const Header = () => {
                                         icon={buildingIconState ?  faBuilding : faBuildingFlag} size="lg"
                                                      transform={buildingIconState ? undefined : { flipX: true }}
                                     />
-                                    <span>Recent Jobs</span>
+                                    <span>All Jobs</span>
 
                                 </Link>
                             </IconWrapper>
@@ -451,7 +453,7 @@ export const IconContainer = styled.div`
   align-items: center; /* Center child items vertically */
   gap: 10px;
   flex-grow: 3; /* Allow the container to grow and take up available space */
-  margin-left: 15%;
+  //margin-left: 15%;
 `;
 
 

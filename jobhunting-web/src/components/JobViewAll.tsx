@@ -759,6 +759,8 @@ const GoldBox = styled.div`
 
   svg {
     /* 'justify-content: flex-end;' is not needed here as it's for flex containers */
+    cursor: pointer; // Change cursor to pointer to indicate it's clickable
+
   }
 `;
 

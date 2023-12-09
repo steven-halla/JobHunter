@@ -19,7 +19,7 @@ export const InterviewCalendarModal: React.FC<InterviewCalendarModalProps> = ({ 
         <InterviewCalendarModalWrapperDiv>
             <ModalContent>
                 {children}
-                <Button variant="contained" color="primary" onClick={onClose}>
+                <Button variant="contained" color="primary" onClick={onClose} style={{ fontFamily: fonts.ButtonFontFamily }}>
                     Exit
                 </Button>            </ModalContent>
         </InterviewCalendarModalWrapperDiv>
@@ -59,5 +59,8 @@ const ModalContent = styled.div`
   align-items: center;
   flex-direction: column;
   
+Button {
+width: 50%;
 
+}
 `;

@@ -88,7 +88,7 @@ export const AllInterviews = () => {
                     <p><strong>Company:</strong> {interview.companyname}</p>
                     <p><strong>Interviewer Names:</strong> {interview.interviewernames}</p>
                     <p><strong>Interview Notes:</strong> {interview.interviewnotes}</p>
-                    <p><strong>Meeting Link:</strong> <a href={interview.meetingLink} target="_blank" rel="noopener noreferrer" style={{ color: colors.TextBlackColor, fontSize: fonts.InputFontREM, fontFamily: fonts.InputPlaceHolderFontFamily }}>{interview.meetingLink}</a></p>
+                    <p><strong>Meeting Link:</strong> <a href={interview.meetingLink} target="_blank" rel="noopener noreferrer" style={{ color: colors.TextBlackColor, fontSize: fonts.InputFontREM, fontFamily: fonts.InputPlaceHolderFontFamily }}>Interview Link</a></p>
                 </div>
             ));
             setModalContent(modalContentJSX);

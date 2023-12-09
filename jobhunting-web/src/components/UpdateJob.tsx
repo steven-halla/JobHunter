@@ -12,6 +12,7 @@ import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
 import {red} from "@mui/material/colors";
 import {deviceHome} from "../common/ScreenSizes";
+import {colors, fonts} from "../common/CommonStyles";
 
 //need to make snackbar not stay for so long
 
@@ -55,48 +56,6 @@ export const UpdateJob = () => {
         console.log("Delting")
 
     };
-    // const { jobId } = useParams<{ jobId: string }>();  // Extracting jobId from URL params
-    // const { jobs, setJobs, updateJobRejected, updateJobResponded } = useContext(JobsContext);
-    // const [openSnackbar, setOpenSnackbar] = useState(false);
-    // const currentJob = jobs.find(job => job.id === Number(jobId));
-    // const [formData, setFormData] = useState<Job>(currentJob || {} as Job);
-    //
-    // const handleCloseSnackbar = (event: React.SyntheticEvent | Event, reason?: string) => {
-    //     if (reason === 'clickaway') {
-    //         return;
-    //     }
-    //     setOpenSnackbar(false);
-    // };
-    //
-    // useEffect(() => {
-    //     if (currentJob) {
-    //         setFormData(currentJob);
-    //     }
-    // }, [currentJob]);
-    //
-    // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     const { id, value } = e.target;
-    //     setFormData(prev => ({ ...prev, [id]: value }));
-    // };
-    //
-    // const handleSubmit = async () => {
-    //     try {
-    //         const response = await axios.patch(`http://localhost:8080/api/jobs/update/${jobId}`, formData);
-    //         setJobs(prevJobs => prevJobs.map(job => job.id === Number(jobId) ? formData : job));
-    //         setOpenSnackbar(true);
-    //     } catch (error) {
-    //         console.error('Error updating job:', error);
-    //     }
-    // };
-    //
-    // const handleDelete = async () => {
-    //     console.log("Delting")
-
-    // };
-
-    /* styles.css (or your CSS file) */
-
-
 
     return(
         <TestWrapperBox>
@@ -106,12 +65,21 @@ export const UpdateJob = () => {
                         id="companyname"
                         label="Company name"
                         variant="outlined"
+                        InputLabelProps={{
+                            style: {
+                                fontFamily: fonts.FontFamilyItalics,
+
+                            }
+                        }}
                         value={formData.companyname || ''}
                         onChange={handleChange}
                         InputProps={{
                             style: {
-                                fontSize: '1.1rem', // Set text size to 1.1rem
-                                fontFamily: 'Arial, sans-serif', // Set the "Arial" font
+                                fontSize: fonts.HeaderIconTextREM,
+                                fontFamily: fonts.InputFontFamily,
+
+                                // fontSize: '1.1rem', // Set text size to 1.1rem
+                                // fontFamily: 'Arial, sans-serif', // Set the "Arial" font
                             },
                         }}
                         style={{ width: '80%' }}
@@ -119,18 +87,27 @@ export const UpdateJob = () => {
 
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}> {/* Adjusted margin */}
+                <div style={{ display: 'flex',
+                    justifyContent: 'center',
+                    margin: '20px 0'
+                }}>
                     <TextField
                         id="description"
                         label="Description"
+                        InputLabelProps={{
+                            style: {
+                                fontFamily: fonts.FontFamilyItalics,
+
+                            }
+                        }}
                         variant="outlined"
                         value={formData.description || ''}
                         onChange={handleChange}
                         style={{ width: '80%' }}
                         InputProps={{
                             style: {
-                                fontSize: '1.1rem', // Set text size to 1.1rem
-                                fontFamily: 'Arial, sans-serif', // Set the "Arial" font
+                                fontSize: fonts.HeaderIconTextREM,
+                                fontFamily: fonts.InputFontFamily,
                             },
                         }}
                     />
@@ -140,14 +117,20 @@ export const UpdateJob = () => {
                     <TextField
                         id="primarycontact"
                         label="Primary Contact"
+                        InputLabelProps={{
+                            style: {
+                                fontFamily: fonts.FontFamilyItalics,
+
+                            }
+                        }}
                         variant="outlined"
                         value={formData.primarycontact || ''}
                         onChange={handleChange}
                         style={{ width: '80%' }}
                         InputProps={{
                             style: {
-                                fontSize: '1.1rem', // Set text size to 1.1rem
-                                fontFamily: 'Arial, sans-serif', // Set the "Arial" font
+                                fontSize: fonts.HeaderIconTextREM,
+                                fontFamily: fonts.InputFontFamily,
                             },
                         }}
                     />
@@ -157,14 +140,20 @@ export const UpdateJob = () => {
                     <TextField
                         id="companywebsitelink"
                         label="Company Website Link"
+                        InputLabelProps={{
+                            style: {
+                                fontFamily: fonts.FontFamilyItalics,
+
+                            }
+                        }}
                         variant="outlined"
                         value={formData.companywebsitelink || ''}
                         onChange={handleChange}
                         style={{ width: '80%' }}
                         InputProps={{
                             style: {
-                                fontSize: '1.1rem', // Set text size to 1.1rem
-                                fontFamily: 'Arial, sans-serif', // Set the "Arial" font
+                                fontSize: fonts.HeaderIconTextREM,
+                                fontFamily: fonts.InputFontFamily,
                             },
                         }}
                     />
@@ -174,14 +163,20 @@ export const UpdateJob = () => {
                     <TextField
                         id="joblink"
                         label="Job Link"
+                        InputLabelProps={{
+                            style: {
+                                fontFamily: fonts.FontFamilyItalics,
+
+                            }
+                        }}
                         variant="outlined"
                         value={formData.joblink || ''}
                         onChange={handleChange}
                         style={{ width: '80%' }}
                         InputProps={{
                             style: {
-                                fontSize: '1.1rem', // Set text size to 1.1rem
-                                fontFamily: 'Arial, sans-serif', // Set the "Arial" font
+                                fontSize: fonts.HeaderIconTextREM,
+                                fontFamily: fonts.InputFontFamily,
                             },
                         }}
                     />
@@ -194,15 +189,21 @@ export const UpdateJob = () => {
                         sx={{
                             borderRadius: 10,
                             background: 'linear-gradient(to right, #00C9FF, #00B4D8)', // Neon blue gradient
-                            color: 'white', // Text color
+                            // color: 'white', // Text color
+                            color: colors.TextWhiteColor,
+
                             border: '1px solid #007BFF', // Adding a border for contrast
                             '&:hover': {
                                 background: 'linear-gradient(to left, #00C9FF, #00B4D8)', // Change gradient direction on hover for effect
                                 boxShadow: '0 0 10px #00C9FF', // Optional: Adding a glow effect on hover
                             },
-                            fontSize: '1.6rem',
+                            fontSize: fonts.ButtonFontREM,
+
+                            // fontSize: '1.6rem',
                             fontWeight: 'bold',
-                            fontFamily: "'Times New Roman', serif",
+                            // fontFamily: "'Times New Roman', serif",
+                            fontFamily: fonts.ButtonFontFamily,
+
                             textTransform: 'none', // Optional: Prevents uppercase text transformation common in MUI Buttons
                         }}
                         onClick={handleSubmit} variant="contained">
@@ -276,7 +277,7 @@ const SubmitButton = styled(Button)`
 
 
 const TestWrapperBox = styled(Box)`
-  background-color: #3D4849;
+  background-color: ${colors.AppBackGroundColor};
   height: 100vh;
   width: 100vw;
   justify-content: center;
@@ -288,8 +289,9 @@ const TestWrapperBox = styled(Box)`
 const FormBox = styled(Box)`
   height: 67vh;
   width: 30vw;
+  background-color: ${colors.HeaderBackGroundColor};
 
-  background-color: #C0C0C0;
+  //background-color: #C0C0C0;
 
   /* Adding box shadow on left, right, and bottom sides */
   box-shadow:

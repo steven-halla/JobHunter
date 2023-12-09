@@ -19,6 +19,7 @@ import {DateMutation} from "../common/DateMutation";
 import Box from "@mui/material/Box";
 import {JobCarousel} from "./JobCarousel";
 import {Job} from "../models/Job";
+import {fonts} from "../common/CommonStyles";
 
 
 export const Home: React.FC = () => {
@@ -497,7 +498,7 @@ export const Home: React.FC = () => {
                         style={{ cursor: 'pointer' ,color: 'white' }}
                     />
 
-                    <VerticalLine2></VerticalLine2>
+                    {/*<VerticalLine2></VerticalLine2>*/}
                 </Box>
 
                 <Box
@@ -552,7 +553,7 @@ export const Home: React.FC = () => {
 
                     }}
                 >
-                    <VerticalLine2></VerticalLine2>
+                    {/*<VerticalLine2></VerticalLine2>*/}
                     <FontAwesomeIcon
                         icon={faGithub}
                         size="2x"
@@ -636,7 +637,7 @@ export const Home: React.FC = () => {
 
                         }}
                     >
-                        <VerticalLine2></VerticalLine2>
+                        {/*<VerticalLine2></VerticalLine2>*/}
 
 
 
@@ -650,6 +651,7 @@ export const Home: React.FC = () => {
                                 <StyledTextField
                                     type="text"
                                     variant="outlined"
+
                                     placeholder="company name" // Using placeholder instead of label
                                     value={companyname}
                                     onChange={handleCompanyNameChange}
@@ -918,7 +920,7 @@ export const CustomFieldForm = styled.form`
     label {
       margin-left: 2px; // Reduce margin
 
-      font-size: 14px; // Adjust font size for readability
+      //font-size: 33px; // Adjust font size for readability
     }
   }
 
@@ -955,18 +957,32 @@ const BaseStyledTextField = styled(TextField)`
     
   }
   & .MuiInputBase-input { // Target the input base for styling
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 1.2rem;
+    //font-family: 'Helvetica Neue', Arial, sans-serif;
+    //font-size: 1.2rem;
+
+
+    font-size: ${fonts.InputFontREM};
+
+
+    font-family: ${fonts.InputFontFamily};
+    
+    
    
 
     
   }
 
   & .MuiInputBase-input::placeholder { // Target the placeholder with increased specificity
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.3rem;
+    //font-family: 'Roboto', sans-serif;
+    //font-size: 1.3rem;
 
-  
+    font-size: ${fonts.InputFontREM};
+
+
+    font-family: ${fonts.FontFamilyItalics};
+
+
+
   }
 `;
 
@@ -979,7 +995,9 @@ const StyledTextField: React.FC<TextFieldProps> = (props) => {
             variant="outlined"
             type="text"
             size="small"
-            style={{ width: '100%', marginBottom: '5%', backgroundColor: 'white' }}
+
+            style={{ width: '100%', marginBottom: '5%', backgroundColor: 'white' ,
+            }}
             {...props}
         />
     );

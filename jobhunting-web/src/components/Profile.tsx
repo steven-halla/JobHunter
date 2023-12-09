@@ -13,6 +13,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import AuthService from "../services/auth.service";
 import {User} from "../models/User";
+import {colors, fonts} from "../common/CommonStyles";
 // import { jwtDecode, InvalidTokenError } from 'jwt-decode';
 
 
@@ -183,9 +184,17 @@ const Profile = () => {
 
                 <NameDiv>
                     <strong>Hello Their {user?.username}</strong>
-                    <a href="/" onClick={logOut} style={{ textDecoration: 'none' , color: "white", marginLeft: "3%"}}>
+                    <a href="/" onClick={logOut} style={{
+                        textDecoration: 'none' ,
+                        color: colors.TextWhiteColor,
+                        fontSize: fonts.InputFontREM,
+
+                        marginLeft: "3%"
+                    }}>
                         <FontAwesomeIcon
-                            style={{ color: "white" }} // Set the icon color to light blue
+                            style={{
+                                color: colors.TextWhiteColor,
+                        }} // Set the icon color to light blue
 
                             icon={faSignOutAlt} size="lg" /> Logout
                     </a>
@@ -268,15 +277,21 @@ const Profile = () => {
                         sx={{
                             borderRadius: 10,
                             background: 'linear-gradient(to right, #00C9FF, #00B4D8)', // Neon blue gradient
-                            color: 'white', // Text color
+                            color: colors.TextWhiteColor,
+
                             border: '1px solid #007BFF', // Adding a border for contrast
                             '&:hover': {
                                 background: 'linear-gradient(to left, #00C9FF, #00B4D8)', // Change gradient direction on hover for effect
                                 boxShadow: '0 0 10px #00C9FF', // Optional: Adding a glow effect on hover
                             },
-                            fontSize: '1.6rem',
+                            // fontSize: '1.6rem',
+                            fontSize: fonts.ButtonFontREM,
+
                             fontWeight: 'bold',
-                            fontFamily: "'Times New Roman', serif",
+
+                            // fontFamily: "'Times New Roman', serif",
+                            fontFamily: fonts.ButtonFontFamily,
+
                             textTransform: 'none', // Optional: Prevents uppercase text transformation common in MUI Buttons
                         }}
                     onClick={handleSubmitButton} variant="contained">
@@ -304,7 +319,9 @@ const Profile = () => {
 const Footer = styled.div`
 height: 50px;
   width: 100%;
-  background-color: #3D4849;
+  //background-color: #3D4849;
+  background-color: ${colors.AppBackGroundColor};
+
 
 `;
 
@@ -345,11 +362,17 @@ height: 100%;
 const StyledTextField = styled(TextField)`
   width: 100%; // Ensures it takes up the full width of its parent
   box-sizing: border-box; // This ensures padding and borders are included in the width
-background-color: white;
+  //background-color: white;
+  background-color: ${colors.TextWhiteColor};
+
   // Add other styles as needed
   & .MuiInputBase-input { // Target the placeholder with increased specificity
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.13rem;
+    //font-family: 'Roboto', sans-serif;
+    font-family: ${fonts.InputFontFamily};
+    font-size:  ${fonts.InputFontREM};
+
+    //font-size: 1.13rem;
+    //background-color: red;
   }
 `;
 
@@ -368,9 +391,15 @@ const NameDiv = styled.div`
   align-items: center;
   margin-top: 3%;  
   strong {
-    color: black;
-      font-family: 'Roboto', sans-serif;
-      font-size: 1.4rem;
+  color: ${colors.TextBlackColor};
+
+    //color: black;
+    //  font-family: 'Roboto', sans-serif;
+        font-family: ${fonts.ButtonFontFamily};
+        font-size: ${fonts.ButtonFontREM};
+
+    //font-size: 1.4rem;
+    
   }
 `;
 
@@ -391,15 +420,7 @@ const LifeStoryDiv = styled.div`
   align-items: center;
 `;
 
-const NameCustomFieldBox = styled(Box)(() => ({
-    display: 'flex',
- // Optional, if you want to center vertically as well
-    backgroundColor: 'purple',
-    height: "300px",
-    width: '60%',
-    marginTop: '5%',
-    flexDirection: 'column',
-}));
+
 
 const ProfileWrapperDiv = styled.div`
   display: flex;
@@ -407,7 +428,7 @@ const ProfileWrapperDiv = styled.div`
   align-items: center; // Optional, if you want to center vertically as well
   height: 100%;
   width: 100vw;
-  background-color: #3D4849;
+  background-color: ${colors.AppBackGroundColor};
 
 `;
 

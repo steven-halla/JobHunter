@@ -11,6 +11,7 @@ export const CommonStyles = () => {
 }
 
 
+
 export const colors = {
     IconColor: "#3D4849",
     AppBackGroundColor: "#3D4849",
@@ -28,11 +29,16 @@ export const fonts = {
     HeaderIconTextREM: "1.1rem",
     MobileHeaderIconTextREM: "0.9rem",
     InputFontREM: "1.2rem",
+    ButtonFontREM: "1.6rem",
 
     InputFontFamily: "'Helvetica Neue', Arial, sans-serif",
     InputPlaceHolderFontFamily: "'Roboto', sans-serif",
+    ButtonFontFamily: "'Times New Roman', serif",
+    FontFamilyItalics: "italic",
 
 }
+
+
 
 
 export const HeaderIconText = styled.div`

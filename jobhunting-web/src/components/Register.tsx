@@ -19,6 +19,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 
 import { useNavigate } from 'react-router-dom';
+import {colors} from "../common/CommonStyles";
 
 
 
@@ -568,7 +569,7 @@ const Register: React.FC = () => {
 
 const RegisterWrapperDiv = styled.div`
   display: flex;
-  background-color: #3D4849;
+  background-color: ${colors.AppBackGroundColor};
   height: 100vh;
   justify-content: space-between; // Distribute space between elements
   align-items: flex-start;

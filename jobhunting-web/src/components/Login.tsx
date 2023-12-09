@@ -10,6 +10,7 @@ import styled from "styled-components";
 import {deviceLogin, deviceProfile} from "../common/ScreenSizes";
 import {TextField} from "@mui/material";
 import Button from '@mui/material/Button';
+import {colors} from "../common/CommonStyles";
 
 
 
@@ -177,7 +178,7 @@ const LoginWrapperDiv = styled.div`
   //margin-top: 8%;
   justify-content: center; // Distribute space between elements
   align-items: center;
-  background-color: #3D4849;
+  background-color: ${colors.HeaderBackGroundColor};
 
 
 
@@ -186,9 +187,9 @@ const LoginWrapperDiv = styled.div`
   }
 
 
-  @media ${deviceLogin.mobile} {
-    // Styles for laptop and larger devices
-background-color: red  }
+//   @media ${deviceLogin.mobile} {
+//     // Styles for laptop and larger devices
+// background-color: red  }
   
 `;
 

@@ -381,17 +381,47 @@ export const Test = () => {
 
 
 
+    // const handleRespondedChange = async (jobId: number, checked: boolean) => {
+    //     if (checked) {
+    //         const isConfirmed = window.confirm("Confirm company responded?");
+    //         if (isConfirmed) {
+    //             await updateJobResponded(jobId, true);
+    //         }
+    //     } else {
+    //         // Call updateJobResponded with false or handle it differently if needed
+    //         await updateJobResponded(jobId, false);
+    //     }
+    // };
+
     const handleRespondedChange = async (jobId: number, checked: boolean) => {
+        let isConfirmed = false;
+
         if (checked) {
-            const isConfirmed = window.confirm("Confirm company responded?");
-            if (isConfirmed) {
-                await updateJobResponded(jobId, true);
-            }
+            isConfirmed = window.confirm("Confirm company responded?");
         } else {
-            // Call updateJobResponded with false or handle it differently if needed
-            await updateJobResponded(jobId, false);
+            isConfirmed = window.confirm("Are you sure you want to mark as not responded?");
+        }
+
+        if (isConfirmed) {
+            await updateJobResponded(jobId, checked);
         }
     };
+
+    const handleRejectedChange = async (jobId: number, checked: boolean) => {
+        let isConfirmed = false;
+
+        if (checked) {
+            isConfirmed = window.confirm("Confirm Rejection responded?");
+        } else {
+            isConfirmed = window.confirm("Are you sure you want to mark as not rejected?");
+        }
+
+        if (isConfirmed) {
+            await updateJobRejected(jobId, checked);
+        }
+    };
+
+
 
 
 
@@ -502,18 +532,7 @@ export const Test = () => {
 
                 {/*<VerticalLine></VerticalLine>*/}
                 <TopBox>
-                    <YellowBox>
-                        <FontAwesomeIcon icon={faCalendarPlus} />
 
-                        <p>
-
-                            {/*Jan 1st 1919*/}
-                            {DateMutation(typeof job.dateapplied === 'string' ? job.dateapplied : job.dateapplied.toISOString())}
-                        </p>
-
-
-
-                    </YellowBox>
 
                     <BlueBox>
                         <h2 title={job.companyname}>
@@ -530,6 +549,19 @@ export const Test = () => {
                             {job.primarycontact}
                         </p>
                     </SkyBlueBox>
+
+                    <YellowBox>
+                        <FontAwesomeIcon icon={faCalendarPlus} />
+
+                        <p>
+
+                            {/*Jan 1st 1919*/}
+                            {DateMutation(typeof job.dateapplied === 'string' ? job.dateapplied : job.dateapplied.toISOString())}
+                        </p>
+
+
+
+                    </YellowBox>
                     {/*<VioletBox>*/}
 
 
@@ -572,12 +604,14 @@ export const Test = () => {
                         />
 
 
-                        {/*<LabeledSwitch*/}
-                        {/*    labelOn="Rejected"*/}
-                        {/*    labelOff="No Rejection"*/}
-                        {/*    isChecked={isRejectedChecked} // Pass the state*/}
-                        {/*    onChange={handleRejectedChange} // Pass the handler*/}
-                        {/*/>*/}
+                        <LabeledSwitch
+                            labelOn="Rejected"
+                            labelOff="Not Rejected"
+                            isChecked={job.companyrejected} // Pass the state
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
+                                handleRejectedChange(job.id, checked);
+                            }}
+                        />
 
 
                     </PurpleBox>
@@ -595,6 +629,15 @@ export const Test = () => {
                             />
                         </GoldBox>
 
+
+                        <GoldBox>
+                            <p>Job Link</p>
+                            <a href={job.joblink} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                                <FontAwesomeIcon icon={faGlobe} style={{ color: "black" }} size="lg" />
+                            </a>
+
+                        </GoldBox>
+
                         <GoldBox>
                             <p>Edit</p>
                             <FontAwesomeIcon
@@ -606,13 +649,7 @@ export const Test = () => {
                             />
                         </GoldBox>
 
-                        <GoldBox>
-                            <p>Job Link</p>
-                            <a href={job.joblink} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                                <FontAwesomeIcon icon={faGlobe} style={{ color: "black" }} size="lg" />
-                            </a>
 
-                        </GoldBox>
 
 
 
@@ -904,7 +941,6 @@ const BlueBox = styled.div`
   height: 70%;
   min-height: 35px;
   margin-left: 3%;
-  background-color: grey;
   overflow: hidden; // This line is added to prevent overflow
   //width: 100%;
 
@@ -1097,7 +1133,7 @@ const RedPillContainer = styled.div`
   display: inline-block;
   min-width: 140px;
   height: 30px;
-  background-color: red;
+  background-color: #b4a86b;
   border-radius: 15px;
   box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5);
   margin-right: 1.5%;
@@ -1133,7 +1169,7 @@ const StickySearchDiv = styled.div`
   align-items: center;
   padding-right: 180px;
   height: 10vh;
-  background-color: blue;
+  background-color: #2a4153;
   width: 100%;
   margin-bottom: 1%;
 

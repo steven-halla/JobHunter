@@ -627,18 +627,33 @@ export const JobViewAll = () => {
                                 <p>Schedule Interview</p>
                                 <FontAwesomeIcon
                                     icon={faCalendar}
-                                    style={{  color: "black" }} // Added marginRight here
-                                    size="lg" // Example size - adjust as needed
+                                    size="lg"
                                     onClick={() => onButtonClick('accepted', String(job.id))}
-
+                                    style={{
+                                        color: 'black',
+                                        cursor: 'pointer',
+                                        transform: 'scale(1)',
+                                        transition: 'transform 0.2s',
+                                    }}
+                                    onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.25)'}
+                                    onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                                 />
+
                             </GoldBox>
 
 
                             <GoldBox>
                                 <p>Job Link</p>
                                 <a href={job.joblink} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                                    <FontAwesomeIcon icon={faGlobe} style={{ color: "black" }} size="lg" />
+                                    <FontAwesomeIcon icon={faGlobe} size="lg"   style={{
+                                        color: 'black',
+                                        cursor: 'pointer',
+                                        transform: 'scale(1)',
+                                        transition: 'transform 0.2s',
+                                    }}
+                                                     onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.25)'}
+                                                     onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                                    />
                                 </a>
 
                             </GoldBox>
@@ -647,11 +662,18 @@ export const JobViewAll = () => {
                                 <p>Edit</p>
                                 <FontAwesomeIcon
                                     icon={faEdit}
-                                    style={{  color: "black" }} // Added marginRight here
                                     size="lg" // Example size - adjust as needed
                                     onClick={() => onButtonClick('update', String(job.id))}
-
+                                    style={{
+                                        color: 'black',
+                                        cursor: 'pointer',
+                                        transform: 'scale(1)',
+                                        transition: 'transform 0.2s',
+                                    }}
+                                    onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.25)'}
+                                    onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                                 />
+
                             </GoldBox>
 
 
@@ -760,6 +782,7 @@ const GoldBox = styled.div`
   svg {
     /* 'justify-content: flex-end;' is not needed here as it's for flex containers */
     cursor: pointer; // Change cursor to pointer to indicate it's clickable
+    //transform: scale(1.25); // Increase size by 25% on hover
 
   }
 `;

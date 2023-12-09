@@ -234,15 +234,10 @@ const Profile = () => {
                                         <StyledTextField name="customfield1" value={customfield1} onChange={handleChange} />
                             <StyledTextField name="customfield2" value={customfield2} onChange={handleChange} />
                             <StyledTextField name="customfield3" value={customfield3} onChange={handleChange} />
-
                         </StyledForm>
-
                     </IconFormDiv>
-
                 </Box>
-
                 <LifeStoryDiv>
-
                     <StyledTextareaAutosize
                         name="lifestory"
                         value={lifeStory}
@@ -251,30 +246,23 @@ const Profile = () => {
                         minRows={4} // Adjust the number of rows as needed
                         maxRows={100} // Adjust the maximum number of rows as needed
                     />
-
-
                 </LifeStoryDiv>
 
                 <SubmitButtonDiv>
                     <SubmitButton
                         sx={{
                             borderRadius: 10,
-                            background: 'linear-gradient(to right, #00C9FF, #00B4D8)', // Neon blue gradient
-                            color: colors.TextWhiteColor,
+                            background: colors.ButtonColor,
 
+                            color: colors.TextWhiteColor,
                             border: '1px solid #007BFF', // Adding a border for contrast
                             '&:hover': {
-                                background: 'linear-gradient(to left, #00C9FF, #00B4D8)', // Change gradient direction on hover for effect
+                                background: colors.HoverButtonColor,
                                 boxShadow: '0 0 10px #00C9FF', // Optional: Adding a glow effect on hover
                             },
-                            // fontSize: '1.6rem',
                             fontSize: fonts.ButtonFontREM,
-
                             fontWeight: 'bold',
-
-                            // fontFamily: "'Times New Roman', serif",
                             fontFamily: fonts.ButtonFontFamily,
-
                             textTransform: 'none', // Optional: Prevents uppercase text transformation common in MUI Buttons
                         }}
                     onClick={handleSubmitButton} variant="contained">
@@ -287,14 +275,6 @@ const Profile = () => {
 
             </InfoContainerDiv>
 
-
-
-
-
-
-
-
-
         </ProfileWrapperDiv>
     );
 };
@@ -302,10 +282,7 @@ const Profile = () => {
 const Footer = styled.div`
 height: 50px;
   width: 100%;
-  //background-color: #3D4849;
   background-color: ${colors.AppBackGroundColor};
-
-
 `;
 
 
@@ -314,8 +291,7 @@ const SubmitButton = styled(Button)`
   width: 23vw;
   display: flex;
   padding-bottom: 70px;
-  //margin-bottom: 50px;
-  //background-color: yellow;
+
 
   @media ${deviceHome.mobile} {
     //background-color: red;
@@ -330,9 +306,7 @@ const IconFormDiv = styled.div`
 height: 100%;
   width: 100%;
   display: flex;
-  
 `;
-
 
 const IconDiv = styled.div`
 height: 100%;
@@ -345,29 +319,19 @@ height: 100%;
 const StyledTextField = styled(TextField)`
   width: 100%; // Ensures it takes up the full width of its parent
   box-sizing: border-box; // This ensures padding and borders are included in the width
-  //background-color: white;
   background-color: ${colors.TextWhiteColor};
 
-  // Add other styles as needed
   & .MuiInputBase-input { // Target the placeholder with increased specificity
     //font-family: 'Roboto', sans-serif;
     font-family: ${fonts.InputFontFamily};
     font-size:  ${fonts.InputFontREM};
 
-    //font-size: 1.13rem;
-    //background-color: red;
   }
 `;
 
 
-
-
 const NameDiv = styled.div`
   display: flex;
-  
-
-  //background-color: #3D4849;
-  //background-color: blue;
   height: 20%;
   width: 100%;
   justify-content: center;
@@ -375,9 +339,7 @@ const NameDiv = styled.div`
   margin-top: 3%;  
   strong {
   color: ${colors.TextBlackColor};
-
-    //color: black;
-    //  font-family: 'Roboto', sans-serif;
+    
         font-family: ${fonts.ButtonFontFamily};
         font-size: ${fonts.ButtonFontREM};
 
@@ -388,7 +350,6 @@ const NameDiv = styled.div`
 
 const SubmitButtonDiv = styled.div`
   display: flex;
-
   height: 10%;
   width: 30%;
   margin-top: 3%;
@@ -412,19 +373,16 @@ const ProfileWrapperDiv = styled.div`
   height: 100%;
   width: 100vw;
   background-color: ${colors.AppBackGroundColor};
-
 `;
 
 const InfoContainerDiv = styled.div`
   display: flex;
   height: 100%; // You might want to adjust this depending on your layout needs
   width: 80%; // Or any width you prefer
-  // Add other properties as needed
   justify-content: center;
   align-items: center;
   flex-direction: column;
 `;
-
 
 const StyledForm = styled.form`
   display: flex;
@@ -434,25 +392,20 @@ const StyledForm = styled.form`
   align-items: center;
   flex-direction: column;
   margin-right: 16%;
-  
 `;
 
 const StyledTextareaAutosize = styled(TextareaAutosize)`
-  // Add more styles here
   border: 1px solid #ccc; // Example style
   padding: 8px; // Example style
   border-radius: 4px; // Example style
   width: 670px;
   margin-top: 5%;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 1.2rem;
-  
-  
+  font-family: ${fonts.InputFontFamily};
+  font-size:  ${fonts.InputFontREM};
+
   @media ${deviceProfile.mobile} {
-    // Styles for laptop and larger devices
     width: 300px;
   }
-  
 `;
 
 

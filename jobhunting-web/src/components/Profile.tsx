@@ -443,49 +443,6 @@ const InfoContainerDiv = styled.div`
 `;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// export const StyledStrong = styled.strong`
-//   display: flex;
-//
-// `;
-// export const UserNameDiv = styled.div`
-//   display: flex;
-//   //align-items: center;
-//   //height: 20vh;
-//   margin-right: 2%;
-//   background-color: red;
-// `;
-//
-// export const ProfileWrapperDiv = styled.div`
-//   display: flex;
-//   height: 100vh;
-//   width: 100%;
-//   justify-content: center;
-//   align-items: center;
-//   display: flex;
-//
-//   ////flex-direction: column;
-//   //align-items: center;
-//   //background-color: #586e75; /* A blue-gray hue, reminiscent of slate */
-//   //background-color: #30475E; /* A deep, muted blue with a hint of gray */
-//   background-color: #496D89; /* A lighter shade of the deep, muted blue with a hint of gray */
-//
-// `;
-//
 const StyledForm = styled.form`
   display: flex;
   height: 100%;

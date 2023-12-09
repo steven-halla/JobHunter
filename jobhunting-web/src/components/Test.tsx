@@ -26,6 +26,7 @@ import {DateMutation} from "../common/DateMutation";
 
 export const Test = () => {
     const [searchTerm, setSearchTerm] = useState('');
+    const [showAllJobs, setShowAllJobs] = useState(false);
 
     const { jobs, updateJobSoftDelete, updateJobRejected, meetingLink} = useContext(JobsContext);
     const [filter] = useState('');
@@ -199,7 +200,18 @@ export const Test = () => {
     const TWENTY_ONE_DAYS = 21 * 24 * 60 * 60 * 1000; // Equivalent of 21 days in milliseconds
     const twentyOneDaysAgoMs = currentDateMs - TWENTY_ONE_DAYS; // 2. Calculate the timestamp 21 days before current date
 
-    const filteredAndRespondedJobs = jobs
+    // const filteredAndRespondedJobs = jobs
+    //     .filter(job => !job.companyrejected) // Keeps jobs not rejected by the company
+    //     .filter(job =>
+    //         job.companyresponded || // Keeps jobs where the company has responded
+    //         new Date(job.dateapplied).getTime() >= twentyOneDaysAgoMs // Keeps jobs applied within the last 21 days
+    //     )
+    //     .filter(job =>
+    //         (onlyShowResponded ? job.companyresponded : true) && // Conditionally filters based on company response
+    //         job.companyname.toLowerCase().includes(filter.toLowerCase()) // Keeps jobs that match the search filter
+    //     )
+    //     .filter(job => !job.jobsoftdelete); // Excludes jobs where softDelete is true
+    const filteredJobs = showAllJobs ? jobs : jobs
         .filter(job => !job.companyrejected) // Keeps jobs not rejected by the company
         .filter(job =>
             job.companyresponded || // Keeps jobs where the company has responded
@@ -214,7 +226,7 @@ export const Test = () => {
 
 
 
-    const sortedAndRespondedJobs = [...filteredAndRespondedJobs]
+    const sortedAndRespondedJobs = [...filteredJobs]
         .filter(job =>
             !job.companyresponded &&
             (searchTerm.length < 3 || job.companyname.toLowerCase().includes(searchTerm.toLowerCase().trim()) || job.primarycontact.toLowerCase().includes(searchTerm.toLowerCase().trim()))
@@ -427,6 +439,10 @@ export const Test = () => {
 
                 </RedPillParentDiv>
 
+                <button onClick={() => setShowAllJobs(prev => !prev)}>
+                    {showAllJobs ? "Apply Filters" : "Show All Jobs"}
+                </button>
+
                 <SelectDiv>
                     <SimpleSelect value={sortingCriteria} onChange={handleSortingChange}>
                         <option value="">Default Filter</option> {/* Default option */}
@@ -564,6 +580,8 @@ export const Test = () => {
                             </a>
 
                         </GoldBox>
+
+
 
 
 

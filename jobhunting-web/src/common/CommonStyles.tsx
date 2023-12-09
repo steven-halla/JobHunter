@@ -35,7 +35,9 @@ export const fonts = {
 
     InputFontFamily: "'Helvetica Neue', Arial, sans-serif",
     InputPlaceHolderFontFamily: "'Roboto', sans-serif",
+
     ButtonFontFamily: "'Times New Roman', serif",
+
     FontFamilyItalics: "italic",
 
 }

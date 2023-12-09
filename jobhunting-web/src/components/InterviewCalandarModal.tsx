@@ -1,5 +1,7 @@
 import React, { ReactNode } from 'react';
 import styled from "styled-components";
+import {colors, fonts} from "../common/CommonStyles";
+import Button from "@mui/material/Button";
 
 type InterviewCalendarModalProps = {
     show: boolean;
@@ -17,8 +19,9 @@ export const InterviewCalendarModal: React.FC<InterviewCalendarModalProps> = ({ 
         <InterviewCalendarModalWrapperDiv>
             <ModalContent>
                 {children}
-                <button onClick={onClose}>Close</button>
-            </ModalContent>
+                <Button variant="contained" color="primary" onClick={onClose}>
+                    Exit
+                </Button>            </ModalContent>
         </InterviewCalendarModalWrapperDiv>
     );
 };
@@ -36,8 +39,8 @@ const InterviewCalendarModalWrapperDiv = styled.div`
   align-items: center;
   z-index: 10; // To ensure it's above all other content
   //background-color: #3D4849;
-
-
+  //background-color: red;
+  background-color: ${colors.AppBackGroundColor};
 `;
 
 const ModalContent = styled.div`
@@ -47,4 +50,14 @@ const ModalContent = styled.div`
   width: 50%; // Adjust as needed
   max-width: 500px; // Adjust as needed
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: ${colors.FormContainer};
+  color: ${colors.TextBlackColor};
+  font-family:  ${fonts.ButtonFontFamily};
+  font-size:  ${fonts.HeaderIconTextREM};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  
+
 `;

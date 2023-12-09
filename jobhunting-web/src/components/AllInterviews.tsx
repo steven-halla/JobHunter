@@ -6,6 +6,7 @@ import { JobsContext } from "../services/jobcontext";
 import {InterviewCalendarModal} from "./InterviewCalandarModal";
 import {deviceCalendar, deviceHome} from "../common/ScreenSizes";
 import {useTheme} from "@mui/material";
+import {colors, fonts} from "../common/CommonStyles";
 
 
 //RIGHT NOW ALL USERS HAVE ACCESS TO ALL INTERVIEWS!!!
@@ -87,7 +88,7 @@ export const AllInterviews = () => {
                     <p><strong>Company:</strong> {interview.companyname}</p>
                     <p><strong>Interviewer Names:</strong> {interview.interviewernames}</p>
                     <p><strong>Interview Notes:</strong> {interview.interviewnotes}</p>
-                    <p><strong>Meeting Link:</strong> <a href={interview.meetingLink} target="_blank" rel="noopener noreferrer">{interview.meetingLink}</a></p>
+                    <p><strong>Meeting Link:</strong> <a href={interview.meetingLink} target="_blank" rel="noopener noreferrer" style={{ color: colors.TextBlackColor, fontSize: fonts.InputFontREM, fontFamily: fonts.InputPlaceHolderFontFamily }}>{interview.meetingLink}</a></p>
                 </div>
             ));
             setModalContent(modalContentJSX);
@@ -144,7 +145,9 @@ const StyledCalendar = styled(Calendar)`
   width: 75%;
   height: 50%;
   max-height: 425px;
-  background-color: #C0C0C0;
+  background-color: ${colors.HeaderBackGroundColor};
+  
+
   justify-content: center;
   align-items: center;
   margin-bottom: 10%;

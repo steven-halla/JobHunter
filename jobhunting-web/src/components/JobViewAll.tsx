@@ -381,19 +381,6 @@ export const JobViewAll = () => {
     };
 
 
-
-    // const handleRespondedChange = async (jobId: number, checked: boolean) => {
-    //     if (checked) {
-    //         const isConfirmed = window.confirm("Confirm company responded?");
-    //         if (isConfirmed) {
-    //             await updateJobResponded(jobId, true);
-    //         }
-    //     } else {
-    //         // Call updateJobResponded with false or handle it differently if needed
-    //         await updateJobResponded(jobId, false);
-    //     }
-    // };
-
     const handleRespondedChange = async (jobId: number, checked: boolean) => {
         let isConfirmed = false;
 
@@ -454,9 +441,6 @@ export const JobViewAll = () => {
     };
 
 
-
-
-
     return (
         <TestWrapper>
 
@@ -501,11 +485,17 @@ export const JobViewAll = () => {
 
                 </RedPillParentDiv>
 
-
+                <RedPillContainer>
+                    <button onClick={() => setShowAllJobs(prev => !prev)} style={{ all: 'unset' }}>
+                        {showAllJobs ? "Relevant Jobs" : "Show All Jobs"}
+                        <FontAwesomeIcon icon={showAllJobs ? faCaretDown : faCaretUp} size="lg" />
+                    </button>
+                </RedPillContainer>
 
                 <SelectDiv>
                     <SimpleSelect value={sortingCriteria} onChange={handleSortingChange}>
-                        <option value="">Default Filter</option> {/* Default option */}
+                        <option value="Show All Jobs">All Jobs</option> {/* Default option */}
+                        <option value="Relevant Jobs ">Relevant Jobs</option> {/* Default option */}
 
                         <option value="date-asc">Date Ascending</option>
                         <option value="date-desc">Date Descending</option>
@@ -576,8 +566,8 @@ export const JobViewAll = () => {
 
 
                         <GreenBox>
-                            <p title="  I am a bunch of notes that doesn't have much of an impact o,,dfsafn things how are you doing with me today i love you
-">                              {job.description}
+                            <p title={job.description}>
+                                {job.description}
                             </p>
                         </GreenBox>
 
@@ -843,10 +833,11 @@ const SkyBlueBox = styled.div`
 
 
   }
-  
   svg {
     padding-top: 1%;
   }
+  
+  
 `;
 
 

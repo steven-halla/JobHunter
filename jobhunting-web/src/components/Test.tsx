@@ -85,8 +85,8 @@ export const Test = () => {
         () => JSON.parse(localStorage.getItem("jobResponses") || '{}')
     );
 
-    const [dateSortDirection, setDateSortDirection] = useState('dsc');
-    const [contactSortDirection, setContactSortDirection] = useState('dsc'); // New state for contact sorting
+    const [dateSortDirection, setDateSortDirection] = useState('asc');
+    const [contactSortDirection, setContactSortDirection] = useState('asc'); // New state for contact sorting
     const [companySortDirection, setCompanySortDirection] = useState('dsc'); // New state for company sorting
     const [interviewSortDirection, setInterviewSortDirection] = useState('dsc'); // New state for company sorting
     const [rejectedSortStatus, setRejectedSortStatus] = useState('no'); // New state for rejected sorting
@@ -417,20 +417,21 @@ export const Test = () => {
 
                     <RedPillContainer>
                         <button onClick={toggleCompanySortDirection} style={{ all: 'unset' }}>
-                            {companySortDirection === 'asc' ? 'Company Asc' : 'Company Desc'}
-                            <FontAwesomeIcon icon={companySortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
+                            {companySortDirection === 'dsc' ? 'Company Asc' : 'Company Desc'}
+                            <FontAwesomeIcon icon={companySortDirection === 'dsc' ? faCaretUp : faCaretDown} size="lg" />
                         </button>
                     </RedPillContainer>
 
 
                     <RedPillContainer>
-                        <button onClick={toggleContactSortDirection} style={{ all: 'unset' }}>
-                            {contactSortDirection === 'asc' ? 'Contact Asc' : 'Contact Desc'}
-                            <FontAwesomeIcon icon={contactSortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
+                        <button onClick={() => setShowAllJobs(prev => !prev)} style={{ all: 'unset' }}>
+                            {showAllJobs ? "Apply Filters" : "Show All Jobs"}
+                            <FontAwesomeIcon icon={showAllJobs ? faCaretDown : faCaretUp} size="lg" />
                         </button>
                     </RedPillContainer>
 
                     <RedPillContainer>
+
                         <button onClick={toggleInterviewSortDirection} style={{ all: 'unset' }}>
                             {interviewSortDirection === 'asc' ? 'Accepted' : 'No Response'}
                             <FontAwesomeIcon icon={interviewSortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
@@ -439,9 +440,7 @@ export const Test = () => {
 
                 </RedPillParentDiv>
 
-                <button onClick={() => setShowAllJobs(prev => !prev)}>
-                    {showAllJobs ? "Apply Filters" : "Show All Jobs"}
-                </button>
+
 
                 <SelectDiv>
                     <SimpleSelect value={sortingCriteria} onChange={handleSortingChange}>

@@ -143,10 +143,15 @@ const StyledCalendar = styled(Calendar)`
   padding: 30px;
   margin-top: 5%;
   width: 75%;
-  height: 50%;
+  height: auto; // Allow the calendar to grow as needed
   max-height: 425px;
   background-color: ${colors.HeaderBackGroundColor};
-  
+  font-family: ${fonts.ButtonFontFamily};
+  //color: darkred;
+  //font-size: ${fonts.InputFontREM};
+  border-radius: 6px; /* Rounded corners */
+
+
 
   justify-content: center;
   align-items: center;
@@ -155,17 +160,27 @@ const StyledCalendar = styled(Calendar)`
   //min-width: 600px;
   //min-height: 600px;
   .react-calendar__tile {
-    max-height: 100px; // Adjust as needed
+    max-height: 70px; // Adjust as needed
     overflow: hidden;
   }
 
+  .react-calendar__tile--now {
+    background-color: lightskyblue;
+    border-radius: 3px; /* Rounded corners */
+
+  }
+
   .interview-day {
-    background-color: lightgreen;
+    background-color: lightgreen; // Replace with your desired color
+    color: #8A2BE2;
+    border-radius: 3px; /* Rounded corners */
+
+
   }
 
   @media ${deviceCalendar.mobile} {
     /* Add mobile-specific styles here */
-    height: 80%;
+    height: auto;
     max-height: 600px;
     width: 95%;
     padding: 10px;
@@ -182,7 +197,8 @@ const CalendarContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #3D4849;
+  background-color: ${colors.AppBackGroundColor};
+
   height: 100vh;
 
 `;

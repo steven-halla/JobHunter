@@ -148,7 +148,7 @@ export const Home: React.FC = () => {
 
         // Validate company name
         if (!trimmedCompanyName) {
-            setCompanyNameError("Minimum 1 character required");
+            setCompanyNameError("Min 1 character required");
             isValid = false;
         } else if (trimmedCompanyName.length > 55) {
             setCompanyNameError("Company name cannot exceed 55 characters");
@@ -587,7 +587,7 @@ export const Home: React.FC = () => {
                             backgroundColor: colors.FormContainer,
                             // height: "70vh",
                             height: {
-                                xs: "500px",
+                                xs: "auto",
                                 md: "70%",
                             },
                             width: "44vw",
@@ -644,7 +644,9 @@ export const Home: React.FC = () => {
                                     onChange={handleCompanyNameChange}
                                 />
 
-                                {companyNameError && <div style={{color: colors.errorRedColor}}>{companyNameError}</div>}
+                                {companyNameError &&
+                                    <div style={{ color: colors.errorRedColor, fontSize: fonts.ButtonFontREM, fontFamily: fonts.InputPlaceHolderFontFamily }}>
+                                        {companyNameError}</div>}
 
                             </FieldContainerDiv>
 
@@ -656,7 +658,12 @@ export const Home: React.FC = () => {
                                     placeholder="description"
                                     value={description}
                                     onChange={handleDescriptionChange} />
-                                {companyDescriptionError && <div style={{color: colors.errorRedColor,}}>{companyDescriptionError}</div>}
+                                {companyDescriptionError &&
+
+                                    <div style={{ color: colors.errorRedColor, fontSize: fonts.ButtonFontREM, fontFamily: fonts.InputPlaceHolderFontFamily }}>
+
+
+                                    {companyDescriptionError}</div>}
 
                             </FieldContainerDiv>
 
@@ -668,7 +675,16 @@ export const Home: React.FC = () => {
                                     placeholder="contact"
                                     value={primarycontact}
                                     onChange={handlePrimaryContact} />
-                                {companyContactError && <div style={{ color: colors.errorRedColor}}>{companyContactError}</div>}
+                                {companyContactError &&
+
+
+                                    <div style={{ color: colors.errorRedColor, fontSize: fonts.ButtonFontREM, fontFamily: fonts.InputPlaceHolderFontFamily }}>
+                                        {companyContactError}
+
+                                    </div>
+
+
+                                }
 
                             </FieldContainerDiv>
 
@@ -678,7 +694,13 @@ export const Home: React.FC = () => {
                                     variant="outlined"
                                     placeholder="company website link"
                                     value={companywebsitelink} onChange={handleCompanyWebSiteLink} />
-                                {companyWebSiteLinkError && <div style={{color: colors.errorRedColor}}>{companyWebSiteLinkError}</div>}
+                                {companyWebSiteLinkError &&
+
+                                    <div style={{ color: colors.errorRedColor, fontSize: fonts.ButtonFontREM, fontFamily: fonts.InputPlaceHolderFontFamily }}>
+
+                                        {companyWebSiteLinkError}
+
+                                    </div>}
 
                             </FieldContainerDiv>
 
@@ -690,7 +712,11 @@ export const Home: React.FC = () => {
 
                                     value={joblink} onChange={handleJobLink} />
 
-                                {companyJobLinkError && <div style={{ color: colors.errorRedColor}}>{companyJobLinkError}</div>}
+                                {companyJobLinkError &&
+
+                                    <div style={{ color: colors.errorRedColor, fontSize: fonts.ButtonFontREM, fontFamily: fonts.InputPlaceHolderFontFamily }}>
+
+                                        {companyJobLinkError}</div>}
 
                             </FieldContainerDiv>
 
@@ -840,9 +866,16 @@ const JobCardDiv = styled.div`
 
 `;
 
+const ErrorMessage = styled.div`
+  //color: ${colors.FormContainer};
+  color: orangered;
+  font-family: 'Roboto', sans-serif;
+  font-size: ${fonts.ButtonFontREM};
+`;
+
 
 const Footer = styled.div`
-  height: 20vh;
+  height: 40vh;
   //background-color: red;
 `;
 
@@ -994,6 +1027,7 @@ const StyledTextField: React.FC<TextFieldProps> = (props) => {
 const ButtonDiv = styled.div`
   justify-content: center;
   align-items: center;
+  margin-bottom: 3%;
 
 
   @media ${deviceHome.mobile} {

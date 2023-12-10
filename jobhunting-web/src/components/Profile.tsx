@@ -321,7 +321,9 @@ const Profile = () => {
 
 const ErrorMessage = styled.div`
   //color: ${colors.FormContainer};
-  color: orangered;
+  //color: orangered;
+  color:  ${colors.errorOrangeColor};
+
   font-family: 'Roboto', sans-serif;
   font-size: ${fonts.ButtonFontREM};
 `;

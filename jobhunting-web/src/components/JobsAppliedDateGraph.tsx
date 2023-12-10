@@ -3,7 +3,7 @@ import { JobsContext } from "../services/jobcontext";
 import { Job } from "../models/Job";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import styled from "styled-components";
-import {device, deviceHome} from "../common/ScreenSizes";
+import {device, deviceHome, deviceProfile} from "../common/ScreenSizes";
 import {useTheme} from "@mui/material";
 import {colors, fonts} from "../common/CommonStyles";
 
@@ -97,6 +97,9 @@ export const JobsAppliedDateGraph: React.FC = () => {
 
     return (
         <JobsAppliedDateGraphDiv>
+            {/*<VerticalLine>*/}
+
+            {/*</VerticalLine>*/}
 
             <GraphContainer>
                 <MonthPickerDiv>
@@ -119,6 +122,7 @@ export const JobsAppliedDateGraph: React.FC = () => {
                 </MonthPickerDiv>
                 {selectedMonth === currentMonth ? (
                     <NumberOfJobsAppliedDiv>
+                        {/*<VerticalLine2></VerticalLine2>*/}
                         <p>Jobs Applied:</p>
                         <p>Today: {jobsAppliedToday.length}</p>
                         <p>This Week: {jobsAppliedThisWeek.length}</p>
@@ -182,6 +186,7 @@ export const GraphContainer = styled.div`
 
 export const NumberOfJobsAppliedDiv = styled.div`
   display: flex;
+  position: relative;
   min-height: 100px; // Set a minimum height
   width: 24vw;
   min-width: 200px; // Set a minimum width
@@ -206,7 +211,8 @@ export const NumberOfJobsAppliedDiv = styled.div`
 
   //background-image: linear-gradient(to bottom right, #c7f3ff, #a1d8f0);
   overflow: auto; // Manage overflow content
-  margin-right: 4.5%;
+  //margin-right: 4.5%;
+  margin-right: 9%;
 `;
 
 
@@ -223,7 +229,9 @@ export const BarGraphDiv = styled.div`
   align-items: center;
   margin-right: 8.5vw;
 
-
+  // @media ${deviceProfile.mobile} {
+  //   margin-right: 9vw;
+  // }
 `;
 
 
@@ -234,7 +242,7 @@ export const MonthPickerDiv = styled.div`
   width: 70vw;
   align-items: center;
   justify-content: center;
-  margin-right: 4.5%;
+  margin-right: 8.5%;
 
 
   select {
@@ -244,4 +252,20 @@ export const MonthPickerDiv = styled.div`
 
 
 
-
+const VerticalLine = styled.div`
+  position: fixed; // or absolute, depending on your layout
+  left: 50%;
+  height: 100vh;
+  width: 10px; // or as thick as you want
+  background-color: #000; // or any color of your choice
+  z-index: 10; // adjust as needed
+`;
+const VerticalLine2 = styled.div`
+  position: absolute; // Positioned relative to its nearest positioned ancestor
+  left: 50%;
+  top: 0; // Align to the top of the container
+  height: 100%; // Full height of the container
+  width: 2px; // or as thick as you want
+  background-color: #000; // or any color of your choice
+  z-index: 10; // adjust as needed
+`;

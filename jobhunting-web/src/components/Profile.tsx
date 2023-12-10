@@ -79,14 +79,31 @@ const Profile = () => {
 
         if (name === 'customfield1') {
             setCustomField1(value);
+            if (value.length > 333) {
+                setCustomField1Error("Git hub field cannot exceed 333 characters");
+            } else {
+                setCustomField1Error(null);
+            }
         } else if (name === 'customfield2') {
             setCustomField2(value);
+            if (value.length > 333) {
+                setCustomField2Error("Linkedin Field 2 cannot exceed 333 characters");
+            } else {
+                setCustomField2Error(null);
+            }
         } else if (name === 'customfield3') {
             setCustomField3(value);
-        } else if (name === 'lifestory') { // Use "lifestory" here to match the JSON
+            if (value.length > 333) {
+                setCustomField3Error("Custom field  cannot exceed 333 characters");
+            } else {
+                setCustomField3Error(null);
+            }
+        } else if (name === 'lifestory') {
             setLifeStory(value);
         }
     };
+
+
 
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -174,6 +191,11 @@ const Profile = () => {
         setCurrentUser(null);
     };
 
+    const [customField1Error, setCustomField1Error] = useState<string | null>(null);
+    const [customField2Error, setCustomField2Error] = useState<string | null>(null);
+    const [customField3Error, setCustomField3Error] = useState<string | null>(null);
+
+
 
     return (
         <ProfileWrapperDiv>
@@ -231,9 +253,15 @@ const Profile = () => {
 
 
                         <StyledForm ref={formRef} onSubmit={handleSubmit}>
-                                        <StyledTextField name="customfield1" value={customfield1} onChange={handleChange} />
+                            <StyledTextField name="customfield1" value={customfield1} onChange={handleChange} />
+                            {customField1Error && <div style={{ color: colors.errorRedColor }}>{customField1Error}</div>}
+
                             <StyledTextField name="customfield2" value={customfield2} onChange={handleChange} />
+                            {customField2Error && <div style={{ color: colors.errorRedColor }}>{customField2Error}</div>}
+
                             <StyledTextField name="customfield3" value={customfield3} onChange={handleChange} />
+                            {customField3Error && <div style={{ color: colors.errorRedColor }}>{customField3Error}</div>}
+
                         </StyledForm>
                     </IconFormDiv>
                 </Box>

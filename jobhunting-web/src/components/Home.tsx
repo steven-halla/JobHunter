@@ -210,34 +210,7 @@ export const Home: React.FC = () => {
         setCompanyWebSiteLink(updatedCompanyWebsiteLink);
         setJobLink(updatedJobLink);
 
-        // Validate description
-        // if (description.trim().length < 3) {
-        //     setCompanyDescriptionError("Minimum 3 characters such as N/A");
-        //     isValid = false;
-        // } else {
-        //     setCompanyDescriptionError("");
-        // }
-        //
-        // if (primarycontact.trim().length < 3) {
-        //     setCompanyContactError("Minimum 3 characters such as N/A");
-        //     isValid = false;
-        // } else {
-        //     setCompanyContactError("");
-        // }
-        //
-        // if (companywebsitelink.trim().length < 3) {
-        //     setCompanyWebSiteLinkError("Minimum 3 characters such as N/A");
-        //     isValid = false;
-        // } else {
-        //     setCompanyWebSiteLinkError("");
-        // }
-        //
-        // if (joblink.trim().length < 3) {
-        //     setCompanyJobLink("Minimum 3 characters such as N/A");
-        //     isValid = false;
-        // } else {
-        //     setCompanyJobLink("");
-        // }
+
 
         // Check if any validations failed
         if (!isValid) {
@@ -247,10 +220,7 @@ export const Home: React.FC = () => {
         // Clear error message if the validation passes
         setCompanyNameError("");
 
-        // if (error) {
-        //     // If there's an error, stop the function
-        //     return;
-        // }
+
 
 
         try {

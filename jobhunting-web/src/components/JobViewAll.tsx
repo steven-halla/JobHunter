@@ -1,5 +1,16 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Select, MenuItem } from '@mui/material';
+import {
+    Button,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Select,
+    MenuItem,
+    FormControlLabel
+} from '@mui/material';
 import { JobsContext } from "../services/jobcontext";
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -23,6 +34,7 @@ import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 import Switch from '@mui/material/Switch';
 import {DateMutation} from "../common/DateMutation";
 import {colors, fonts} from "../common/CommonStyles";
+import Box from "@mui/material/Box";
 
 
 export const JobViewAll = () => {
@@ -371,6 +383,8 @@ export const JobViewAll = () => {
     const handleSortingChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSortingCriteria(e.target.value);
     };
+
+
     const [isRejectedChecked, setIsRejectedChecked] = useState(false); // Initialize state
     // const [isRespondedChecked, setIsRespondedChecked] = useState(false); // Initialize state
     // const [respondedStatus, setRespondedStatus] = useState({}); // Object to track each job's responded status
@@ -440,6 +454,15 @@ export const JobViewAll = () => {
         );
     };
 
+    const handleSwitchChange = () => {
+        setShowAllJobs((prev) => !prev);
+    };
+
+    const isMobile2 = window.matchMedia(deviceJobViewAll.mobile).matches;
+
+    // Set label placement based on the isMobile variable
+    const labelPlacement = isMobile2 ? 'top' : 'start'; //
+
 
     return (
         <TestWrapper>
@@ -452,6 +475,19 @@ export const JobViewAll = () => {
                     onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setSearchTerm(e.target.value)}
                 />
                 <RedPillParentDiv>
+
+
+
+                    <SwitchContainer>
+                        <FormControlLabel
+                            control={<Switch checked={showAllJobs} onChange={handleSwitchChange} />}
+                            label={showAllJobs ? 'Important Jobs' : 'All Jobs'}
+                            labelPlacement={labelPlacement}
+                        />
+                    </SwitchContainer>
+
+
+
 
                     <RedPillContainer>
                         <button onClick={toggleDateSortDirection} style={{ all: 'unset' }}>
@@ -468,43 +504,38 @@ export const JobViewAll = () => {
                     </RedPillContainer>
 
 
-                    <RedPillContainer>
-                        <button onClick={() => setShowAllJobs(prev => !prev)} style={{ all: 'unset' }}>
-                            {showAllJobs ? "Relevant Jobs" : "Show All Jobs"}
-                            <FontAwesomeIcon icon={showAllJobs ? faCaretDown : faCaretUp} size="lg" />
-                        </button>
-                    </RedPillContainer>
+                    {/*<RedPillContainer>*/}
+                    {/*    <button onClick={() => setShowAllJobs(prev => !prev)} style={{ all: 'unset' }}>*/}
+                    {/*        {showAllJobs ? "Relevant Jobs" : "Show All Jobs"}*/}
+                    {/*        <FontAwesomeIcon icon={showAllJobs ? faCaretDown : faCaretUp} size="lg" />*/}
+                    {/*    </button>*/}
+                    {/*</RedPillContainer>*/}
 
-                    <RedPillContainer>
 
-                        <button onClick={toggleInterviewSortDirection} style={{ all: 'unset' }}>
-                            {interviewSortDirection === 'asc' ? 'Accepted' : 'No Response'}
-                            <FontAwesomeIcon icon={interviewSortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
-                        </button>
-                    </RedPillContainer>
+
+                    {/*<RedPillContainer>*/}
+
+                    {/*    <button onClick={toggleInterviewSortDirection} style={{ all: 'unset' }}>*/}
+                    {/*        {interviewSortDirection === 'asc' ? 'Accepted' : 'No Response'}*/}
+                    {/*        <FontAwesomeIcon icon={interviewSortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />*/}
+                    {/*    </button>*/}
+                    {/*</RedPillContainer>*/}
+
 
                 </RedPillParentDiv>
 
-                <RedPillContainer>
-                    <button onClick={() => setShowAllJobs(prev => !prev)} style={{ all: 'unset' }}>
-                        {showAllJobs ? "Relevant Jobs" : "Show All Jobs"}
-                        <FontAwesomeIcon icon={showAllJobs ? faCaretDown : faCaretUp} size="lg" />
-                    </button>
-                </RedPillContainer>
+
 
                 <SelectDiv>
                     <SimpleSelect value={sortingCriteria} onChange={handleSortingChange}>
-                        <option value="Show All Jobs">All Jobs</option> {/* Default option */}
-                        <option value="Relevant Jobs ">Relevant Jobs</option> {/* Default option */}
-
                         <option value="date-asc">Date Ascending</option>
                         <option value="date-desc">Date Descending</option>
                         <option value="company-a-z">Company A-Z</option>
                         <option value="company-z-a">Company Z-A</option>
                         {/*<option value="contact-a-z">Contact A-Z</option>*/}
                         {/*<option value="contact-z-a">Contact Z-A</option>*/}
-                        <option value="rejected-yes">Rejected Yes</option>
-                        <option value="rejected-no">Rejected No</option>
+                        {/*<option value="rejected-yes">Rejected Yes</option>*/}
+                        {/*<option value="rejected-no">Rejected No</option>*/}
                         {/* other options */}
                     </SimpleSelect>
 
@@ -1000,12 +1031,12 @@ const RedPillParentDiv = styled.div`
   display: flex;
   margin-left: 10px;
 
-  @media ${noResponseJobs.mobile} {
-    display: none;
-
-    @media (max-width: 1150px) {
-    }
-  }
+  // @media ${noResponseJobs.mobile} {
+  //   display: none;
+  //
+  //   @media (max-width: 1150px) {
+  //   }
+  // }
 `;
 
 
@@ -1139,8 +1170,8 @@ const SearchBar = styled.input`
     display: flex;
     align-items: flex-start;
     margin-right: auto;
-    margin-left: 40px;
-    min-width: 150px;
+    margin-left: 30px;
+    min-width: 120px;
   }
 
   @media ${noResponseJobs.laptop} {
@@ -1149,6 +1180,43 @@ const SearchBar = styled.input`
     transform: translateX(-10%);
     margin-right: 10%;
   }
+`;
+
+const SwitchContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column-reverse;
+  min-width: 222px;
+  height: 30px;
+  background-color: #b4a86b;
+  border-radius: 15px;
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5);
+  margin-right: 1.5%;
+
+  border: 2px solid black;
+  text-align: center;
+
+   svg {
+    margin-left: 10px;
+    padding-right: 5px;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  @media ${noResponseJobs.mobile} {
+    min-width: 100px;
+
+    height: 90px;
+    display: flex;
+    flex-direciton: colum;
+    padding-top: 10px;
+    
+  }
+
+
 `;
 
 
@@ -1164,8 +1232,9 @@ const RedPillContainer = styled.div`
   border: 2px solid black;
   text-align: center;
 
-  & > svg {
+  svg {
     margin-left: 10px;
+    padding-right: 5px;
   }
 
   &:hover {
@@ -1191,7 +1260,7 @@ const StickySearchDiv = styled.div`
   justify-content: center;
   align-items: center;
   padding-right: 180px;
-  height: 10vh;
+  height: 12vh;
   background-color: #2a4153;
   width: 100%;
   margin-bottom: 1%;
@@ -1207,6 +1276,7 @@ const StickySearchDiv = styled.div`
 
 const SelectDiv = styled.div`
   display: flex;
+  margin-left: 10px;
 
   @media ${noResponseJobs.laptop} {
     display: none;

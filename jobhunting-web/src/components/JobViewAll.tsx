@@ -1187,7 +1187,7 @@ const SwitchContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column-reverse;
-  min-width: 222px;
+  min-width: 200px;
   height: 30px;
   background-color: #b4a86b;
   border-radius: 15px;
@@ -1222,7 +1222,7 @@ const SwitchContainer = styled.div`
 
 const RedPillContainer = styled.div`
   display: inline-block;
-  min-width: 140px;
+  min-width: 150px;
   height: 30px;
   background-color: #b4a86b;
   border-radius: 15px;

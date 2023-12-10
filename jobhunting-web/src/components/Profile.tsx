@@ -80,27 +80,33 @@ const Profile = () => {
         if (name === 'customfield1') {
             setCustomField1(value);
             if (value.length > 333) {
-                setCustomField1Error("Git hub field cannot exceed 333 characters");
+                setCustomField1Error("You exceeded 333 character limit");
             } else {
                 setCustomField1Error(null);
             }
         } else if (name === 'customfield2') {
             setCustomField2(value);
             if (value.length > 333) {
-                setCustomField2Error("Linkedin Field 2 cannot exceed 333 characters");
+                setCustomField2Error("You exceeded 333 character limit");
             } else {
                 setCustomField2Error(null);
             }
         } else if (name === 'customfield3') {
             setCustomField3(value);
             if (value.length > 333) {
-                setCustomField3Error("Custom field  cannot exceed 333 characters");
+                setCustomField3Error("You exceeded 333 character limit");
             } else {
                 setCustomField3Error(null);
             }
-        } else if (name === 'lifestory') {
+        } else   if (name === 'lifestory') {
             setLifeStory(value);
+            if (value.length > 5000) {
+                setLifeStoryError("Life story cannot exceed 5000 characters");
+            } else {
+                setLifeStoryError(null);
+            }
         }
+
     };
 
 
@@ -195,6 +201,7 @@ const Profile = () => {
     const [customField2Error, setCustomField2Error] = useState<string | null>(null);
     const [customField3Error, setCustomField3Error] = useState<string | null>(null);
 
+    const [lifeStoryError, setLifeStoryError] = useState<string | null>(null);
 
 
     return (
@@ -254,13 +261,13 @@ const Profile = () => {
 
                         <StyledForm ref={formRef} onSubmit={handleSubmit}>
                             <StyledTextField name="customfield1" value={customfield1} onChange={handleChange} />
-                            {customField1Error && <div style={{ color: colors.errorRedColor }}>{customField1Error}</div>}
+                            {customField1Error && <ErrorMessage>{customField1Error}</ErrorMessage>}
 
                             <StyledTextField name="customfield2" value={customfield2} onChange={handleChange} />
-                            {customField2Error && <div style={{ color: colors.errorRedColor }}>{customField2Error}</div>}
+                            {customField2Error && <ErrorMessage>{customField2Error}</ErrorMessage>}
 
                             <StyledTextField name="customfield3" value={customfield3} onChange={handleChange} />
-                            {customField3Error && <div style={{ color: colors.errorRedColor }}>{customField3Error}</div>}
+                            {customField3Error && <ErrorMessage>{customField3Error}</ErrorMessage>}
 
                         </StyledForm>
                     </IconFormDiv>
@@ -274,6 +281,8 @@ const Profile = () => {
                         minRows={4} // Adjust the number of rows as needed
                         maxRows={100} // Adjust the maximum number of rows as needed
                     />
+                    {lifeStoryError && <ErrorMessage>{lifeStoryError}</ErrorMessage>}
+
                 </LifeStoryDiv>
 
                 <SubmitButtonDiv>
@@ -309,10 +318,21 @@ const Profile = () => {
     );
 };
 
+const ErrorMessage = styled.div`
+  //color: ${colors.FormContainer};
+  color: orangered;
+  font-family: 'Roboto', sans-serif;
+  font-size: ${fonts.ButtonFontREM};
+`;
+
 const Footer = styled.div`
 height: 50px;
   width: 100%;
   background-color: ${colors.AppBackGroundColor};
+
+  @media ${deviceProfile.mobile} {
+    height: 200px;
+  }
 `;
 
 
@@ -344,6 +364,12 @@ height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  @media ${deviceProfile.mobile} {
+    margin-right: 5%;
+    padding-bottom: 4%;
+    padding-top: 4%;
+  }
 `;
 
 const StyledTextField = styled(TextField)`
@@ -357,6 +383,17 @@ const StyledTextField = styled(TextField)`
     font-size:  ${fonts.InputFontREM};
 
   }
+
+  @media ${deviceProfile.mobile} {
+    min-width: 200px; // Ensures it takes up the full width of its parent
+
+    & .MuiInputBase-input { // Target the placeholder with increased specificity
+      //font-family: 'Roboto', sans-serif;
+    //min-width: 200px;
+    //  background-color: red;
+      min-width: 200px; // Ensures it takes up the full width of its parent
+    }
+  }
 `;
 
 
@@ -366,7 +403,7 @@ const NameDiv = styled.div`
   width: 100%;
   justify-content: center;
   align-items: center;
-  margin-top: 3%;  
+  margin-top: 2%;  
   strong {
   color: ${colors.TextBlackColor};
     
@@ -396,6 +433,10 @@ const LifeStoryDiv = styled.div`
   width: 100%;
   justify-content: center;
   align-items: center;
+
+  @media ${deviceProfile.mobile} {
+    margin-top: 12%;
+  }
 `;
 
 

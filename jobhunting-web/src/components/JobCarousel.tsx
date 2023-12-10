@@ -6,7 +6,7 @@ import {Job} from "../models/Job";
 import {JobsContext} from "../services/jobcontext";
 import styled from "styled-components";
 import {deviceHome} from "../common/ScreenSizes";
-import {colors} from "../common/CommonStyles";
+import {colors, fonts} from "../common/CommonStyles";
 
 interface JobCarouselProps {
     searchResult: Job[] | null; // Accepts Job[] or null
@@ -41,7 +41,7 @@ export const JobCarousel: React.FC<JobCarouselProps> = ({ searchResult }) => {
                             {/* Implement or adjust DateMutation as needed */}
                             <p>Company Responded: {job.companyresponded ? 'Yes' : 'No'}</p>
                             <p>Company Rejected: {job.companyrejected ? 'Yes' : 'No'}</p>
-                            <a href={job.joblink} style={{ margin: '0', textAlign: 'center',marginLeft: "38%",paddingBottom: "13%", color: 'blue' }}>Job Link</a>
+                            <a href={job.joblink} target="_blank" rel="noopener noreferrer" style={{ margin: '0', textAlign: 'center', marginLeft: "38%", paddingBottom: "13%", color: 'black' }}>Job Link</a>
 
                         </CarouselDiv>
                     ))}
@@ -66,7 +66,12 @@ const CarouselDiv = styled.div`
     text-align: center; /* Center text horizontally */
     padding-bottom: 30px;
     //color: white;
-    color: ${colors.TextWhiteColor};
+    color: ${colors.TextBlackColor};
+    font-size: ${fonts.InputFontREM};
+
+
+    font-family: ${fonts.FontFamilyItalics};
+
 
   }
 `;

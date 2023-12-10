@@ -495,7 +495,13 @@ export const Home: React.FC = () => {
                         icon={faGithub}
                         size="2x"
                         onClick={() => copyToClipboard(selectedOption1)}
-                        style={{ cursor: 'pointer'  }}
+                        style={{
+                            cursor: 'pointer',
+                            transform: 'scale(1)',
+                            transition: 'transform 0.2s',
+                            color: colors.TextBlackColor,
+                        }}                        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.10)'}
+                        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                     />
 
                     {/*<VerticalLine2></VerticalLine2>*/}
@@ -530,7 +536,13 @@ export const Home: React.FC = () => {
                         icon={faLinkedin}
                         size="2x"
                         onClick={() => copyToClipboard(selectedOption2)}
-                        style={{ cursor: 'pointer'}}
+                        style={{
+                            cursor: 'pointer',
+                            transform: 'scale(1)',
+                            transition: 'transform 0.2s',
+                            color: colors.TextBlackColor,
+                        }}                        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.10)'}
+                        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                     />
 
                 </Box>
@@ -558,7 +570,13 @@ export const Home: React.FC = () => {
                         icon={faBriefcase}
                         size="2x"
                         onClick={() => copyToClipboard(selectedOption3)}
-                        style={{ cursor: 'pointer'  }}
+                        style={{
+                            cursor: 'pointer',
+                            transform: 'scale(1)',
+                            transition: 'transform 0.2s',
+                            color: colors.TextBlackColor,
+                        }}                        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.10)'}
+                        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                     />
 
                 </Box>
@@ -580,7 +598,7 @@ export const Home: React.FC = () => {
 
                 <Box
                     sx={{
-                        backgroundColor: "brown",
+                        // backgroundColor: "brown",
                         // height: "90%",
                         height: {
                             xs: "100%",
@@ -604,7 +622,7 @@ export const Home: React.FC = () => {
 
                     <Box
                         sx={{
-                            backgroundColor: "orange",
+                            backgroundColor: colors.FormContainer,
                             // height: "70vh",
                             height: {
                                 xs: "500px",
@@ -711,19 +729,20 @@ export const Home: React.FC = () => {
                                 <SubmitButton
                                     sx={{
                                         borderRadius: 10,
-                                        background: 'linear-gradient(to right, #00C9FF, #00B4D8)',
+                                        background: colors.ButtonColor,
                                         border: '1px solid #007BFF',
                                         '&:hover': {
-                                            background: 'linear-gradient(to left, #00C9FF, #00B4D8)',
+                                            background: colors.HoverButtonColor,
                                             boxShadow: '0 0 10px #00C9FF',
                                         },
                                         textTransform: 'none',
-                                        fontSize: '1.6rem',
+                                        fontSize: fonts.ButtonFontREM,
                                         fontWeight: 'bold',
-                                        fontFamily: "'Times New Roman', serif", // Corrected fontFamily format
+                                        fontFamily: fonts.ButtonFontFamily,
                                     }}
                                     variant="contained"
                                     type="submit"
+
                                 >
                                     Submit
                                 </SubmitButton>
@@ -742,7 +761,7 @@ export const Home: React.FC = () => {
 
                     <Box
                         sx={{
-                            backgroundColor: "yellow",
+                            // backgroundColor: "yellow",
                             height: {
                                 xs: "20%",
                                 md: "70%",
@@ -757,6 +776,9 @@ export const Home: React.FC = () => {
                             minHeight: {
                                 xs: "200px",
                                 md: "540px",
+                            },
+                            marginTop: {
+                                xs: "10px",
                             },
                             minWidth: "300px",
                             display: "flex",
@@ -791,7 +813,7 @@ export const Home: React.FC = () => {
 };
 
 const jobCardStyle = {
-    backgroundColor: 'grey',
+    backgroundColor: colors.FormContainer,
     justifyContent: "center",
     alignItems: "center",
 
@@ -813,6 +835,7 @@ const JobCardDiv = styled.div`
   justify-content: center;
   align-items: center;
   background-color: lightgray;
+  color: black;
 
   box-shadow:
           -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */

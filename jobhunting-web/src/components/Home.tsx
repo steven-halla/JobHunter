@@ -427,9 +427,7 @@ export const Home: React.FC = () => {
 
 
 
-    //need to get rid of labels
-    //have it like face book where we put text in the input, and as we type, the place holder
-    //goes away
+
     return (
         <Box
             sx={{
@@ -454,13 +452,7 @@ export const Home: React.FC = () => {
                         md: "0",
                         xs: "1%"
                     },
-                    // marginBottom: "10%",
 
-                    // marginBottom: {
-                    //     xs: "23%",  // Margin bottom for extra-small devices
-                    //     md: "0",   // No margin bottom for medium devices and above
-                    //
-                    // }
 
                 }}
             >
@@ -651,6 +643,13 @@ export const Home: React.FC = () => {
                                 md: "0",
                                 xs: "5%"
                             },
+                            boxShadow: {
+                                xs: "none", // No box shadow for extra-small devices
+                                md: `-4px 0 8px -2px rgba(0, 0, 0, 0.2), 4px 0 8px -2px rgba(0, 0, 0, 0.2), 0 4px 8px -2px rgba(0, 0, 0, 0.2)`, // Box shadow for medium devices and above
+                            },
+
+                            borderRadius: 6, // Add this line to set the border-radius to 10px
+
 
 
                         }}
@@ -675,7 +674,7 @@ export const Home: React.FC = () => {
                                     onChange={handleCompanyNameChange}
                                 />
 
-                                {companyNameError && <div style={{ color: 'red' }}>{companyNameError}</div>}
+                                {companyNameError && <div style={{color: colors.errorRedColor}}>{companyNameError}</div>}
 
                             </FieldContainerDiv>
 
@@ -687,7 +686,7 @@ export const Home: React.FC = () => {
                                     placeholder="description"
                                     value={description}
                                     onChange={handleDescriptionChange} />
-                                {companyDescriptionError && <div style={{ color: 'red' }}>{companyDescriptionError}</div>}
+                                {companyDescriptionError && <div style={{color: colors.errorRedColor,}}>{companyDescriptionError}</div>}
 
                             </FieldContainerDiv>
 
@@ -699,7 +698,7 @@ export const Home: React.FC = () => {
                                     placeholder="contact"
                                     value={primarycontact}
                                     onChange={handlePrimaryContact} />
-                                {companyContactError && <div style={{ color: 'red' }}>{companyContactError}</div>}
+                                {companyContactError && <div style={{ color: colors.errorRedColor}}>{companyContactError}</div>}
 
                             </FieldContainerDiv>
 
@@ -709,7 +708,7 @@ export const Home: React.FC = () => {
                                     variant="outlined"
                                     placeholder="company website link"
                                     value={companywebsitelink} onChange={handleCompanyWebSiteLink} />
-                                {companyWebSiteLinkError && <div style={{ color: 'red' }}>{companyWebSiteLinkError}</div>}
+                                {companyWebSiteLinkError && <div style={{color: colors.errorRedColor}}>{companyWebSiteLinkError}</div>}
 
                             </FieldContainerDiv>
 
@@ -721,7 +720,7 @@ export const Home: React.FC = () => {
 
                                     value={joblink} onChange={handleJobLink} />
 
-                                {companyJobLinkError && <div style={{ color: 'red' }}>{companyJobLinkError}</div>}
+                                {companyJobLinkError && <div style={{ color: colors.errorRedColor}}>{companyJobLinkError}</div>}
 
                             </FieldContainerDiv>
 
@@ -747,13 +746,7 @@ export const Home: React.FC = () => {
                                     Submit
                                 </SubmitButton>
 
-
-
                             </ButtonDiv>
-
-
-
-
                         </CustomFieldForm>
 
 
@@ -784,6 +777,7 @@ export const Home: React.FC = () => {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
+
 
 
 
@@ -957,10 +951,10 @@ const FieldContainerDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  box-shadow:
-          -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */
-          4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
-          0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
+  //box-shadow:
+  //        -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */
+  //        4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
+  //        0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
 
   @media ${deviceHome.mobile} { // Apply for mobile screens
     width: 80%;

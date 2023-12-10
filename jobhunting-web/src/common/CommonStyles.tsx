@@ -20,6 +20,7 @@ export const colors = {
     FormContainer: "grey",
     TextWhiteColor: "white",
     TextBlackColor: "black",
+    errorRedColor: "red",
     ButtonColor: 'linear-gradient(to right, #00C9FF, #00B4D8)',
     HoverButtonColor: 'linear-gradient(to left, #00C9FF, #00B4D8)', // Change gradient direction on hover for effect
 

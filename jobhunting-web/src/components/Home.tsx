@@ -19,7 +19,7 @@ import {DateMutation} from "../common/DateMutation";
 import Box from "@mui/material/Box";
 import {JobCarousel} from "./JobCarousel";
 import {Job} from "../models/Job";
-import {fonts} from "../common/CommonStyles";
+import {colors, fonts} from "../common/CommonStyles";
 
 
 export const Home: React.FC = () => {
@@ -433,7 +433,7 @@ export const Home: React.FC = () => {
     return (
         <Box
             sx={{
-                // backgroundColor: "red",
+                backgroundColor: colors.AppBackGroundColor,
                 height: "100%",
                 width: "100vw",
 
@@ -464,12 +464,12 @@ export const Home: React.FC = () => {
 
                 }}
             >
-                <VerticalLine2></VerticalLine2>
+                {/*<VerticalLine2></VerticalLine2>*/}
 
 
                 <Box
                     sx={{
-                        backgroundColor: "purple",
+                        // backgroundColor: "purple",
                         height: "8vh",
                         width: "5vw",
                         display: "flex",
@@ -495,7 +495,7 @@ export const Home: React.FC = () => {
                         icon={faGithub}
                         size="2x"
                         onClick={() => copyToClipboard(selectedOption1)}
-                        style={{ cursor: 'pointer' ,color: 'white' }}
+                        style={{ cursor: 'pointer'  }}
                     />
 
                     {/*<VerticalLine2></VerticalLine2>*/}
@@ -503,7 +503,7 @@ export const Home: React.FC = () => {
 
                 <Box
                     sx={{
-                        backgroundColor: "purple",
+                        // backgroundColor: "purple",
                         height: "8vh",
                         width: "5vw",
                         display: "flex",
@@ -525,12 +525,12 @@ export const Home: React.FC = () => {
 
                     }}
                 >
-                    <VerticalLine2></VerticalLine2>
+                    {/*<VerticalLine2></VerticalLine2>*/}
                     <FontAwesomeIcon
-                        icon={faGithub}
+                        icon={faLinkedin}
                         size="2x"
-                        onClick={() => copyToClipboard(selectedOption1)}
-                        style={{ cursor: 'pointer' ,color: 'white' }}
+                        onClick={() => copyToClipboard(selectedOption2)}
+                        style={{ cursor: 'pointer'}}
                     />
 
                 </Box>
@@ -541,7 +541,7 @@ export const Home: React.FC = () => {
 
                 <Box
                     sx={{
-                        backgroundColor: "purple",
+                        // backgroundColor: "purple",
                         height: "8vh",
                         width: "5vw",
 
@@ -555,10 +555,10 @@ export const Home: React.FC = () => {
                 >
                     {/*<VerticalLine2></VerticalLine2>*/}
                     <FontAwesomeIcon
-                        icon={faGithub}
+                        icon={faBriefcase}
                         size="2x"
-                        onClick={() => copyToClipboard(selectedOption1)}
-                        style={{ cursor: 'pointer' ,color: 'white' }}
+                        onClick={() => copyToClipboard(selectedOption3)}
+                        style={{ cursor: 'pointer'  }}
                     />
 
                 </Box>

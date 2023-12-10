@@ -59,6 +59,7 @@ const VerticalLine = styled.div`
   z-index: 10; // adjust as needed
 `;
 
+//set parent container position releative for this to work
 const VerticalLine2 = styled.div`
   position: absolute; // Positioned relative to its nearest positioned ancestor
   left: 50%;

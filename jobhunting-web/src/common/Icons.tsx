@@ -1,5 +1,6 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
+    faBriefcase,
     faCalendar,
     faCalendarPlus,
     faCaretDown,
@@ -10,6 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import {divide} from "lodash";
+import {faGithub, faLinkedin} from "@fortawesome/free-brands-svg-icons";
 
 
 export const Icons = () => {
@@ -38,6 +40,22 @@ export const Icons = () => {
             <FontAwesomeIcon icon={faCaretUp} />
             <FontAwesomeIcon icon={faGlobe} />
 
+
+            <FontAwesomeIcon
+                icon={faGithub}
+                size="2x"
+                style={{ marginTop: '10%' }}
+            />
+            <FontAwesomeIcon
+                icon={faLinkedin}
+                size="2x"
+            />
+
+            <FontAwesomeIcon
+                icon={faBriefcase}
+                size="2x"
+                style={{  marginBottom: "10%" }}
+            />
         </div>
     );
 };

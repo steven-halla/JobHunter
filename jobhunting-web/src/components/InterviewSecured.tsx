@@ -24,19 +24,32 @@ export const InterviewSecured = () => {
     const [currentJob, setCurrentJob] = useState<Job | undefined>(undefined);
     const [interviews, setInterviews] = useState<Interview[]>([]);
 
+
+
     useEffect(() => {
         const jobIdNumber = jobId ? parseInt(jobId, 10) : null;
         if (jobIdNumber && jobs.length > 0) {
+
+
             const selectedJob = jobs.find(j => j.id === jobIdNumber);
             if (selectedJob) {
+
+
+
+
                 setCurrentJob(selectedJob);
                 setInterviews(selectedJob.interviews || []);
                 setMeetingLink(selectedJob.meetingLink || '');
                 setInterviewNotes(selectedJob.interviewnotes || '');
                 setInterviewerNames(selectedJob.interviewernames || '');
+
                 setInterviewDate(selectedJob.interviewdate || null);
-                setInterviewBeginTime(selectedJob.interviewbegintime || null);
-                setInterviewEndTime(selectedJob.interviewendtime || null);
+
+                setInterviewBeginTime(selectedJob.interviewbegintime || null );
+                setInterviewEndTime(selectedJob.interviewendtime  || null);
+
+
+
             }
         }
         console.log(jobs)
@@ -44,6 +57,7 @@ export const InterviewSecured = () => {
 
 
     function formatTimeForInput(date: Date | null): string {
+        //maybe instead of empty string we can return 0100 am
         if (!date || !(date instanceof Date) || isNaN(date.getTime())) return '';
 
 
@@ -90,12 +104,38 @@ export const InterviewSecured = () => {
 
 
 
-        if (!meetingLink || meetingLink.trim().length < 3) {
-            setMeetingLinkError("Meeting link is required and must be at least 3 characters long");
+        if (!meetingLink || meetingLink.trim() === '') {
+            setMeetingLinkError("Meeting link cannot be blank");
+            hasError = true;
+        }
+        // Check if meeting link input is less than minimum length
+        else if (meetingLink.trim().length < 3) {
+            setMeetingLinkError("Meeting link must be at least 3 characters long");
+            hasError = true;
+        }
+        // Check if meeting link input exceeds maximum length
+        else if (meetingLink.length > 1000) {
+            setMeetingLinkError("Meeting link must be no more than 1000 characters long");
             hasError = true;
         } else {
             setMeetingLinkError(null);
         }
+
+        if (!interviewdate) {
+            setInterviewDateError("Interview date cannot be empty");
+            hasError = true;
+        } else {
+            setInterviewDateError(null);
+        }
+
+
+        if (!interviewbegintime) {
+            setInterviewBeginTimeError("Interview date cannot be empty");
+            hasError = true;
+        } else {
+            setInterviewBeginTimeError(' ');
+        }
+
 
 
 
@@ -108,16 +148,39 @@ export const InterviewSecured = () => {
 
         console.log("Saving all interviews to the server:", interviews);
 
-        // Format interviewbegintime and interviewendtime to "HH:mm:ss" format
-        const formattedBeginTime = interviewbegintime
-            ? `${String(interviewbegintime.getHours()).padStart(2, '0')}:${String(interviewbegintime.getMinutes()).
-            padStart(2, '0')}:${String(interviewbegintime.getSeconds()).padStart(2, '0')}`
-            : '';
 
-        const formattedEndTime = interviewendtime
-            ? `${String(interviewendtime.getHours()).padStart(2, '0')}:${String(interviewendtime.getMinutes()).
-            padStart(2, '0')}:${String(interviewendtime.getSeconds()).padStart(2, '0')}`
-            : '';
+
+
+        // Format interviewbegintime and interviewendtime to "HH:mm:ss" format
+        // const formattedBeginTime = interviewbegintime
+        //     ? `${String(interviewbegintime.getHours()).padStart(2, '0')}:${String(interviewbegintime.getMinutes()).
+        //     padStart(2, '0')}:${String(interviewbegintime.getSeconds()).padStart(2, '0')}`
+        //     : '';
+        //
+        // const formattedEndTime = interviewendtime
+        //     ? `${String(interviewendtime.getHours()).padStart(2, '0')}:${String(interviewendtime.getMinutes()).
+        //     padStart(2, '0')}:${String(interviewendtime.getSeconds()).padStart(2, '0')}`
+        //     : '';
+
+
+        // Custom function to format a Date object to "HH:mm:ss" format
+        function formatTime(date: Date): string {
+            if (!(date instanceof Date)) {
+                return '';
+            }
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            return `${hours}:${minutes}:${seconds}`;
+        }
+
+// Use the formatTime function to format interviewbegintime
+        const formattedBeginTime = interviewbegintime instanceof Date ? formatTime(interviewbegintime) : '';
+
+// Use the formatTime function to format interviewendtime
+        const formattedEndTime = interviewendtime instanceof Date ? formatTime(interviewendtime) : '';
+
+// ...rest of your code
 
         try {
             const response = await fetch(`http://localhost:8080/api/jobs/update/${currentJob.id}`, {
@@ -150,6 +213,20 @@ export const InterviewSecured = () => {
         return adjustedDate;
     }
 
+    // function parseTimeStringToDate(timeString: string): Date {
+    //     const date = new Date();
+    //     let [hours, minutes, seconds] = timeString.split(':').map(Number);
+    //
+    //     // If seconds are not provided, default to 0
+    //     seconds = isNaN(seconds) ? 0 : seconds;
+    //
+    //     if (!isNaN(hours) && !isNaN(minutes)) {
+    //         date.setHours(hours, minutes, seconds, 0); // Set hours, minutes, and seconds
+    //         return date;
+    //     } else {
+    //         return new Date(); // Return current date or a default date if parsing fails
+    //     }
+    // }
     function parseTimeStringToDate(timeString: string): Date {
         const date = new Date();
         let [hours, minutes, seconds] = timeString.split(':').map(Number);
@@ -164,6 +241,7 @@ export const InterviewSecured = () => {
             return new Date(); // Return current date or a default date if parsing fails
         }
     }
+
 
 
     const [meetingLinkError, setMeetingLinkError] = useState<string | null>(null);
@@ -225,7 +303,7 @@ export const InterviewSecured = () => {
                             setInterviewDate(selectedDate);
                         }}
                     />
-
+                    {interviewDateError && <ErrorMessage>{interviewDateError}</ErrorMessage>}
 
 
 

@@ -11,24 +11,33 @@ interface JobsContextState {
     olderJobs: Job[];
     updateJobResponded: (id: number, responded: boolean) => void;
     updateJobInterview: (id: number, interviews: Interview[]) => void;
+
+
     dateApplied?: Date;
     setDateApplied: (date: Date) => void;
+
+
     updateJobRejected: (id: number, rejected: boolean) => void;  // Added this line
 
 
-    interviewbegintime: Date;
-    setInterviewBeginTime: (date: Date) => void;
+    interviewbegintime: Date | null;
+    setInterviewBeginTime: React.Dispatch<React.SetStateAction<Date | null>>;
 
-    interviewendtime: Date;
-    setInterviewEndTime: (date: Date) => void;
+    interviewendtime: Date | null;
+    setInterviewEndTime: React.Dispatch<React.SetStateAction<Date | null>>
+
+    interviewdate: Date | null;
+    setInterviewDate: React.Dispatch<React.SetStateAction<Date | null>>;
+
     meetingLink: string;
     setMeetingLink: React.Dispatch<React.SetStateAction<string>>;
     interviewnotes: string;
     setInterviewNotes: React.Dispatch<React.SetStateAction<string>>;
     interviewernames: string;
     setInterviewerNames: React.Dispatch<React.SetStateAction<string>>;
-    interviewdate: Date | null;
-    setInterviewDate: React.Dispatch<React.SetStateAction<Date | null>>;
+
+
+
 
     updateJobSoftDelete: (id: number, softDelete: boolean) => void;
 
@@ -58,11 +67,11 @@ export const JobsContextProvider: FC<JobsContextProviderProps> = ({children}) =>
     const [interviewernames, setInterviewerNames] = useState<string>('');  // Fixed the name to match the interface
 
 
+
+    const [interviewbegintime, setInterviewBeginTime] = useState<Date | null>(null);
+    const [interviewendtime, setInterviewEndTime] = useState<Date | null>(null);
+
     const [interviewdate, setInterviewDate] = useState<Date | null>(null);
-
-    const [interviewbegintime, setInterviewBeginTime] = useState<Date>(new Date());
-    const [interviewendtime, setInterviewEndTime] = useState<Date>(new Date());
-
 
 
     const [meetingLink, setMeetingLink] = useState<string>('');  // Fixed the name to match the interface

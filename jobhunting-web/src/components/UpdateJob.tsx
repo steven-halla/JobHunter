@@ -11,7 +11,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
 import {red} from "@mui/material/colors";
-import {deviceHome} from "../common/ScreenSizes";
+import {deviceHome, deviceProfile} from "../common/ScreenSizes";
 import {colors, fonts} from "../common/CommonStyles";
 
 //need to make snackbar not stay for so long
@@ -69,13 +69,13 @@ export const UpdateJob = () => {
 
         // Validation for company name
         if (!formData.companyname) {
-            setCompanyNameError("Company name is required");
+            setCompanyNameError("Company name required");
             hasError = true;
         } else if (formData.companyname.length < 3) {
-            setCompanyNameError("Company name must be at least 3 characters long");
+            setCompanyNameError("Company name Min 3 characters");
             hasError = true;
         } else if (formData.companyname.length > 55) {
-            setCompanyNameError("Company name must be no more than 55 characters long");
+            setCompanyNameError("Company name max 55 characters");
             hasError = true;
         } else {
             setCompanyNameError(null);
@@ -86,10 +86,10 @@ export const UpdateJob = () => {
             setDescriptionError("Description is required");
             hasError = true;
         } else if (formData.description.length < 3) {
-            setDescriptionError("Description must be at least 3 characters long");
+            setDescriptionError("Description min 3 characters");
             hasError = true;
         } else if (formData.description.length > 255) {
-            setDescriptionError("Description must be no more than 255 characters long");
+            setDescriptionError("Description max 255 characters");
             hasError = true;
         } else {
             setDescriptionError(null);
@@ -99,10 +99,10 @@ export const UpdateJob = () => {
             setPrimaryContactError("Input cannot be empty");
             hasError = true;
         } else if (formData.primarycontact.length < 3) {
-            setPrimaryContactError("Primary contact must be at least 3 characters long");
+            setPrimaryContactError("Primary contact min 3 characters");
             hasError = true;
         } else if (formData.primarycontact.length > 30) {
-            setPrimaryContactError("Primary contact must be no more than 30 characters long");
+            setPrimaryContactError("Primary contact max 30 characters");
             hasError = true;
         } else {
             setPrimaryContactError(null);
@@ -113,10 +113,10 @@ export const UpdateJob = () => {
             setCompanyWebsiteLinkError("Input cannot be empty");
             hasError = true;
         } else if (formData.companywebsitelink.length < 3) {
-            setCompanyWebsiteLinkError("Company website link must be at least 3 characters long");
+            setCompanyWebsiteLinkError("Company website link min 3 characters");
             hasError = true;
         } else if (formData.companywebsitelink.length > 1000) {
-            setCompanyWebsiteLinkError("Company website link must be no more than 1000 characters long");
+            setCompanyWebsiteLinkError("Company website link max 1000 characters");
             hasError = true;
         } else {
             setCompanyWebsiteLinkError(null);
@@ -127,10 +127,10 @@ export const UpdateJob = () => {
             setJobLinkError("Input cannot be empty");
             hasError = true;
         } else if (formData.joblink.length < 3) {
-            setJobLinkError("Job link must be at least 3 characters long");
+            setJobLinkError("Job link min 3 characters");
             hasError = true;
         } else if (formData.joblink.length > 1000) {
-            setJobLinkError("Job link must be no more than 1000 characters long");
+            setJobLinkError("Job link max is 1000 characters");
             hasError = true;
         } else {
             setJobLinkError(null);
@@ -357,25 +357,38 @@ export const UpdateJob = () => {
                         </React.Fragment>
                     }
                 />
+
+
             </FormBox>
 
 
 
-
+            <Footer></Footer>
 
         </TestWrapperBox>
+
     );
 };
+const Footer = styled.div`
+  height: 150px;
+  width: 100%;
+  background-color: ${colors.AppBackGroundColor};
+
+  @media ${deviceProfile.mobile} {
+    height: 200px;
+  }
+`;
 
 const ErrorMessage = styled.div`
-  //color: ${colors.FormContainer};
-  //color: orangered;
-  color:  ${colors.errorOrangeColor};
-
+  color: ${colors.errorRedColor};
   font-family: 'Roboto', sans-serif;
   font-size: ${fonts.InputFontREM};
-  
+  text-align: center; // Center align the text
+  width: 100%; // Ensure the div takes the full width
+  display: block; // Display as block element
+  margin: 0 auto; // Auto margin for horizontal centering
 `;
+
 
 
 const SubmitButtonDiv = styled.div`
@@ -383,9 +396,10 @@ const SubmitButtonDiv = styled.div`
 
   height: 10%;
   //width: 70%;
-  margin-top: 9%;
+  margin-top: 3%;
   justify-content: center;
   align-items: center;
+  padding: 20px;
 `;
 
 const LifeStoryDiv = styled.div`
@@ -417,7 +431,7 @@ const SubmitButton = styled(Button)`
 
 const TestWrapperBox = styled(Box)`
   background-color: ${colors.AppBackGroundColor};
-  height: 100vh;
+  height: 100%;
   width: 100%;
   justify-content: center;
   align-items: center;
@@ -428,9 +442,9 @@ const TestWrapperBox = styled(Box)`
 
 const FormBox = styled(Box)`
   height: auto;
-  width: 30vw;
+  width: 40%;
   background-color: ${colors.HeaderBackGroundColor};
-  min-width: 500px;
+  margin-top: 6%;
 
   //background-color: #C0C0C0;
 
@@ -439,4 +453,11 @@ const FormBox = styled(Box)`
           -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */
           4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
           0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
+
+  @media ${deviceHome.mobile} {
+    //background-color: red;
+    width: 90%;
+    margin-top: 3%;
+
+  }
 `;

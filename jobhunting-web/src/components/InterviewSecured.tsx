@@ -65,8 +65,46 @@ export const InterviewSecured = () => {
     }
 
 
-    const handleFormSubmit = async () => {
+    const handleFormSubmit = async (event: React.FormEvent) => {
+        event.preventDefault(); // Prevent default form submission behavior
+
         if (!currentJob) return;
+        let hasError = false;
+
+        if (!interviewernames || interviewernames.trim() === '') {
+            setInterviewerNamesError("Interviewer names cannot be blank");
+            hasError = true;
+        }
+        // Check if interviewer names input is less than minimum length
+        else if (interviewernames.trim().length < 3) {
+            setInterviewerNamesError("Interviewer names must be at least 3 characters");
+            hasError = true;
+        }
+        // Check if interviewer names input exceeds maximum length
+        else if (interviewernames.length > 100) {
+            setInterviewerNamesError("Interviewer names must be no more than 100 characters");
+            hasError = true;
+        } else {
+            setInterviewerNamesError(null);
+        }
+
+
+
+        if (!meetingLink || meetingLink.trim().length < 3) {
+            setMeetingLinkError("Meeting link is required and must be at least 3 characters long");
+            hasError = true;
+        } else {
+            setMeetingLinkError(null);
+        }
+
+
+
+        // Add similar validation for other fields...
+        // Make sure to set the corresponding error state and update `hasError` as needed
+
+        if (hasError) {
+            return;
+        }
 
         console.log("Saving all interviews to the server:", interviews);
 
@@ -128,6 +166,15 @@ export const InterviewSecured = () => {
     }
 
 
+    const [meetingLinkError, setMeetingLinkError] = useState<string | null>(null);
+    const [interviewerNamesError, setInterviewerNamesError] = useState<string | null>(null);
+    const [interviewDateError, setInterviewDateError] = useState<string | null>(null);
+    const [interviewBeginTimeError, setInterviewBeginTimeError] = useState<string | null>(null);
+    const [interviewEndTimeError, setInterviewEndTimeError] = useState<string | null>(null);
+    const [interviewNotesError, setInterviewNotesError] = useState<string | null>(null);
+
+
+
 
 
 
@@ -152,6 +199,8 @@ export const InterviewSecured = () => {
                         value={interviewernames}
                         onChange={(e) => setInterviewerNames(e.target.value)}
                     />
+                    {interviewerNamesError && <ErrorMessage>{interviewerNamesError}</ErrorMessage>}
+
 
 
                     <StyledTextField
@@ -161,6 +210,9 @@ export const InterviewSecured = () => {
                         value={meetingLink}
                         onChange={(e) => setMeetingLink(e.target.value)}
                     />
+
+
+                    {meetingLinkError && <ErrorMessage>{meetingLinkError}</ErrorMessage>}
 
 
                     <StyledTextField
@@ -249,6 +301,16 @@ export const InterviewSecured = () => {
         </InterviewSecuredWrapperDiv>
     );
 };
+
+const ErrorMessage = styled.div`
+  color: ${colors.errorRedColor};
+  font-family: 'Roboto', sans-serif;
+  font-size: ${fonts.InputFontREM};
+  text-align: center; // Center align the text
+  width: 100%; // Ensure the div takes the full width
+  display: block; // Display as block element
+  margin: 0 auto; // Auto margin for horizontal centering
+`;
 
 const SubmitButton = styled(Button)`
 //color: green;

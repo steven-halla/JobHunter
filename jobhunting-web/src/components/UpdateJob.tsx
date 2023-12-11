@@ -39,10 +39,57 @@ export const UpdateJob = () => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
+
+
         setFormData(prev => ({ ...prev, [id]: value }));
+        if (id === 'companyname' && companyNameError) {
+            setCompanyNameError(null);
+        }
+
+        if (id === 'description' && descriptionError) {
+            setDescriptionError(null);
+        }
+
     };
 
     const handleSubmit = async () => {
+
+        let hasError = false;
+
+        // Validation for company name
+        if (!formData.companyname) {
+            setCompanyNameError("Company name is required");
+            hasError = true;
+        } else if (formData.companyname.length < 3) {
+            setCompanyNameError("Company name must be at least 3 characters long");
+            hasError = true;
+        } else if (formData.companyname.length > 55) {
+            setCompanyNameError("Company name must be no more than 55 characters long");
+            hasError = true;
+        } else {
+            setCompanyNameError(null);
+        }
+
+        // Validation for description
+        if (!formData.description) {
+            setDescriptionError("Description is required");
+            hasError = true;
+        } else if (formData.description.length < 3) {
+            setDescriptionError("Description must be at least 3 characters long");
+            hasError = true;
+        } else if (formData.description.length > 255) {
+            setDescriptionError("Description must be no more than 255 characters long");
+            hasError = true;
+        } else {
+            setDescriptionError(null);
+        }
+
+        // Check if any validation failed
+        if (hasError) {
+            return;
+        }
+
+
         try {
             const response = await axios.patch(`http://localhost:8080/api/jobs/update/${jobId}`, formData);
             setJobs(prevJobs => prevJobs.map(job => job.id === Number(jobId) ? formData : job));
@@ -50,12 +97,20 @@ export const UpdateJob = () => {
         } catch (error) {
             console.error('Error updating job:', error);
         }
+
+        setCompanyNameError(null);
+        setDescriptionError(null);
+
     };
 
     const handleDelete = async () => {
         console.log("Delting")
 
     };
+
+    const [companyNameError, setCompanyNameError] = useState<string | null>(null);
+    const [descriptionError, setDescriptionError] = useState<string | null>(null);
+
 
     return(
         <TestWrapperBox>
@@ -68,6 +123,8 @@ export const UpdateJob = () => {
                         InputLabelProps={{
                             style: {
                                 fontFamily: fonts.FontFamilyItalics,
+                                color: 'blue', // Set the color of the label to light blue
+
 
                             }
                         }}
@@ -84,6 +141,8 @@ export const UpdateJob = () => {
                         }}
                         style={{ width: '80%' }}
                     />
+                    {companyNameError && <ErrorMessage>{companyNameError}</ErrorMessage>}
+
 
                 </div>
 
@@ -97,6 +156,7 @@ export const UpdateJob = () => {
                         InputLabelProps={{
                             style: {
                                 fontFamily: fonts.FontFamilyItalics,
+                                color: 'blue', // Set the color of the label to light blue
 
                             }
                         }}
@@ -111,6 +171,8 @@ export const UpdateJob = () => {
                             },
                         }}
                     />
+                    {descriptionError && <ErrorMessage>{descriptionError}</ErrorMessage>}
+
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}> {/* Adjusted margin */}
@@ -120,6 +182,7 @@ export const UpdateJob = () => {
                         InputLabelProps={{
                             style: {
                                 fontFamily: fonts.FontFamilyItalics,
+                                color: 'blue', // Set the color of the label to light blue
 
                             }
                         }}
@@ -143,6 +206,7 @@ export const UpdateJob = () => {
                         InputLabelProps={{
                             style: {
                                 fontFamily: fonts.FontFamilyItalics,
+                                color: 'blue', // Set the color of the label to light blue
 
                             }
                         }}
@@ -166,6 +230,7 @@ export const UpdateJob = () => {
                         InputLabelProps={{
                             style: {
                                 fontFamily: fonts.FontFamilyItalics,
+                                color: 'blue', // Set the color of the label to light blue
 
                             }
                         }}
@@ -238,6 +303,15 @@ export const UpdateJob = () => {
     );
 };
 
+const ErrorMessage = styled.div`
+  //color: ${colors.FormContainer};
+  //color: orangered;
+  color:  ${colors.errorOrangeColor};
+
+  font-family: 'Roboto', sans-serif;
+  font-size: ${fonts.InputFontREM};
+`;
+
 
 const SubmitButtonDiv = styled.div`
   display: flex;
@@ -284,6 +358,7 @@ const TestWrapperBox = styled(Box)`
   align-items: center;
   display: flex;
   flex-direction: column;
+  
 `;
 
 const FormBox = styled(Box)`

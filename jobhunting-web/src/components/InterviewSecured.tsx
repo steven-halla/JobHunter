@@ -275,6 +275,7 @@ const MyBox = styled.div`
   flex-direction: column;
   //background-color: grey;grey
   background-color: ${colors.FormContainer};
+  //background-color: red;
 
   width: 30%;
   //height: 100%;
@@ -285,6 +286,12 @@ const MyBox = styled.div`
   padding-bottom: 20px; /* Adjust this value as needed */
   padding-top: 15px; /* Adjust this value as needed */
   margin-bottom: 4%;
+
+  @media ${device.mobile} {
+    width: 70%;
+    
+
+  }
 
 h1 {
 
@@ -385,6 +392,8 @@ const InterviewSecuredWrapperDiv = styled.div`
 const InterviewInfoDiv = styled.div`
   //display: flex;
   //flex-direction: column;
+  //background-color: blue;
+ 
   
   
   label {
@@ -401,11 +410,12 @@ const InterviewInfoDiv = styled.div`
 
  @media ${device.mobile} {
    display: flex;
-   margin-left: 10vw;
-   width: 80vw;
+   //margin-left: 10vw;
+   //width: 80%;
     flex-direction: column;
     justify-content: center; 
-    align-items: center;       
+    align-items: center;    
+   //margin-left: 10%;
 
     label {
       align-items: center;  

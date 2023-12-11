@@ -28,51 +28,71 @@ export const InterviewSecured = () => {
 
     useEffect(() => {
         const jobIdNumber = jobId ? parseInt(jobId, 10) : null;
+
         if (jobIdNumber && jobs.length > 0) {
-
-
             const selectedJob = jobs.find(j => j.id === jobIdNumber);
+
             if (selectedJob) {
+                // Define variables for selected job properties
+                const {
+                    interviewbegintime,
+                    interviews,
+                    meetingLink,
+                    interviewnotes,
+                    interviewernames,
+                    interviewdate,
+                    interviewendtime
+                } = selectedJob;
 
-
-
-
+                // Set state variables with optional chaining
+                setInterviewBeginTime(interviewbegintime ? parseTimeStringToDate(interviewbegintime) : null);
                 setCurrentJob(selectedJob);
-                setInterviews(selectedJob.interviews || []);
-                setMeetingLink(selectedJob.meetingLink || '');
-                setInterviewNotes(selectedJob.interviewnotes || '');
-                setInterviewerNames(selectedJob.interviewernames || '');
+                setInterviews(interviews || []);
+                setMeetingLink(meetingLink || '');
+                setInterviewNotes(interviewnotes || '');
+                setInterviewerNames(interviewernames || '');
+                setInterviewDate(interviewdate || null);
+                setInterviewEndTime(interviewendtime || null);
 
-                setInterviewDate(selectedJob.interviewdate || null);
-
-                setInterviewBeginTime(selectedJob.interviewbegintime || null );
-                setInterviewEndTime(selectedJob.interviewendtime  || null);
-
-
-
+                console.log("The times is " + interviewbegintime);
+                console.log("The date is " + interviewdate);
             }
         }
-        console.log(jobs)
+
+        console.log(jobs);
     }, [jobs, jobId]);
 
 
-    function formatTimeForInput(date: Date | null): string {
-        //maybe instead of empty string we can return 0100 am
-        if (!date || !(date instanceof Date) || isNaN(date.getTime())) return '';
 
+    // function formatTimeForInput(date: Date | null): string {
+    //     //maybe instead of empty string we can return 0100 am
+    //     if (!date || !(date instanceof Date) || isNaN(date.getTime())) return '';
+    //
+    //
+    //     const hours = String(date.getHours()).padStart(2, '0');
+    //     const minutes = String(date.getMinutes()).padStart(2, '0');
+    //     const seconds = String(date.getSeconds()).padStart(2, '0');
+    //
+    //     return `${hours}:${minutes}:${seconds}`;
+    // }
+    function formatTimeForInput(date: Date | null): string {
+        if (!date || !(date instanceof Date) || isNaN(date.getTime())) return '';
 
         const hours = String(date.getHours()).padStart(2, '0');
         const minutes = String(date.getMinutes()).padStart(2, '0');
         const seconds = String(date.getSeconds()).padStart(2, '0');
+        console.log("jdsoifjdsf;jdsafjkldsljasflj;dsalfjasdjk;;sfjdak " + interviewbegintime)
 
-        return `${hours}:${minutes}:${seconds}`;
+        return `${hours}:${minutes}:${seconds}`; // Format as "HH:mm:ss"
     }
+
 
 
 
 
     function formatDateForInput(date: Date) {
         const yyyy = date.getFullYear();
+        console.log("Hiiiiiiiii")
         const mm = String(date.getMonth() + 1).padStart(2, '0');
         const dd = String(date.getDate()).padStart(2, '0');
         return `${yyyy}-${mm}-${dd}`;
@@ -306,21 +326,18 @@ export const InterviewSecured = () => {
                     {interviewDateError && <ErrorMessage>{interviewDateError}</ErrorMessage>}
 
 
-
-
                     <StyledTextField
                         type="time"
                         variant="outlined"
                         placeholder="Start Time" // Using placeholder instead of label
-                        value={formatTimeForInput(interviewbegintime)}
+                        value={interviewbegintime ? formatTimeForInput(interviewbegintime) : ''}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                             console.log("Selected begin time (string):", e.target.value);
-                            const timeValue = parseTimeStringToDate(e.target.value);
+                            const timeValue = e.target.value ? parseTimeStringToDate(e.target.value) : null;
                             console.log("Parsed begin time (Date object):", timeValue);
                             setInterviewBeginTime(timeValue);
                         }}
                     />
-
 
 
 

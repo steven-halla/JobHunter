@@ -50,6 +50,17 @@ export const UpdateJob = () => {
             setDescriptionError(null);
         }
 
+        if (id === 'primarycontact' && primaryContactError) {
+            setPrimaryContactError(null);
+        }
+
+        if (id === 'companywebsitelink' && companyWebsiteLinkError) {
+            setCompanyWebsiteLinkError(null);
+        }
+        if (id === 'joblink' && jobLinkError) {
+            setJobLinkError(null);
+        }
+
     };
 
     const handleSubmit = async () => {
@@ -83,6 +94,48 @@ export const UpdateJob = () => {
         } else {
             setDescriptionError(null);
         }
+        //Validation for primary contact
+        if (!formData.primarycontact) {
+            setPrimaryContactError("Input cannot be empty");
+            hasError = true;
+        } else if (formData.primarycontact.length < 3) {
+            setPrimaryContactError("Primary contact must be at least 3 characters long");
+            hasError = true;
+        } else if (formData.primarycontact.length > 30) {
+            setPrimaryContactError("Primary contact must be no more than 30 characters long");
+            hasError = true;
+        } else {
+            setPrimaryContactError(null);
+        }
+
+        // Validation for company website link
+        if (!formData.companywebsitelink) {
+            setCompanyWebsiteLinkError("Input cannot be empty");
+            hasError = true;
+        } else if (formData.companywebsitelink.length < 3) {
+            setCompanyWebsiteLinkError("Company website link must be at least 3 characters long");
+            hasError = true;
+        } else if (formData.companywebsitelink.length > 1000) {
+            setCompanyWebsiteLinkError("Company website link must be no more than 1000 characters long");
+            hasError = true;
+        } else {
+            setCompanyWebsiteLinkError(null);
+        }
+
+        // Validation for job link
+        if (!formData.joblink) {
+            setJobLinkError("Input cannot be empty");
+            hasError = true;
+        } else if (formData.joblink.length < 3) {
+            setJobLinkError("Job link must be at least 3 characters long");
+            hasError = true;
+        } else if (formData.joblink.length > 1000) {
+            setJobLinkError("Job link must be no more than 1000 characters long");
+            hasError = true;
+        } else {
+            setJobLinkError(null);
+        }
+
 
         // Check if any validation failed
         if (hasError) {
@@ -110,6 +163,9 @@ export const UpdateJob = () => {
 
     const [companyNameError, setCompanyNameError] = useState<string | null>(null);
     const [descriptionError, setDescriptionError] = useState<string | null>(null);
+    const [primaryContactError, setPrimaryContactError] = useState<string | null>(null);
+    const [companyWebsiteLinkError, setCompanyWebsiteLinkError] = useState<string | null>(null);
+    const [jobLinkError, setJobLinkError] = useState<string | null>(null);
 
 
     return(
@@ -141,10 +197,10 @@ export const UpdateJob = () => {
                         }}
                         style={{ width: '80%' }}
                     />
-                    {companyNameError && <ErrorMessage>{companyNameError}</ErrorMessage>}
 
 
                 </div>
+                {companyNameError && <ErrorMessage>{companyNameError}</ErrorMessage>}
 
                 <div style={{ display: 'flex',
                     justifyContent: 'center',
@@ -171,9 +227,9 @@ export const UpdateJob = () => {
                             },
                         }}
                     />
-                    {descriptionError && <ErrorMessage>{descriptionError}</ErrorMessage>}
 
                 </div>
+                {descriptionError && <ErrorMessage>{descriptionError}</ErrorMessage>}
 
                 <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}> {/* Adjusted margin */}
                     <TextField
@@ -197,7 +253,10 @@ export const UpdateJob = () => {
                             },
                         }}
                     />
+
+
                 </div>
+                {primaryContactError && <ErrorMessage>{primaryContactError}</ErrorMessage>}
 
                 <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}> {/* Adjusted margin */}
                     <TextField
@@ -221,7 +280,10 @@ export const UpdateJob = () => {
                             },
                         }}
                     />
+
+
                 </div>
+                {companyWebsiteLinkError && <ErrorMessage>{companyWebsiteLinkError}</ErrorMessage>}
 
                 <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}> {/* Adjusted margin */}
                     <TextField
@@ -245,7 +307,9 @@ export const UpdateJob = () => {
                             },
                         }}
                     />
+
                 </div>
+                {jobLinkError && <ErrorMessage>{jobLinkError}</ErrorMessage>}
 
 
 
@@ -310,6 +374,7 @@ const ErrorMessage = styled.div`
 
   font-family: 'Roboto', sans-serif;
   font-size: ${fonts.InputFontREM};
+  
 `;
 
 
@@ -353,7 +418,7 @@ const SubmitButton = styled(Button)`
 const TestWrapperBox = styled(Box)`
   background-color: ${colors.AppBackGroundColor};
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   justify-content: center;
   align-items: center;
   display: flex;
@@ -362,9 +427,10 @@ const TestWrapperBox = styled(Box)`
 `;
 
 const FormBox = styled(Box)`
-  height: 67vh;
+  height: auto;
   width: 30vw;
   background-color: ${colors.HeaderBackGroundColor};
+  min-width: 500px;
 
   //background-color: #C0C0C0;
 

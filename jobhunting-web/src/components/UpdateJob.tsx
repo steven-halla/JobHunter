@@ -147,6 +147,11 @@ export const UpdateJob = () => {
             const response = await axios.patch(`http://localhost:8080/api/jobs/update/${jobId}`, formData);
             setJobs(prevJobs => prevJobs.map(job => job.id === Number(jobId) ? formData : job));
             setOpenSnackbar(true);
+            alert("Interview updated"); // Success message
+
+            window.location.href = "/jobviewall"; // Redirect to '/jobviewall' route
+
+
         } catch (error) {
             console.error('Error updating job:', error);
         }

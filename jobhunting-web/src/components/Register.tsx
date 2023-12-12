@@ -349,16 +349,16 @@ const RegisterWrapperDiv = styled.div`
   flex-direction: column;
   
   .form-group {
-    width: 100%; // Ensure form groups take full width
-    padding: 10px 0; // Vertical padding for each form group
-    box-sizing: border-box; // Ensures padding does not add to the width
+    width: 100%; 
+    padding: 10px 0; 
+    box-sizing: border-box; 
   }
-  overflow: visible; /* Allow children to spill out of the parent container */
+  overflow: visible;
 `;
 
 const MessageDiv = styled.div`
 margin-top: 25px;
-  white-space: normal; /* Prevent text from wrapping */
+  white-space: normal; 
 `;
 
 export default Register;

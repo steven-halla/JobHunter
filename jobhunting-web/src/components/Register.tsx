@@ -19,7 +19,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 
 import { useNavigate } from 'react-router-dom';
-import {colors} from "../common/CommonStyles";
+import {colors, fonts} from "../common/CommonStyles";
+import {deviceLogin, deviceProfile} from "../common/ScreenSizes";
 
 
 
@@ -485,8 +486,13 @@ const Register: React.FC = () => {
     return (
         <RegisterWrapperDiv >
 
+            <RegisterTitle>
+                <h2>Job Hunter</h2>
+                <h4>Let us Help us assist you in your job hunt.</h4>
+            </RegisterTitle>
 
-            <div className="card card-container col-md-12 " style={{ minWidth: '200px' , marginTop: "14%"}}>
+
+            <div className="card card-container col-md-12 " style={{ minWidth: '200px' }}>
                 <Form onSubmit={handleRegister} ref={form}>
                     {!successful && (
                         <div>
@@ -575,17 +581,58 @@ const Register: React.FC = () => {
                 </Button>
             </div>
 
+            <Footer></Footer>
+
         </RegisterWrapperDiv>
     );
 };
+const Footer = styled.div`
+height: 450px;
+  width: 100%;
+  background-color: ${colors.AppBackGroundColor};
+
+  @media ${deviceProfile.mobile} {
+    height: 300px;
+  }
+`;
+
+
+
+const RegisterTitle = styled.div`
+  height: 20%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 5%;
+  
+  h2 {
+color: #245993;
+    font-family: ${fonts.InputPlaceHolderFontFamily};
+
+  }
+  
+  h4 {
+    // font-family:  ${fonts.ButtonFontFamily};
+
+  }
+
+
+    //   @media ${deviceLogin.mobile} {
+}
+`;
 
 
 const RegisterWrapperDiv = styled.div`
   display: flex;
   background-color: ${colors.AppBackGroundColor};
-  height: 100vh;
-  justify-content: space-between; // Distribute space between elements
-  align-items: flex-start;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  
 
   .form-group {
     width: 100%; // Ensure form groups take full width

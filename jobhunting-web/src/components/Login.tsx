@@ -1,18 +1,15 @@
 import React, {useState, useRef, useContext, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import AuthService from "../services/auth.service";
 import { UserContext } from "../services/usercontext";
 import {CustomCheckButton, CustomForm} from "../models/LoginHelper";
 import styled from "styled-components";
-import {deviceLogin, deviceProfile} from "../common/ScreenSizes";
+import {deviceLogin} from "../common/ScreenSizes";
 import {TextField} from "@mui/material";
 import Button from '@mui/material/Button';
 import {colors, fonts} from "../common/CommonStyles";
-
-
 
 interface LoginState {
   username: string;
@@ -20,14 +17,6 @@ interface LoginState {
   loading: boolean;
   message: string;
 }
-
-const required = (value: string) => {
-  if (!value) {
-    return (
-        <div className="invalid-feedback d-block">This field is flipping required!</div>
-    );
-  }
-};
 
 const Login: React.FC = () => {
 
@@ -67,7 +56,6 @@ const Login: React.FC = () => {
         AuthService.login(state.username, state.password).then(
             (userData) => {
               console.log("Logged in user:", userData); // Log user object
-
               setUser(userData);
               navigate(`/home/${userData.id}`);
               window.location.reload();
@@ -93,7 +81,6 @@ const Login: React.FC = () => {
   };
 
   const { username, password, loading, message } = state;
-
   const [isMobile, setIsMobile] = useState(window.matchMedia(deviceLogin.mobile).matches);
   const [isLaptop, setIsLaptop] = useState(window.matchMedia(deviceLogin.laptop).matches);
 
@@ -110,7 +97,6 @@ const Login: React.FC = () => {
       window.removeEventListener('resize', checkScreenSize);
     };
   }, []);
-
 
   return (
       <LoginWrapperDiv >
@@ -154,7 +140,6 @@ const Login: React.FC = () => {
                 <span>Login</span>
               </button>
             </div>
-
             {message && (
                 <div className="form-group">
                   <div className="alert alert-danger" role="alert">
@@ -167,11 +152,7 @@ const Login: React.FC = () => {
           <Button variant="contained" color="primary" onClick={handleCreateAccountClick}>
             Create New Account
           </Button>
-
-
-
         </div>
-
       </LoginWrapperDiv>
   );
 };
@@ -185,41 +166,26 @@ const LoginTitle = styled.div`
   flex-direction: column;
   
   h2 {
-color: #496cae;
+    color: #496cae;
     font-family: ${fonts.InputPlaceHolderFontFamily};
-
   }
-  
   h4 {
-    // font-family:  ${fonts.ButtonFontFamily};
-color: #eae8ef;
-  }
-
-
-    //   @media ${deviceLogin.mobile} {
+     color: #eae8ef;
+  } 
 }
 `;
 
 const LoginWrapperDiv = styled.div`
   display: flex;
   height: 100vh;
-  //margin-top: 8%;
-  justify-content: center; // Distribute space between elements
+  justify-content: center; 
   align-items: center;
   background-color: ${colors.AppBackGroundColor};
   flex-direction: column;
-
-
-
-  .form-group {
-    padding: 10px 0; // Add vertical padding to each form-group
-  }
-
-
-//   @media ${deviceLogin.mobile} {
-//     // Styles for laptop and larger devices
- }
   
+  .form-group {
+    padding: 10px 0;
+  }
 `;
 
 export default Login;

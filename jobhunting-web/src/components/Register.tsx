@@ -587,12 +587,12 @@ const Register: React.FC = () => {
     );
 };
 const Footer = styled.div`
-height: 450px;
+height: 20vh;
   width: 100%;
   background-color: ${colors.AppBackGroundColor};
 
   @media ${deviceProfile.mobile} {
-    height: 300px;
+    height: 30vh;
   }
 `;
 
@@ -608,19 +608,18 @@ const RegisterTitle = styled.div`
   margin-top: 5%;
   
   h2 {
-color: #245993;
+color: #496cae;
     font-family: ${fonts.InputPlaceHolderFontFamily};
 
   }
   
   h4 {
     // font-family:  ${fonts.ButtonFontFamily};
-
+color: #eae8ef;
   }
 
 
-    //   @media ${deviceLogin.mobile} {
-}
+
 `;
 
 

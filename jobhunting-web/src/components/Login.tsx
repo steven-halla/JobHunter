@@ -185,14 +185,14 @@ const LoginTitle = styled.div`
   flex-direction: column;
   
   h2 {
-color: #245993;
+color: #496cae;
     font-family: ${fonts.InputPlaceHolderFontFamily};
 
   }
   
   h4 {
     // font-family:  ${fonts.ButtonFontFamily};
-
+color: #eae8ef;
   }
 
 
@@ -206,7 +206,7 @@ const LoginWrapperDiv = styled.div`
   //margin-top: 8%;
   justify-content: center; // Distribute space between elements
   align-items: center;
-  background-color: ${colors.HeaderBackGroundColor};
+  background-color: ${colors.AppBackGroundColor};
   flex-direction: column;
 
 

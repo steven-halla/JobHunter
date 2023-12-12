@@ -10,7 +10,7 @@ import styled from "styled-components";
 import {deviceLogin, deviceProfile} from "../common/ScreenSizes";
 import {TextField} from "@mui/material";
 import Button from '@mui/material/Button';
-import {colors} from "../common/CommonStyles";
+import {colors, fonts} from "../common/CommonStyles";
 
 
 
@@ -114,6 +114,10 @@ const Login: React.FC = () => {
 
   return (
       <LoginWrapperDiv >
+        <LoginTitle>
+        <h2>Job Hunter</h2>
+          <h4>Sign in and start the hunt!</h4>
+        </LoginTitle>
         <div className="card card-container">
           <Form onSubmit={handleLogin} ref={form} >
             <div className="form-group">
@@ -172,6 +176,30 @@ const Login: React.FC = () => {
   );
 };
 
+const LoginTitle = styled.div`
+  height: 20%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  
+  h2 {
+color: #245993;
+    font-family: ${fonts.InputPlaceHolderFontFamily};
+
+  }
+  
+  h4 {
+    // font-family:  ${fonts.ButtonFontFamily};
+
+  }
+
+
+    //   @media ${deviceLogin.mobile} {
+}
+`;
+
 const LoginWrapperDiv = styled.div`
   display: flex;
   height: 100vh;
@@ -179,6 +207,7 @@ const LoginWrapperDiv = styled.div`
   justify-content: center; // Distribute space between elements
   align-items: center;
   background-color: ${colors.HeaderBackGroundColor};
+  flex-direction: column;
 
 
 
@@ -189,7 +218,7 @@ const LoginWrapperDiv = styled.div`
 
 //   @media ${deviceLogin.mobile} {
 //     // Styles for laptop and larger devices
-// background-color: red  }
+ }
   
 `;
 

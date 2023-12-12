@@ -280,6 +280,14 @@ export const InterviewSecured = () => {
                 }),
             });
 
+            if (response.ok) {
+                alert("Interview updated"); // Success message
+                window.location.href = "/jobviewall"; // Redirect to '/jobviewall' route
+            } else {
+                // Handle API response error
+                console.error('Failed to update job interview. Server responded with:', response.status);
+            }
+
             // Rest of your code...
         } catch (error) {
             console.error('Failed to update job interview:', error);

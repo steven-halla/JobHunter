@@ -97,7 +97,6 @@ const Register: React.FC = () => {
         };
 
         if (isTouchedKey(name) && state.touched[name]) {
-            // Determine which validator to use based on the field name
             switch (name) {
                 case 'username':
                     validationError = vusername(value);
@@ -193,7 +192,6 @@ const Register: React.FC = () => {
         }
         AuthService.register(state.username, state.email, state.password).then(
             response => {
-                // Handle successful registration
                 setState(prevState => ({
                     ...prevState,
                     successful: true,
@@ -215,9 +213,8 @@ const Register: React.FC = () => {
     };
 
     const handleCreateAccountClick = () => {
-        navigate('/'); // Use the path that you have defined for your register route
+        navigate('/');
     };
-
 
     return (
         <RegisterWrapperDiv >
@@ -276,16 +273,13 @@ const Register: React.FC = () => {
                                         value={state.password}
                                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e)}
                                         // @ts-ignore
-
                                         onBlur={(e: React.FocusEvent<HTMLInputElement>) => handleBlur(e, vpassword)}
                                         fullWidth
                                     />
                                     {state.touched.password && state.validation.password && (
                                         <MessageDiv className="invalid-feedback d-block">{state.validation.password}</MessageDiv>
                                     )}
-
                             </div>
-
                             <div className="form-group">
                                 <button className="btn btn-primary btn-block">Sign Up</button>
                             </div>

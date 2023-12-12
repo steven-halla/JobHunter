@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { JobsContext } from '../services/jobcontext';
 import styled from "styled-components";
-import {device, deviceHome} from "../common/ScreenSizes";
+import {device, deviceHome, deviceProfile} from "../common/ScreenSizes";
 import {Interview, Job} from "../models/Job";
 import TextField from '@mui/material/TextField';
 import {TextFieldProps} from "@mui/material";
@@ -322,7 +322,22 @@ export const InterviewSecured = () => {
 
 
 
+    const [isMobile, setIsMobile] = useState(window.matchMedia(deviceProfile.mobile).matches);
+    const [isLaptop, setIsLaptop] = useState(window.matchMedia(deviceProfile.laptop).matches);
 
+    useEffect(() => {
+        const checkScreenSize = () => {
+            setIsMobile(window.matchMedia(deviceProfile.mobile).matches);
+            setIsLaptop(window.matchMedia(deviceProfile.laptop).matches);
+        };
+
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+
+        return () => {
+            window.removeEventListener('resize', checkScreenSize);
+        };
+    }, []);
 
 
 
@@ -457,13 +472,14 @@ export const InterviewSecured = () => {
 };
 
 const ErrorMessage = styled.div`
-  color: ${colors.errorRedColor};
+  color: ${colors.errorOrangeColor};
   font-family: 'Roboto', sans-serif;
   font-size: ${fonts.InputFontREM};
   text-align: center; // Center align the text
   width: 100%; // Ensure the div takes the full width
   display: block; // Display as block element
   margin: 0 auto; // Auto margin for horizontal centering
+  padding-bottom: 10px;
 `;
 
 const SubmitButton = styled(Button)`
@@ -474,7 +490,7 @@ const SubmitButton = styled(Button)`
   padding-bottom: 70px;
   //margin-bottom: 50px;
   //background-color: yellow;
-  @media ${deviceHome.mobile} {
+  @media ${deviceProfile.mobile} {
     //background-color: red;
     width: 30vw;
     height: 7vh;
@@ -492,6 +508,8 @@ const MyBox = styled.div`
   //background-color: grey;grey
   background-color: ${colors.FormContainer};
   //background-color: red;
+  margin-top: 5%;
+
 
   width: 30%;
   //height: 100%;
@@ -501,11 +519,12 @@ const MyBox = styled.div`
   border-radius: 10px; /* Adjust this value to get the desired roundness */
   padding-bottom: 20px; /* Adjust this value as needed */
   padding-top: 15px; /* Adjust this value as needed */
-  margin-bottom: 4%;
-
-  @media ${device.mobile} {
+  @media ${deviceProfile.mobile} {
     width: 70%;
-    
+    //margin-top: 12%;
+    margin-top: 15%;
+
+
 
   }
 
@@ -595,20 +614,21 @@ const InterviewSecuredWrapperDiv = styled.div`
   align-items: center;
   display: flex;
   
-  
 
-  @media ${device.mobile} {
-    height: 100vh;
+
+
+  @media ${deviceProfile.mobile} {
+    height: 100%;
     width: 100vw;
   }
 
-  @media ${device.laptop} {
+  @media ${deviceProfile.laptop} {
     display: flex;
     //flex-direction: column;
     //justify-content: center;
     align-items: center;
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
   }
 `;
 
@@ -616,7 +636,6 @@ const InterviewInfoDiv = styled.div`
   //display: flex;
   //flex-direction: column;
   //background-color: blue;
- 
   
   
   label {
@@ -631,7 +650,7 @@ const InterviewInfoDiv = styled.div`
     //margin-top: 5px;
   }
 
- @media ${device.mobile} {
+ @media ${deviceProfile.mobile} {
    display: flex;
    //margin-left: 10vw;
    //width: 80%;
@@ -650,7 +669,7 @@ const InterviewInfoDiv = styled.div`
   }
 
 
-  @media ${device.laptop} {
+  @media ${deviceProfile.laptop} {
     width: 30vw;
     display: flex;
     flex-direction: column;
@@ -669,8 +688,9 @@ const InterviewInfoDiv = styled.div`
 
 const Footer = styled.div`
   display: flex;
+  height: 5vh;
 
-  @media ${device.mobile} {
+  @media ${deviceProfile.mobile} {
     height: 10vh;
     width: 100vw;
     bottom: 0;

@@ -120,12 +120,25 @@ const Register: React.FC = () => {
     //     }
     // };
 
+    // const vpassword = (value: string): string | null => {
+    //     if (value.length < 6 || value.length > 40) {
+    //         return "The password must be between 6 and 40 characters.";
+    //     }
+    //     return null;
+    // };
+
     const vpassword = (value: string): string | null => {
-        if (value.length < 6 || value.length > 40) {
-            return "The password must be between 6 and 40 characters.";
+        if (value.length > 30) {
+            return "Password must be no more than 30 characters.";
+        }
+
+        const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,30}$/;
+        if (!passwordRegex.test(value)) {
+            return "Password must be 8-30 characters long, include an uppercase letter, a number, and a special character.";
         }
         return null;
     };
+
 
     const vusername = (value: string): string | null => {
         if (value.length < 3 || value.length > 20) {

@@ -1,30 +1,15 @@
 import React, { useState, useRef } from "react";
 import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-
 import CheckButton from "react-validation/build/button";
 import isEmail from "validator/lib/isEmail";
 import {CustomCheckButton, CustomForm} from "../models/LoginHelper";
-
 import TextField from '@mui/material/TextField';
-
 import AuthService from "../services/auth.service";
 import styled from "styled-components";
-
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
-
 import { useNavigate } from 'react-router-dom';
 import {colors, fonts} from "../common/CommonStyles";
-import {deviceLogin, deviceProfile} from "../common/ScreenSizes";
-
-
-
-
+import { deviceProfile} from "../common/ScreenSizes";
 
 interface RegisterState {
     username: string;
@@ -36,97 +21,26 @@ interface RegisterState {
         username: string | null;
         email: string | null;
         password: string | null;
-        [key: string]: string | null; // Add an index signature to allow string indexing
+        [key: string]: string | null;
     };
     touched: {
         username: boolean;
         email: boolean;
         password: boolean;
-        [key: string]: boolean; // Add an index signature to allow string indexing
+        [key: string]: boolean;
     };
 }
-
-
-
-
-// const required = (value: string) => {
-//     if (!value) {
-//         return (
-//             <div className="invalid-feedback d-block">This field is required!</div>
-//         );
-//     }
-// };
-
-// const validEmail = (value: string) => {
-//     if (!isEmail(value)) {
-//         return (
-//             <div className="invalid-feedback d-block">
-//                 This is not a valid email.
-//             </div>
-//         );
-//     }
-// };
-
-
-
-// const vpassword = (value: string) => {
-//     if (value.length < 6 || value.length > 40) {
-//         return (
-//             <div className="invalid-feedback d-block">
-//                 The password must be between 6 and 40 characters.
-//             </div>
-//         );
-//     }
-// };
 
 const Register: React.FC = () => {
     const form = useRef<CustomForm | null>(null);
     const checkBtn = useRef<CustomCheckButton | null>(null);
-
     const navigate = useNavigate();
-
-
-    // const vusername = (value: string) => {
-    //     if (value.length < 3 || value.length > 20) {
-    //         return (
-    //             <div className="invalid-feedback d-block">
-    //                 The username must be between 3 and 20 characters.
-    //             </div>
-    //         );
-    //     }
-    // };
-
-    // const vpassword = (value: string): string | undefined => {
-    //     if (value.length < 6 || value.length > 40) {
-    //         return "The password must be between 6 and 40 characters.";
-    //     }
-    // };
-    //
-    // const vusername = (value: string): string | undefined => {
-    //     if (value.length < 3 || value.length > 20) {
-    //         return "The username must be between 3 and 20 characters.";
-    //     }
-    // };
-
 
     const required = (value: string): string | undefined => {
         if (!value) {
             return "This field is required!";
         }
     };
-
-    // const validEmail = (value: string): string | undefined => {
-    //     if (!isEmail(value)) {
-    //         return "This is not a valid email.";
-    //     }
-    // };
-
-    // const vpassword = (value: string): string | null => {
-    //     if (value.length < 6 || value.length > 40) {
-    //         return "The password must be between 6 and 40 characters.";
-    //     }
-    //     return null;
-    // };
 
     const vpassword = (value: string): string | null => {
         if (value.length > 30) {
@@ -139,7 +53,6 @@ const Register: React.FC = () => {
         }
         return null;
     };
-
 
     const vusername = (value: string): string | null => {
         if (value.length < 3 || value.length > 20) {
@@ -154,7 +67,6 @@ const Register: React.FC = () => {
         }
         return null;
     };
-
 
     const [state, setState] = useState<RegisterState>({
         username: "",
@@ -174,42 +86,12 @@ const Register: React.FC = () => {
         }
     });
 
+    const { successful, message } = state;
 
-
-
-    // const [state, setState] = useState<RegisterState>({
-    //     username: "",
-    //     email: "",
-    //     password: "",
-    //     successful: false,
-    //     message: "",
-    // });
-
-    const { username, email, password, successful, message } = state;
-
-    // const handleChange = (e: React.ChangeEvent<HTMLInputElement>, validator: (value: string) => string | null) => {
-    //     const { name, value } = e.target;
-    //     setState(prevState => ({
-    //         ...prevState,
-    //         [name]: value,
-    //         validation: {
-    //             ...prevState.validation,
-    //             [name]: validator(value)
-    //         }
-    //     }));
-    // };
-    // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     const { name, value } = e.target;
-    //     setState(prevState => ({
-    //         ...prevState,
-    //         [name]: value
-    //     }));
-    // };
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         let validationError: string | null = null;
 
-        // Define a type guard to ensure the key is a valid key of the touched object
         const isTouchedKey = (key: any): key is keyof typeof state.touched => {
             return key in state.touched;
         };
@@ -245,14 +127,11 @@ const Register: React.FC = () => {
         const { name, value } = e.target;
         console.log("Blur blockage")
 
-
         let validationError: string | null = null;
 
-        // First, check if the field is required and empty
         // @ts-ignore
         validationError = required(value);
 
-        // If the field is not empty, apply specific field validations
         if (!validationError) {
             switch (name) {
                 case 'username':
@@ -265,12 +144,10 @@ const Register: React.FC = () => {
                     validationError = vpassword(value);
                     break;
                 default:
-                    // Handle other fields or default case if needed
                     break;
             }
         }
 
-        // Update the validation state for the specific field
         setState(prevState => ({
             ...prevState,
             touched: {
@@ -284,66 +161,9 @@ const Register: React.FC = () => {
         }));
     };
 
-
-    // const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    //     const { name, value } = e.target;
-    //
-    //     // Determine the validation error for the current field
-    //     let validationError: string | null = null;
-    //     switch (name) {
-    //         case 'username':
-    //             validationError = vusername(value);
-    //             break;
-    //         case 'email':
-    //             validationError = validEmail(value);
-    //             break;
-    //         case 'password':
-    //             validationError = vpassword(value);
-    //             break;
-    //         default:
-    //             break;
-    //     }
-    //
-    //     // Update validation and touched for the current field
-    //     setState(prevState => ({
-    //         ...prevState,
-    //         touched: {
-    //             ...prevState.touched,
-    //             [name]: true,
-    //         },
-    //         validation: {
-    //             ...prevState.validation,
-    //             [name]: validationError,
-    //         }
-    //     }));
-    // };
-
-
-
-
-
-    const onChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const username = e.target.value;
-        setState((prevState) => ({ ...prevState, username }));
-    };
-
-    const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const email = e.target.value;
-        setState((prevState) => ({ ...prevState, email }));
-    };
-
-    const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const password = e.target.value;
-        setState((prevState) => ({ ...prevState, password }));
-    };
-
     const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
         console.log("Hi")
         e.preventDefault();
-
-
-
-        // Perform validation checks for all fields
         const usernameError = required(state.username) || vusername(state.username);
         const emailError = required(state.email) || validEmail(state.email);
         const passwordError = required(state.password) || vpassword(state.password);
@@ -354,7 +174,6 @@ const Register: React.FC = () => {
             passwordError: passwordError
         });
 
-        // Update state with validation results
         setState(prevState => ({
             ...prevState,
             validation: {
@@ -367,18 +186,11 @@ const Register: React.FC = () => {
                 email: true,
                 password: true
             },
-            // Other state updates if needed
         }));
 
-        // Check for any validation errors
         if (usernameError || emailError || passwordError) {
-            // There are validation errors, do not proceed with form submission
             return;
         }
-
-        // If there are any validation errors, stop the function here
-
-        // If validations pass, proceed with the registration API call
         AuthService.register(state.username, state.email, state.password).then(
             response => {
                 // Handle successful registration
@@ -388,11 +200,9 @@ const Register: React.FC = () => {
                     message: response.data.message // Handle response message accordingly
                 }));
                 alert("Congrats, account created!");
-                navigate('/'); // Replace '/login' with your login route path
-                // Additional actions upon successful registration can be added here
+                navigate('/');
             },
             error => {
-                // Handle API errors
                 const resMessage = (error.response && error.response.data && error.response.data.message) ||
                     error.message || error.toString();
                 setState(prevState => ({
@@ -404,80 +214,6 @@ const Register: React.FC = () => {
         );
     };
 
-
-    // const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
-    //     e.preventDefault();
-    //
-    //     // Perform validation checks
-    //     const usernameError = vusername(state.username);
-    //     const emailError = validEmail(state.email);
-    //     const passwordError = vpassword(state.password);
-    //
-    //     console.log("Validation Errors:", { usernameError, emailError, passwordError });
-    //
-    //
-    //     // Check for empty fields as well
-    //     const isUsernameEmpty = !state.username.trim();
-    //     const isEmailEmpty = !state.email.trim();
-    //     const isPasswordEmpty = !state.password.trim();
-    //
-    //     // Combine the results of empty checks and specific validations
-    //     const combinedUsernameError = isUsernameEmpty ? "This field is required" : usernameError;
-    //     const combinedEmailError = isEmailEmpty ? "This field is required" : emailError;
-    //     const combinedPasswordError = isPasswordEmpty ? "This field is required" : passwordError;
-    //
-    //     // Update state with validation results and mark all fields as touched
-    //     setState(prevState => ({
-    //         ...prevState,
-    //         touched: {
-    //             username: true,
-    //             email: true,
-    //             password: true
-    //         },
-    //         validation: {
-    //             username: combinedUsernameError,
-    //             email: combinedEmailError,
-    //             password: combinedPasswordError
-    //         },
-    //         message: "",
-    //         successful: false
-    //     }));
-    //
-    //     // If there are any validation errors, stop the function here
-    //     if (combinedUsernameError || combinedEmailError || combinedPasswordError) {
-    //         return;
-    //     }
-    //
-    //
-    //     // If validations pass, proceed with the registration API call
-    //     AuthService.register(state.username, state.email, state.password).then(
-    //         response => {
-    //             // Handle successful registration
-    //             setState(prevState => ({
-    //                 ...prevState,
-    //                 successful: true,
-    //                 message: response.data.message // Handle response message accordingly
-    //             }));
-    //             alert("Congrats, account created!");
-    //
-    //             navigate('/'); // Replace '/login' with your login route path
-    //
-    //             // Additional actions upon successful registration can be added here
-    //         },
-    //         error => {
-    //             // Handle API errors
-    //             const resMessage = (error.response && error.response.data && error.response.data.message) ||
-    //                 error.message || error.toString();
-    //             setState(prevState => ({
-    //                 ...prevState,
-    //                 successful: false,
-    //                 message: resMessage
-    //             }));
-    //         }
-    //     );
-    // };
-
-
     const handleCreateAccountClick = () => {
         navigate('/'); // Use the path that you have defined for your register route
     };
@@ -485,13 +221,10 @@ const Register: React.FC = () => {
 
     return (
         <RegisterWrapperDiv >
-
             <RegisterTitle>
                 <h2>Job Hunter</h2>
                 <h4>Let us Help us assist you in your job hunt.</h4>
             </RegisterTitle>
-
-
             <div className="card card-container col-md-12 " style={{ minWidth: '200px' }}>
                 <Form onSubmit={handleRegister} ref={form}>
                     {!successful && (
@@ -513,10 +246,7 @@ const Register: React.FC = () => {
                                     {state.touched.username && state.validation.username && (
                                         <MessageDiv className="invalid-feedback d-block">{state.validation.username}</MessageDiv>
                                     )}
-
-
                                  </div>
-
                                 <div className="form-group">
                                     <TextField
                                         type="text"
@@ -596,8 +326,6 @@ height: 20vh;
   }
 `;
 
-
-
 const RegisterTitle = styled.div`
   height: 20%;
   width: 100%;
@@ -610,18 +338,12 @@ const RegisterTitle = styled.div`
   h2 {
 color: #496cae;
     font-family: ${fonts.InputPlaceHolderFontFamily};
-
   }
-  
   h4 {
     // font-family:  ${fonts.ButtonFontFamily};
 color: #eae8ef;
   }
-
-
-
 `;
-
 
 const RegisterWrapperDiv = styled.div`
   display: flex;
@@ -632,23 +354,17 @@ const RegisterWrapperDiv = styled.div`
   align-items: center;
   flex-direction: column;
   
-
   .form-group {
     width: 100%; // Ensure form groups take full width
     padding: 10px 0; // Vertical padding for each form group
     box-sizing: border-box; // Ensures padding does not add to the width
   }
   overflow: visible; /* Allow children to spill out of the parent container */
-
 `;
 
 const MessageDiv = styled.div`
 margin-top: 25px;
   white-space: normal; /* Prevent text from wrapping */
-
-
 `;
-
-
 
 export default Register;

@@ -191,6 +191,35 @@ export const InterviewSecured = () => {
         }
 
 
+        if (!interviewbegintime) {
+            setInterviewBeginTimeError("Start time cannot be empty");
+            hasError = true;
+        } else {
+            setInterviewBeginTimeError(null);
+        }
+
+        if (!interviewendtime) {
+            setInterviewEndTimeError("End time cannot be empty");
+            hasError = true;
+        } else {
+            setInterviewEndTimeError(null);
+        }
+
+        if (!interviewnotes || interviewnotes.trim() === '') {
+            setInterviewNotesError("Interview notes cannot be empty");
+            hasError = true;
+        } else if (interviewnotes.trim().length < 3) {
+            setInterviewNotesError("Interview notes must be at least 3 characters");
+            hasError = true;
+        } else if (interviewnotes.length > 1000) {
+            setInterviewNotesError("Interview notes must be no more than 1000 characters");
+            hasError = true;
+        } else {
+            setInterviewNotesError(null);
+        }
+
+
+
 
 
         // Add similar validation for other fields...
@@ -357,8 +386,12 @@ export const InterviewSecured = () => {
                             console.log("Parsed begin time (Date object):", timeValue);
                             setInterviewBeginTime(timeValue);
                         }}
+                        title="You can either: Hit the up/down arrows to set the time. Or click the Icon to the far right to access the menu."
+
                     />
 
+
+                    {interviewBeginTimeError && <ErrorMessage>{interviewBeginTimeError}</ErrorMessage>}
 
 
                     <StyledTextField
@@ -372,11 +405,14 @@ export const InterviewSecured = () => {
                             console.log("Parsed end time (Date object):", timeValue);
                             setInterviewEndTime(timeValue);
                         }}
+                        title="You can either: Hit the up/down arrows to set the time. Or click the Icon to the far right to access the menu."
+
                     />
+                    {interviewEndTimeError && <ErrorMessage>{interviewEndTimeError}</ErrorMessage>}
 
 
                         <StyledTextField
-                            placeholder="An Interveiwer may always ask 'tell us more about yourself'" // Using placeholder instead of label
+                            placeholder="Notes for your upcoming interview.'" // Using placeholder instead of label
 
                             multiline
                             rows={4}
@@ -386,6 +422,9 @@ export const InterviewSecured = () => {
                             onChange={(e: { target: { value: React.SetStateAction<string>; }; }) =>
                                 setInterviewNotes(e.target.value)}
                         />
+
+                    {interviewNotesError && <ErrorMessage>{interviewNotesError}</ErrorMessage>}
+
 
                     <SubmitButton
                         sx={{
@@ -522,7 +561,13 @@ const BaseStyledTextField = styled(TextField)`
   }
 
 
- 
+
+  //.MuiOutlinedInput-notchedOutline {
+  //  cursor: pointer; /* Change the cursor to a hand pointer on hover */
+  //
+  //}
+
+
 `;
 
 const StyledTextField: React.FC<TextFieldProps> = (props) => {
@@ -534,7 +579,8 @@ const StyledTextField: React.FC<TextFieldProps> = (props) => {
             variant="outlined"
             type="text"
             size="small"
-            style={{ width: '80%', marginBottom: '4%', backgroundColor: 'white' }}
+
+            style={{ width: '80%', marginBottom: '4%', backgroundColor: 'white' ,}}
             {...props}
         />
     );

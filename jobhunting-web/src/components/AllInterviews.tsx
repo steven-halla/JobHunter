@@ -8,9 +8,6 @@ import {deviceCalendar, deviceHome} from "../common/ScreenSizes";
 import {useTheme} from "@mui/material";
 import {colors, fonts} from "../common/CommonStyles";
 
-
-//RIGHT NOW ALL USERS HAVE ACCESS TO ALL INTERVIEWS!!!
-
 type InterviewData = {
     jobId: number;
     userId: number;
@@ -52,14 +49,12 @@ export const AllInterviews = () => {
                 interview.interviewdate && interview.interviewdate.toDateString() === date.toDateString()
             );
 
-            // Check if the view is on a mobile device
             const isMobile = window.matchMedia(deviceCalendar.mobile).matches;
 
-            // Determine the display text or symbol based on the number of interviews and device type
             let displayContent;
             if (isMobile) {
                 if (dayInterviews.length > 0) {
-                    displayContent = <div>✔️</div>; // Or use any other symbol like "•"
+                    displayContent = <div>✔️</div>;
                 }
             } else {
                 if (dayInterviews.length === 1) {
@@ -68,14 +63,9 @@ export const AllInterviews = () => {
                     displayContent = <div>Interviews</div>;
                 }
             }
-
             return displayContent;
         }
     };
-
-
-
-
 
     const onDayClick = (value: Date, event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         const dayInterviews = interviewData.filter(interview =>
@@ -122,9 +112,6 @@ export const AllInterviews = () => {
         };
     }, []);
 
-    const theme = useTheme();
-
-
     return (
         <CalendarContainer>
             <StyledCalendar
@@ -138,68 +125,48 @@ export const AllInterviews = () => {
     );
 };
 
-
 const StyledCalendar = styled(Calendar)`
   padding: 30px;
   margin-top: 5%;
   width: 75%;
-  height: auto; // Allow the calendar to grow as needed
+  height: auto;
   max-height: 425px;
   background-color: ${colors.HeaderBackGroundColor};
   font-family: ${fonts.ButtonFontFamily};
-  //color: darkred;
-  //font-size: ${fonts.InputFontREM};
-  border-radius: 6px; /* Rounded corners */
-
-
-
+  border-radius: 6px; 
   justify-content: center;
   align-items: center;
   margin-bottom: 10%;
-
-  //min-width: 600px;
-  //min-height: 600px;
+  
   .react-calendar__tile {
-    max-height: 70px; // Adjust as needed
+    max-height: 70px; 
     overflow: hidden;
   }
 
   .react-calendar__tile--now {
     background-color: lightskyblue;
-    border-radius: 3px; /* Rounded corners */
-
+    border-radius: 3px; 
   }
 
   .interview-day {
-    background-color: lightgreen; // Replace with your desired color
+    background-color: lightgreen; 
     color: #8A2BE2;
-    border-radius: 3px; /* Rounded corners */
-
-
+    border-radius: 3px;
   }
 
   @media ${deviceCalendar.mobile} {
-    /* Add mobile-specific styles here */
     height: auto;
     max-height: 600px;
     width: 95%;
     padding: 10px;
-
   }
-
-  /* Add additional styling here if needed */
 `;
 
-
-
-// If needed, create a styled div to center the calendar
 const CalendarContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: ${colors.AppBackGroundColor};
-
   height: 100vh;
-
 `;
 

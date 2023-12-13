@@ -2,58 +2,39 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { JobsContext } from '../services/jobcontext';
 import styled from "styled-components";
-import {device, deviceHome, deviceProfile} from "../common/ScreenSizes";
+import { deviceProfile} from "../common/ScreenSizes";
 import {Interview, Job} from "../models/Job";
 import TextField from '@mui/material/TextField';
 import {TextFieldProps} from "@mui/material";
 import Button from "@mui/material/Button";
 import {colors, fonts} from "../common/CommonStyles";
 
-
-//need to include time along with interview date!!!
-//also need to include ways to send notification
-//home page we can do an useEffect hook, setting global state
 export const InterviewSecured = () => {
     const { meetingLink,setMeetingLink,
         interviewnotes, setInterviewNotes, interviewernames,
         setInterviewerNames, interviewdate,
-        setInterviewDate, setJob, jobs, setJobs,
+        setInterviewDate, jobs,
         interviewbegintime, setInterviewBeginTime, interviewendtime,
         setInterviewEndTime } = useContext(JobsContext);
     const { jobId } = useParams<{ jobId: string }>();
     const [currentJob, setCurrentJob] = useState<Job | undefined>(undefined);
     const [interviews, setInterviews] = useState<Interview[]>([]);
 
-
-
     useEffect(() => {
         const jobIdNumber = jobId ? parseInt(jobId, 10) : null;
-
         if (jobIdNumber && jobs.length > 0) {
             const selectedJob = jobs.find(j => j.id === jobIdNumber);
 
             if (selectedJob) {
-                // Define variables for selected job properties
                 const {
-                    interviewbegintime,
                     interviews,
                     meetingLink,
                     interviewnotes,
                     interviewernames,
                     interviewdate,
-                    interviewendtime
                 } = selectedJob;
 
-                // Set state variables with optional chaining
-                // setInterviewBeginTime(interviewbegintime ? parseTimeStringToDate(interviewbegintime) : null);
-                // Assuming you want to store the date in ISO string format
-                // setInterviewBeginTime(interviewbegintime ? parseTimeStringToDate(interviewbegintime) : null);
-
-              //best way so far keep this
-                // const initialBeginTime = parseTimeStringToDate(selectedJob.interviewbegintime);
-                // setInterviewBeginTime(initialBeginTime);
                 let initialBeginTime: Date | null;
-
                 if (typeof selectedJob.interviewbegintime === 'string') {
                     initialBeginTime = parseTimeStringToDate(selectedJob.interviewbegintime);
                 } else if (selectedJob.interviewbegintime instanceof Date) {
@@ -61,11 +42,9 @@ export const InterviewSecured = () => {
                 } else {
                     initialBeginTime = null;
                 }
-
                 setInterviewBeginTime(initialBeginTime);
 
                 let initialEndTime: Date | null;
-
                 if (typeof selectedJob.interviewendtime === 'string') {
                     initialEndTime = parseTimeStringToDate(selectedJob.interviewendtime);
                 } else if (selectedJob.interviewendtime instanceof Date) {
@@ -75,25 +54,16 @@ export const InterviewSecured = () => {
                 }
 
                 setInterviewEndTime(initialEndTime);
-
-
-
                 setCurrentJob(selectedJob);
                 setInterviews(interviews || []);
                 setMeetingLink(meetingLink || '');
                 setInterviewNotes(interviewnotes || '');
                 setInterviewerNames(interviewernames || '');
                 setInterviewDate(interviewdate || null);
-                // setInterviewEndTime(interviewendtime || null);
-
-                console.log("The times is " + interviewbegintime);
-                console.log("The date is " + interviewdate);
             }
         }
-
         console.log(jobs);
     }, [jobs, jobId]);
-
 
     function parseTimeStringToDate(timeString: string | null): Date | null {
         if (!timeString) {
@@ -103,39 +73,26 @@ export const InterviewSecured = () => {
         const [hours, minutes] = timeString.split(':').map(Number);
         const date = new Date();
         date.setHours(hours, minutes, 0, 0);
-
         return date;
     }
 
-
-
     function formatTimeForInput(date: Date | null): string {
         if (!date || !(date instanceof Date) || isNaN(date.getTime())) return '';
-
         const hours = String(date.getHours()).padStart(2, '0');
         const minutes = String(date.getMinutes()).padStart(2, '0');
         const seconds = String(date.getSeconds()).padStart(2, '0');
-        console.log("jdsoifjdsf;jdsafjkldsljasflj;dsalfjasdjk;;sfjdak " + interviewbegintime)
-
-        return `${hours}:${minutes}:${seconds}`; // Format as "HH:mm:ss"
+        return `${hours}:${minutes}:${seconds}`;
     }
-
-
-
-
 
     function formatDateForInput(date: Date) {
         const yyyy = date.getFullYear();
-        console.log("Hiiiiiiiii")
         const mm = String(date.getMonth() + 1).padStart(2, '0');
         const dd = String(date.getDate()).padStart(2, '0');
         return `${yyyy}-${mm}-${dd}`;
     }
 
-
     const handleFormSubmit = async (event: React.FormEvent) => {
-        event.preventDefault(); // Prevent default form submission behavior
-
+        event.preventDefault();
         if (!currentJob) return;
         let hasError = false;
 
@@ -143,12 +100,11 @@ export const InterviewSecured = () => {
             setInterviewerNamesError("Interviewer names cannot be blank");
             hasError = true;
         }
-        // Check if interviewer names input is less than minimum length
         else if (interviewernames.trim().length < 3) {
             setInterviewerNamesError("Interviewer names must be at least 3 characters");
             hasError = true;
         }
-        // Check if interviewer names input exceeds maximum length
+
         else if (interviewernames.length > 100) {
             setInterviewerNamesError("Interviewer names must be no more than 100 characters");
             hasError = true;
@@ -156,18 +112,15 @@ export const InterviewSecured = () => {
             setInterviewerNamesError(null);
         }
 
-
-
         if (!meetingLink || meetingLink.trim() === '') {
             setMeetingLinkError("Meeting link cannot be blank");
             hasError = true;
         }
-        // Check if meeting link input is less than minimum length
         else if (meetingLink.trim().length < 3) {
             setMeetingLinkError("Meeting link must be at least 3 characters long");
             hasError = true;
         }
-        // Check if meeting link input exceeds maximum length
+
         else if (meetingLink.length > 1000) {
             setMeetingLinkError("Meeting link must be no more than 1000 characters long");
             hasError = true;
@@ -182,14 +135,12 @@ export const InterviewSecured = () => {
             setInterviewDateError(null);
         }
 
-
         if (!interviewbegintime) {
             setInterviewBeginTimeError("Interview date cannot be empty");
             hasError = true;
         } else {
             setInterviewBeginTimeError(' ');
         }
-
 
         if (!interviewbegintime) {
             setInterviewBeginTimeError("Start time cannot be empty");
@@ -218,35 +169,10 @@ export const InterviewSecured = () => {
             setInterviewNotesError(null);
         }
 
-
-
-
-
-        // Add similar validation for other fields...
-        // Make sure to set the corresponding error state and update `hasError` as needed
-
         if (hasError) {
             return;
         }
 
-        console.log("Saving all interviews to the server:", interviews);
-
-
-
-
-        // Format interviewbegintime and interviewendtime to "HH:mm:ss" format
-        // const formattedBeginTime = interviewbegintime
-        //     ? `${String(interviewbegintime.getHours()).padStart(2, '0')}:${String(interviewbegintime.getMinutes()).
-        //     padStart(2, '0')}:${String(interviewbegintime.getSeconds()).padStart(2, '0')}`
-        //     : '';
-        //
-        // const formattedEndTime = interviewendtime
-        //     ? `${String(interviewendtime.getHours()).padStart(2, '0')}:${String(interviewendtime.getMinutes()).
-        //     padStart(2, '0')}:${String(interviewendtime.getSeconds()).padStart(2, '0')}`
-        //     : '';
-
-
-        // Custom function to format a Date object to "HH:mm:ss" format
         function formatTime(date: Date): string {
             if (!(date instanceof Date)) {
                 return '';
@@ -257,13 +183,8 @@ export const InterviewSecured = () => {
             return `${hours}:${minutes}:${seconds}`;
         }
 
-// Use the formatTime function to format interviewbegintime
         const formattedBeginTime = interviewbegintime instanceof Date ? formatTime(interviewbegintime) : '';
-
-// Use the formatTime function to format interviewendtime
         const formattedEndTime = interviewendtime instanceof Date ? formatTime(interviewendtime) : '';
-
-// ...rest of your code
 
         try {
             const response = await fetch(`http://localhost:8080/api/jobs/update/${currentJob.id}`, {
@@ -287,16 +208,10 @@ export const InterviewSecured = () => {
                 // Handle API response error
                 console.error('Failed to update job interview. Server responded with:', response.status);
             }
-
-            // Rest of your code...
         } catch (error) {
             console.error('Failed to update job interview:', error);
         }
     };
-
-
-
-
 
     function addOneDay(date: string | number | Date) {
         const adjustedDate = new Date(date);
@@ -304,32 +219,12 @@ export const InterviewSecured = () => {
         return adjustedDate;
     }
 
-    // function parseTimeStringToDate(timeString: string): Date {
-    //     const date = new Date();
-    //     let [hours, minutes, seconds] = timeString.split(':').map(Number);
-    //
-    //     // If seconds are not provided, default to 0
-    //     seconds = isNaN(seconds) ? 0 : seconds;
-    //
-    //     if (!isNaN(hours) && !isNaN(minutes)) {
-    //         date.setHours(hours, minutes, seconds, 0); // Set hours, minutes, and seconds
-    //         return date;
-    //     } else {
-    //         return new Date(); // Return current date or a default date if parsing fails
-    //     }
-    // }
-
-
-
     const [meetingLinkError, setMeetingLinkError] = useState<string | null>(null);
     const [interviewerNamesError, setInterviewerNamesError] = useState<string | null>(null);
     const [interviewDateError, setInterviewDateError] = useState<string | null>(null);
     const [interviewBeginTimeError, setInterviewBeginTimeError] = useState<string | null>(null);
     const [interviewEndTimeError, setInterviewEndTimeError] = useState<string | null>(null);
     const [interviewNotesError, setInterviewNotesError] = useState<string | null>(null);
-
-
-
     const [isMobile, setIsMobile] = useState(window.matchMedia(deviceProfile.mobile).matches);
     const [isLaptop, setIsLaptop] = useState(window.matchMedia(deviceProfile.laptop).matches);
 
@@ -347,19 +242,12 @@ export const InterviewSecured = () => {
         };
     }, []);
 
-
-
     // @ts-ignore
     // @ts-ignore
     return (
         <InterviewSecuredWrapperDiv>
-
             <MyBox>
-
-
-            {/*<TitleDiv>*/}
                 <h1>{currentJob?.companyname}</h1>
-            {/*</TitleDiv>*/}
             <form onSubmit={handleFormSubmit}>
                 <InterviewInfoDiv>
                     <StyledTextField
@@ -371,8 +259,6 @@ export const InterviewSecured = () => {
                     />
                     {interviewerNamesError && <ErrorMessage>{interviewerNamesError}</ErrorMessage>}
 
-
-
                     <StyledTextField
                         type="text"
                         variant="outlined"
@@ -380,10 +266,7 @@ export const InterviewSecured = () => {
                         value={meetingLink}
                         onChange={(e) => setMeetingLink(e.target.value)}
                     />
-
-
                     {meetingLinkError && <ErrorMessage>{meetingLinkError}</ErrorMessage>}
-
 
                     <StyledTextField
                         type="date"
@@ -397,7 +280,6 @@ export const InterviewSecured = () => {
                     />
                     {interviewDateError && <ErrorMessage>{interviewDateError}</ErrorMessage>}
 
-
                     <StyledTextField
                         type="time"
                         variant="outlined"
@@ -410,12 +292,8 @@ export const InterviewSecured = () => {
                             setInterviewBeginTime(timeValue);
                         }}
                         title="You can either: Hit the up/down arrows to set the time. Or click the Icon to the far right to access the menu."
-
                     />
-
-
                     {interviewBeginTimeError && <ErrorMessage>{interviewBeginTimeError}</ErrorMessage>}
-
 
                     <StyledTextField
                         type="time"
@@ -429,14 +307,11 @@ export const InterviewSecured = () => {
                             setInterviewEndTime(timeValue);
                         }}
                         title="You can either: Hit the up/down arrows to set the time. Or click the Icon to the far right to access the menu."
-
                     />
                     {interviewEndTimeError && <ErrorMessage>{interviewEndTimeError}</ErrorMessage>}
 
-
                         <StyledTextField
                             placeholder="Notes for your upcoming interview.'" // Using placeholder instead of label
-
                             multiline
                             rows={4}
                             variant="outlined"
@@ -445,9 +320,7 @@ export const InterviewSecured = () => {
                             onChange={(e: { target: { value: React.SetStateAction<string>; }; }) =>
                                 setInterviewNotes(e.target.value)}
                         />
-
                     {interviewNotesError && <ErrorMessage>{interviewNotesError}</ErrorMessage>}
-
 
                     <SubmitButton
                         sx={{
@@ -469,12 +342,9 @@ export const InterviewSecured = () => {
                         Submit
                     </SubmitButton>
                 </InterviewInfoDiv>
-
-
             </form>
             <Footer />
             </MyBox>
-
         </InterviewSecuredWrapperDiv>
     );
 };
@@ -483,130 +353,82 @@ const ErrorMessage = styled.div`
   color: ${colors.errorOrangeColor};
   font-family: 'Roboto', sans-serif;
   font-size: ${fonts.InputFontREM};
-  text-align: center; // Center align the text
-  width: 100%; // Ensure the div takes the full width
-  display: block; // Display as block element
-  margin: 0 auto; // Auto margin for horizontal centering
+  text-align: center;
+  width: 100%; 
+  display: block;
+  margin: 0 auto; 
   padding-bottom: 10px;
 `;
 
 const SubmitButton = styled(Button)`
-//color: green;
   height: 9vh;
   width: 23vw;
   display: flex;
   padding-bottom: 70px;
-  //margin-bottom: 50px;
-  //background-color: yellow;
+
   @media ${deviceProfile.mobile} {
-    //background-color: red;
     width: 30vw;
     height: 7vh;
   }
-
-
 `;
-
 
 const MyBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  //background-color: grey;grey
   background-color: ${colors.FormContainer};
-  //background-color: red;
   margin-top: 5%;
-
-
   width: 30%;
-  //height: 100%;
   box-shadow: -4px 0 8px -2px rgba(0, 0, 0, 0.2),
   4px 0 8px -2px rgba(0, 0, 0, 0.2),
   0 4px 8px -2px rgba(0, 0, 0, 0.2);
-  border-radius: 10px; /* Adjust this value to get the desired roundness */
-  padding-bottom: 20px; /* Adjust this value as needed */
-  padding-top: 15px; /* Adjust this value as needed */
+  border-radius: 10px;
+  padding-bottom: 20px; 
+  padding-top: 15px;
   @media ${deviceProfile.mobile} {
     width: 70%;
-    //margin-top: 12%;
     margin-top: 15%;
-
-
-
   }
 
-h1 {
-
-  padding-bottom: 20px; /* Adjust this value as needed */
-
-  
-}
+    h1 {
+      padding-bottom: 20px; /* Adjust this value as needed */
+    }
 ` ;
-
-
-
-
-
-
 
 const BaseStyledTextField = styled(TextField)`
 
   & .MuiFilledInput-input {
     height: 20px;
-
-
   }
-  & .MuiInputBase-input { // Target the input base for styling
-    //font-family: 'Helvetica Neue', Arial, sans-serif;
-    //font-family: 'Helvetica Neue', Arial, sans-serif;
-    //font-size: 1.2rem;
+  
+  & .MuiInputBase-input { 
     font-size: ${fonts.InputFontREM};
     font-family: ${fonts.InputFontFamily};
-
-    //color: red;
-    
   }
 
-  & .MuiInputBase-input::placeholder { // Target the placeholder with increased specificity
-    //font-family: 'Roboto', sans-serif;
+  & .MuiInputBase-input::placeholder { 
     font-size: ${fonts.InputFontREM};
     font-family: ${fonts.InputPlaceHolderFontFamily};
-
-    //font-size: 1.2rem;
-    //color: red;
   }
 
   & input[type='date']::-webkit-calendar-picker-indicator {
     position: absolute;
-    right: 10px; // Adjust as needed
+    right: 10px; 
   }
 
   & input[type='time']::-webkit-calendar-picker-indicator {
     position: absolute;
-    right: 10px;  // Adjust as needed
+    right: 10px;
   }
-
-
-
-  //.MuiOutlinedInput-notchedOutline {
-  //  cursor: pointer; /* Change the cursor to a hand pointer on hover */
-  //
-  //}
-
-
 `;
 
 const StyledTextField: React.FC<TextFieldProps> = (props) => {
-    // Ensure the label is a string, default to an empty string if not
-    const placeholder = typeof props.label === 'string' ? props.label : '';
-
     return (
         <BaseStyledTextField
             variant="outlined"
             type="text"
             size="small"
-
             style={{ width: '80%', marginBottom: '4%', backgroundColor: 'white' ,}}
             {...props}
         />
@@ -615,16 +437,11 @@ const StyledTextField: React.FC<TextFieldProps> = (props) => {
 
 
 const InterviewSecuredWrapperDiv = styled.div`
-  //background-color: #3D4849;
   background-color: ${colors.AppBackGroundColor};
-
   justify-content: center;
   align-items: center;
   display: flex;
   
-
-
-
   @media ${deviceProfile.mobile} {
     height: 100%;
     width: 100vw;
@@ -632,8 +449,6 @@ const InterviewSecuredWrapperDiv = styled.div`
 
   @media ${deviceProfile.laptop} {
     display: flex;
-    //flex-direction: column;
-    //justify-content: center;
     align-items: center;
     height: 100%;
     width: 100%;
@@ -641,31 +456,12 @@ const InterviewSecuredWrapperDiv = styled.div`
 `;
 
 const InterviewInfoDiv = styled.div`
-  //display: flex;
-  //flex-direction: column;
-  //background-color: blue;
   
-  
-  label {
-    //margin-bottom: 10px;
-    //display: flex;
-    //flex-direction: column;
-    //align-items: start;
-    //width: 100%;
-  }
-
-  input, textarea {
-    //margin-top: 5px;
-  }
-
- @media ${deviceProfile.mobile} {
-   display: flex;
-   //margin-left: 10vw;
-   //width: 80%;
+  @media ${deviceProfile.mobile} {
+    display: flex;
     flex-direction: column;
     justify-content: center; 
     align-items: center;    
-   //margin-left: 10%;
 
     label {
       align-items: center;  
@@ -675,8 +471,7 @@ const InterviewInfoDiv = styled.div`
       width: 60%;           
     }
   }
-
-
+  
   @media ${deviceProfile.laptop} {
     width: 30vw;
     display: flex;

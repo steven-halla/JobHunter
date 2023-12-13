@@ -330,12 +330,11 @@ const RegisterTitle = styled.div`
   margin-top: 5%;
   
   h2 {
-color: #496cae;
+    color: #496cae;
     font-family: ${fonts.InputPlaceHolderFontFamily};
   }
   h4 {
-    // font-family:  ${fonts.ButtonFontFamily};
-color: #eae8ef;
+    color: #eae8ef;
   }
 `;
 

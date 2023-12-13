@@ -47,10 +47,15 @@ export const fonts = {
 
 
 
-export const HeaderIconText = styled.div`
-  color: #3D4849;
-
+export const BoxShadow = styled.div`
+  box-shadow:
+          -4px 0 8px -2px rgba(0, 0, 0, 0.2),
+          4px 0 8px -2px rgba(0, 0, 0, 0.2),
+          0 4px 8px -2px rgba(0, 0, 0, 0.2);
 `;
+
+
+
 
 const VerticalLine = styled.div`
   position: fixed; // or absolute, depending on your layout

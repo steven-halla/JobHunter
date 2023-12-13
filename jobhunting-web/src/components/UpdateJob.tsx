@@ -7,19 +7,13 @@ import {Job} from "../models/Job";
 import axios from "axios";
 import CloseIcon from '@mui/icons-material/Close';
 import styled from "styled-components";
-import DeleteIcon from '@mui/icons-material/Delete';
-import SendIcon from '@mui/icons-material/Send';
-import Stack from '@mui/material/Stack';
-import {red} from "@mui/material/colors";
 import {deviceHome, deviceProfile} from "../common/ScreenSizes";
 import {colors, fonts} from "../common/CommonStyles";
-
-//need to make snackbar not stay for so long
 
 export const UpdateJob = () => {
 
     const { jobId } = useParams<{ jobId: string }>();  // Extracting jobId from URL params
-    const { jobs, setJobs, updateJobRejected, updateJobResponded } = useContext(JobsContext);
+    const { jobs, setJobs } = useContext(JobsContext);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const currentJob = jobs.find(job => job.id === Number(jobId));
     const [formData, setFormData] = useState<Job>(currentJob || {} as Job);
@@ -40,7 +34,6 @@ export const UpdateJob = () => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
 
-
         setFormData(prev => ({ ...prev, [id]: value }));
         if (id === 'companyname' && companyNameError) {
             setCompanyNameError(null);
@@ -60,14 +53,11 @@ export const UpdateJob = () => {
         if (id === 'joblink' && jobLinkError) {
             setJobLinkError(null);
         }
-
     };
 
     const handleSubmit = async () => {
-
         let hasError = false;
 
-        // Validation for company name
         if (!formData.companyname) {
             setCompanyNameError("Company name required");
             hasError = true;
@@ -81,7 +71,6 @@ export const UpdateJob = () => {
             setCompanyNameError(null);
         }
 
-        // Validation for description
         if (!formData.description) {
             setDescriptionError("Description is required");
             hasError = true;
@@ -94,7 +83,7 @@ export const UpdateJob = () => {
         } else {
             setDescriptionError(null);
         }
-        //Validation for primary contact
+
         if (!formData.primarycontact) {
             setPrimaryContactError("Input cannot be empty");
             hasError = true;
@@ -108,7 +97,6 @@ export const UpdateJob = () => {
             setPrimaryContactError(null);
         }
 
-        // Validation for company website link
         if (!formData.companywebsitelink) {
             setCompanyWebsiteLinkError("Input cannot be empty");
             hasError = true;
@@ -122,7 +110,6 @@ export const UpdateJob = () => {
             setCompanyWebsiteLinkError(null);
         }
 
-        // Validation for job link
         if (!formData.joblink) {
             setJobLinkError("Input cannot be empty");
             hasError = true;
@@ -136,34 +123,21 @@ export const UpdateJob = () => {
             setJobLinkError(null);
         }
 
-
-        // Check if any validation failed
         if (hasError) {
             return;
         }
-
 
         try {
             const response = await axios.patch(`http://localhost:8080/api/jobs/update/${jobId}`, formData);
             setJobs(prevJobs => prevJobs.map(job => job.id === Number(jobId) ? formData : job));
             setOpenSnackbar(true);
             alert("Interview updated"); // Success message
-
             window.location.href = "/jobviewall"; // Redirect to '/jobviewall' route
-
-
         } catch (error) {
             console.error('Error updating job:', error);
         }
-
         setCompanyNameError(null);
         setDescriptionError(null);
-
-    };
-
-    const handleDelete = async () => {
-        console.log("Delting")
-
     };
 
     const [companyNameError, setCompanyNameError] = useState<string | null>(null);
@@ -171,7 +145,6 @@ export const UpdateJob = () => {
     const [primaryContactError, setPrimaryContactError] = useState<string | null>(null);
     const [companyWebsiteLinkError, setCompanyWebsiteLinkError] = useState<string | null>(null);
     const [jobLinkError, setJobLinkError] = useState<string | null>(null);
-
 
     return(
         <TestWrapperBox>
@@ -185,8 +158,6 @@ export const UpdateJob = () => {
                             style: {
                                 fontFamily: fonts.FontFamilyItalics,
                                 color: 'blue', // Set the color of the label to light blue
-
-
                             }
                         }}
                         value={formData.companyname || ''}
@@ -195,15 +166,10 @@ export const UpdateJob = () => {
                             style: {
                                 fontSize: fonts.HeaderIconTextREM,
                                 fontFamily: fonts.InputFontFamily,
-
-                                // fontSize: '1.1rem', // Set text size to 1.1rem
-                                // fontFamily: 'Arial, sans-serif', // Set the "Arial" font
                             },
                         }}
                         style={{ width: '80%' }}
                     />
-
-
                 </div>
                 {companyNameError && <ErrorMessage>{companyNameError}</ErrorMessage>}
 
@@ -218,7 +184,6 @@ export const UpdateJob = () => {
                             style: {
                                 fontFamily: fonts.FontFamilyItalics,
                                 color: 'blue', // Set the color of the label to light blue
-
                             }
                         }}
                         variant="outlined"
@@ -235,16 +200,14 @@ export const UpdateJob = () => {
 
                 </div>
                 {descriptionError && <ErrorMessage>{descriptionError}</ErrorMessage>}
-
-                <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}> {/* Adjusted margin */}
+                <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}>
                     <TextField
                         id="primarycontact"
                         label="Primary Contact"
                         InputLabelProps={{
                             style: {
                                 fontFamily: fonts.FontFamilyItalics,
-                                color: 'blue', // Set the color of the label to light blue
-
+                                color: 'blue',
                             }
                         }}
                         variant="outlined"
@@ -259,10 +222,8 @@ export const UpdateJob = () => {
                         }}
                     />
 
-
                 </div>
                 {primaryContactError && <ErrorMessage>{primaryContactError}</ErrorMessage>}
-
                 <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}> {/* Adjusted margin */}
                     <TextField
                         id="companywebsitelink"
@@ -270,8 +231,7 @@ export const UpdateJob = () => {
                         InputLabelProps={{
                             style: {
                                 fontFamily: fonts.FontFamilyItalics,
-                                color: 'blue', // Set the color of the label to light blue
-
+                                color: 'blue',
                             }
                         }}
                         variant="outlined"
@@ -285,20 +245,16 @@ export const UpdateJob = () => {
                             },
                         }}
                     />
-
-
                 </div>
                 {companyWebsiteLinkError && <ErrorMessage>{companyWebsiteLinkError}</ErrorMessage>}
-
-                <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}> {/* Adjusted margin */}
+                <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}>
                     <TextField
                         id="joblink"
                         label="Job Link"
                         InputLabelProps={{
                             style: {
                                 fontFamily: fonts.FontFamilyItalics,
-                                color: 'blue', // Set the color of the label to light blue
-
+                                color: 'blue',
                             }
                         }}
                         variant="outlined"
@@ -315,30 +271,21 @@ export const UpdateJob = () => {
 
                 </div>
                 {jobLinkError && <ErrorMessage>{jobLinkError}</ErrorMessage>}
-
-
-
                 <SubmitButtonDiv>
                     <SubmitButton
                         sx={{
                             borderRadius: 10,
-                            background: 'linear-gradient(to right, #00C9FF, #00B4D8)', // Neon blue gradient
-                            // color: 'white', // Text color
+                            background: 'linear-gradient(to right, #00C9FF, #00B4D8)',
                             color: colors.TextWhiteColor,
-
-                            border: '1px solid #007BFF', // Adding a border for contrast
+                            border: '1px solid #007BFF',
                             '&:hover': {
-                                background: 'linear-gradient(to left, #00C9FF, #00B4D8)', // Change gradient direction on hover for effect
-                                boxShadow: '0 0 10px #00C9FF', // Optional: Adding a glow effect on hover
+                                background: 'linear-gradient(to left, #00C9FF, #00B4D8)',
+                                boxShadow: '0 0 10px #00C9FF',
                             },
                             fontSize: fonts.ButtonFontREM,
-
-                            // fontSize: '1.6rem',
                             fontWeight: 'bold',
-                            // fontFamily: "'Times New Roman', serif",
                             fontFamily: fonts.ButtonFontFamily,
-
-                            textTransform: 'none', // Optional: Prevents uppercase text transformation common in MUI Buttons
+                            textTransform: 'none',
                         }}
                         onClick={handleSubmit} variant="contained">
                         Submit</SubmitButton>
@@ -362,16 +309,9 @@ export const UpdateJob = () => {
                         </React.Fragment>
                     }
                 />
-
-
             </FormBox>
-
-
-
             <Footer></Footer>
-
         </TestWrapperBox>
-
     );
 };
 const Footer = styled.div`
@@ -388,32 +328,19 @@ const ErrorMessage = styled.div`
   color: ${colors.errorRedColor};
   font-family: 'Roboto', sans-serif;
   font-size: ${fonts.InputFontREM};
-  text-align: center; // Center align the text
-  width: 100%; // Ensure the div takes the full width
-  display: block; // Display as block element
-  margin: 0 auto; // Auto margin for horizontal centering
+  text-align: center;
+  width: 100%; 
+  display: block; 
+  margin: 0 auto;
 `;
-
-
 
 const SubmitButtonDiv = styled.div`
   display: flex;
-
   height: 10%;
-  //width: 70%;
   margin-top: 3%;
   justify-content: center;
   align-items: center;
   padding: 20px;
-`;
-
-const LifeStoryDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  //height: 40vh;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
 `;
 
 const SubmitButton = styled(Button)`
@@ -421,18 +348,12 @@ const SubmitButton = styled(Button)`
   width: 23vw;
   display: flex;
   padding-bottom: 70px;
-  //margin-bottom: 50px;
-  //background-color: yellow;
 
   @media ${deviceHome.mobile} {
-    //background-color: red;
     width: 30vw;
     height: 7vh;
   }
-
-
 `;
-
 
 const TestWrapperBox = styled(Box)`
   background-color: ${colors.AppBackGroundColor};
@@ -442,7 +363,6 @@ const TestWrapperBox = styled(Box)`
   align-items: center;
   display: flex;
   flex-direction: column;
-  
 `;
 
 const FormBox = styled(Box)`
@@ -450,19 +370,13 @@ const FormBox = styled(Box)`
   width: 40%;
   background-color: ${colors.HeaderBackGroundColor};
   margin-top: 6%;
-
-  //background-color: #C0C0C0;
-
-  /* Adding box shadow on left, right, and bottom sides */
   box-shadow:
-          -4px 0 8px -2px rgba(0, 0, 0, 0.2), /* Left shadow */
-          4px 0 8px -2px rgba(0, 0, 0, 0.2),  /* Right shadow */
-          0 4px 8px -2px rgba(0, 0, 0, 0.2);  /* Bottom shadow */
+          -4px 0 8px -2px rgba(0, 0, 0, 0.2), 
+          4px 0 8px -2px rgba(0, 0, 0, 0.2),  
+          0 4px 8px -2px rgba(0, 0, 0, 0.2);  
 
   @media ${deviceHome.mobile} {
-    //background-color: red;
     width: 90%;
     margin-top: 3%;
-
   }
 `;

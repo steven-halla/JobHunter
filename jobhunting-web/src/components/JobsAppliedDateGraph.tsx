@@ -3,13 +3,11 @@ import { JobsContext } from "../services/jobcontext";
 import { Job } from "../models/Job";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import styled from "styled-components";
-import {device, deviceHome, deviceProfile} from "../common/ScreenSizes";
-import {useTheme} from "@mui/material";
+import {deviceHome} from "../common/ScreenSizes";
 import {colors, fonts} from "../common/CommonStyles";
 
 export const JobsAppliedDateGraph: React.FC = () => {
     const { jobs } = useContext(JobsContext);
-
     const isToday = (date: Date): boolean => {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -63,8 +61,7 @@ export const JobsAppliedDateGraph: React.FC = () => {
         return jobDate >= firstDay && jobDate <= lastDay;
     });
 
-    const weeks = getWeeksInMonth(new Date(selectedYear, selectedMonth - 1, 1)); // Use selectedMonth and selectedYear here
-
+    const weeks = getWeeksInMonth(new Date(selectedYear, selectedMonth - 1, 1));
     const dataForBarChart = weeks.map(week => ({
         name: `${week.start.getDate()}-${week.end.getDate()}`,
         Jobs: jobs.filter(job => {
@@ -85,22 +82,13 @@ export const JobsAppliedDateGraph: React.FC = () => {
 
         checkScreenSize();
         window.addEventListener('resize', checkScreenSize);
-
         return () => {
             window.removeEventListener('resize', checkScreenSize);
         };
     }, []);
 
-    const theme = useTheme();
-
-// there is an issue in that the graph is not updating, I need to update this component each time the create job button is pushed
-
     return (
         <JobsAppliedDateGraphDiv>
-            {/*<VerticalLine>*/}
-
-            {/*</VerticalLine>*/}
-
             <GraphContainer>
                 <MonthPickerDiv>
                     <select
@@ -122,7 +110,6 @@ export const JobsAppliedDateGraph: React.FC = () => {
                 </MonthPickerDiv>
                 {selectedMonth === currentMonth ? (
                     <NumberOfJobsAppliedDiv>
-                        {/*<VerticalLine2></VerticalLine2>*/}
                         <p>Jobs Applied:</p>
                         <p>Today: {jobsAppliedToday.length}</p>
                         <p>This Week: {jobsAppliedThisWeek.length}</p>
@@ -139,9 +126,9 @@ export const JobsAppliedDateGraph: React.FC = () => {
                             data={dataForBarChart}
                             margin={{
                                 top: 40,
-                                right: 45, // Increased right margin
-                                left: 10,  // Increased left margin
-                                bottom: 25 // Increased bottom margin
+                                right: 45,
+                                left: 10,
+                                bottom: 25
                             }}
                         >
                             <CartesianGrid strokeDasharray="3 3" />
@@ -153,7 +140,6 @@ export const JobsAppliedDateGraph: React.FC = () => {
                         </BarChart>
                     </ResponsiveContainer>
                 </BarGraphDiv>
-
             </GraphContainer>
         </JobsAppliedDateGraphDiv>
     );
@@ -166,10 +152,7 @@ export const JobsAppliedDateGraphDiv = styled.div`
   justify-content: center; 
   align-items: center;
   flex-direction: column;
-  //background-color: #3D4849;
   background-color: ${colors.AppBackGroundColor};
-
-
 `;
 
 export const GraphContainer = styled.div`
@@ -180,92 +163,50 @@ export const GraphContainer = styled.div`
   justify-content: center;
   flex-wrap: wrap; // Allows items to wrap when space is limited
   background-color: ${colors.AppBackGroundColor};
-
 `;
-
 
 export const NumberOfJobsAppliedDiv = styled.div`
   display: flex;
   position: relative;
-  min-height: 100px; // Set a minimum height
+  min-height: 100px; 
   width: 24vw;
-  min-width: 200px; // Set a minimum width
+  min-width: 200px; 
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  //background-color: #c7f3ff;
   padding-top: 1%;
   box-shadow: -4px 0 8px -2px rgba(0, 0, 0, 0.2), 4px 0 8px -2px rgba(0, 0, 0, 0.2), 0 4px 8px -2px rgba(0, 0, 0, 0.2);
   border: 1px solid #d1e8ff;
-  //background-color: #C0C0C0;
   background-color: ${colors.HeaderBackGroundColor};
-
-  //font-family: Arial, sans-serif;
-  //font-size: 1.1rem;
   color: ${colors.TextBlackColor};
   font-size: ${fonts.HeaderIconTextREM};
   font-family:  ${fonts.InputFontFamily};
-
-  border-radius: 5px; // Rounded corners
-
-
-  //background-image: linear-gradient(to bottom right, #c7f3ff, #a1d8f0);
-  overflow: auto; // Manage overflow content
-  //margin-right: 4.5%;
+  border-radius: 5px; 
+  overflow: auto; 
   margin-right: 9%;
 `;
-
-
-
-
 
 export const BarGraphDiv = styled.div`
   display: flex;
   margin-top: 10px;
   height: 60vh;
-  min-height: 300px; // Set a minimum height
+  min-height: 300px; 
   width: 90vw;
   justify-content: center;
   align-items: center;
   margin-right: 8.5vw;
-
-  // @media ${deviceProfile.mobile} {
-  //   margin-right: 9vw;
-  // }
 `;
-
 
 export const MonthPickerDiv = styled.div`
   display: flex;
   height: 10vh;
-  min-height: 50px; // Set a minimum height
+  min-height: 50px; 
   width: 70vw;
   align-items: center;
   justify-content: center;
   margin-right: 8.5%;
 
-
   select {
     height: 30px;
   }
-`;
-
-
-
-const VerticalLine = styled.div`
-  position: fixed; // or absolute, depending on your layout
-  left: 50%;
-  height: 100vh;
-  width: 10px; // or as thick as you want
-  background-color: #000; // or any color of your choice
-  z-index: 10; // adjust as needed
-`;
-const VerticalLine2 = styled.div`
-  position: absolute; // Positioned relative to its nearest positioned ancestor
-  left: 50%;
-  top: 0; // Align to the top of the container
-  height: 100%; // Full height of the container
-  width: 2px; // or as thick as you want
-  background-color: #000; // or any color of your choice
-  z-index: 10; // adjust as needed
 `;

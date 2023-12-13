@@ -370,7 +370,7 @@ const SubmitButton = styled(Button)`
   padding-bottom: 70px;
 
   @media ${deviceProfile.mobile} {
-    width: 30vw;
+    width: 45vw;
     height: 7vh;
   }
 `;

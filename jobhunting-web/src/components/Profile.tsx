@@ -4,7 +4,7 @@ import { UserContext } from '../services/usercontext';
 import UserService from '../services/user.service';
 import styled from "styled-components";
 import TextareaAutosize from '@mui/material/TextareaAutosize';
-import {deviceCalendar, deviceHome, deviceProfile} from "../common/ScreenSizes";
+import {deviceHome, deviceProfile} from "../common/ScreenSizes";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGithub, faLinkedin} from "@fortawesome/free-brands-svg-icons";
 import {faBriefcase, faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
@@ -14,35 +14,29 @@ import Button from "@mui/material/Button";
 import AuthService from "../services/auth.service";
 import {User} from "../models/User";
 import {colors, fonts} from "../common/CommonStyles";
-// import { jwtDecode, InvalidTokenError } from 'jwt-decode';
 
-
-const Profile = () => {
+export const Profile = () => {
     const { id } = useParams<{ id: string }>();
     const { user, setUser, lifeStory, setLifeStory, customfield1, setCustomField1, customfield2, setCustomField2, customfield3, setCustomField3 } = useContext(UserContext);
     const [loading, setLoading] = useState(true);
-    const isMountedRef = useRef(true);
+    const [customField1Error, setCustomField1Error] = useState<string | null>(null);
+    const [customField2Error, setCustomField2Error] = useState<string | null>(null);
+    const [customField3Error, setCustomField3Error] = useState<string | null>(null);
+    const [lifeStoryError, setLifeStoryError] = useState<string | null>(null);
 
+    const isMountedRef = useRef(true);
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log("am I being user id?" + id)
-
         if (user && user.id && id !== user.id.toString()) {
             alert("You are not authorized to be here")
-
-            // Redirect to an unauthorized page or handle unauthorized access
             AuthService.logout();
-
             navigate('/');
         }
     }, [id, user, navigate]);
 
-
     useEffect(() => {
-        console.log("your id is" + id);
-
         const userId = Number(id);
         if (!isNaN(userId)) {
             setLoading(true);
@@ -67,12 +61,10 @@ const Profile = () => {
         } else {
             console.error('Error: id is not a number');
         }
-
         return () => {
-            isMountedRef.current = false; // Set the flag to false when the component unmounts
+            isMountedRef.current = false;
         };
     }, [id, setUser, setCustomField1, setCustomField2, setCustomField3, setLifeStory]);
-
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -106,16 +98,10 @@ const Profile = () => {
                 setLifeStoryError(null);
             }
         }
-
     };
 
-
-
-
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        console.log("im submitted")
         e.preventDefault();
-        console.log("Handled submit");
         try {
             if (user && user.id) {
                 const requestBody = {
@@ -141,7 +127,6 @@ const Profile = () => {
                         customFields: requestBody.customFields,
                         lifestory: requestBody.lifestory, // Ensure "lifestory" matches your JSON data
                     };
-
                     setUser(updatedUserData);
                     setCustomField1(customfield1);
                     setCustomField2(customfield2);
@@ -157,7 +142,6 @@ const Profile = () => {
         }
     };
 
-
     const [isMobile, setIsMobile] = useState(window.matchMedia(deviceProfile.mobile).matches);
     const [isLaptop, setIsLaptop] = useState(window.matchMedia(deviceProfile.laptop).matches);
 
@@ -166,7 +150,6 @@ const Profile = () => {
             setIsMobile(window.matchMedia(deviceProfile.mobile).matches);
             setIsLaptop(window.matchMedia(deviceProfile.laptop).matches);
         };
-
         checkScreenSize();
         window.addEventListener('resize', checkScreenSize);
 
@@ -174,7 +157,6 @@ const Profile = () => {
             window.removeEventListener('resize', checkScreenSize);
         };
     }, []);
-
 
     const formRef = useRef<HTMLFormElement>(null);
 
@@ -184,7 +166,6 @@ const Profile = () => {
             formRef.current.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
         }
     };
-
 
     const [showModeratorBoard, setShowModeratorBoard] = useState(false);
     const [showAdminBoard, setShowAdminBoard] = useState(false);
@@ -197,27 +178,15 @@ const Profile = () => {
         setCurrentUser(null);
     };
 
-    const [customField1Error, setCustomField1Error] = useState<string | null>(null);
-    const [customField2Error, setCustomField2Error] = useState<string | null>(null);
-    const [customField3Error, setCustomField3Error] = useState<string | null>(null);
-
-    const [lifeStoryError, setLifeStoryError] = useState<string | null>(null);
-
-
     return (
         <ProfileWrapperDiv>
-
-
-
             <InfoContainerDiv>
-
                 <NameDiv>
                     <strong>Hello Their {user?.username}</strong>
                     <a href="/" onClick={logOut} style={{
                         textDecoration: 'none' ,
                         color: colors.TextWhiteColor,
                         fontSize: fonts.InputFontREM,
-
                         marginLeft: "3%"
                     }}>
                         <FontAwesomeIcon
@@ -235,7 +204,7 @@ const Profile = () => {
                         marginTop: '5%',
                         flexDirection: 'column',
                         '@media (max-width: 500px)': {
-                            width: '70%', // Adjusted width for screens of 500px or smaller
+                            width: '70%',
                         },
                     }}
                 >
@@ -257,21 +226,17 @@ const Profile = () => {
                                 style={{  marginBottom: "10%" }}
                             />
                         </IconDiv>
-
-
                         <StyledForm ref={formRef} onSubmit={handleSubmit}>
                             <StyledTextField name="customfield1" value={customfield1} onChange={handleChange} />
                             {customField1Error && <ErrorMessage>{customField1Error}</ErrorMessage>}
-
                             <StyledTextField name="customfield2" value={customfield2} onChange={handleChange} />
                             {customField2Error && <ErrorMessage>{customField2Error}</ErrorMessage>}
-
                             <StyledTextField name="customfield3" value={customfield3} onChange={handleChange} />
                             {customField3Error && <ErrorMessage>{customField3Error}</ErrorMessage>}
-
                         </StyledForm>
                     </IconFormDiv>
                 </Box>
+
                 <LifeStoryDiv>
                     <StyledTextareaAutosize
                         name="lifestory"
@@ -282,48 +247,38 @@ const Profile = () => {
                         maxRows={100} // Adjust the maximum number of rows as needed
                     />
                     {lifeStoryError && <ErrorMessage>{lifeStoryError}</ErrorMessage>}
-
                 </LifeStoryDiv>
 
                 <SubmitButtonDiv>
                     <SubmitButton
                         sx={{
-                            width: { xs: '100%'}, // 100% width on xs and sm breakpoints, auto on larger screens
+                            width: { xs: '100%'},
 
                             borderRadius: 10,
                             background: colors.ButtonColor,
 
                             color: colors.TextWhiteColor,
-                            border: '1px solid #007BFF', // Adding a border for contrast
+                            border: '1px solid #007BFF',
                             '&:hover': {
                                 background: colors.HoverButtonColor,
-                                boxShadow: '0 0 10px #00C9FF', // Optional: Adding a glow effect on hover
+                                boxShadow: '0 0 10px #00C9FF',
                             },
                             fontSize: fonts.ButtonFontREM,
                             fontWeight: 'bold',
                             fontFamily: fonts.ButtonFontFamily,
-                            textTransform: 'none', // Optional: Prevents uppercase text transformation common in MUI Buttons
+                            textTransform: 'none',
                         }}
                     onClick={handleSubmitButton} variant="contained">
                         Submit</SubmitButton>
                 </SubmitButtonDiv>
-
-
-
                 <Footer/>
-
             </InfoContainerDiv>
-
         </ProfileWrapperDiv>
     );
 };
 
-
 const ErrorMessage = styled.div`
-  //color: ${colors.FormContainer};
-  //color: orangered;
   color:  ${colors.errorOrangeColor};
-
   font-family: 'Roboto', sans-serif;
   font-size: ${fonts.ButtonFontREM};
 `;
@@ -338,21 +293,16 @@ height: 50px;
   }
 `;
 
-
 const SubmitButton = styled(Button)`
   height: 9vh;
   width: 23vw;
   display: flex;
   padding-bottom: 70px;
-
-
+  
   @media ${deviceHome.mobile} {
-    //background-color: red;
     width: 30vw;
     height: 7vh;
   }
-
-
 `;
 
 const IconFormDiv = styled.div`
@@ -376,29 +326,23 @@ height: 100%;
 `;
 
 const StyledTextField = styled(TextField)`
-  width: 100%; // Ensures it takes up the full width of its parent
-  box-sizing: border-box; // This ensures padding and borders are included in the width
+  width: 100%;
+  box-sizing: border-box; 
   background-color: ${colors.TextWhiteColor};
 
-  & .MuiInputBase-input { // Target the placeholder with increased specificity
-    //font-family: 'Roboto', sans-serif;
+  & .MuiInputBase-input {
     font-family: ${fonts.InputFontFamily};
     font-size:  ${fonts.InputFontREM};
-
   }
 
   @media ${deviceProfile.mobile} {
-    min-width: 200px; // Ensures it takes up the full width of its parent
+    min-width: 200px;
 
-    & .MuiInputBase-input { // Target the placeholder with increased specificity
-      //font-family: 'Roboto', sans-serif;
-    //min-width: 200px;
-    //  background-color: red;
-      min-width: 200px; // Ensures it takes up the full width of its parent
+    & .MuiInputBase-input {
+      min-width: 200px;
     }
   }
 `;
-
 
 const NameDiv = styled.div`
   display: flex;
@@ -409,12 +353,8 @@ const NameDiv = styled.div`
   margin-top: 2%;  
   strong {
   color: ${colors.TextBlackColor};
-    
-        font-family: ${fonts.ButtonFontFamily};
-        font-size: ${fonts.ButtonFontREM};
-
-    //font-size: 1.4rem;
-    
+  font-family: ${fonts.ButtonFontFamily};
+  font-size: ${fonts.ButtonFontREM};
   }
 `;
 
@@ -426,13 +366,11 @@ const SubmitButtonDiv = styled.div`
   @media ${deviceProfile.mobile} {
     width: 80%;
   }
-  
 `;
 
 const LifeStoryDiv = styled.div`
   display: flex;
   flex-direction: column;
-  //height: 40vh;
   width: 100%;
   justify-content: center;
   align-items: center;
@@ -442,12 +380,10 @@ const LifeStoryDiv = styled.div`
   }
 `;
 
-
-
 const ProfileWrapperDiv = styled.div`
   display: flex;
-  justify-content: center; // Centers children horizontally
-  align-items: center; // Optional, if you want to center vertically as well
+  justify-content: center; 
+  align-items: center; 
   height: 100%;
   width: 100vw;
   background-color: ${colors.AppBackGroundColor};
@@ -455,8 +391,8 @@ const ProfileWrapperDiv = styled.div`
 
 const InfoContainerDiv = styled.div`
   display: flex;
-  height: 100%; // You might want to adjust this depending on your layout needs
-  width: 80%; // Or any width you prefer
+  height: 100%; 
+  width: 80%; 
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -473,9 +409,9 @@ const StyledForm = styled.form`
 `;
 
 const StyledTextareaAutosize = styled(TextareaAutosize)`
-  border: 1px solid #ccc; // Example style
-  padding: 8px; // Example style
-  border-radius: 4px; // Example style
+  border: 1px solid #ccc; 
+  padding: 8px; 
+  border-radius: 4px; 
   width: 670px;
   margin-top: 5%;
   font-family: ${fonts.InputFontFamily};
@@ -486,8 +422,4 @@ const StyledTextareaAutosize = styled(TextareaAutosize)`
   }
 `;
 
-
-
-
-export default Profile;
 

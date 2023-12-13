@@ -7,7 +7,6 @@ import AuthService from "./services/auth.service";
 
 import Login from "./components/Login";
 import Register from "./components/Register";
-import Profile from "./components/Profile";
 import BoardUser from "./components/BoardUser";
 import BoardModerator from "./components/BoardModerator";
 import BoardAdmin from "./components/BoardAdmin";
@@ -28,6 +27,7 @@ import {Header} from "./components/Header";
 import {Test} from "./components/Test";
 import {UpdateJob} from "./components/UpdateJob";
 import {AllInterviews} from "./components/AllInterviews";
+import {Profile} from "./components/Profile";
 // import {WeedList} from "./components/WeedList";
 
 

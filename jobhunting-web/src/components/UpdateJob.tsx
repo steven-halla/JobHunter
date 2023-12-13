@@ -360,12 +360,6 @@ const SubmitButtonDiv = styled.div`
   justify-content: center;
   align-items: center;
   padding: 20px;
-  
-  @media ${deviceHome.mobile} {
-    width: 100%;
-    
-  }
-  
 `;
 
 const SubmitButton = styled(Button)`
@@ -375,7 +369,7 @@ const SubmitButton = styled(Button)`
   padding-bottom: 70px;
 
   @media ${deviceHome.mobile} {
-    width: 60vw;
+    width: 30vw;
     height: 7vh;
   }
 `;
@@ -397,7 +391,7 @@ const FormBox = styled(Box)`
   
   flex-direction: column;
   background-color: ${colors.HeaderBackGroundColor};
-  margin-top: 1%;
+  margin-top: 2%;
   box-shadow:
           -4px 0 8px -2px rgba(0, 0, 0, 0.2), 
           4px 0 8px -2px rgba(0, 0, 0, 0.2),  

@@ -343,8 +343,11 @@ export const InterviewSecured = () => {
                     </SubmitButton>
                 </InterviewInfoDiv>
             </form>
-            <Footer />
+
             </MyBox>
+
+            {/*<Footer />*/}
+
         </InterviewSecuredWrapperDiv>
     );
 };
@@ -377,8 +380,8 @@ const MyBox = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-color: ${colors.FormContainer};
-  margin-top: 5%;
+  //background-color: ${colors.FormContainer};
+  background-color: purple;
   width: 30%;
   box-shadow: -4px 0 8px -2px rgba(0, 0, 0, 0.2),
   4px 0 8px -2px rgba(0, 0, 0, 0.2),
@@ -386,9 +389,10 @@ const MyBox = styled.div`
   border-radius: 10px;
   padding-bottom: 20px; 
   padding-top: 15px;
+  margin-bottom: 3%;
+  
   @media ${deviceProfile.mobile} {
     width: 70%;
-    margin-top: 15%;
   }
 
     h1 {
@@ -442,15 +446,16 @@ const InterviewSecuredWrapperDiv = styled.div`
   align-items: center;
   display: flex;
   
+  
   @media ${deviceProfile.mobile} {
-    height: 100%;
+    height: 100vh;
     width: 100vw;
   }
 
   @media ${deviceProfile.laptop} {
     display: flex;
     align-items: center;
-    height: 100%;
+    height: 100vh;
     width: 100%;
   }
 `;
@@ -491,12 +496,15 @@ const InterviewInfoDiv = styled.div`
 
 const Footer = styled.div`
   display: flex;
-  height: 5vh;
+  height: 2vh; // Adjust the height as needed
+  background-color: ${colors.AppBackGroundColor};
+  position: absolute; // Changed to absolute
+  bottom: 0;
+  width: 100%;
 
   @media ${deviceProfile.mobile} {
-    height: 10vh;
-    width: 100vw;
-    bottom: 0;
+    height: 20vh;
   }
 `;
+
 

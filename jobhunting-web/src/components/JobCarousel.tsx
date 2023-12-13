@@ -1,20 +1,16 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {Job} from "../models/Job";
-import {JobsContext} from "../services/jobcontext";
 import styled from "styled-components";
-import {deviceHome} from "../common/ScreenSizes";
 import {colors, fonts} from "../common/CommonStyles";
 
 interface JobCarouselProps {
-    searchResult: Job[] | null; // Accepts Job[] or null
+    searchResult: Job[] | null;
 }
+
 export const JobCarousel: React.FC<JobCarouselProps> = ({ searchResult }) => {
-
-
-    const { jobs } = useContext(JobsContext); // Access jobs from context
 
     const settings = {
         dots: true,
@@ -23,11 +19,6 @@ export const JobCarousel: React.FC<JobCarouselProps> = ({ searchResult }) => {
         slidesToShow: 1,
         slidesToScroll: 1
     };
-
-    // if (searchResult === null) {
-    //     return <div>No jobs found.</div>;
-    // }
-
 
     return (
         <div>
@@ -38,11 +29,9 @@ export const JobCarousel: React.FC<JobCarouselProps> = ({ searchResult }) => {
                             <h3>Result {index + 1}:</h3>
                             <p>Company Name: {job.companyname}</p>
                             <p>Primary Contact: {job.primarycontact}</p>
-                            {/* Implement or adjust DateMutation as needed */}
                             <p>Company Responded: {job.companyresponded ? 'Yes' : 'No'}</p>
                             <p>Company Rejected: {job.companyrejected ? 'Yes' : 'No'}</p>
                             <a href={job.joblink} target="_blank" rel="noopener noreferrer" style={{ margin: '0', textAlign: 'center', marginLeft: "38%", paddingBottom: "13%", color: 'black' }}>Job Link</a>
-
                         </CarouselDiv>
                     ))}
                 </Slider>
@@ -57,21 +46,14 @@ const CarouselDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%; /* Ensure the div takes up the entire height of its container */
-
-  /* Add padding or margin as needed for spacing */
-
+  height: 100%; 
+  
   h3, a, p {
-    margin: 0; /* Reset margin to zero */
-    text-align: center; /* Center text horizontally */
+    margin: 0; 
+    text-align: center;
     padding-bottom: 30px;
-    //color: white;
     color: ${colors.TextBlackColor};
     font-size: ${fonts.InputFontREM};
-
-
     font-family: ${fonts.FontFamilyItalics};
-
-
   }
 `;

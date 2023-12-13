@@ -478,12 +478,8 @@ export const IconWrapper = styled.div`
   align-items: center;
   text-align: center;
   gap: 5px;
-  flex-direction: column;
+  flex-direction: row;
   
-  //text {
-  //  color: #3D4849;
-  //}
-
   a {
     display: flex;
     flex-direction: column;
@@ -496,18 +492,16 @@ export const IconWrapper = styled.div`
       
     }
   }
-
-  //svg {
-  //  color: red;
-  //}
-
+  
   span {
     font-size: ${fonts.HeaderIconTextREM};
 
   }
 
   @media ${noResponseJobs.mobile} {
-    margin-bottom: 3%;
+    //margin-bottom: 3%;
+    margin-right: 7%;
+    
 
     span {
       font-size: ${fonts.MobileHeaderIconTextREM};

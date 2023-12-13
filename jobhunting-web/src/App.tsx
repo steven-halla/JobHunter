@@ -21,7 +21,6 @@ import {User} from "./models/User";
 import {UserContext, UserContextProvider} from "./services/usercontext";
 import {Home} from "./components/Home";
 import {JobViewAll} from "./components/JobViewAll";
-import {CompanyNoResponse} from "./components/CompanyNoResponse";
 import { JobsContextProvider } from "./services/jobcontext";
 import {InterviewSecured} from "./components/InterviewSecured";
 import {JobsAppliedDateGraph} from "./components/JobsAppliedDateGraph";
@@ -103,19 +102,15 @@ const App = () => {
                                 <Route path="/home/:id" element={<Home />} />
                                 <Route path="/profile/:id" element={<Profile />} />
                                 <Route path="/jobviewall" element={<JobViewAll />} />
-                                {/*<Route path="/companynoresponse" element={<CompanyNoResponse />} />*/}
                                 <Route path="/interviewsecured/:jobId" element={<InterviewSecured />} />
                                 <Route path="/allinterviews" element={<AllInterviews />} />
-                                <Route path="/test" element={<Test />} />
                                 <Route path="/updatejob/:jobId" element={<UpdateJob />} />
                                 <Route path={"/dategraphs"} element={<JobsAppliedDateGraph />} />
-
-
+                                <Route path="/test" element={<Test />} />
 
                                 <Route path="/user" element={<BoardUser />} />
                                 <Route path="/mod" element={<BoardModerator />} />
                                 <Route path="/admin" element={<BoardAdmin />} />
-
                             </React.Fragment>
                         )}
                     </Routes>

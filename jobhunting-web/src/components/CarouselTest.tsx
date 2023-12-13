@@ -22,7 +22,7 @@ import {Slider} from "@mui/material";
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 
 
-export const Test = () => {
+export const CarouselTest = () => {
     const [searchTerm, setSearchTerm] = useState('');
 
     const { jobs, updateJobSoftDelete, updateJobRejected, meetingLink} = useContext(JobsContext);

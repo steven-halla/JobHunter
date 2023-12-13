@@ -9,14 +9,24 @@ import CloseIcon from '@mui/icons-material/Close';
 import styled from "styled-components";
 import {deviceHome, deviceProfile} from "../common/ScreenSizes";
 import {colors, fonts} from "../common/CommonStyles";
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 export const UpdateJob = () => {
 
     const { jobId } = useParams<{ jobId: string }>();  // Extracting jobId from URL params
-    const { jobs, setJobs } = useContext(JobsContext);
+    const { jobs, setJobs,  updateJobSoftDelete,  } = useContext(JobsContext);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const currentJob = jobs.find(job => job.id === Number(jobId));
     const [formData, setFormData] = useState<Job>(currentJob || {} as Job);
+
+
+    const handleSoftDeleteCheck = (jobId: number) => {
+        if (window.confirm("Are you sure you want to delete this job?")) {
+            updateJobSoftDelete(jobId, true);
+            alert("Interview deleted");
+            window.location.href = "/jobviewall";        }
+    };
 
     const handleCloseSnackbar = (event: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
@@ -309,6 +319,15 @@ export const UpdateJob = () => {
                         </React.Fragment>
                     }
                 />
+
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    {currentJob && (
+                        <FormControlLabel
+                            control={<Checkbox onChange={() => handleSoftDeleteCheck(currentJob.id)} />}
+                            label="Delete"
+                        />
+                    )}
+                </div>
             </FormBox>
             <Footer></Footer>
         </TestWrapperBox>
@@ -341,6 +360,12 @@ const SubmitButtonDiv = styled.div`
   justify-content: center;
   align-items: center;
   padding: 20px;
+  
+  @media ${deviceHome.mobile} {
+    width: 100%;
+    
+  }
+  
 `;
 
 const SubmitButton = styled(Button)`
@@ -350,7 +375,7 @@ const SubmitButton = styled(Button)`
   padding-bottom: 70px;
 
   @media ${deviceHome.mobile} {
-    width: 30vw;
+    width: 60vw;
     height: 7vh;
   }
 `;
@@ -368,8 +393,11 @@ const TestWrapperBox = styled(Box)`
 const FormBox = styled(Box)`
   height: auto;
   width: 40%;
+  display: flex;
+  
+  flex-direction: column;
   background-color: ${colors.HeaderBackGroundColor};
-  margin-top: 6%;
+  margin-top: 1%;
   box-shadow:
           -4px 0 8px -2px rgba(0, 0, 0, 0.2), 
           4px 0 8px -2px rgba(0, 0, 0, 0.2),  
@@ -379,4 +407,5 @@ const FormBox = styled(Box)`
     width: 90%;
     margin-top: 3%;
   }
+  
 `;

@@ -674,7 +674,7 @@ const JobCardDiv = styled.div`
 `;
 
 const Footer = styled.div`
-  height: 40vh;
+  height: 20vh;
 `;
 
 export const CustomFieldForm = styled.form`

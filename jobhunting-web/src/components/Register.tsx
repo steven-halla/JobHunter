@@ -241,7 +241,9 @@ const Register: React.FC = () => {
                                         fullWidth
                                     />
                                     {state.touched.username && state.validation.username && (
-                                        <MessageDiv className="invalid-feedback d-block">{state.validation.username}</MessageDiv>
+                                        <MessageDiv className="invalid-feedback d-block">
+                                            {state.validation.username}
+                                        </MessageDiv>
                                     )}
                                  </div>
                                 <div className="form-group">
@@ -277,7 +279,9 @@ const Register: React.FC = () => {
                                         fullWidth
                                     />
                                     {state.touched.password && state.validation.password && (
-                                        <MessageDiv className="invalid-feedback d-block">{state.validation.password}</MessageDiv>
+                                        <MessageDiv className="invalid-feedback d-block">
+                                            {state.validation.password}
+                                        </MessageDiv>
                                     )}
                             </div>
                             <div className="form-group">

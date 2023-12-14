@@ -18,7 +18,8 @@ export const UpdateJob = () => {
     const { jobs, setJobs,  updateJobSoftDelete,  } = useContext(JobsContext);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const currentJob = jobs.find(job => job.id === Number(jobId));
-    const [formData, setFormData] = useState<Job>(currentJob || {} as Job);
+    const [formData, setFormData] =
+        useState<Job>(currentJob || {} as Job);
 
 
     const handleSoftDeleteCheck = (jobId: number) => {
@@ -138,11 +139,12 @@ export const UpdateJob = () => {
         }
 
         try {
-            const response = await axios.patch(`http://localhost:8080/api/jobs/update/${jobId}`, formData);
+            const response =
+                await axios.patch(`http://localhost:8080/api/jobs/update/${jobId}`, formData);
             setJobs(prevJobs => prevJobs.map(job => job.id === Number(jobId) ? formData : job));
             setOpenSnackbar(true);
-            alert("Interview updated"); // Success message
-            window.location.href = "/jobviewall"; // Redirect to '/jobviewall' route
+            alert("Interview updated");
+            window.location.href = "/jobviewall";
         } catch (error) {
             console.error('Error updating job:', error);
         }
@@ -150,11 +152,16 @@ export const UpdateJob = () => {
         setDescriptionError(null);
     };
 
-    const [companyNameError, setCompanyNameError] = useState<string | null>(null);
-    const [descriptionError, setDescriptionError] = useState<string | null>(null);
-    const [primaryContactError, setPrimaryContactError] = useState<string | null>(null);
-    const [companyWebsiteLinkError, setCompanyWebsiteLinkError] = useState<string | null>(null);
-    const [jobLinkError, setJobLinkError] = useState<string | null>(null);
+    const [companyNameError, setCompanyNameError] =
+        useState<string | null>(null);
+    const [descriptionError, setDescriptionError] =
+        useState<string | null>(null);
+    const [primaryContactError, setPrimaryContactError] =
+        useState<string | null>(null);
+    const [companyWebsiteLinkError, setCompanyWebsiteLinkError] =
+        useState<string | null>(null);
+    const [jobLinkError, setJobLinkError] =
+        useState<string | null>(null);
 
     return(
         <TestWrapperBox>
@@ -234,7 +241,7 @@ export const UpdateJob = () => {
 
                 </div>
                 {primaryContactError && <ErrorMessage>{primaryContactError}</ErrorMessage>}
-                <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}> {/* Adjusted margin */}
+                <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}>
                     <TextField
                         id="companywebsitelink"
                         label="Company Website Link"

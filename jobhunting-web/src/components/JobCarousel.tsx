@@ -31,7 +31,8 @@ export const JobCarousel: React.FC<JobCarouselProps> = ({ searchResult }) => {
                             <p>Primary Contact: {job.primarycontact}</p>
                             <p>Company Responded: {job.companyresponded ? 'Yes' : 'No'}</p>
                             <p>Company Rejected: {job.companyrejected ? 'Yes' : 'No'}</p>
-                            <a href={job.joblink} target="_blank" rel="noopener noreferrer" style={{ margin: '0', textAlign: 'center', marginLeft: "38%", paddingBottom: "13%", color: 'black' }}>Job Link</a>
+                            <a href={job.joblink} target="_blank" rel="noopener noreferrer" style={{ margin: '0',
+                                textAlign: 'center', marginLeft: "38%", paddingBottom: "13%", color: 'black' }}>Job Link</a>
                         </CarouselDiv>
                     ))}
                 </Slider>

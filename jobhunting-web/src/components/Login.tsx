@@ -81,8 +81,10 @@ const Login: React.FC = () => {
   };
 
   const { username, password, loading, message } = state;
-  const [isMobile, setIsMobile] = useState(window.matchMedia(deviceLogin.mobile).matches);
-  const [isLaptop, setIsLaptop] = useState(window.matchMedia(deviceLogin.laptop).matches);
+  const [isMobile, setIsMobile] =
+      useState(window.matchMedia(deviceLogin.mobile).matches);
+  const [isLaptop, setIsLaptop] =
+      useState(window.matchMedia(deviceLogin.laptop).matches);
 
   useEffect(() => {
     const checkScreenSize = () => {

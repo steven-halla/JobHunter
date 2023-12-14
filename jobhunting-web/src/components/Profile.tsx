@@ -17,7 +17,8 @@ import {colors, fonts} from "../common/CommonStyles";
 
 export const Profile = () => {
     const { id } = useParams<{ id: string }>();
-    const { user, setUser, lifeStory, setLifeStory, customfield1, setCustomField1, customfield2, setCustomField2, customfield3, setCustomField3 } = useContext(UserContext);
+    const { user, setUser, lifeStory, setLifeStory, customfield1, setCustomField1, customfield2, setCustomField2,
+        customfield3, setCustomField3 } = useContext(UserContext);
     const [loading, setLoading] = useState(true);
     const [customField1Error, setCustomField1Error] = useState<string | null>(null);
     const [customField2Error, setCustomField2Error] = useState<string | null>(null);

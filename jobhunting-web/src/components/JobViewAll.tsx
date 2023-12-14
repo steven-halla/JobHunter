@@ -121,7 +121,8 @@ export const JobViewAll = () => {
         }
     };
 
-    const updateJobOnServer = async (jobId: string, data: { companyrejected: boolean; companyresponded?: boolean }) => {
+    const updateJobOnServer = async (jobId: string,
+                                     data: { companyrejected: boolean; companyresponded?: boolean }) => {
         try {
             const response = await fetch(`http://localhost:8080/api/jobs/update/${jobId}`, {
                 method: 'PATCH',
@@ -149,7 +150,8 @@ export const JobViewAll = () => {
             return job.companyresponded || new Date(job.dateapplied).getTime() >= twentyOneDaysAgoMs;
         })
         .filter(job => {
-            const result = (onlyShowResponded ? job.companyresponded : true) && job.companyname.toLowerCase().includes(filter.toLowerCase());
+            const result = (onlyShowResponded ? job.companyresponded : true)
+                && job.companyname.toLowerCase().includes(filter.toLowerCase());
             return result;
         })
         .filter(job => {
@@ -160,7 +162,8 @@ export const JobViewAll = () => {
         .filter(job =>
             job.companyresponded || // If company has responded, include the job
             (!job.companyresponded &&
-                (searchTerm.length < 3 || job.companyname.toLowerCase().includes(searchTerm.toLowerCase().trim()) || job.primarycontact.toLowerCase().includes(searchTerm.toLowerCase().trim()))
+                (searchTerm.length < 3 || job.companyname.toLowerCase().includes(searchTerm.toLowerCase().trim())
+                    || job.primarycontact.toLowerCase().includes(searchTerm.toLowerCase().trim()))
             )
         )
         .sort((a, b) => {
@@ -218,8 +221,10 @@ export const JobViewAll = () => {
             }
         });
 
-    const [isMobile, setIsMobile] = useState(window.matchMedia(deviceJobViewAll.mobile).matches);
-    const [isLaptop, setIsLaptop] = useState(window.matchMedia(deviceJobViewAll.laptop).matches);
+    const [isMobile, setIsMobile] =
+        useState(window.matchMedia(deviceJobViewAll.mobile).matches);
+    const [isLaptop, setIsLaptop] =
+        useState(window.matchMedia(deviceJobViewAll.laptop).matches);
 
     useEffect(() => {
         const checkScreenSize = () => {
@@ -378,7 +383,8 @@ export const JobViewAll = () => {
                         <YellowBox>
                             <FontAwesomeIcon icon={faCalendarPlus} />
                             <p>
-                                {DateMutation(typeof job.dateapplied === 'string' ? job.dateapplied : job.dateapplied.toISOString())}
+                                {DateMutation(typeof job.dateapplied === 'string' ?
+                                    job.dateapplied : job.dateapplied.toISOString())}
                             </p>
                         </YellowBox>
 
@@ -426,22 +432,27 @@ export const JobViewAll = () => {
                                         transform: 'scale(1)',
                                         transition: 'transform 0.2s',
                                     }}
-                                    onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.15)'}
-                                    onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                                    onMouseEnter={(e) =>
+                                        e.currentTarget.style.transform = 'scale(1.15)'}
+                                    onMouseLeave={(e) =>
+                                        e.currentTarget.style.transform = 'scale(1)'}
                                 />
                             </GoldBox>
 
                             <GoldBox>
                                 <p>Job Link</p>
-                                <a href={job.joblink} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                                <a href={job.joblink} target="_blank" rel="noopener noreferrer"
+                                   style={{ textDecoration: 'none' }}>
                                     <FontAwesomeIcon icon={faGlobe} size="lg"   style={{
                                         color: 'black',
                                         cursor: 'pointer',
                                         transform: 'scale(1)',
                                         transition: 'transform 0.2s',
                                     }}
-                                                     onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.15)'}
-                                                     onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                                                     onMouseEnter={(e) =>
+                                                         e.currentTarget.style.transform = 'scale(1.15)'}
+                                                     onMouseLeave={(e) =>
+                                                         e.currentTarget.style.transform = 'scale(1)'}
                                     />
                                 </a>
 
@@ -459,8 +470,10 @@ export const JobViewAll = () => {
                                         transform: 'scale(1)',
                                         transition: 'transform 0.2s',
                                     }}
-                                    onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.15)'}
-                                    onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                                    onMouseEnter={(e) =>
+                                        e.currentTarget.style.transform = 'scale(1.15)'}
+                                    onMouseLeave={(e) =>
+                                        e.currentTarget.style.transform = 'scale(1)'}
                                 />
                             </GoldBox>
                         </IconBox>
@@ -493,13 +506,13 @@ const GoldBox = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end; /* Aligns children to the far right */
+  justify-content: flex-end; 
   align-items: center;
-  font-family: Arial, sans-serif; // Set the font family to Arial with a generic sans-serif fallback
+  font-family: Arial, sans-serif; 
   font-size: 18px;
   p {
     padding-top: 7%;
-    margin-right: 15px; /* Adds right margin to <p> tag for spacing */
+    margin-right: 15px; 
   }
 
   svg {
@@ -600,7 +613,7 @@ const GreenBox = styled.div`
     -webkit-line-clamp: 2;
     overflow: hidden;
     word-wrap: break-word;
-    max-height: calc(2 * 1.4em); // Adjust '1.2em' based on your font-size and line-height
+    max-height: calc(2 * 1.4em); 
   }
 `;
 

@@ -149,7 +149,7 @@ export const Header = () => {
                                             color: colors.IconColor,
                                             display: "flex",
                                             flexDirection: "column",
-                                            borderBottom: clipboardIconState ? 'none' : '3px solid', // Thicker underline
+                                            borderBottom: clipboardIconState ? 'none' : '3px solid',
                                         }}                                         >
                                         <FontAwesomeIcon
                                             style={{

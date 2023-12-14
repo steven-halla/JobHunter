@@ -70,8 +70,10 @@ export const JobsAppliedDateGraph: React.FC = () => {
         }).length
     }));
 
-    const [isMobile, setIsMobile] = useState(window.matchMedia(deviceHome.mobile).matches);
-    const [isLaptop, setIsLaptop] = useState(window.matchMedia(deviceHome.laptop).matches);
+    const [isMobile, setIsMobile] =
+        useState(window.matchMedia(deviceHome.mobile).matches);
+    const [isLaptop, setIsLaptop] =
+        useState(window.matchMedia(deviceHome.laptop).matches);
 
 
     useEffect(() => {

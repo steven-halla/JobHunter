@@ -304,12 +304,13 @@ export const InterviewSecured = () => {
                             console.log("Parsed end time (Date object):", timeValue);
                             setInterviewEndTime(timeValue);
                         }}
-                        title="You can either: Hit the up/down arrows to set the time. Or click the Icon to the far right to access the menu."
+                        title="You can either: Hit the up/down arrows to set the time.
+                         Or click the Icon to the far right to access the menu."
                     />
                     {interviewEndTimeError && <ErrorMessage>{interviewEndTimeError}</ErrorMessage>}
 
                         <StyledTextField
-                            placeholder="Notes for your upcoming interview.'" // Using placeholder instead of label
+                            placeholder="Notes for your upcoming interview.'"
                             multiline
                             rows={4}
                             variant="outlined"
@@ -332,7 +333,7 @@ export const InterviewSecured = () => {
                             textTransform: 'none',
                             fontSize: '1.6rem',
                             fontWeight: 'bold',
-                            fontFamily: "'Times New Roman', serif", // Corrected fontFamily format
+                            fontFamily: "'Times New Roman', serif",
                         }}
                         variant="contained"
                         type="submit"

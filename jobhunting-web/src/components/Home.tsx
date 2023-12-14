@@ -294,8 +294,10 @@ export const Home: React.FC = () => {
         }
     };
 
-    const [isMobile, setIsMobile] = useState(window.matchMedia(deviceHome.mobile).matches);
-    const [isLaptop, setIsLaptop] = useState(window.matchMedia(deviceHome.laptop).matches);
+    const [isMobile, setIsMobile] = useState(window
+        .matchMedia(deviceHome.mobile).matches);
+    const [isLaptop, setIsLaptop] = useState(window
+        .matchMedia(deviceHome.laptop).matches);
 
     useEffect(() => {
         const checkScreenSize = () => {
@@ -311,11 +313,16 @@ export const Home: React.FC = () => {
         };
     }, []);
 
-    const [companyNameError, setCompanyNameError] = useState<string | null>(null);
-    const [companyDescriptionError, setCompanyDescriptionError] = useState<string | null>(null);
-    const [companyContactError, setCompanyContactError] = useState<string | null>(null);
-    const [companyWebSiteLinkError, setCompanyWebSiteLinkError] = useState<string | null>(null);
-    const [companyJobLinkError, setCompanyJobLinkError] = useState<string | null>(null);
+    const [companyNameError, setCompanyNameError] =
+        useState<string | null>(null);
+    const [companyDescriptionError, setCompanyDescriptionError] =
+        useState<string | null>(null);
+    const [companyContactError, setCompanyContactError] =
+        useState<string | null>(null);
+    const [companyWebSiteLinkError, setCompanyWebSiteLinkError] =
+        useState<string | null>(null);
+    const [companyJobLinkError, setCompanyJobLinkError] =
+        useState<string | null>(null);
 
 // ... your existing state and functions ...
 
@@ -355,7 +362,6 @@ export const Home: React.FC = () => {
             >
                 <Box
                     sx={{
-                        // backgroundColor: "purple",
                         height: "8vh",
                         width: "5vw",
                         display: "flex",
@@ -379,8 +385,10 @@ export const Home: React.FC = () => {
                             transform: 'scale(1)',
                             transition: 'transform 0.2s',
                             color: colors.TextBlackColor,
-                        }}                        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.10)'}
-                        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                        }}                        onMouseEnter={(e) =>
+                        e.currentTarget.style.transform = 'scale(1.10)'}
+                        onMouseLeave={(e) => e.currentTarget.style.transform =
+                            'scale(1)'}
                     />
                 </Box>
 
@@ -410,8 +418,10 @@ export const Home: React.FC = () => {
                             transform: 'scale(1)',
                             transition: 'transform 0.2s',
                             color: colors.TextBlackColor,
-                        }}                        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.10)'}
-                        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                        }}                        onMouseEnter={(e) =>
+                        e.currentTarget.style.transform = 'scale(1.10)'}
+                        onMouseLeave={(e) => e.currentTarget.style.transform =
+                            'scale(1)'}
                     />
                 </Box>
 
@@ -435,8 +445,10 @@ export const Home: React.FC = () => {
                             transform: 'scale(1)',
                             transition: 'transform 0.2s',
                             color: colors.TextBlackColor,
-                        }}                        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.10)'}
-                        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                        }}                        onMouseEnter={(e) =>
+                        e.currentTarget.style.transform = 'scale(1.10)'}
+                        onMouseLeave={(e) => e.currentTarget.style.transform =
+                            'scale(1)'}
                     />
                 </Box>
             </Box>
@@ -496,9 +508,10 @@ export const Home: React.FC = () => {
                             },
                             boxShadow: {
                                 xs: "none",
-                                md: `-4px 0 8px -2px rgba(0, 0, 0, 0.2), 4px 0 8px -2px rgba(0, 0, 0, 0.2), 0 4px 8px -2px rgba(0, 0, 0, 0.2)`, // Box shadow for medium devices and above
+                                md: `-4px 0 8px -2px rgba(0, 0, 0, 0.2), 4px 0 8px -2px rgba(0, 0, 0, 0.2),
+                                 0 4px 8px -2px rgba(0, 0, 0, 0.2)`,
                             },
-                            borderRadius: 6, // Add this line to set the border-radius to 10px
+                            borderRadius: 6,
                         }}
                     >
                         <CustomFieldForm onSubmit={handleJobSubmit}>
@@ -511,7 +524,8 @@ export const Home: React.FC = () => {
                                     onChange={handleCompanyNameChange}
                                 />
                                 {companyNameError &&
-                                    <div style={{ color: colors.errorRedColor, fontSize: fonts.ButtonFontREM, fontFamily: fonts.InputPlaceHolderFontFamily }}>
+                                    <div style={{ color: colors.errorRedColor, fontSize: fonts.ButtonFontREM,
+                                        fontFamily: fonts.InputPlaceHolderFontFamily }}>
                                         {companyNameError}</div>}
                             </FieldContainerDiv>
 
@@ -523,7 +537,8 @@ export const Home: React.FC = () => {
                                     value={description}
                                     onChange={handleDescriptionChange} />
                                 {companyDescriptionError &&
-                                    <div style={{ color: colors.errorRedColor, fontSize: fonts.ButtonFontREM, fontFamily: fonts.InputPlaceHolderFontFamily }}>
+                                    <div style={{ color: colors.errorRedColor, fontSize: fonts.ButtonFontREM,
+                                        fontFamily: fonts.InputPlaceHolderFontFamily }}>
                                     {companyDescriptionError}</div>}
                             </FieldContainerDiv>
 
@@ -535,7 +550,8 @@ export const Home: React.FC = () => {
                                     value={primarycontact}
                                     onChange={handlePrimaryContact} />
                                 {companyContactError &&
-                                    <div style={{ color: colors.errorRedColor, fontSize: fonts.ButtonFontREM, fontFamily: fonts.InputPlaceHolderFontFamily }}>
+                                    <div style={{ color: colors.errorRedColor, fontSize: fonts.ButtonFontREM,
+                                        fontFamily: fonts.InputPlaceHolderFontFamily }}>
                                         {companyContactError}
 
                                     </div>
@@ -549,7 +565,8 @@ export const Home: React.FC = () => {
                                     placeholder="company website link"
                                     value={companywebsitelink} onChange={handleCompanyWebSiteLink} />
                                 {companyWebSiteLinkError &&
-                                    <div style={{ color: colors.errorRedColor, fontSize: fonts.ButtonFontREM, fontFamily: fonts.InputPlaceHolderFontFamily }}>
+                                    <div style={{ color: colors.errorRedColor, fontSize: fonts.ButtonFontREM,
+                                        fontFamily: fonts.InputPlaceHolderFontFamily }}>
                                         {companyWebSiteLinkError}
                                     </div>}
                             </FieldContainerDiv>
@@ -561,7 +578,8 @@ export const Home: React.FC = () => {
                                     placeholder="job link"
                                     value={joblink} onChange={handleJobLink} />
                                 {companyJobLinkError &&
-                                    <div style={{ color: colors.errorRedColor, fontSize: fonts.ButtonFontREM, fontFamily: fonts.InputPlaceHolderFontFamily }}>
+                                    <div style={{ color: colors.errorRedColor, fontSize: fonts.ButtonFontREM,
+                                        fontFamily: fonts.InputPlaceHolderFontFamily }}>
                                         {companyJobLinkError}</div>}
                             </FieldContainerDiv>
 
@@ -615,7 +633,8 @@ export const Home: React.FC = () => {
                     >
                         {
                             Array.isArray(searchResult) && searchResult.length > 0 && (
-                                <JobCardDiv style={Array.isArray(searchResult) && searchResult.length > 0 ? jobCardStyle : {}}>
+                                <JobCardDiv style={Array.isArray(searchResult) && searchResult.length > 0 ?
+                                    jobCardStyle : {}}>
                                     <JobCarousel searchResult={searchResult} />
                                 </JobCardDiv>
                             )
@@ -683,8 +702,6 @@ export const CustomFieldForm = styled.form`
   justify-items: center;
   align-items: center;
   width: 100%;
-  //background-color: red;
-  
   
   input {
     display: flex;
@@ -717,7 +734,7 @@ const FieldContainerDiv = styled.div`
   flex-direction: column;
   align-items: flex-start;
 
-  @media ${deviceHome.mobile} { // Apply for mobile screens
+  @media ${deviceHome.mobile} { 
     width: 80%;
   }
 `;

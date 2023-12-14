@@ -195,17 +195,15 @@ export const InterviewSecured = () => {
                     interviewnotes: interviewnotes,
                     interviewernames: interviewernames,
                     interviewdate: interviewdate,
-                    interviewbegintime: formattedBeginTime, // Use formatted time
-                    interviewendtime: formattedEndTime,     // Use formatted time
+                    interviewbegintime: formattedBeginTime,
+                    interviewendtime: formattedEndTime,
                     companyresponded: true,
                 }),
             });
-
             if (response.ok) {
-                alert("Interview updated"); // Success message
-                window.location.href = "/jobviewall"; // Redirect to '/jobviewall' route
+                alert("Interview updated");
+                window.location.href = "/jobviewall";
             } else {
-                // Handle API response error
                 console.error('Failed to update job interview. Server responded with:', response.status);
             }
         } catch (error) {
@@ -380,8 +378,7 @@ const MyBox = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  //background-color: ${colors.FormContainer};
-  background-color: purple;
+  background-color: ${colors.FormContainer};
   width: 30%;
   box-shadow: -4px 0 8px -2px rgba(0, 0, 0, 0.2),
   4px 0 8px -2px rgba(0, 0, 0, 0.2),

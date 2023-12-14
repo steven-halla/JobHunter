@@ -201,6 +201,8 @@ export const Home: React.FC = () => {
                     setJobSoftDelete(false);
                     setCount(count + 1);
                     alert("Adding +1 to the counter.")
+                    window.location.href = `/home/${user?.id}`; // Redirect to '/jobviewall' route
+
                 } else {
                     console.log("Failed to create job");
                 }
@@ -683,6 +685,7 @@ export const CustomFieldForm = styled.form`
   justify-items: center;
   align-items: center;
   width: 100%;
+  //background-color: red;
   
   
   input {
@@ -711,7 +714,7 @@ export const CustomFieldForm = styled.form`
 
 const FieldContainerDiv = styled.div`
   width: 60%;
-  padding-top: 3%;
+  padding-top: 5%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

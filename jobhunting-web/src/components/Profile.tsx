@@ -90,14 +90,18 @@ export const Profile = () => {
             } else {
                 setCustomField3Error(null);
             }
-        } else   if (name === 'lifestory') {
+        } else if (name === 'lifestory') {
             setLifeStory(value);
-            if (value.length > 5000) {
+
+            if (value.length < 3) {
+                setLifeStoryError("Field must contain at least 3 characters");
+            } else if (value.length > 5000) {
                 setLifeStoryError("Life story cannot exceed 5000 characters");
             } else {
                 setLifeStoryError(null);
             }
         }
+
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

@@ -189,7 +189,7 @@ export const UpdateJob = () => {
                 }}>
                     <TextField
                         id="description"
-                        label="Description"
+                        label="Notes"
                         InputLabelProps={{
                             style: {
                                 fontFamily: fonts.FontFamilyItalics,

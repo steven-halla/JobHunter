@@ -183,8 +183,7 @@ export const Home: React.FC = () => {
                     }
                 );
                 if (response.ok) {
-                    alert("Your job is created in the database.")
-                    console.log("Job created successfully");
+                    alert("Your job is created!")
                     setCompanyName("");
                     setDescription("");
                     setJobPoster("");
@@ -200,7 +199,6 @@ export const Home: React.FC = () => {
                     setCompanyRejected(false);
                     setJobSoftDelete(false);
                     setCount(count + 1);
-                    alert("Adding +1 to the counter.")
                     window.location.href = `/home/${user?.id}`; // Redirect to '/jobviewall' route
 
                 } else {
@@ -521,7 +519,7 @@ export const Home: React.FC = () => {
                                 <StyledTextField
                                     type="text"
                                     variant="outlined"
-                                    placeholder="description"
+                                    placeholder="notes"
                                     value={description}
                                     onChange={handleDescriptionChange} />
                                 {companyDescriptionError &&

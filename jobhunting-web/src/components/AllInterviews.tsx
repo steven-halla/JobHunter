@@ -4,8 +4,7 @@ import styled from 'styled-components';
 import 'react-calendar/dist/Calendar.css';
 import { JobsContext } from "../services/jobcontext";
 import {InterviewCalendarModal} from "./InterviewCalandarModal";
-import {deviceCalendar, deviceHome} from "../common/ScreenSizes";
-import {useTheme} from "@mui/material";
+import {deviceCalendar} from "../common/ScreenSizes";
 import {colors, fonts} from "../common/CommonStyles";
 
 type InterviewData = {
@@ -20,9 +19,11 @@ type InterviewData = {
 
 export const AllInterviews = () => {
     const { jobs } = useContext(JobsContext);
-    const [interviewData, setInterviewData] = useState<InterviewData[]>([]);
+    const [interviewData, setInterviewData] =
+        useState<InterviewData[]>([]);
     const [showModal, setShowModal] = useState<boolean>(false);
-    const [modalContent, setModalContent] = useState<React.ReactNode>(null);
+    const [modalContent, setModalContent] =
+        useState<React.ReactNode>(null);
 
     useEffect(() => {
         const formattedData = jobs.map(job => ({
@@ -78,7 +79,9 @@ export const AllInterviews = () => {
                     <p><strong>Company:</strong> {interview.companyname}</p>
                     <p><strong>Interviewer Names:</strong> {interview.interviewernames}</p>
                     <p><strong>Interview Notes:</strong> {interview.interviewnotes}</p>
-                    <p><strong>Meeting Link:</strong> <a href={interview.meetingLink} target="_blank" rel="noopener noreferrer" style={{ color: colors.TextBlackColor, fontSize: fonts.InputFontREM, fontFamily: fonts.InputPlaceHolderFontFamily }}>Interview Link</a></p>
+                    <p><strong>Meeting Link:</strong> <a href={interview.meetingLink} target=
+                        "_blank" rel="noopener noreferrer" style={{ color: colors.TextBlackColor,
+                        fontSize: fonts.InputFontREM, fontFamily: fonts.InputPlaceHolderFontFamily }}>Interview Link</a></p>
                 </div>
             ));
             setModalContent(modalContentJSX);
@@ -95,8 +98,10 @@ export const AllInterviews = () => {
         }
     };
 
-    const [isMobile, setIsMobile] = useState(window.matchMedia(deviceCalendar.mobile).matches);
-    const [isLaptop, setIsLaptop] = useState(window.matchMedia(deviceCalendar.laptop).matches);
+    const [isMobile, setIsMobile] =
+        useState(window.matchMedia(deviceCalendar.mobile).matches);
+    const [isLaptop, setIsLaptop] =
+        useState(window.matchMedia(deviceCalendar.laptop).matches);
 
     useEffect(() => {
         const checkScreenSize = () => {

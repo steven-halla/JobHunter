@@ -68,6 +68,10 @@ export const JobViewAll = () => {
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
 
     useEffect(() => {
         setSortOrder(selectValue);

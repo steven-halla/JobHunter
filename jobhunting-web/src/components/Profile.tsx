@@ -30,6 +30,10 @@ export const Profile = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
         if (user && user.id && id !== user.id.toString()) {
             alert("You are not authorized to be here")
             AuthService.logout();

@@ -6,7 +6,13 @@ import styled from "styled-components";
 import {deviceHome} from "../common/ScreenSizes";
 import {colors, fonts} from "../common/CommonStyles";
 
+
+
+
+
 export const JobsAppliedDateGraph: React.FC = () => {
+
+
     const { jobs } = useContext(JobsContext);
     const isToday = (date: Date): boolean => {
         const today = new Date();
@@ -75,6 +81,9 @@ export const JobsAppliedDateGraph: React.FC = () => {
     const [isLaptop, setIsLaptop] =
         useState(window.matchMedia(deviceHome.laptop).matches);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     useEffect(() => {
         const checkScreenSize = () => {

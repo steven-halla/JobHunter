@@ -10,6 +10,11 @@ import Button from "@mui/material/Button";
 import {colors, fonts} from "../common/CommonStyles";
 
 export const InterviewSecured = () => {
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const { meetingLink,setMeetingLink,
         interviewnotes, setInterviewNotes, interviewernames,
         setInterviewerNames, interviewdate,

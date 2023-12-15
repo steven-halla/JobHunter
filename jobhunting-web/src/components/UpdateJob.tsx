@@ -22,6 +22,10 @@ export const UpdateJob = () => {
         useState<Job>(currentJob || {} as Job);
 
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const handleSoftDeleteCheck = (jobId: number) => {
         if (window.confirm("Are you sure you want to delete this job?")) {
             updateJobSoftDelete(jobId, true);

@@ -18,6 +18,11 @@ type InterviewData = {
 };
 
 export const AllInterviews = () => {
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const { jobs } = useContext(JobsContext);
     const [interviewData, setInterviewData] =
         useState<InterviewData[]>([]);

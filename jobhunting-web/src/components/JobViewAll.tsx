@@ -24,12 +24,12 @@ export const JobViewAll = () => {
     const { jobs, updateJobSoftDelete,updateJobResponded, updateJobRejected} = useContext(JobsContext);
     const [filter] = useState('');
     const [onlyShowResponded] = useState(false);
-    const [sortingCriteria, setSortingCriteria] = useState("");
+    const [sortingCriteria, setSortingCriteria] = useState("date-desc");
     const [jobDeclined, setJobDeclined] = useState(false);
     const [jobResponses, setJobResponses] = useState<Record<string, JobResponse>>(
         () => JSON.parse(localStorage.getItem("jobResponses") || '{}')
     );
-    const [dateSortDirection, setDateSortDirection] = useState('asc');
+    const [dateSortDirection, setDateSortDirection] = useState('dsc');
     const [contactSortDirection, setContactSortDirection] = useState('asc');
     const [companySortDirection, setCompanySortDirection] = useState('dsc');
     const [interviewSortDirection, setInterviewSortDirection] = useState('dsc');
@@ -240,13 +240,28 @@ export const JobViewAll = () => {
         };
     }, []);
 
+    // const toggleDateSortDirection = () => {
+    //     setDateSortDirection(dateSortDirection === 'asc' ? 'dsc' : 'asc');
+    //     setSortingCriteria(dateSortDirection === 'asc' ? 'date-desc' : 'date-asc');
+    //     setContactSortDirection('dsc');
+    //     setCompanySortDirection('dsc');
+    //     setInterviewSortDirection('dsc');
+    // };
+
     const toggleDateSortDirection = () => {
-        setDateSortDirection(dateSortDirection === 'asc' ? 'dsc' : 'asc');
-        setSortingCriteria(dateSortDirection === 'asc' ? 'date-desc' : 'date-asc');
+        // Toggle the direction
+        const newDateSortDirection = dateSortDirection === 'asc' ? 'dsc' : 'asc';
+        setDateSortDirection(newDateSortDirection);
+
+        // Set the sorting criteria based on the new direction
+        setSortingCriteria(newDateSortDirection === 'asc' ? 'date-asc' : 'date-desc');
+
+        // Reset the other sort directions if necessary
         setContactSortDirection('dsc');
         setCompanySortDirection('dsc');
         setInterviewSortDirection('dsc');
     };
+
 
     const toggleCompanySortDirection = () => {
         setCompanySortDirection(companySortDirection === 'asc' ? 'dsc' : 'asc');
@@ -341,9 +356,10 @@ export const JobViewAll = () => {
 
                     <RedPillContainer>
                         <button onClick={toggleDateSortDirection} style={{ all: 'unset' }}>
-                            {dateSortDirection === 'asc' ? 'Date Asc' : 'Date Desc'}
-                            <FontAwesomeIcon icon={dateSortDirection === 'asc' ? faCaretUp : faCaretDown} size="lg" />
+                            {dateSortDirection === 'asc' ? 'Date Desc' : 'Date Asc'}
+                            <FontAwesomeIcon icon={dateSortDirection === 'asc' ? faCaretDown : faCaretUp} size="lg" />
                         </button>
+
                     </RedPillContainer>
 
                     <RedPillContainer>

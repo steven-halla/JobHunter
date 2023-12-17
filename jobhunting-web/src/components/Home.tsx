@@ -79,20 +79,10 @@ export const Home: React.FC = () => {
 
     useEffect(() => {
         if (id) {
-            console.log("am I being called?")
-            console.log("am I being user id?" + id)
-
             const userId = parseInt(id, 10); // Parse id as an integer
 
             UserService.getUserById(userId)
                 .then((user: User) => {
-                    console.log(`User ${user.id}`);
-                    console.log(` - Username: ${user.username}`);
-                    console.log(` - Email: ${user.email}`);
-                    console.log(` - CustomField1: ${user.customfield1}`);
-                    console.log(` - CustomField2: ${user.customfield2}`);
-                    console.log(` - CustomField3: ${user.customfield3}`);
-
                     if (currentUser?.id !== user.id) {
                         alert("You are not authorized to be here")
                         console.log("User ID mismatch. Logging out.");

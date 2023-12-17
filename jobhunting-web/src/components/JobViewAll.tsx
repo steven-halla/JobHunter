@@ -244,23 +244,10 @@ export const JobViewAll = () => {
         };
     }, []);
 
-    // const toggleDateSortDirection = () => {
-    //     setDateSortDirection(dateSortDirection === 'asc' ? 'dsc' : 'asc');
-    //     setSortingCriteria(dateSortDirection === 'asc' ? 'date-desc' : 'date-asc');
-    //     setContactSortDirection('dsc');
-    //     setCompanySortDirection('dsc');
-    //     setInterviewSortDirection('dsc');
-    // };
-
     const toggleDateSortDirection = () => {
-        // Toggle the direction
         const newDateSortDirection = dateSortDirection === 'asc' ? 'dsc' : 'asc';
         setDateSortDirection(newDateSortDirection);
-
-        // Set the sorting criteria based on the new direction
         setSortingCriteria(newDateSortDirection === 'asc' ? 'date-asc' : 'date-desc');
-
-        // Reset the other sort directions if necessary
         setContactSortDirection('dsc');
         setCompanySortDirection('dsc');
         setInterviewSortDirection('dsc');
@@ -352,6 +339,7 @@ export const JobViewAll = () => {
 
                     <SwitchContainer>
                         <FormControlLabel
+                            title="All Jobs is all jobs you have applied for. And Important jobs are all jobs in the past 2 weeks you have applied for AND and every job that you have clicked as 'responded'."
                             control={<Switch checked={showAllJobs} onChange={handleSwitchChange} />}
                             label={showAllJobs ? 'Important Jobs' : 'All Jobs'}
                             labelPlacement={labelPlacement}

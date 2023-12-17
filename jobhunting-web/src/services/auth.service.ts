@@ -26,52 +26,6 @@ const login = (username: string, password: string) => {
       });
 };
 
-// const login = (username: string, password: string) => {
-//   return axios
-//       .post(API_URL + "signin", {
-//         username,
-//         password,
-//       }, {
-//         withCredentials: true,  // Add this line
-//       })
-//       .then((response) => {
-//         if (response.data.username) {
-//           localStorage.setItem("user", JSON.stringify(response.data));
-//           console.log('Login Response:', response.data);
-//         }
-//
-//         return response.data;
-//       });
-// };
-
-// const login = (username: string, password: string) => {
-//     return axios
-//         .post(API_URL + "signin", {
-//             username,
-//             password,
-//         }, {
-//             withCredentials: true,
-//         })
-//         .then((response) => {
-//             if (response.data.username && response.data.token) { // checking for both username and token
-//                 localStorage.setItem("user", JSON.stringify(response.data));
-//                 localStorage.setItem('userToken', response.data.token);
-//                 console.log("Here is your token: " + response.data.token);
-//             }
-//             return response.data;
-//         })
-//         .catch((error) => {
-//             console.error('Login error:', error);
-//         });
-// };
-//
-
-
-
-
-
-
-
 const logout = () => {
   localStorage.removeItem("user");
   return axios.post(API_URL + "signout").then((response) => {

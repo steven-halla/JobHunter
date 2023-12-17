@@ -13,8 +13,6 @@ interface User {
 
 const BASE_API_URL = "http://localhost:3000/api";
 
-
-
 const getAllUsernames = (): Promise<string[]> => {
   console.log("getAllUsernames called");
   return axios.get(BASE_API_URL + "/users/usernames")
@@ -55,10 +53,6 @@ const getUserById = (id: number): Promise<User> => {
         });
 };
 
-
-
-
-
 const getPublicContent = (): Promise<AxiosResponse> => {
   console.log("getPublicContent calld")
   return axios.get(BASE_API_URL);
@@ -75,19 +69,6 @@ const getModeratorBoard = (): Promise<AxiosResponse> => {
 const getAdminBoard = (): Promise<AxiosResponse> => {
   return axios.get(BASE_API_URL + "/admin");
 };
-
-// const updateUser = (id: number, userData: Partial<User>): Promise<User> => {
-//     console.log("updateUser called");
-//     return axios.patch(`${BASE_API_URL}/users/${id}`, userData)
-//         .then((response: AxiosResponse) => {
-//             console.log("updated user: " + response.data);
-//             return response.data as User;
-//         })
-//         .catch((error: any) => {
-//             console.error("Error updating user: ", error);
-//             throw error;
-//         });
-// };
 
 export const updateUser = (id: number, userData: Partial<User>): Promise<User> => {
         return axios.patch(`${BASE_API_URL}/users/${id}`, userData)
